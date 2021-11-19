@@ -1,0 +1,224 @@
+package com.ocko.aventador.config;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
+import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
+import com.ocko.aventador.constant.SocialType;
+import com.ocko.aventador.service.AuthenticationService;
+
+/**
+ * spring security 설정<br>
+ */
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired private AuthenticationService authenticationService;
+	
+	@Autowired private AuthFailureHandler authFailureHandler;
+	
+	public SecurityConfig(
+			@Value("${spring.security.oauth2.client.registration.FACEBOOK.client-id}") String facebookClientId,
+			@Value("${spring.security.oauth2.client.registration.FACEBOOK.client-secret}") String facebookClientSecret,
+			@Value("${spring.security.oauth2.client.registration.NAVER.client-id}") String naverClientId,
+			@Value("${spring.security.oauth2.client.registration.NAVER.client-secret}") String naverClientSecret,
+			@Value("${spring.security.oauth2.client.registration.KAKAO.client-id}") String kakaoClientId,
+			@Value("${spring.security.oauth2.client.registration.KAKAO.client-secret}") String kakaoClientSecret,
+			@Value("${spring.security.oauth2.client.registration.GOOGLE.client-id}") String googleClientId,
+			@Value("${spring.security.oauth2.client.registration.GOOGLE.client-secret}") String googleClientSecret
+			) {
+		this.facebookClientId = facebookClientId;
+		this.facebookClientSecret = facebookClientSecret;
+		this.naverClientId = naverClientId;
+		this.naverClientSecret = naverClientSecret;
+		this.kakaoClientId = kakaoClientId;
+		this.kakaoClientSecret = kakaoClientSecret;
+		this.googleClientId = googleClientId;
+		this.googleClientSecret = googleClientSecret;
+	}
+	
+	private String facebookClientId;
+	private String facebookClientSecret;
+	private String naverClientId;
+	private String naverClientSecret;
+	private String kakaoClientId;
+	private String kakaoClientSecret;
+	private String googleClientId;
+	private String googleClientSecret;
+	
+	/**
+	 * CSRF 토큰 저장소 빈
+	 * @return
+	 */
+	@Bean
+	public CookieCsrfTokenRepository cookieCsrfTokenRepository() {
+		CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
+		cookieCsrfTokenRepository.setCookieHttpOnly(false);
+		return cookieCsrfTokenRepository;
+	}
+	
+	/**
+	 * 비밀번호 인코더 빈
+	 * @return
+	 */
+	@Bean 
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	/**
+	 * 보안 문맥 구성
+	 */
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		// by default, spring adds "ROLE_" prefix, so the role in the repository must start with "ROLE_".
+		http.authorizeRequests()
+				.antMatchers(
+						"/admin",
+						"/admin/**",
+						"/api/admin/**"
+						).hasAnyRole("ADMIN")
+				.antMatchers(
+						"/private",
+						"/private/**",
+						"/api/private/**"
+						).access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+				.antMatchers(
+						"/public",
+						"/public/**",
+						"/api/public/**",
+						"/api/auth/**",
+						"/api/auth/oauth2/**", // social redirect
+						"/tpl/**"
+						).permitAll()
+				.antMatchers("/static/**").permitAll()
+				.antMatchers("/**").permitAll()
+				.and()
+			.formLogin()
+				.loginPage("/public/login") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
+				.loginProcessingUrl("/api/auth/login")
+				.defaultSuccessUrl("/")
+				.failureHandler(authFailureHandler)
+				.usernameParameter("userEmail")
+				.passwordParameter("userPassword")
+				.and()
+			.oauth2Login()
+				.loginPage("/public/") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
+				.defaultSuccessUrl("/api/auth/check-social")
+				.failureUrl("/public/?auth=failed")
+				.clientRegistrationRepository(clientRegistrationRepository())
+				.authorizedClientService(authorizedClientService())
+				.authorizationEndpoint()
+					.baseUri("/api/auth/oauth2/authorization")
+					.authorizationRequestRepository(authorizationRequestRepository())
+					.and()
+				.redirectionEndpoint()
+					.baseUri("/api/auth/oauth2/code/*") // /login/oauth2/code/*
+					.and()
+				.and()
+			.logout()
+				.logoutUrl("/api/auth/logout")
+				.logoutSuccessUrl("/public/")
+				.invalidateHttpSession(true)
+				.deleteCookies("JSESSIONID")
+				.and()
+			.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()); 
+	}
+	
+	/**
+	 * 기본 인증 구성
+	 * @param auth
+	 * @throws Exception
+	 */
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(authenticationService)
+			.passwordEncoder(passwordEncoder());
+//		super.configure(auth);
+	}
+	
+	/**
+	 * 소셜 인증(OAuth2) 클라이언트<br>
+	 * Naver와 Facebook을 구현함
+	 * @return
+	 */
+	@Bean
+    public ClientRegistrationRepository clientRegistrationRepository() {
+		List<ClientRegistration> clientRegistrations = new ArrayList<>();
+		
+		{
+			clientRegistrations.add(
+				CustomOAuth2Provider.NAVER.getBuilder(SocialType.NAVER)
+        		.clientId(naverClientId)
+        		.clientSecret(naverClientSecret)
+        		.build()
+        		);
+		}
+		{
+			clientRegistrations.add(
+				CustomOAuth2Provider.KAKAO.getBuilder(SocialType.KAKAO)
+        		.clientId(kakaoClientId)
+        		.clientSecret(kakaoClientSecret)
+        		.build()
+        		);
+		}
+		{
+			clientRegistrations.add(
+				CommonOAuth2Provider.FACEBOOK.getBuilder(SocialType.FACEBOOK)
+				.redirectUriTemplate("{baseUrl}/api/auth/oauth2/code/{registrationId}")
+        		.clientId(facebookClientId)
+        		.clientSecret(facebookClientSecret)
+        		.build()
+        		);
+		}
+		{
+			clientRegistrations.add(
+				CommonOAuth2Provider.GOOGLE.getBuilder(SocialType.GOOGLE)
+				.scope("profile", "email")
+				.redirectUriTemplate("{baseUrl}/api/auth/oauth2/code/{registrationId}")
+        		.clientId(googleClientId)
+        		.clientSecret(googleClientSecret)
+        		.build()
+        		);
+		}
+		
+        return new InMemoryClientRegistrationRepository(clientRegistrations);
+    }
+	
+	
+	/**
+	 * OAuth2 인증 서비스 빈
+	 * @return
+	 */
+	@Bean
+    public OAuth2AuthorizedClientService authorizedClientService(){
+        return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository());
+    }
+
+	@Bean
+	public AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository() {
+		return new HttpSessionOAuth2AuthorizationRequestRepository();
+	}
+
+}

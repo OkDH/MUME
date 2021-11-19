@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+	PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+	"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<!-- targetRuntime="MyBatis3" for the version 1.3.6 or below -->
+	<context id="context-1" targetRuntime="MyBatis3">
+	
+		<!-- soov mybatis plugins -->
+		<plugin type="io.soov.mybatis.plugins.InsertIgnorePlugin"></plugin>
+		<plugin type="io.soov.mybatis.plugins.TruncatePlugin"></plugin> 
+		<plugin type="io.soov.mybatis.plugins.CursorPlugin"></plugin>
+		<plugin type="io.soov.mybatis.plugins.OffsetLimitPlugin"></plugin>
+		<plugin type="io.soov.mybatis.plugins.UpsertPlugin"></plugin>
+		<plugin type="io.soov.mybatis.plugins.SelectPksPlugin"></plugin>
+		
+		<jdbcConnection 
+				driverClass="org.postgresql.Driver"
+				connectionURL="jdbc:postgresql://localhost:5432/aventador"
+				userId="aventador"
+				password="aventadorU$3r">
+		</jdbcConnection>
+		
+		<javaModelGenerator 
+				targetPackage="com.ocko.aventador.dao.model"
+				targetProject="aventador">
+			<property name="enableSubPackages" value="true" />
+		</javaModelGenerator>
+		
+		<sqlMapGenerator 
+				targetPackage="com.ocko.aventador.dao.persistence"
+				targetProject="aventador/src/main/resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		
+		<javaClientGenerator 
+				type="XMLMAPPER" 
+				targetPackage="com.ocko.aventador.dao.persistence"
+				targetProject="aventador">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		
+		<!-- text[]는 List<String>, json은 String 등 -->
+		<!-- LocalDate, LocalTime, LocalDateTime 등 -->
+		<javaTypeResolver type="io.soov.mybatis.plugins.JavaTypeResolver">
+			<property name="useJSR310Types" value="true" />
+		</javaTypeResolver>
+		
+		
+		<table schema="aventador" tableName="member_account">
+			<generatedKey column="member_id" sqlStatement="JDBC"/>
+		</table>
+		<table schema="aventador" tableName="social_authentication">
+			<generatedKey column="id" sqlStatement="JDBC"/>
+		</table>
+		
+	</context>
+</generatorConfiguration>

@@ -1,5 +1,17 @@
 spring:
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+    enabled: true
+    cache: false
   datasource:
+    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/aventador
     username: aventador
     password: aventadorU$3r
+  custom:
+    basePackage: com.ocko.aventador
+server:
+  servlet:
+    context-path: /aventador

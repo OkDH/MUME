@@ -41,33 +41,33 @@ app.factory("responseObserver", ["$q", "$window", function($q, $window){
 	}
 }]);
 app.run(["$rootScope", "$location", function($rootScope, $location){
-	$rootScope.meta = meta; 
-	
-	// USAGES:
-	// meta.path(): to return current path
-	// meta.path("/path/string"): to check whether current path is including(starting with) "/path/string"
-	$rootScope.path = function(){
-		// getter
-		// return current path
-		if(arguments.length == 0){
-			return $location.path();
-		}
-		
-		// checker
-		// check current path pattern
-		var path;
-		for(var i=0; i<arguments.length; i++){
-			path = arguments[i];
-			if(typeof path === "string"){
-				if($location.path().length >= path.length
-						&& $location.path().substring(0, path.length) == path){
-					return true;
-				}
-			}
-		}
-		
-		return false;
-	}
+//	$rootScope.meta = meta; 
+//	
+//	// USAGES:
+//	// meta.path(): to return current path
+//	// meta.path("/path/string"): to check whether current path is including(starting with) "/path/string"
+//	$rootScope.path = function(){
+//		// getter
+//		// return current path
+//		if(arguments.length == 0){
+//			return $location.path();
+//		}
+//		
+//		// checker
+//		// check current path pattern
+//		var path;
+//		for(var i=0; i<arguments.length; i++){
+//			path = arguments[i];
+//			if(typeof path === "string"){
+//				if($location.path().length >= path.length
+//						&& $location.path().substring(0, path.length) == path){
+//					return true;
+//				}
+//			}
+//		}
+//		
+//		return false;
+//	}
 }]);
 app.controller("MainController", function($scope, $http, $location){
 	

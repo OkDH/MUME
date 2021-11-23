@@ -41,11 +41,7 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		
-		<!-- text[]는 List<String>, json은 String 등 -->
-		<!-- LocalDate, LocalTime, LocalDateTime 등 -->
-		<javaTypeResolver type="io.soov.mybatis.plugins.JavaTypeResolver">
-			<property name="useJSR310Types" value="true" />
-		</javaTypeResolver>
+		
 		
 		
 		<table schema="aventador" tableName="member_account">

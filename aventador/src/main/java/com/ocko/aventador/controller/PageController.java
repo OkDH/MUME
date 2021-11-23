@@ -49,8 +49,9 @@ private final static Logger logger = LoggerFactory.getLogger(PageController.clas
 		if(subpath.equals("")
 				|| subpath.endsWith("/")) {
 			subpath += "index";
+		} else {
+			subpath = "/public" + subpath;
 		}
-//		ModelAndView modelAndView = new ModelAndView("/public" + subpath);
 		ModelAndView modelAndView = new ModelAndView(subpath);
 		return modelAndView;
 	}

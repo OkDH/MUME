@@ -39,33 +39,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired private AuthFailureHandler authFailureHandler;
 	
 	public SecurityConfig(
-			@Value("${spring.security.oauth2.client.registration.FACEBOOK.client-id}") String facebookClientId,
-			@Value("${spring.security.oauth2.client.registration.FACEBOOK.client-secret}") String facebookClientSecret,
 			@Value("${spring.security.oauth2.client.registration.NAVER.client-id}") String naverClientId,
-			@Value("${spring.security.oauth2.client.registration.NAVER.client-secret}") String naverClientSecret,
-			@Value("${spring.security.oauth2.client.registration.KAKAO.client-id}") String kakaoClientId,
-			@Value("${spring.security.oauth2.client.registration.KAKAO.client-secret}") String kakaoClientSecret,
-			@Value("${spring.security.oauth2.client.registration.GOOGLE.client-id}") String googleClientId,
-			@Value("${spring.security.oauth2.client.registration.GOOGLE.client-secret}") String googleClientSecret
+			@Value("${spring.security.oauth2.client.registration.NAVER.client-secret}") String naverClientSecret
 			) {
-		this.facebookClientId = facebookClientId;
-		this.facebookClientSecret = facebookClientSecret;
 		this.naverClientId = naverClientId;
 		this.naverClientSecret = naverClientSecret;
-		this.kakaoClientId = kakaoClientId;
-		this.kakaoClientSecret = kakaoClientSecret;
-		this.googleClientId = googleClientId;
-		this.googleClientSecret = googleClientSecret;
 	}
 	
-	private String facebookClientId;
-	private String facebookClientSecret;
 	private String naverClientId;
 	private String naverClientSecret;
-	private String kakaoClientId;
-	private String kakaoClientSecret;
-	private String googleClientId;
-	private String googleClientSecret;
+//	private String facebookClientId;
+//	private String facebookClientSecret;
+//	private String kakaoClientId;
+//	private String kakaoClientSecret;
+//	private String googleClientId;
+//	private String googleClientSecret;
 	
 	/**
 	 * CSRF 토큰 저장소 빈
@@ -175,33 +163,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         		.build()
         		);
 		}
-		{
-			clientRegistrations.add(
-				CustomOAuth2Provider.KAKAO.getBuilder(SocialType.KAKAO)
-        		.clientId(kakaoClientId)
-        		.clientSecret(kakaoClientSecret)
-        		.build()
-        		);
-		}
-		{
-			clientRegistrations.add(
-				CommonOAuth2Provider.FACEBOOK.getBuilder(SocialType.FACEBOOK)
-				.redirectUriTemplate("{baseUrl}/api/auth/oauth2/code/{registrationId}")
-        		.clientId(facebookClientId)
-        		.clientSecret(facebookClientSecret)
-        		.build()
-        		);
-		}
-		{
-			clientRegistrations.add(
-				CommonOAuth2Provider.GOOGLE.getBuilder(SocialType.GOOGLE)
-				.scope("profile", "email")
-				.redirectUriTemplate("{baseUrl}/api/auth/oauth2/code/{registrationId}")
-        		.clientId(googleClientId)
-        		.clientSecret(googleClientSecret)
-        		.build()
-        		);
-		}
+//		{
+//			clientRegistrations.add(
+//				CustomOAuth2Provider.KAKAO.getBuilder(SocialType.KAKAO)
+//        		.clientId(kakaoClientId)
+//        		.clientSecret(kakaoClientSecret)
+//        		.build()
+//        		);
+//		}
+//		{
+//			clientRegistrations.add(
+//				CommonOAuth2Provider.FACEBOOK.getBuilder(SocialType.FACEBOOK)
+//				.redirectUriTemplate("{baseUrl}/api/auth/oauth2/code/{registrationId}")
+//        		.clientId(facebookClientId)
+//        		.clientSecret(facebookClientSecret)
+//        		.build()
+//        		);
+//		}
+//		{
+//			clientRegistrations.add(
+//				CommonOAuth2Provider.GOOGLE.getBuilder(SocialType.GOOGLE)
+//				.scope("profile", "email")
+//				.redirectUriTemplate("{baseUrl}/api/auth/oauth2/code/{registrationId}")
+//        		.clientId(googleClientId)
+//        		.clientSecret(googleClientSecret)
+//        		.build()
+//        		);
+//		}
 		
         return new InMemoryClientRegistrationRepository(clientRegistrations);
     }

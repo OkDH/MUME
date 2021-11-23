@@ -12,6 +12,14 @@ spring:
     password: aventadorU$3r
   custom:
     basePackage: com.ocko.aventador
+  security:
+    oauth2:
+      client:
+        registration:
+          NAVER:
+            client-id: 7mHREwNLi4YvnhixgB82
+            client-secret: lbPzJXzVg1
 server:
   servlet:
     context-path: /aventador
+  port: 8088

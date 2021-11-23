@@ -21,12 +21,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ocko.aventador.constant.MemberStatus;
 import com.ocko.aventador.constant.SocialType;
 import com.ocko.aventador.dao.model.aventador.MemberAccount;
 import com.ocko.aventador.dao.model.aventador.MemberAccountExample;
@@ -34,7 +36,9 @@ import com.ocko.aventador.dao.model.aventador.SocialAuthentication;
 import com.ocko.aventador.dao.model.aventador.SocialAuthenticationExample;
 import com.ocko.aventador.dao.persistence.aventador.MemberAccountMapper;
 import com.ocko.aventador.dao.persistence.aventador.SocialAuthenticationMapper;
+import com.ocko.aventador.model.MemberDetail;
 
+@Service
 public class AuthenticationService implements UserDetailsService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);

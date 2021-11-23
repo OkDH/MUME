@@ -22,6 +22,12 @@
 				password="aventadorU$3r">
 		</jdbcConnection>
 		
+		<!-- text[]는 List<String>, json은 String 등 -->
+		<!-- LocalDate, LocalTime, LocalDateTime 등 -->
+		<javaTypeResolver type="io.soov.mybatis.plugins.JavaTypeResolver">
+			<property name="useJSR310Types" value="true" />
+		</javaTypeResolver>
+		
 		<javaModelGenerator 
 				targetPackage="com.ocko.aventador.dao.model"
 				targetProject="aventador">
@@ -40,9 +46,6 @@
 				targetProject="aventador">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-		
-		
-		
 		
 		<table schema="aventador" tableName="member_account">
 			<generatedKey column="member_id" sqlStatement="JDBC"/>

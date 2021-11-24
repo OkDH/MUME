@@ -1,344 +1,347 @@
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-	<h1 class="h3 mb-0 text-gray-800">Stock</h1>
-</div>
-
-<!-- Content Row -->
-<div class="row">
-	<div class="col-xl-3 col-md-6 mb-4">
-		<div class="card border-left-primary shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col mr-2">
-						<div class="font-weight-bold text-gray-800 text-uppercase mb-1">
-							다우 산업</div>
-						<div class="h5 mb-0 font-weight-bold text-danger">
-							35,813.80 <span class="text-xs">▲ 194.55 (+0.55%)</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+<div ng-controller="StockController as ngStock">
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">Leveraged 3X ETFs</h1>
 	</div>
-
-	<div class="col-xl-3 col-md-6 mb-4">
-		<div class="card border-left-success shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col mr-2">
-						<div class="font-weight-bold text-gray-800 text-uppercase mb-1">
-							나스닥 종합</div>
-						<div class="h5 mb-0 font-weight-bold text-primary">
-							15,775.14 <span class="text-xs">▼ 79.62 (-0.50%)</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-xl-3 col-md-6 mb-4">
-		<div class="card border-left-info shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col mr-2">
-						<div class="font-weight-bold text-gray-800 text-uppercase mb-1">S&P
-							500</div>
-						<div class="h5 mb-0 font-weight-bold text-danger">
-							4,690.70 <span class="text-xs">▲ 7.76 (+0.17%)</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-xl-3 col-md-6 mb-4">
-		<div class="card border-left-warning shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col mr-2">
-						<div class="font-weight-bold text-gray-800 text-uppercase mb-1">
-							필라델피아 반도체</div>
-						<div class="h5 mb-0 font-weight-bold text-primary">
-							3,834.43 <span class="text-xs">▼ 12.69 (-0.33%)</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="row">
-
-	<div class="col-lg-6">
-		<div class="card shadow mb-4">
-			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">3X ETF RSI</h6>
-			</div>
-			<div class="card-body">
-				<table class="table table-bordered text-xs" width="100%">
-					<thead>
-						<tr role="row">
-							<th>65</th>
-							<th>60</th>
-							<th>55</th>
-							<th>50</th>
-							<th>45</th>
-							<th>40</th>
-							<th>35</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>SOXL</td>
-							<td>TQQQ</td>
-							<td>UPRO</td>
-							<td>TNA</td>
-							<td>LABU</td>
-							<td>TPOR</td>
-							<td>UTSL</td>
-						</tr>
-						<tr>
-							<td>BULZ</td>
-							<td>TECL</td>
-							<td>WANT</td>
-							<td>RETL</td>
-							<td>PILL</td>
-							<td>DRN</td>
-							<td>BNKU</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>WEBL</td>
-							<td>HIBL</td>
-							<td>UDOW</td>
-							<td>MIDU</td>
-							<td>DUSL</td>
-							<td>DPST</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>FNGU</td>
-							<td>NAIL</td>
-							<td>CURE</td>
-							<td>DFEN</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td>FAS</td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>z</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-	<div class="col-lg-6">
-		<div class="card shadow mb-4">
-			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">3X ETF Sector</h6>
-			</div>
-			<div class="card-body">
-				<table class="table table-bordered text-xs" width="100%">
-					<thead>
-						<tr role="row">
-							<th>Sector</th>
-							<th colspan="6">ETF</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>스페셜</td>
-							<td>TQQQ</td>
-							<td>TECL</td>
-							<td>SOXL</td>
-							<td>BULZ</td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>기술/우량</td>
-							<td>WEBL</td>
-							<td>UPRO</td>
-							<td>HIBL</td>
-							<td>FNGU</td>
-							<td>UDOW</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>중소형/소비재</td>
-							<td>WANT</td>
-							<td>TNA</td>
-							<td>NAIL</td>
-							<td>RETL</td>
-							<td>MIDU</td>
-							<td>DRN</td>
-						</tr>
-						<tr>
-							<td>기간산업</td>
-							<td>DUSL</td>
-							<td>TPOR</td>
-							<td>DFEN</td>
-							<td>UTSL</td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>금융</td>
-							<td>FAS</td>
-							<td>DPST</td>
-							<td>BNKU</td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>보건</td>
-							<td>LABU</td>
-							<td>CURE</td>
-							<td>PILL</td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-
-</div>
-
-<div class="row">
-	<div class="col-xl-12">
-		<div class="card shadow mb-4">
-			<div
-				class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-				<h6 class="m-0 font-weight-bold text-primary">3X ETF
-					Information</h6>
-			</div>
-			<!-- Card Body -->
-			<div class="card-body">
-				<div class="table-responsive">
-					<div id="dataTable_wrapper"
-						class="dataTables_wrapper dt-bootstrap4">
-						<!-- <div class="row">
-							<div class="col-sm-12 col-md-6">
-								<div class="dataTables_length" id="dataTable_length">
-									<label>섹터 <select name="dataTable_length"
-										aria-controls="dataTable"
-										class="custom-select custom-select-sm form-control form-control-sm"><option
-												value="전체">전체</option>
-											<option value="스페셜">스페셜</option>
-											<option value="기술우량">기술우량</option>
-											<option value="중소형/소비재">중소형/소비재</option>
-											<option value="기간산업">기간산업</option>
-											<option value="금융">금융</option>
-											<option value="보건">보건</option>
-									</label>
-								</div>
+	
+	<!-- Content Row -->
+	<div class="row">
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-primary shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-gray-800 text-uppercase mb-1">
+								다우 산업</div>
+							<div class="h5 mb-0 font-weight-bold text-danger">
+								{{ ngStock.marketIndex.DJI.stock.close }}
+								<span class="text-xs">▲ {{ ngStock.marketIndex.DJI.stock.chg }} (+{{ ngStock.marketIndex.DJI.stock.chgp }}%)</span>
 							</div>
-							<div class="col-sm-12 col-md-6">
-								<div id="dataTable_filter" class="dataTables_filter">
-									<label>SYMBOL:<input type="search"
-										class="form-control form-control-sm" placeholder=""
-										aria-controls="dataTable"></label>
-								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-success shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-gray-800 text-uppercase mb-1">
+								나스닥 종합</div>
+							<div class="h5 mb-0 font-weight-bold text-primary">
+								{{ ngStock.marketIndex.IXIC.stock.close }} <span class="text-xs">▼ {{ ngStock.marketIndex.IXIC.stock.chg }} (-{{ ngStock.marketIndex.IXIC.stock.chgp }}%)</span>
 							</div>
-						</div> -->
-						<div class="row">
-							<div class="col-sm-12">
-								<table class="table table-striped dataTable" id="dataTable"
-									width="100%" cellspacing="0" role="grid"
-									aria-describedby="dataTable_info" style="width: 100%;">
-									<thead>
-										<tr role="row">
-											<th class="sorting sorting_asc" tabindex="0"
-												aria-controls="dataTable" rowspan="1" colspan="1"
-												aria-sort="ascending"
-												aria-label="Name: activate to sort column descending"
-												style="width: 80px;">SYMBOL</th>
-											<th class="sorting" tabindex="0" aria-controls="dataTable"
-												rowspan="1" colspan="1"
-												aria-label="Age: activate to sort column ascending"
-												style="width: 31px;">RSI</th>
-											<th class="sorting" tabindex="0" aria-controls="dataTable"
-												rowspan="1" colspan="1"
-												aria-label="Start date: activate to sort column ascending"
-												style="width: 62px;">BASE</th>
-											<th class="sorting" tabindex="0" aria-controls="dataTable"
-												rowspan="1" colspan="1"
-												aria-label="Salary: activate to sort column ascending"
-												style="width: 67px;">+/-</th>
-											<th class="sorting" tabindex="0" aria-controls="dataTable"
-												rowspan="1" colspan="1"
-												aria-label="Position: activate to sort column ascending"
-												style="width: 67px;">PRICE</th>
-											<th class="sorting" tabindex="0" aria-controls="dataTable"
-												rowspan="1" colspan="1"
-												aria-label="Office: activate to sort column ascending"
-												style="width: 67px;">전일대비</th>
-											<th class="sorting" tabindex="0" aria-controls="dataTable"
-												rowspan="1" colspan="1"
-												aria-label="Office: activate to sort column ascending"
-												style="width: 87px;">거래량</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr class="odd">
-											<td class="sorting_1">WEBL</td>
-											<td>$76.98</td>
-											<td>-3.32%</td>
-											<td>34.11</td>
-											<td>60</td>
-											<td>-25.89</td>
-											<td>-25.89</td>
-										</tr>
-										<tr class="even">
-											<td class="sorting_1">BULZ</td>
-											<td>$31.21</td>
-											<td>-5.14%</td>
-											<td>51.12</td>
-											<td>65</td>
-											<td>-13.88</td>
-											<td>-13.88</td>
-										</tr>
-										<tr class="odd">
-											<td class="sorting_1">WEBL</td>
-											<td>$76.98</td>
-											<td>-3.32%</td>
-											<td>34.11</td>
-											<td>60</td>
-											<td>-25.89</td>
-											<td>-25.89</td>
-										</tr>
-										<tr class="even">
-											<td class="sorting_1">BULZ</td>
-											<td>$31.21</td>
-											<td>-5.14%</td>
-											<td>51.12</td>
-											<td>65</td>
-											<td>-13.88</td>
-											<td>-13.88</td>
-										</tr>
-									</tbody>
-								</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-info shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-gray-800 text-uppercase mb-1">S&P
+								500</div>
+							<div class="h5 mb-0 font-weight-bold text-danger">
+								4,690.70 <span class="text-xs">▲ 7.76 (+0.17%)</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-warning shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-gray-800 text-uppercase mb-1">
+								필라델피아 반도체</div>
+							<div class="h5 mb-0 font-weight-bold text-primary">
+								3,834.43 <span class="text-xs">▼ 12.69 (-0.33%)</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+	
+		<div class="col-lg-6">
+			<div class="card shadow mb-4">
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">3X ETFs RSI</h6>
+				</div>
+				<div class="card-body">
+					<table class="table table-bordered text-xs" width="100%">
+						<thead>
+							<tr role="row">
+								<th>65</th>
+								<th>60</th>
+								<th>55</th>
+								<th>50</th>
+								<th>45</th>
+								<th>40</th>
+								<th>35</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>SOXL</td>
+								<td>TQQQ</td>
+								<td>UPRO</td>
+								<td>TNA</td>
+								<td>LABU</td>
+								<td>TPOR</td>
+								<td>UTSL</td>
+							</tr>
+							<tr>
+								<td>BULZ</td>
+								<td>TECL</td>
+								<td>WANT</td>
+								<td>RETL</td>
+								<td>PILL</td>
+								<td>DRN</td>
+								<td>BNKU</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>WEBL</td>
+								<td>HIBL</td>
+								<td>UDOW</td>
+								<td>MIDU</td>
+								<td>DUSL</td>
+								<td>DPST</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td>FNGU</td>
+								<td>NAIL</td>
+								<td>CURE</td>
+								<td>DFEN</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td>FAS</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>z</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="card shadow mb-4">
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">3X ETFs Sector</h6>
+				</div>
+				<div class="card-body">
+					<table class="table table-bordered text-xs" width="100%">
+						<thead>
+							<tr role="row">
+								<th>Sector</th>
+								<th colspan="6">ETF</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>스페셜</td>
+								<td>TQQQ</td>
+								<td>TECL</td>
+								<td>SOXL</td>
+								<td>BULZ</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>기술/우량</td>
+								<td>WEBL</td>
+								<td>UPRO</td>
+								<td>HIBL</td>
+								<td>FNGU</td>
+								<td>UDOW</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>중소형/소비재</td>
+								<td>WANT</td>
+								<td>TNA</td>
+								<td>NAIL</td>
+								<td>RETL</td>
+								<td>MIDU</td>
+								<td>DRN</td>
+							</tr>
+							<tr>
+								<td>기간산업</td>
+								<td>DUSL</td>
+								<td>TPOR</td>
+								<td>DFEN</td>
+								<td>UTSL</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>금융</td>
+								<td>FAS</td>
+								<td>DPST</td>
+								<td>BNKU</td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>보건</td>
+								<td>LABU</td>
+								<td>CURE</td>
+								<td>PILL</td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+	
+	<div class="row">
+		<div class="col-xl-12">
+			<div class="card shadow mb-4">
+				<div
+					class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+					<h6 class="m-0 font-weight-bold text-primary">3X ETFs
+						Information</h6>
+				</div>
+				<!-- Card Body -->
+				<div class="card-body">
+					<div class="table-responsive">
+						<div id="dataTable_wrapper"
+							class="dataTables_wrapper dt-bootstrap4">
+							<!-- <div class="row">
+								<div class="col-sm-12 col-md-6">
+									<div class="dataTables_length" id="dataTable_length">
+										<label>섹터 <select name="dataTable_length"
+											aria-controls="dataTable"
+											class="custom-select custom-select-sm form-control form-control-sm"><option
+													value="전체">전체</option>
+												<option value="스페셜">스페셜</option>
+												<option value="기술우량">기술우량</option>
+												<option value="중소형/소비재">중소형/소비재</option>
+												<option value="기간산업">기간산업</option>
+												<option value="금융">금융</option>
+												<option value="보건">보건</option>
+										</label>
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6">
+									<div id="dataTable_filter" class="dataTables_filter">
+										<label>SYMBOL:<input type="search"
+											class="form-control form-control-sm" placeholder=""
+											aria-controls="dataTable"></label>
+									</div>
+								</div>
+							</div> -->
+							<div class="row">
+								<div class="col-sm-12">
+									<table class="table table-striped dataTable" id="dataTable"
+										width="100%" cellspacing="0" role="grid"
+										aria-describedby="dataTable_info" style="width: 100%;">
+										<thead>
+											<tr role="row">
+												<th class="sorting sorting_asc" tabindex="0"
+													aria-controls="dataTable" rowspan="1" colspan="1"
+													aria-sort="ascending"
+													aria-label="Name: activate to sort column descending"
+													style="width: 80px;">SYMBOL</th>
+												<th class="sorting" tabindex="0" aria-controls="dataTable"
+													rowspan="1" colspan="1"
+													aria-label="Age: activate to sort column ascending"
+													style="width: 31px;">RSI</th>
+												<th class="sorting" tabindex="0" aria-controls="dataTable"
+													rowspan="1" colspan="1"
+													aria-label="Start date: activate to sort column ascending"
+													style="width: 62px;">BASE</th>
+												<th class="sorting" tabindex="0" aria-controls="dataTable"
+													rowspan="1" colspan="1"
+													aria-label="Salary: activate to sort column ascending"
+													style="width: 67px;">+/-</th>
+												<th class="sorting" tabindex="0" aria-controls="dataTable"
+													rowspan="1" colspan="1"
+													aria-label="Position: activate to sort column ascending"
+													style="width: 67px;">PRICE</th>
+												<th class="sorting" tabindex="0" aria-controls="dataTable"
+													rowspan="1" colspan="1"
+													aria-label="Office: activate to sort column ascending"
+													style="width: 67px;">전일대비</th>
+												<th class="sorting" tabindex="0" aria-controls="dataTable"
+													rowspan="1" colspan="1"
+													aria-label="Office: activate to sort column ascending"
+													style="width: 87px;">거래량</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="odd">
+												<td class="sorting_1">WEBL</td>
+												<td>$76.98</td>
+												<td>-3.32%</td>
+												<td>34.11</td>
+												<td>60</td>
+												<td>-25.89</td>
+												<td>-25.89</td>
+											</tr>
+											<tr class="even">
+												<td class="sorting_1">BULZ</td>
+												<td>$31.21</td>
+												<td>-5.14%</td>
+												<td>51.12</td>
+												<td>65</td>
+												<td>-13.88</td>
+												<td>-13.88</td>
+											</tr>
+											<tr class="odd">
+												<td class="sorting_1">WEBL</td>
+												<td>$76.98</td>
+												<td>-3.32%</td>
+												<td>34.11</td>
+												<td>60</td>
+												<td>-25.89</td>
+												<td>-25.89</td>
+											</tr>
+											<tr class="even">
+												<td class="sorting_1">BULZ</td>
+												<td>$31.21</td>
+												<td>-5.14%</td>
+												<td>51.12</td>
+												<td>65</td>
+												<td>-13.88</td>
+												<td>-13.88</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>

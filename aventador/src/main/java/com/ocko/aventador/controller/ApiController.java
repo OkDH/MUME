@@ -34,4 +34,9 @@ public class ApiController {
 	public @ResponseBody Map<String, StockDetail> getStocks(@PathVariable String[] symbols) {
 		return stockService.getStocks(symbols);
 	}
+	
+	@RequestMapping(value = "/stocks/etfs", method = RequestMethod.GET)
+	public @ResponseBody Map<String, StockDetail> getEtfs() {
+		return stockService.getEtfStocks();
+	}
 }

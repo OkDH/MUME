@@ -21,7 +21,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/sb-admin-2.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/vendor/sb-admin/sb-admin-2.min.css}">
     
     <!-- angular-js -->
     <script th:src="@{/static/vendor/angularjs/angular.min.js}"></script>
@@ -35,7 +35,7 @@
     <script th:src="@{/static/vendor/jquery-easing/jquery.easing.min.js}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script th:src="@{/static/js/sb-admin-2.min.js}"></script>
+    <script th:src="@{/static/vendor/sb-admin/sb-admin-2.min.js}"></script>
 
     <!-- Page level plugins -->
     <script th:src="@{/static/vendor/chart.js/Chart.min.js}"></script>
@@ -46,6 +46,7 @@
     
     <!-- my js -->
     <script th:src="@{/static/js/app.js}"></script>
+    <script th:src="@{/static/js/stock.js}"></script>
 
 </head>
 
@@ -69,10 +70,10 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item" ng-class="path('/etf') && 'active'" >
+            <li class="nav-item" ng-class="path('/stock') && 'active'" >
                 <a class="nav-link" th:href="@{/public/#!/stock}">
                     <i class="fas fa-fw  fa-table"></i>
-                    <span>STOCK</span></a>
+                    <span>Leveraged 3X ETFs</span></a>
             </li>
 
             <!-- Divider -->

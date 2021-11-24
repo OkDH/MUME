@@ -12,7 +12,13 @@ app.controller("StockController", function($scope, $timeout, $q, httpService, st
 	var symbols = [ngStock.marketIndex.DJI.symbol, ngStock.marketIndex.IXIC.symbol, ngStock.marketIndex.GSPC.symbol, ngStock.marketIndex.SOX.symbol];
 	
 	stockService.getStocks(symbols.join(",")).then(function(data){
-		console.log(data);
+		angular.forEach(data, function(value, key){
+			ngStock.marketIndex[key].stock = value;
+		});
+	});
+	
+	stockService.getEtfs().then(function(data){
+		ngStock.etfs = data;
 	});
 	
 });
@@ -52,6 +58,24 @@ app.service("stockService", function(httpService){
 		});
 		
 		return promiseGetStocks;
+	}
+	
+	// 3X ETFs
+	var promiseGetEtfs = null;
+	
+	this.getEtfs = function(){
+		
+		if(promiseGetEtfs){
+			httpService.stop(promiseGetEtfs);
+		}
+		
+		promiseGetEtfs = httpService.get({
+			url: meta.baseUrl + "api/stocks/etfs",
+		}).then(function(response){
+			return response.data;
+		});
+		
+		return promiseGetEtfs;
 	}
 	
 });

@@ -192,6 +192,28 @@ app.service("httpService", function($http, $q){
 	}
 	
 });
+app.filter("appendUpDown", function(){
+	return function(score){
+		score = Number(score);
+		if(score > 0)
+			return "▲ " + score.toFixed(2);
+		else if(score < 0)
+			return ("▼ " + score.toFixed(2)).replace("-", "");
+		else
+			return "­ " + score.toFixed(2);
+	}
+});
+app.filter("appendPulMa", function(){
+	return function(score){
+		score = Number(score);
+		if(score > 0)
+			return "+" + score.toFixed(2);
+		else if(score < 0)
+			return "-" + score.toFixed(2).replace("-", "");
+		else
+			return score.toFixed(2);
+	}
+});
 app.controller("MainController", function($scope, $http, $location){
 	
 	

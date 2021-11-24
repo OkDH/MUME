@@ -6,6 +6,8 @@ package com.ocko.aventador.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.ocko.aventador.constant.EtfSector;
+
 /**
  * @author ok
  *
@@ -13,6 +15,8 @@ import java.time.LocalDate;
 public class StockDetail {
 	
 	private String symbol;
+	
+	private EtfSector sector;
 	
 	private LocalDate date;
 	
@@ -22,6 +26,8 @@ public class StockDetail {
 	private BigDecimal open;
 	
 	private BigDecimal prevClose;
+	
+	private Long volume;
 	
 	// 전일 대비 변화
 	private BigDecimal chg;
@@ -165,6 +171,22 @@ public class StockDetail {
 	 */
 	public void setPrevClose(BigDecimal prevClose) {
 		this.prevClose = prevClose;
+	}
+
+	public EtfSector getSector() {
+		return sector;
+	}
+
+	public void setSector(EtfSector sector) {
+		this.sector = sector;
+	}
+
+	public Long getVolume() {
+		return volume;
+	}
+
+	public void setVolume(Long volume) {
+		this.volume = volume;
 	}
 	
 }

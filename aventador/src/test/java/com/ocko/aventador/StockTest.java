@@ -4,6 +4,9 @@
 package com.ocko.aventador;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.List;
 
@@ -21,12 +24,16 @@ import yahoofinance.histquotes.Interval;
 public class StockTest {
 
 	@Test
-	public void getSingleStock() throws IOException {
-		Stock stock = YahooFinance.get("^IXIC");
+	public void test() throws IOException {
+		Stock stock = YahooFinance.get("TQQQ");
 		System.out.println("close : " + stock.getQuote().getPrice());
 		System.out.println("prevClose : " + stock.getQuote().getPreviousClose());
 		System.out.println("change : " + stock.getQuote().getChange());
 		System.out.println("changePer : " + stock.getQuote().getChangeInPercent());
+		LocalDate date = LocalDateTime.ofInstant(stock.getQuote().getLastTradeTime().toInstant(), ZoneId.systemDefault()).toLocalDate();
+		System.out.println(date);
+		LocalDate date2 = LocalDateTime.ofInstant(stock.getHistory().get(stock.getHistory().size()-1).getDate().toInstant(), ZoneId.systemDefault()).toLocalDate();
+		System.out.println(date2);
 	}
 	
 	@Test

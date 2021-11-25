@@ -4,10 +4,10 @@
 package com.ocko.aventador.component;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.ocko.aventador.constant.EtfSymbol;
@@ -84,20 +84,30 @@ public class StockComponent {
 	private StockDetail processStockDetail(String symbol, Stock stock) {
 		StockDetail stockDetail = new StockDetail();
 		stockDetail.setSymbol(symbol);
+		// TODO : date
+//		stock.getQuote().getLastTradeTime().day
+		
 		// 종가 또는 현재가
-		stockDetail.setClose(stock.getQuote().getPrice());
+		stockDetail.setPriceClose(stock.getQuote().getPrice().floatValue());
+		// 시가
+		stockDetail.setPriceOpen(stock.getQuote().getOpen().floatValue());
+		// 고가
+		stockDetail.setPriceHigh(stock.getQuote().getDayHigh().floatValue());
+		// 저가
+		stockDetail.setPriceLow(stock.getQuote().getDayLow().floatValue());
 		// 전일 종가
-		stockDetail.setPrevClose(stock.getQuote().getPreviousClose());
+		stockDetail.setPrevClose(stock.getQuote().getPreviousClose().floatValue());
 		// 전일 대비 변화
-		stockDetail.setChg(stock.getQuote().getChange());
+		stockDetail.setChg(stock.getQuote().getChange().floatValue());
 		// 변화율
-		stockDetail.setChgp(stock.getQuote().getChangeInPercent());
+		stockDetail.setChgp(stock.getQuote().getChangeInPercent().floatValue());
 		// 거래량
 		stockDetail.setVolume(stock.getQuote().getVolume());
 		// 섹터
 		for(EtfSymbol item : EtfSymbol.values()) {
 			if(symbol.equals(item.name())) {
 				stockDetail.setSector(EtfSymbol.valueOf(symbol).sector());
+				stockDetail.setBaseRsi(EtfSymbol.valueOf(stock.getSymbol()).defaultRsi()); // TODO : baseRsi 개인화
 				break;
 			}
 		}
@@ -112,21 +122,10 @@ public class StockComponent {
 	 */
 	public StockDetail processStockDetail(ViewTodayStock stock) {
 		StockDetail stockDetail = new StockDetail();
-		stockDetail.setSymbol(stock.getSymbol());
-		// 종가 또는 현재가
-		stockDetail.setClose(new BigDecimal(stock.getPriceClose()));
-		// 고가,저가,시가
-		stockDetail.setOpen(new BigDecimal(stock.getPriceOpen()));
-		stockDetail.setHigh(new BigDecimal(stock.getPriceHigh()));
-		stockDetail.setLow(new BigDecimal(stock.getPriceLow()));
-		// 전일 종가
-		stockDetail.setPrevClose(new BigDecimal(stock.getPrevClose()));
-		// 전일비
-		stockDetail.setChg(stockDetail.getClose().subtract(stockDetail.getClose()));
-		// 거래량
-		stockDetail.setVolume(stock.getVolume());
-		// rsi
-		stockDetail.setRsi(stock.getRsi().doubleValue());
+		
+		// 객체복사
+		BeanUtils.copyProperties(stock, stockDetail);
+		
 		// 섹터, baseRsi
 		for(EtfSymbol item : EtfSymbol.values()) {
 			if(stock.getSymbol().equals(item.name())) {

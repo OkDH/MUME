@@ -3,7 +3,6 @@
  */
 package com.ocko.aventador.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ocko.aventador.component.StockComponent;
-import com.ocko.aventador.constant.EtfSymbol;
 import com.ocko.aventador.dao.model.aventador.ViewTodayStock;
 import com.ocko.aventador.dao.persistence.aventador.ViewTodayStockMapper;
 import com.ocko.aventador.model.StockDetail;

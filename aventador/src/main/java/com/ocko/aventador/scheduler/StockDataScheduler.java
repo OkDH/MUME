@@ -15,12 +15,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.ocko.aventador.component.StockComponent;
 import com.ocko.aventador.constant.EtfSymbol;
 import com.ocko.aventador.dao.model.aventador.StockHistory;
 import com.ocko.aventador.dao.persistence.aventador.StockHistoryMapper;
+import com.ocko.aventador.model.StockDetail;
 
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
@@ -34,16 +39,43 @@ import yahoofinance.histquotes.Interval;
 @Component
 public class StockDataScheduler {
 	
-	@Autowired private StockHistoryMapper stockHistoryMapper;
+	private static final Logger log = LoggerFactory.getLogger(StockDataScheduler.class);
 	
-	public void updateStockHistory() {
-		List<String> symbolList = new ArrayList<String>();
-		for(EtfSymbol symbol : EtfSymbol.values()) {
-			symbolList.add(symbol.name());
-		}
+	@Autowired private StockHistoryMapper stockHistoryMapper;
+	@Autowired private StockComponent stockComponent;
+	
+	/**
+	 * 월~토
+	 * 오후 5시 부터 다음날 오전 6시까지 5분마다 작동
+	 * 
+	 */
+	@Scheduled(cron="0 0/5 17-23 * * MON-FRI")
+	public void updateStockHistory1() {
 		
-		String[] symbols = symbolList.toArray(new String[symbolList.size()]);
+//		// 심볼리스트
+//		List<String> symbolList = new ArrayList<String>();
+//		for(EtfSymbol symbol : EtfSymbol.values()) {
+//			symbolList.add(symbol.name());
+//		}
+//		
+//		// 심볼리스트 To 배열
+//		String[] symbols = symbolList.toArray(new String[symbolList.size()]);
+//		// 심볼 주가 복수 조회
+//		Map<String, StockDetail> stocks = stockComponent.getStocks(symbols);
+//		
+//		for(String symbol : stocks.keySet()) {
+//			
+//		}
+
+		log.info("하이1");
 	}
+	
+	@Scheduled(cron="0 0/5 0-6 * * THU-SAT")
+	public void updateStockHistory2() {
+		log.info("하이2");
+	}
+	
+	
 	
 	/**
 	 * ETFs 주가 최근 1년치 초기 구축 (1회성)
@@ -70,7 +102,6 @@ public class StockDataScheduler {
 				stockHistory.setPriceHigh(data.getHigh().floatValue());
 				stockHistory.setPriceOpen(data.getOpen().floatValue());
 				stockHistory.setPriceClose(data.getClose().floatValue());
-				stockHistory.setp
 				stockHistory.setVolume(data.getVolume());
 				LocalDate date = LocalDateTime.ofInstant(data.getDate().toInstant(), ZoneId.systemDefault()).toLocalDate();
 				stockHistory.setStockDate(date);
@@ -84,6 +115,9 @@ public class StockDataScheduler {
 				
 				// 전날 데이터가 있을 경우에 상승폭, 하락폭 계산
 				if(beforeClose != 0) { 
+					stockHistory.setPrevClose(beforeClose);
+					stockHistory.setChg(data.getClose().floatValue() - beforeClose);
+					stockHistory.setChgp((stockHistory.getChg() / beforeClose) * 100);
 					
 					if(beforeClose < nowClose) {
 						up = nowClose - beforeClose;

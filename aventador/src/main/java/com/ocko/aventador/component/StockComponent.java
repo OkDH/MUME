@@ -88,6 +88,10 @@ public class StockComponent {
 		stockDetail.setClose(stock.getQuote().getPrice());
 		// 전일 종가
 		stockDetail.setPrevClose(stock.getQuote().getPreviousClose());
+		// 전일 대비 변화
+		stockDetail.setChg(stock.getQuote().getChange());
+		// 변화율
+		stockDetail.setChgp(stock.getQuote().getChangeInPercent());
 		// 거래량
 		stockDetail.setVolume(stock.getQuote().getVolume());
 		// 섹터
@@ -117,6 +121,8 @@ public class StockComponent {
 		stockDetail.setLow(new BigDecimal(stock.getPriceLow()));
 		// 전일 종가
 		stockDetail.setPrevClose(new BigDecimal(stock.getPrevClose()));
+		// 전일비
+		stockDetail.setChg(stockDetail.getClose().subtract(stockDetail.getClose()));
 		// 거래량
 		stockDetail.setVolume(stock.getVolume());
 		// rsi

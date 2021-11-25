@@ -19,6 +19,9 @@ app.controller("StockController", function($scope, $timeout, $q, httpService, st
 	
 	stockService.getEtfs().then(function(data){
 		ngStock.etfs = data;
+		ngStock.arryEtfs = Object.keys(data).map(function(key) {
+			return data[key];
+		});
 	});
 	
 });

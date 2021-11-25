@@ -1,44 +1,49 @@
 package com.ocko.aventador.constant;
 
 public enum EtfSymbol {
-	TQQQ(EtfSector.S1),
-	TECL(EtfSector.S1),
-	SOXL(EtfSector.S1),
-	BULZ(EtfSector.S1),
+	TQQQ(EtfSector.S1, 60),
+	TECL(EtfSector.S1, 60),
+	SOXL(EtfSector.S1, 65),
+	BULZ(EtfSector.S1, 60),
 	
-	WEBL(EtfSector.S2),
-	UPRO(EtfSector.S2),
-	HIBL(EtfSector.S2),
-	FNGU(EtfSector.S2),
-	UDOW(EtfSector.S2),
+	WEBL(EtfSector.S2, 60),
+	UPRO(EtfSector.S2, 55),
+	HIBL(EtfSector.S2, 55),
+	FNGU(EtfSector.S2, 55),
+	UDOW(EtfSector.S2, 50),
 	
-	WANT(EtfSector.S3),
-	TNA(EtfSector.S3),
-	NAIL(EtfSector.S3),
-	RETL(EtfSector.S3),
-	MIDU(EtfSector.S3),
-	DRN(EtfSector.S3),
+	WANT(EtfSector.S3, 55),
+	TNA(EtfSector.S3, 50),
+	NAIL(EtfSector.S3, 50),
+	RETL(EtfSector.S3, 50),
+	MIDU(EtfSector.S3, 45),
+	DRN(EtfSector.S3, 40),
 	
-	DUSL(EtfSector.S4),
-	TPOR(EtfSector.S4),
-	DFEN(EtfSector.S4),
-	UTSL(EtfSector.S4),
+	DUSL(EtfSector.S4, 40),
+	TPOR(EtfSector.S4, 40),
+	DFEN(EtfSector.S4, 40),
+	UTSL(EtfSector.S4, 35),
 	
-	FAS(EtfSector.S5),
-	DPST(EtfSector.S5),
-	BNKU(EtfSector.S5),
+	FAS(EtfSector.S5, 45),
+	DPST(EtfSector.S5, 35),
+	BNKU(EtfSector.S5, 35),
 	
-	LABU(EtfSector.S6),
-	CURE(EtfSector.S6),
-	PILL(EtfSector.S6);
+	LABU(EtfSector.S6, 45),
+	CURE(EtfSector.S6, 45),
+	PILL(EtfSector.S6, 45);
 	
 	private final EtfSector sector;
+	private int defaultRsi;
 	
-	EtfSymbol(EtfSector sector) {
+	EtfSymbol(EtfSector sector, int rsi) {
 		this.sector = sector;
+		this.defaultRsi = rsi;
 	}
 	
 	public EtfSector sector() {
 		return sector;
+	}
+	public int defaultRsi() {
+		return defaultRsi;
 	}
 }

@@ -1,7 +1,4 @@
 <div ng-controller="StockController as ngStock">
-	<div class="d-sm-flex align-items-center justify-content-between mb-4">
-		<h1 class="h3 mb-0 text-gray-800">Leveraged 3X ETFs</h1>
-	</div>
 	
 	<!-- Content Row -->
 	<div class="row">
@@ -10,12 +7,13 @@
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-gray-800 text-uppercase mb-1">
+							<div class="font-weight-bold text-primary text-uppercase mb-1">
 								다우 산업</div>
-							<div class="h5 mb-0 font-weight-bold"
-								ng-class="(ngStock.marketIndex.DJI.stock.chg > 0 && 'text-danger') || (ngStock.marketIndex.DJI.stock.chg < 0 && 'text-primary')">
+							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ ngStock.marketIndex.DJI.stock.close | number:2 }}
-								<span class="text-xs">{{ ngStock.marketIndex.DJI.stock.chg | appendUpDown }} ({{ ngStock.marketIndex.DJI.stock.chgp | appendPulMa }}%)</span>
+								<span class="text-xs" ng-class="(ngStock.marketIndex.DJI.stock.chg > 0 && 'text-danger') || (ngStock.marketIndex.DJI.stock.chg < 0 && 'text-primary')">
+									{{ ngStock.marketIndex.DJI.stock.chg | appendUpDown }} ({{ ngStock.marketIndex.DJI.stock.chgp | appendPulMa }}%)
+								</span>
 							</div>
 						</div>
 					</div>
@@ -28,11 +26,13 @@
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-gray-800 text-uppercase mb-1">
+							<div class="font-weight-bold text-success text-uppercase mb-1">
 								나스닥 종합</div>
-							<div class="h5 mb-0 font-weight-bold"
-								ng-class="(ngStock.marketIndex.IXIC.stock.chg > 0 && 'text-danger') || (ngStock.marketIndex.IXIC.stock.chg < 0 && 'text-primary')">
-								{{ ngStock.marketIndex.IXIC.stock.close | number:2 }} <span class="text-xs">{{ ngStock.marketIndex.IXIC.stock.chg | appendUpDown }} ({{ ngStock.marketIndex.IXIC.stock.chgp | appendPulMa }}%)</span>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">						
+								{{ ngStock.marketIndex.IXIC.stock.close | number:2 }} 
+								<span class="text-xs" ng-class="(ngStock.marketIndex.IXIC.stock.chg > 0 && 'text-danger') || (ngStock.marketIndex.IXIC.stock.chg < 0 && 'text-primary')">
+									{{ ngStock.marketIndex.IXIC.stock.chg | appendUpDown }} ({{ ngStock.marketIndex.IXIC.stock.chgp | appendPulMa }}%)
+								</span>
 							</div>
 						</div>
 					</div>
@@ -45,10 +45,12 @@
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-gray-800 text-uppercase mb-1">S&P 500</div>
-							<div class="h5 mb-0 font-weight-bold"
-								ng-class="(ngStock.marketIndex.GSPC.stock.chg > 0 && 'text-danger') || (ngStock.marketIndex.GSPC.stock.chg < 0 && 'text-primary')">
-								{{ ngStock.marketIndex.GSPC.stock.close | number:2 }} <span class="text-xs">{{ ngStock.marketIndex.GSPC.stock.chg | appendUpDown }} ({{ ngStock.marketIndex.GSPC.stock.chgp | appendPulMa }}%)</span>
+							<div class="font-weight-bold text-info text-uppercase mb-1">S&P 500</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">
+								{{ ngStock.marketIndex.GSPC.stock.close | number:2 }} 
+								<span class="text-xs" ng-class="(ngStock.marketIndex.GSPC.stock.chg > 0 && 'text-danger') || (ngStock.marketIndex.GSPC.stock.chg < 0 && 'text-primary')">
+									{{ ngStock.marketIndex.GSPC.stock.chg | appendUpDown }} ({{ ngStock.marketIndex.GSPC.stock.chgp | appendPulMa }}%)
+								</span>
 							</div>
 						</div>
 					</div>
@@ -61,11 +63,13 @@
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-gray-800 text-uppercase mb-1">
+							<div class="font-weight-bold text-warning text-uppercase mb-1">
 								필라델피아 반도체</div>
-							<div class="h5 mb-0 font-weight-bold"
-								ng-class="(ngStock.marketIndex.SOX.stock.chg > 0 && 'text-danger') || (ngStock.marketIndex.SOX.stock.chg < 0 && 'text-primary')">
-								{{ ngStock.marketIndex.SOX.stock.close | number:2 }} <span class="text-xs"> {{ ngStock.marketIndex.SOX.stock.chg | appendUpDown }} ({{ ngStock.marketIndex.SOX.stock.chgp | appendPulMa }}%)</span>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">
+								{{ ngStock.marketIndex.SOX.stock.close | number:2 }} 
+								<span class="text-xs" ng-class="(ngStock.marketIndex.SOX.stock.chg > 0 && 'text-danger') || (ngStock.marketIndex.SOX.stock.chg < 0 && 'text-primary')"> 
+									{{ ngStock.marketIndex.SOX.stock.chg | appendUpDown }} ({{ ngStock.marketIndex.SOX.stock.chgp | appendPulMa }}%)
+								</span>
 							</div>
 						</div>
 					</div>
@@ -83,7 +87,7 @@
 				</div>
 				<div class="card-body">
 					<table class="table table-bordered text-xs text-center text-gray-800" width="100%">
-						<thead class="bg-info text-white font-weight-bold">
+						<thead class="text-white font-weight-bold" style="background-color: #4e73df;">
 							<tr role="row">
 								<th>65</th>
 								<th>60</th>
@@ -96,47 +100,47 @@
 						</thead>
 						<tbody class="font-weight-bold">
 							<tr>
-								<td>SOXL</td>
-								<td>TQQQ</td>
-								<td>UPRO</td>
-								<td>TNA</td>
-								<td>LABU</td>
-								<td>TPOR</td>
-								<td>UTSL</td>
+								<td ng-class="ngStock.etfs.SOXL.gapRsi < 0 && 'bg-info text-white'">SOXL</td>
+								<td ng-class="ngStock.etfs.TQQQ.gapRsi < 0 && 'bg-info text-white'">TQQQ</td>
+								<td ng-class="ngStock.etfs.UPRO.gapRsi < 0 && 'bg-info text-white'">UPRO</td>
+								<td ng-class="ngStock.etfs.TNA.gapRsi < 0 && 'bg-info text-white'">TNA</td>
+	 							<td ng-class="ngStock.etfs.LABU.gapRsi < 0 && 'bg-info text-white'">LABU</td>
+								<td ng-class="ngStock.etfs.TPOR.gapRsi < 0 && 'bg-info text-white'">TPOR</td>
+								<td ng-class="ngStock.etfs.UTSL.gapRsi < 0 && 'bg-info text-white'">UTSL</td>
 							</tr>
 							<tr>
-								<td>BULZ</td>
-								<td>TECL</td>
-								<td>WANT</td>
-								<td>RETL</td>
-								<td>PILL</td>
-								<td>DRN</td>
-								<td>BNKU</td>
-							</tr>
-							<tr>
-								<td class="bg-gray-100"></td>
-								<td>WEBL</td>
-								<td>HIBL</td>
-								<td>UDOW</td>
-								<td>MIDU</td>
-								<td>DUSL</td>
-								<td>DPST</td>
+								<td ng-class="ngStock.etfs.BULZ.gapRsi < 0 && 'bg-info text-white'">BULZ</td>
+								<td ng-class="ngStock.etfs.TECL.gapRsi < 0 && 'bg-info text-white'">TECL</td>
+								<td ng-class="ngStock.etfs.WANT.gapRsi < 0 && 'bg-info text-white'">WANT</td>
+								<td ng-class="ngStock.etfs.RETL.gapRsi < 0 && 'bg-info text-white'">RETL</td>
+								<td ng-class="ngStock.etfs.PILL.gapRsi < 0 && 'bg-info text-white'">PILL</td>
+								<td ng-class="ngStock.etfs.DRN.gapRsi < 0 && 'bg-info text-white'">DRN</td>
+								<td ng-class="ngStock.etfs.BNKU.gapRsi < 0 && 'bg-info text-white'">BNKU</td>
 							</tr>
 							<tr>
 								<td class="bg-gray-100"></td>
-								<td class="bg-gray-100"></td>
-								<td>FNGU</td>
-								<td>NAIL</td>
-								<td>CURE</td>
-								<td>DFEN</td>
-								<td class="bg-gray-100"></td>
+								<td ng-class="ngStock.etfs.WEBL.gapRsi < 0 && 'bg-info text-white'">WEBL</td>
+								<td ng-class="ngStock.etfs.HIBL.gapRsi < 0 && 'bg-info text-white'">HIBL</td>
+								<td ng-class="ngStock.etfs.UDOW.gapRsi < 0 && 'bg-info text-white'">UDOW</td>
+								<td ng-class="ngStock.etfs.MIDU.gapRsi < 0 && 'bg-info text-white'">MIDU</td>
+								<td ng-class="ngStock.etfs.DUSL.gapRsi < 0 && 'bg-info text-white'">DUSL</td>
+								<td ng-class="ngStock.etfs.DPST.gapRsi < 0 && 'bg-info text-white'">DPST</td>
 							</tr>
 							<tr>
 								<td class="bg-gray-100"></td>
 								<td class="bg-gray-100"></td>
+								<td ng-class="ngStock.etfs.FNGU.gapRsi < 0 && 'bg-info text-white'">FNGU</td>
+								<td ng-class="ngStock.etfs.NAIL.gapRsi < 0 && 'bg-info text-white'">NAIL</td>
+								<td ng-class="ngStock.etfs.CURE.gapRsi < 0 && 'bg-info text-white'">CURE</td>
+								<td ng-class="ngStock.etfs.DFEN.gapRsi < 0 && 'bg-info text-white'">DFEN</td>
+								<td class="bg-gray-100"></td>
+							</tr>
+							<tr>
 								<td class="bg-gray-100"></td>
 								<td class="bg-gray-100"></td>
-								<td>FAS</td>
+								<td class="bg-gray-100"></td>
+								<td class="bg-gray-100"></td>
+								<td ng-class="ngStock.etfs.FAS.gapRsi < 0 && 'bg-info text-white'">FAS</td>
 								<td class="bg-gray-100"></td>
 								<td class="bg-gray-100"></td>
 							</tr>
@@ -161,7 +165,7 @@
 				</div>
 				<div class="card-body">
 					<table class="table table-bordered text-xs text-center text-gray-800" width="100%">
-						<thead class="bg-info text-white font-weight-bold">
+						<thead class="text-white font-weight-bold" style="background-color: #4e73df;">
 							<tr role="row">
 								<th>Sector</th>
 								<th colspan="6">ETF</th>
@@ -170,54 +174,54 @@
 						<tbody class="font-weight-bold">
 							<tr>
 								<td style="background-color: #e9f1ff;">스페셜</td>
-								<td>TQQQ</td>
-								<td>TECL</td>
-								<td>SOXL</td>
-								<td>BULZ</td>
+								<td ng-class="ngStock.etfs.TQQQ.gapRsi < 0 && 'bg-info text-white'">TQQQ</td>
+								<td ng-class="ngStock.etfs.TECL.gapRsi < 0 && 'bg-info text-white'">TECL</td>
+								<td ng-class="ngStock.etfs.SOXL.gapRsi < 0 && 'bg-info text-white'">SOXL</td>
+								<td ng-class="ngStock.etfs.BULZ.gapRsi < 0 && 'bg-info text-white'">BULZ</td>
 								<td class="bg-gray-100"></td>
 								<td class="bg-gray-100"></td>
 							</tr>
 							<tr>
 								<td style="background-color: #e9f1ff;">기술/우량</td>
-								<td>WEBL</td>
-								<td>UPRO</td>
-								<td>HIBL</td>
-								<td>FNGU</td>
-								<td>UDOW</td>
+								<td ng-class="ngStock.etfs.WEBL.gapRsi < 0 && 'bg-info text-white'">WEBL</td>
+								<td ng-class="ngStock.etfs.UPRO.gapRsi < 0 && 'bg-info text-white'">UPRO</td>
+								<td ng-class="ngStock.etfs.HIBL.gapRsi < 0 && 'bg-info text-white'">HIBL</td>
+								<td ng-class="ngStock.etfs.FNGU.gapRsi < 0 && 'bg-info text-white'">FNGU</td>
+								<td ng-class="ngStock.etfs.UDOW.gapRsi < 0 && 'bg-info text-white'">UDOW</td>
 								<td class="bg-gray-100"></td>
 							</tr>
 							<tr>
 								<td style="background-color: #e9f1ff;">중소형/소비재</td>
-								<td>WANT</td>
-								<td>TNA</td>
-								<td>NAIL</td>
-								<td>RETL</td>
-								<td>MIDU</td>
-								<td>DRN</td>
+								<td ng-class="ngStock.etfs.WANT.gapRsi < 0 && 'bg-info text-white'">WANT</td>
+								<td ng-class="ngStock.etfs.TNA.gapRsi < 0 && 'bg-info text-white'">TNA</td>
+								<td ng-class="ngStock.etfs.NAIL.gapRsi < 0 && 'bg-info text-white'">NAIL</td>
+								<td ng-class="ngStock.etfs.RETL.gapRsi < 0 && 'bg-info text-white'">RETL</td>
+								<td ng-class="ngStock.etfs.MIDU.gapRsi < 0 && 'bg-info text-white'">MIDU</td>
+								<td ng-class="ngStock.etfs.DRN.gapRsi < 0 && 'bg-info text-white'">DRN</td>
 							</tr>
 							<tr>
 								<td style="background-color: #e9f1ff;">기간산업</td>
-								<td>DUSL</td>
-								<td>TPOR</td>
-								<td>DFEN</td>
-								<td>UTSL</td>
+								<td ng-class="ngStock.etfs.DUSL.gapRsi < 0 && 'bg-info text-white'">DUSL</td>
+								<td ng-class="ngStock.etfs.TPOR.gapRsi < 0 && 'bg-info text-white'">TPOR</td>
+								<td ng-class="ngStock.etfs.DFEN.gapRsi < 0 && 'bg-info text-white'">DFEN</td>
+								<td ng-class="ngStock.etfs.UTSL.gapRsi < 0 && 'bg-info text-white'">UTSL</td>
 								<td class="bg-gray-100"></td>
 								<td class="bg-gray-100"></td>
 							</tr>
 							<tr>
 								<td style="background-color: #e9f1ff;">금융</td>
-								<td>FAS</td>
-								<td>DPST</td>
-								<td>BNKU</td>
+								<td ng-class="ngStock.etfs.FAS.gapRsi < 0 && 'bg-info text-white'">FAS</td>
+								<td ng-class="ngStock.etfs.DPST.gapRsi < 0 && 'bg-info text-white'">DPST</td>
+								<td ng-class="ngStock.etfs.BNKU.gapRsi < 0 && 'bg-info text-white'">BNKU</td>
 								<td class="bg-gray-100"></td>
 								<td class="bg-gray-100"></td>
 								<td class="bg-gray-100"></td>
 							</tr>
 							<tr>
 								<td style="background-color: #e9f1ff;">보건</td>
-								<td>LABU</td>
-								<td>CURE</td>
-								<td>PILL</td>
+								<td ng-class="ngStock.etfs.LABU.gapRsi < 0 && 'bg-info text-white'">LABU</td>
+								<td ng-class="ngStock.etfs.CURE.gapRsi < 0 && 'bg-info text-white'">CURE</td>
+								<td ng-class="ngStock.etfs.PILL.gapRsi < 0 && 'bg-info text-white'">PILL</td>
 								<td class="bg-gray-100"></td>
 								<td class="bg-gray-100"></td>
 								<td class="bg-gray-100"></td>
@@ -238,17 +242,17 @@
 					<h6 class="m-0 font-weight-bold text-primary">3X ETFs Information</h6>
 				</div>
 				<!-- Card Body -->
-				<div class="card-body text-gray-800 text-xs">
+				<div class="card-body text-gray-800">
 					<div class="table-responsive">
 						<div id="dataTable_wrapper"
 							class="dataTables_wrapper dt-bootstrap4">
-							<div class="row">
+							<div class="row mt-1 mr-1 ml-1">
 								<div class="col-sm-12 col-md-6">
 									<div class="dataTables_length" id="dataTable_length">
-										<label>섹터 <select name="dataTable_length"
-											aria-controls="dataTable"
-											class="custom-select custom-select-sm form-control form-control-sm"><option
-													value="">전체</option>
+										<label><select 
+											class="custom-select custom-select-sm form-control form-control-sm"
+											ng-model="ngStock.search.sector">
+												<option value="">섹터 전체</option>
 												<option value="S1">스페셜</option>
 												<option value="S2">기술우량</option>
 												<option value="S3">중소형/소비재</option>
@@ -259,61 +263,50 @@
 										</label>
 									</div>
 								</div>
-								<div class="col-sm-12 col-md-6">
-									<div id="dataTable_filter" class="dataTables_filter">
-										<label>SYMBOL:<input type="search"
-											class="form-control form-control-sm" placeholder="" ng-model="ngStock.query"></label>
+								<div class="col-sm-12 col-md-6 ">
+									<div class="float-right">
+										<label><input type="search"
+											class="form-control form-control-sm" placeholder="Search for..." ng-model="ngStock.search.symbol"></label>
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-sm-12">
-									<table class="table dataTable text-gray-800" id="dataTable"
-										width="100%" cellspacing="0" role="grid"
-										aria-describedby="dataTable_info" style="width: 100%;">
+									<table class="table text-gray-800" id="dataTable"
+										width="100%" style="width: 100%;">
 										<thead>
 											<tr role="row" class="text-center">
-												<th class="sorting sorting_asc" tabindex="0"
-													aria-controls="dataTable" rowspan="1" colspan="1"
-													aria-sort="ascending"
-													aria-label="Name: activate to sort column descending"
-													style="width: 40px;">SYMBOL</th>
-												<th class="sorting" tabindex="0" aria-controls="dataTable"
-													rowspan="1" colspan="1"
-													aria-label="Age: activate to sort column ascending"
+												<th class="" 
+													style="width: 30px;">SYMBOL</th>
+												<th class=""
 													style="width: 20px;">RSI</th>
-												<th class="sorting" tabindex="0" aria-controls="dataTable"
-													rowspan="1" colspan="1"
-													aria-label="Start date: activate to sort column ascending"
+												<th class="" 
 													style="width: 20px;">권장RSI</th>
-												<th class="sorting" tabindex="0" aria-controls="dataTable"
-													rowspan="1" colspan="1"
-													aria-label="Salary: activate to sort column ascending"
+												<th class="" 
 													style="width: 20px;">+/-</th>
-												<th class="sorting" tabindex="0" aria-controls="dataTable"
-													rowspan="1" colspan="1"
-													aria-label="Position: activate to sort column ascending"
+												<th class="" 
 													style="width: 40px;">현재가</th>
-												<th class="sorting" tabindex="0" aria-controls="dataTable"
-													rowspan="1" colspan="1"
-													aria-label="Position: activate to sort column ascending"
+												<th class="" 
 													style="width: 40px;">전일비</th>
-												<th class="sorting" tabindex="0" aria-controls="dataTable"
-													rowspan="1" colspan="1"
-													aria-label="Office: activate to sort column ascending"
+												<th class="" 
 													style="width: 30px;">등락률</th>
-												<th class="sorting" tabindex="0" aria-controls="dataTable"
-													rowspan="1" colspan="1"
-													aria-label="Office: activate to sort column ascending"
-													style="width: 60px;">거래량</th>
+												<th class="" 
+													style="width: 50px;">거래량</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr ng-repeat="etf in ngStock.etfs">
-												<td class="text-center">{{ etf.symbol }}</td>
-												<td class="text-center">{{ etf.rsi }}</td>
-												<td class="text-center"></td>
-												<td class="text-center"></td>
+											<tr ng-repeat="etf in ngStock.arryEtfs | orderBy: 'gapRsi' | filter : ngStock.search.sector | filter : ngStock.search.symbol"
+												ng-class="(etf.gapRsi > 10 || etf.gapRsi < -10) && 'font-weight-bold'">
+												<td class="text-center"
+													ng-class="(etf.gapRsi > 5 && 'text-danger') || (etf.gapRsi < -5 && 'text-primary')">
+													{{ etf.symbol }}
+												</td>
+												<td class="text-center">{{ etf.rsi | number:2 }}</td>
+												<td class="text-center">{{ etf.baseRsi }}</td>
+												<td class="text-center"
+													ng-class="(etf.gapRsi > 5 && 'text-danger') || (etf.gapRsi < -5 && 'text-primary')">
+													{{ etf.gapRsi | appendPulMa }}
+												</td>
 												<td class="text-center">${{ etf.close | number:2 }}</td>
 												<td class="text-center"
 													ng-class="(etf.chg > 0 && 'text-danger') || (etf.chg < 0 && 'text-primary')">

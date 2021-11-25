@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -34,6 +35,15 @@ import yahoofinance.histquotes.Interval;
 public class StockDataScheduler {
 	
 	@Autowired private StockHistoryMapper stockHistoryMapper;
+	
+	public void updateStockHistory() {
+		List<String> symbolList = new ArrayList<String>();
+		for(EtfSymbol symbol : EtfSymbol.values()) {
+			symbolList.add(symbol.name());
+		}
+		
+		String[] symbols = symbolList.toArray(new String[symbolList.size()]);
+	}
 	
 	/**
 	 * ETFs 주가 최근 1년치 초기 구축 (1회성)
@@ -70,7 +80,9 @@ public class StockDataScheduler {
 				float up = 0;
 				float down = 0;
 				Map<String, Float> upDownMap = new HashMap<String, Float>();
-				if(beforeClose != 0) {
+				
+				// 전날 데이터가 있을 경우에 상승폭, 하락폭 계산
+				if(beforeClose != 0) { 
 					
 					if(beforeClose < nowClose) {
 						up = nowClose - beforeClose;
@@ -86,10 +98,10 @@ public class StockDataScheduler {
 					upDownMap.put("down", down);
 				}
 				
-				
+				// 15일째 부터 rsi 계산 가능 
 				if(queue.size() == 14) {
 					
-					if(beforeUpAvg == 0 && beforeDwAvg == 0) {
+					if(beforeUpAvg == 0 && beforeDwAvg == 0) { // 14일은 상승값 평균, 하락값 평균값 도출
 						float upSum = 0;
 						float downSum = 0;
 						for(Map<String, Float> map : queue) {
@@ -99,11 +111,10 @@ public class StockDataScheduler {
 						
 						beforeUpAvg = upSum/14;
 						beforeDwAvg = downSum/14;
-					} else {
+					} else { // 15일째부터 (전날 평균 값 * 13) + 15일 상승,하락값으로 계산
 						
 						beforeUpAvg = ((beforeUpAvg * 13) + up) / 14;
 						beforeDwAvg = ((beforeDwAvg * 13) + down) / 14;
-						
 
 						float rsi = 100 - (100 / (1 + (beforeUpAvg / beforeDwAvg)));
 						stockHistory.setRsi(rsi);

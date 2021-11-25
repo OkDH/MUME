@@ -4,12 +4,14 @@
 package com.ocko.aventador.component;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
 import com.ocko.aventador.constant.EtfSymbol;
+import com.ocko.aventador.dao.model.aventador.ViewTodayStock;
 import com.ocko.aventador.model.StockDetail;
 
 import yahoofinance.Stock;
@@ -74,7 +76,7 @@ public class StockComponent {
 	}
 	
 	/**
-	 * StockDetail 채워서 반환
+	 * YahooFinance stock > StockDetail
 	 * @param symbol
 	 * @param stock
 	 * @return
@@ -95,7 +97,38 @@ public class StockComponent {
 				break;
 			}
 		}
-		
+		return stockDetail;
+	}
+	
+	/**
+	 * ViewTodayStock > StockDetail
+	 * @param symbol
+	 * @param stock
+	 * @return
+	 */
+	public StockDetail processStockDetail(ViewTodayStock stock) {
+		StockDetail stockDetail = new StockDetail();
+		stockDetail.setSymbol(stock.getSymbol());
+		// 종가 또는 현재가
+		stockDetail.setClose(new BigDecimal(stock.getPriceClose()));
+		// 고가,저가,시가
+		stockDetail.setOpen(new BigDecimal(stock.getPriceOpen()));
+		stockDetail.setHigh(new BigDecimal(stock.getPriceHigh()));
+		stockDetail.setLow(new BigDecimal(stock.getPriceLow()));
+		// 전일 종가
+		stockDetail.setPrevClose(new BigDecimal(stock.getPrevClose()));
+		// 거래량
+		stockDetail.setVolume(stock.getVolume());
+		// rsi
+		stockDetail.setRsi(stock.getRsi().doubleValue());
+		// 섹터, baseRsi
+		for(EtfSymbol item : EtfSymbol.values()) {
+			if(stock.getSymbol().equals(item.name())) {
+				stockDetail.setSector(EtfSymbol.valueOf(stock.getSymbol()).sector());
+				stockDetail.setBaseRsi(EtfSymbol.valueOf(stock.getSymbol()).defaultRsi()); // TODO : baseRsi 개인화
+				break;
+			}
+		}
 		return stockDetail;
 	}
 	

@@ -54,7 +54,6 @@ public class StockService {
 		}
 		
 		String[] symbols = symbolList.toArray(new String[symbolList.size()]);
-		
 		return stockComponent.getStocks(symbols);
 	}
 }

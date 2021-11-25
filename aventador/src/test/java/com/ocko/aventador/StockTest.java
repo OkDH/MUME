@@ -23,7 +23,10 @@ public class StockTest {
 	@Test
 	public void getSingleStock() throws IOException {
 		Stock stock = YahooFinance.get("^IXIC");
-		stock.print();
+		System.out.println("close : " + stock.getQuote().getPrice());
+		System.out.println("prevClose : " + stock.getQuote().getPreviousClose());
+		System.out.println("change : " + stock.getQuote().getChange());
+		System.out.println("changePer : " + stock.getQuote().getChangeInPercent());
 	}
 	
 	@Test

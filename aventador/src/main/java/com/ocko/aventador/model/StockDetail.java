@@ -29,32 +29,20 @@ public class StockDetail {
 	
 	private Long volume;
 	
-	
+	// 전일비
+	private BigDecimal chg;
+	// 변화율
+	private BigDecimal chgp;
 	// 주가 RSI
 	private Double rsi;
 	// 진입 권장 RSI
 	private Integer baseRsi;
 	
-	/**
-	 * 전일 대비 변화
-	 * @return
-	 */
-	public BigDecimal getChg() {
-		if(close != null && prevClose != null)
-			return close.subtract(prevClose); // subtract : 뺄셈
-		return null;
-	}
-	
-	/**
-	 * 전일 대비 변화율 계산
-	 * @return
-	 */
-	public Double getChgp() {
-		BigDecimal chg =  getChg();
-		if(chg != null && prevClose != null)
-			return chg.divide(prevClose, 5, BigDecimal.ROUND_HALF_UP).movePointRight(2).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-		return null;
-	}
+//	public Double getChgp() {
+//		if(chg != null && prevClose != null)
+//			return chg.divide(prevClose, 5, BigDecimal.ROUND_HALF_UP).movePointRight(2).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+//		return null;
+//	}
 	
 	/**
 	 * RSI GAP
@@ -205,6 +193,22 @@ public class StockDetail {
 	 */
 	public void setBaseRsi(Integer baseRsi) {
 		this.baseRsi = baseRsi;
+	}
+
+	public BigDecimal getChg() {
+		return chg;
+	}
+
+	public void setChg(BigDecimal chg) {
+		this.chg = chg;
+	}
+
+	public BigDecimal getChgp() {
+		return chgp;
+	}
+
+	public void setChgp(BigDecimal chgp) {
+		this.chgp = chgp;
 	}
 	
 }

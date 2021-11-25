@@ -70,6 +70,7 @@ public class StockDataScheduler {
 				stockHistory.setPriceHigh(data.getHigh().floatValue());
 				stockHistory.setPriceOpen(data.getOpen().floatValue());
 				stockHistory.setPriceClose(data.getClose().floatValue());
+				stockHistory.setp
 				stockHistory.setVolume(data.getVolume());
 				LocalDate date = LocalDateTime.ofInstant(data.getDate().toInstant(), ZoneId.systemDefault()).toLocalDate();
 				stockHistory.setStockDate(date);

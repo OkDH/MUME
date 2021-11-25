@@ -29,22 +29,19 @@ public class StockDetail {
 	
 	private Long volume;
 	
-	// 전일 대비 변화
-	private BigDecimal chg;
-	// 전일 대비 변화율
-	private double chgp;
 	
-	private double rsi;
+	// 주가 RSI
+	private Double rsi;
+	// 진입 권장 RSI
+	private Integer baseRsi;
 	
 	/**
-	 * 전일 대비 변화 계산
+	 * 전일 대비 변화
 	 * @return
 	 */
 	public BigDecimal getChg() {
-		if(close != null && prevClose != null) {
-			chg = close.subtract(prevClose);
-			return chg;
-		}
+		if(close != null && prevClose != null)
+			return close.subtract(prevClose); // subtract : 뺄셈
 		return null;
 	}
 	
@@ -52,13 +49,20 @@ public class StockDetail {
 	 * 전일 대비 변화율 계산
 	 * @return
 	 */
-	public double getChgp() {
-		getChg();
-		if(chg != null || prevClose != null) {
-			chgp = chg.divide(prevClose, 5, BigDecimal.ROUND_HALF_UP).movePointRight(2).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			return chgp;
-		}
-		return 0;
+	public Double getChgp() {
+		BigDecimal chg =  getChg();
+		if(chg != null && prevClose != null)
+			return chg.divide(prevClose, 5, BigDecimal.ROUND_HALF_UP).movePointRight(2).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return null;
+	}
+	
+	/**
+	 * RSI GAP
+	 */
+	public Double getGapRsi() {
+		if(rsi != null && baseRsi != null)
+			return rsi - baseRsi;
+		return null;
 	}
 
 	/**
@@ -148,14 +152,14 @@ public class StockDetail {
 	/**
 	 * @return {@link #rsi}
 	 */
-	public double getRsi() {
+	public Double getRsi() {
 		return rsi;
 	}
 
 	/**
 	 * @param rsi {@link #rsi}
 	 */
-	public void setRsi(double rsi) {
+	public void setRsi(Double rsi) {
 		this.rsi = rsi;
 	}
 
@@ -187,6 +191,20 @@ public class StockDetail {
 
 	public void setVolume(Long volume) {
 		this.volume = volume;
+	}
+
+	/**
+	 * @return {@link #baseRsi}
+	 */
+	public Integer getBaseRsi() {
+		return baseRsi;
+	}
+
+	/**
+	 * @param baseRsi {@link #baseRsi}
+	 */
+	public void setBaseRsi(Integer baseRsi) {
+		this.baseRsi = baseRsi;
 	}
 	
 }

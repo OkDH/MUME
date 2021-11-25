@@ -21,7 +21,7 @@ public enum EtfSymbol {
 	
 	DUSL(EtfSector.S4),
 	TPOR(EtfSector.S4),
-	DREN(EtfSector.S4),
+	DFEN(EtfSector.S4),
 	UTSL(EtfSector.S4),
 	
 	FAS(EtfSector.S5),

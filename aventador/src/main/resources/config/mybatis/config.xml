@@ -47,11 +47,13 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		
-		<table schema="aventador" tableName="member_account">
+		<!-- <table schema="aventador" tableName="member_account">
 			<generatedKey column="member_id" sqlStatement="JDBC"/>
 		</table>
 		<table schema="aventador" tableName="social_authentication">
 			<generatedKey column="id" sqlStatement="JDBC"/>
+		</table> -->
+		<table schema="aventador" tableName="stock_history">
 		</table>
 		
 	</context>

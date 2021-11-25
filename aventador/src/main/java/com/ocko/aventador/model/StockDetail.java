@@ -18,7 +18,7 @@ public class StockDetail {
 	
 	private EtfSector sector;
 	
-	private LocalDate date;
+	private LocalDate stockDate;
 	
 	private BigDecimal high;
 	private BigDecimal low;
@@ -76,17 +76,17 @@ public class StockDetail {
 	}
 
 	/**
-	 * @return {@link #date}
+	 * @return {@link #stockDate}
 	 */
-	public LocalDate getDate() {
-		return date;
+	public LocalDate getStockDate() {
+		return stockDate;
 	}
 
 	/**
-	 * @param date {@link #date}
+	 * @param stockDate {@link #stockDate}
 	 */
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setStockDate(LocalDate stockDate) {
+		this.stockDate = stockDate;
 	}
 
 	/**

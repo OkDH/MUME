@@ -60,7 +60,6 @@ public class StockComponent {
 						if(symbol.startsWith("^")) { // 마켓지수는 symbol에 ^가 붙는데 ^로 시작하는 변수는 접근이 안돼서 변경해줌
 							symbol = symbol.substring(1, symbol.length());
 						}
-						
 						StockDetail stockDetail = processStockDetail(symbol, stock);
 						result.put(symbol, stockDetail);
 					}

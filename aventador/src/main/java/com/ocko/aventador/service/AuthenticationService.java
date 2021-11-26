@@ -146,10 +146,9 @@ public class AuthenticationService implements UserDetailsService {
     /**
 	 * 소셜 인증 사용자가 현재 회원인지 여부를 체크<br>
 	 * (1) 소셜 인증을 통한 가입 회원<br>
-	 * (2) 이메일 인증을 통한 가입 회원 (이메일이 동일한 경우. 소셜 인증 정보 추가)<br>
-	 * (3) 실패
+	 * (2) 실패
 	 * @param authentication
-	 * @return (1), (2) 성공시 {@link MemberAccount}, (3) 실패시 <code>null</code>
+	 * @return (1) 성공시 {@link MemberAccount}, (2) 실패시 <code>null</code>
 	 */
 	public MemberAccount authenticateSocial(OAuth2AuthenticationToken authentication) {
 		// 1. 소셜 회원의 상세 정보를 조회
@@ -232,26 +231,6 @@ public class AuthenticationService implements UserDetailsService {
         	if(socialAuthenticationMapper.countByExample(example) > 0) {
         		int memberId = socialAuthenticationMapper.selectByExample(example).get(0).getMemberId();
         		memberAccount = memberAccountMapper.selectByPrimaryKey(memberId);
-        	}
-        }
-        
-        // (2) 이메일 인증을 통한 가입 회원 (소셜 인증 없는 상태)
-        // --> 소셜 인증 정보 추가
-        if(memberAccount == null && mapMemberInfo.get("email") != null){
-        	MemberAccountExample example = new MemberAccountExample();
-        	example.createCriteria()
-        		.andMemberEmailEqualTo((String)mapMemberInfo.get("email"))
-        		.andMemberStatusNotEqualTo(MemberStatus.UNSUBSCRIBED);
-        	if(memberAccountMapper.countByExample(example) > 0) {
-        		memberAccount = memberAccountMapper.selectByExample(example).get(0);
-        		
-        		// 소셜 회원 정보를 추가
-        		SocialAuthentication socialAuthentication = new SocialAuthentication();
-        		socialAuthentication.setMemberId(memberAccount.getMemberId());
-        		socialAuthentication.setSocialId(String.valueOf(mapMemberInfo.get("id")));
-        		socialAuthentication.setSocialType(client.getClientRegistration().getRegistrationId().toUpperCase());
-        		socialAuthentication.setSocialInfo(mapMemberInfo.get("etc"));
-        		socialAuthenticationMapper.insert(socialAuthentication);
         	}
         }
         

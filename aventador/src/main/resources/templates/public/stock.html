@@ -86,7 +86,7 @@
 					<h6 class="m-0 font-weight-bold text-primary">3X ETFs RSI</h6>
 				</div>
 				<div class="card-body">
-					<table class="table table-bordered text-xs text-center text-gray-800" width="100%">
+					<table class="table table-sm table-bordered text-xs text-center text-gray-800" width="100%">
 						<thead class="text-white font-weight-bold" style="background-color: #4e73df;">
 							<tr role="row">
 								<th>65</th>
@@ -164,7 +164,7 @@
 					<h6 class="m-0 font-weight-bold text-primary">3X ETFs Sector</h6>
 				</div>
 				<div class="card-body">
-					<table class="table table-bordered text-xs text-center text-gray-800" width="100%">
+					<table class="table table-sm table-bordered text-xs text-center text-gray-800" width="100%">
 						<thead class="text-white font-weight-bold" style="background-color: #4e73df;">
 							<tr role="row">
 								<th>Sector</th>
@@ -191,7 +191,7 @@
 								<td class="bg-gray-100"></td>
 							</tr>
 							<tr>
-								<td style="background-color: #e9f1ff;">중소형/소비재</td>
+								<td style="background-color: #e9f1ff;">중소/소비</td>
 								<td ng-class="ngStock.etfs.WANT.gapRsi < 0 && 'bg-info text-white'">WANT</td>
 								<td ng-class="ngStock.etfs.TNA.gapRsi < 0 && 'bg-info text-white'">TNA</td>
 								<td ng-class="ngStock.etfs.NAIL.gapRsi < 0 && 'bg-info text-white'">NAIL</td>
@@ -244,11 +244,10 @@
 				<!-- Card Body -->
 				<div class="card-body text-gray-800">
 					<div class="table-responsive">
-						<div id="dataTable_wrapper"
-							class="dataTables_wrapper dt-bootstrap4">
+						<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 							<div class="row mt-1 mr-1 ml-1">
-								<div class="col-sm-12 col-md-6">
-									<div class="dataTables_length" id="dataTable_length">
+								<div class="col-sm-12">
+									<div class="float-right">
 										<label><select 
 											class="custom-select custom-select-sm form-control form-control-sm"
 											ng-model="ngStock.search.sector">
@@ -261,10 +260,6 @@
 												<option value="S6">보건</option>
 											</select>
 										</label>
-									</div>
-								</div>
-								<div class="col-sm-12 col-md-6 ">
-									<div class="float-right">
 										<label><input type="search"
 											class="form-control form-control-sm" placeholder="Search for..." ng-model="ngStock.search.symbol"></label>
 									</div>
@@ -272,8 +267,7 @@
 							</div>
 							<div class="row">
 								<div class="col-sm-12">
-									<table class="table text-gray-800" id="dataTable"
-										width="100%" style="width: 100%;">
+									<table class="table table-hover text-gray-800" id="dataTable" width="100%" style="width: 100%;">
 										<thead>
 											<tr role="row" class="text-center">
 												<th class="" 

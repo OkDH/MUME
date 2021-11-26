@@ -1,3 +1,29 @@
-로그인
 
-<a th:href="${apiURL}"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
+<!-- Outer Row -->
+<div class="row justify-content-center">
+	<div class="col-xl-5 col-lg-6 col-md-8">
+		<div class="card o-hidden border-0 shadow-lg my-5">
+			<div class="card-body p-0">
+				<!-- Nested Row within Card Body -->
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="p-5">
+							<div class="text-primary font-weight-bold text-center">
+								<div class="sidebar-brand-icon rotate-n-15">
+				                    <i class="fas fa-infinity"></i>
+				                </div>
+							</div>
+							<div class="text-center font-weight-bold">
+								<h1 class="h4 text-gray-900 mb-4">Welcome To <span class="sidebar-brand-text text-primary">Plan I</span></h1>
+							</div>
+							<a th:href="@{/api/auth/oauth2/authorization/NAVER}"
+								class="btn btn-naver btn-user btn-block"> 
+								<img src="https://static.nid.naver.com/oauth/big_g.PNG" height="45.19px"/>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

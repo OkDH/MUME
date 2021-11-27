@@ -87,7 +87,7 @@
 				</div>
 				<div class="card-body">
 					<table class="table table-sm table-bordered text-xs text-center text-gray-800" width="100%">
-						<thead class="text-white font-weight-bold" style="background-color: #4e73df;">
+						<thead class="text-white font-weight-bold bg-primary">
 							<tr role="row">
 								<th>65</th>
 								<th>60</th>
@@ -165,7 +165,7 @@
 				</div>
 				<div class="card-body">
 					<table class="table table-sm table-bordered text-xs text-center text-gray-800" width="100%">
-						<thead class="text-white font-weight-bold" style="background-color: #4e73df;">
+						<thead class="text-white font-weight-bold bg-primary">
 							<tr role="row">
 								<th>Sector</th>
 								<th colspan="6">ETF</th>
@@ -246,29 +246,33 @@
 					<div class="table-responsive">
 						<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 							<div class="row mt-1 mr-1 ml-1">
-								<div class="col-sm-12">
-									<div class="float-right">
-										<label><select 
+								<div class="col-sm-4  mt-2 text-xs">
+									<span><span class="font-weight-bold">Updated Time</span> : {{ ngStock.arrayEtfs[0].updateTime | date:'yyyy-MM-dd HH:mm:ss' }} </span>
+								</div>
+								<div class="col-sm-8">
+									<label class="float-right">
+										<input type="search"
+											class="form-control form-control-sm" placeholder="Search for..." ng-model="ngStock.search.symbol">
+									</label>
+									<label class="float-right mr-1">
+										<select 
 											class="custom-select custom-select-sm form-control form-control-sm"
 											ng-model="ngStock.search.sector">
-												<option value="">섹터 전체</option>
-												<option value="S1">스페셜</option>
-												<option value="S2">기술우량</option>
-												<option value="S3">중소형/소비재</option>
-												<option value="S4">기간산업</option>
-												<option value="S5">금융</option>
-												<option value="S6">보건</option>
-											</select>
-										</label>
-										<label><input type="search"
-											class="form-control form-control-sm" placeholder="Search for..." ng-model="ngStock.search.symbol"></label>
-									</div>
+											<option value="">섹터 전체</option>
+											<option value="S1">스페셜</option>
+											<option value="S2">기술우량</option>
+											<option value="S3">중소형/소비재</option>
+											<option value="S4">기간산업</option>
+											<option value="S5">금융</option>
+											<option value="S6">보건</option>
+										</select>
+									</label>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-sm-12">
 									<table class="table table-hover text-gray-800" id="dataTable" width="100%" style="width: 100%;">
-										<thead>
+										<thead class="text-white bg-primary">
 											<tr role="row" class="text-center">
 												<th class="" 
 													style="width: 30px;">SYMBOL</th>
@@ -289,13 +293,16 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr ng-repeat="etf in ngStock.arryEtfs | orderBy: 'gapRsi' | filter : ngStock.search.sector | filter : ngStock.search.symbol"
+											<tr ng-repeat="etf in ngStock.arrayEtfs | orderBy: 'gapRsi' | filter : ngStock.search.sector | filter : ngStock.search.symbol"
 												ng-class="(etf.gapRsi > 10 || etf.gapRsi < -10) && 'font-weight-bold'">
 												<td class="text-center"
 													ng-class="(etf.gapRsi > 5 && 'text-danger') || (etf.gapRsi < -5 && 'text-primary')">
 													{{ etf.symbol }}
 												</td>
-												<td class="text-center">{{ etf.rsi | number:2 }}</td>
+												<td class="text-center"
+													ng-class="(etf.gapRsi > 5 && 'text-danger') || (etf.gapRsi < -5 && 'text-primary')">
+													{{ etf.rsi | number:2 }}
+												</td>
 												<td class="text-center">{{ etf.baseRsi }}</td>
 												<td class="text-center"
 													ng-class="(etf.gapRsi > 5 && 'text-danger') || (etf.gapRsi < -5 && 'text-primary')">

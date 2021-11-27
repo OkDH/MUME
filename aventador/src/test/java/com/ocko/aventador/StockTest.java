@@ -30,10 +30,8 @@ public class StockTest {
 		System.out.println("prevClose : " + stock.getQuote().getPreviousClose());
 		System.out.println("change : " + stock.getQuote().getChange());
 		System.out.println("changePer : " + stock.getQuote().getChangeInPercent());
-		LocalDate date = LocalDateTime.ofInstant(stock.getQuote().getLastTradeTime().toInstant(), ZoneId.systemDefault()).toLocalDate();
+		LocalDateTime date = LocalDateTime.ofInstant(stock.getQuote().getLastTradeTime().toInstant(), ZoneId.systemDefault());
 		System.out.println(date);
-		LocalDate date2 = LocalDateTime.ofInstant(stock.getHistory().get(stock.getHistory().size()-1).getDate().toInstant(), ZoneId.systemDefault()).toLocalDate();
-		System.out.println(date2);
 	}
 	
 	@Test

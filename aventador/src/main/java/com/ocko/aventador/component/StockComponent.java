@@ -4,6 +4,9 @@
 package com.ocko.aventador.component;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,8 +87,10 @@ public class StockComponent {
 	private StockDetail processStockDetail(String symbol, Stock stock) {
 		StockDetail stockDetail = new StockDetail();
 		stockDetail.setSymbol(symbol);
-		// TODO : date
-//		stock.getQuote().getLastTradeTime().day
+		
+		// 마지막 거래일
+		LocalDateTime lastTradeDate = LocalDateTime.ofInstant(stock.getQuote().getLastTradeTime().toInstant(), ZoneId.systemDefault());
+		stockDetail.setLastTradeTime(lastTradeDate);
 		
 		// 종가 또는 현재가
 		stockDetail.setPriceClose(stock.getQuote().getPrice().floatValue());

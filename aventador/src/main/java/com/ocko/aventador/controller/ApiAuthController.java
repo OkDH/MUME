@@ -40,6 +40,11 @@ public class ApiAuthController {
 	@RequestMapping(value="/api/auth/check-social", method = { RequestMethod.GET, RequestMethod.POST } )
 	public String getAuthCheckSocial(OAuth2AuthenticationToken authentication, HttpServletRequest request) {
 		
+		System.out.println("name : " + authentication.getName());
+		System.out.println("detail : " + authentication.getDetails());
+		System.out.println("credentials : " + authentication.getCredentials());
+		
+		
 		MemberAccount memberAccount = authenticationService.authenticateSocial(authentication);
 		
 		if(memberAccount == null) {

@@ -224,6 +224,10 @@ public class AuthenticationService implements UserDetailsService {
         MemberAccount memberAccount = null;
         // (1) 소셜 인증을 통한 가입 회원
         {
+        	
+        	System.out.println("id : " + String.valueOf(mapMemberInfo.get("id")));
+        	System.out.println("type : " + client.getClientRegistration().getRegistrationId());
+        	
         	SocialAuthenticationExample example = new SocialAuthenticationExample();
         	example.createCriteria()
         			.andSocialTypeEqualTo(client.getClientRegistration().getRegistrationId())
@@ -231,6 +235,10 @@ public class AuthenticationService implements UserDetailsService {
         	if(socialAuthenticationMapper.countByExample(example) > 0) {
         		int memberId = socialAuthenticationMapper.selectByExample(example).get(0).getMemberId();
         		memberAccount = memberAccountMapper.selectByPrimaryKey(memberId);
+        	} else {
+        		// 회원가입
+        		memberAccount = new MemberAccount();
+        		
         	}
         }
         

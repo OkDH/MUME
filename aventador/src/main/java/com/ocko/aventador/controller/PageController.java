@@ -43,7 +43,8 @@ private final static Logger logger = LoggerFactory.getLogger(PageController.clas
 			logger.info("redirect from:/{} --> to:/{}/#!/stock", pathName, pathName);
 			return "redirect:/public/#!/stock";
 		} else if(pathName.equals("private")) {
-			logger.info("redirect from:/{} --> to:/{}/", pathName, pathName);
+			logger.info("redirect from:/{} --> to:/{}/#!/infinity/dashboard", pathName, pathName);
+			return "redirect:/private/#!/infinite/dashboard";
 		}
 		return "redirect:/" + pathName + "/";
 	}
@@ -67,8 +68,10 @@ private final static Logger logger = LoggerFactory.getLogger(PageController.clas
 		if(subpath.equals("")
 				|| subpath.endsWith("/")) {
 			subpath += "index";
+		} else {
+			subpath = "/private" + subpath;
 		}
-		ModelAndView modelAndView = new ModelAndView("/private" + subpath);
+		ModelAndView modelAndView = new ModelAndView(subpath);
 		return modelAndView;
 	}
 }

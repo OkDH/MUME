@@ -45,9 +45,6 @@ public class AuthenticationService implements UserDetailsService {
 	
 	@Autowired private MemberAccountMapper memberAccountMapper;
 	@Autowired private SocialAuthenticationMapper socialAuthenticationMapper;
-	
-	@Autowired private PasswordEncoder passwordEncoder;
-	
 	@Autowired private OAuth2AuthorizedClientService authorizedClientService;
 	
 	/**
@@ -107,15 +104,6 @@ public class AuthenticationService implements UserDetailsService {
 	}
 	
 	/**
-	 * 현재 세션 회원의 비밀번호 일치 여부를 체크
-	 * @param password raw password
-	 * @return 맞으면 true, 틀리면 false
-	 */
-	public boolean checkPassword(String password) {
-		return passwordEncoder.matches(password, getCurrentMember().getMemberPassword());
-	}
-	
-	/**
      * 소셜 회원 정보를 조회하기 위한 URL<br>
      * 소셜 종류에 따라 URL 구성 변경
      * @param site {@link SocialType}
@@ -124,9 +112,7 @@ public class AuthenticationService implements UserDetailsService {
     private String buildUrlForSocialMemberInfo(String site, String baseUrl){
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(baseUrl);
 
-        if(site.equals(SocialType.FACEBOOK)){
-            uriBuilder.queryParam("fields", "name,email");
-        }else if(site.equals(SocialType.NAVER)){
+        if(site.equals(SocialType.NAVER)){
             uriBuilder.queryParam("fields", "name,email");
         }
         
@@ -176,20 +162,10 @@ public class AuthenticationService implements UserDetailsService {
         Map<String,Object> userAttributes = response.getBody();
         
         Map<String,String> mapMemberInfo = new HashMap<>();
-        if(client.getClientRegistration().getRegistrationId().equals(SocialType.FACEBOOK)) {
-//        	mapMemberInfo.put("name", toString(userAttributes.get("name")));
-        	mapMemberInfo.put("email", toString(userAttributes.get("email")));
-        	mapMemberInfo.put("id", toString(userAttributes.get("id")));
-        	mapMemberInfo.put("social", SocialType.FACEBOOK);
-        	try {
-				mapMemberInfo.put("etc", jsonMapper.writeValueAsString(userAttributes));
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
-        }else if(client.getClientRegistration().getRegistrationId().equals(SocialType.NAVER)){
+        if(client.getClientRegistration().getRegistrationId().equals(SocialType.NAVER)){
         	@SuppressWarnings("unchecked")
 			Map<String,String> map = (Map<String,String>)userAttributes.get("response");
-//        	mapMemberInfo.put("name", map.get("name"));
+        	mapMemberInfo.put("name", map.get("name"));
         	mapMemberInfo.put("email", map.get("email"));
         	mapMemberInfo.put("id", map.get("id"));
         	mapMemberInfo.put("social", SocialType.NAVER);
@@ -198,35 +174,11 @@ public class AuthenticationService implements UserDetailsService {
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}
-        }else if(client.getClientRegistration().getRegistrationId().equals(SocialType.KAKAO)){
-        	mapMemberInfo.put("email", toString(userAttributes.get("email")));
-        	mapMemberInfo.put("id", toString(userAttributes.get("id")));
-        	mapMemberInfo.put("social", SocialType.KAKAO);
-        	try {
-				mapMemberInfo.put("etc", jsonMapper.writeValueAsString(userAttributes));
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
-        }else if(client.getClientRegistration().getRegistrationId().equals(SocialType.GOOGLE)){
-//        	mapMemberInfo.put("name", toString(userAttributes.get("name")));
-        	if(toString(userAttributes.get("email_verified")).equals("true")) {
-        		mapMemberInfo.put("email", toString(userAttributes.get("email")));
-        	}
-        	mapMemberInfo.put("id", toString(userAttributes.get("sub")));
-        	mapMemberInfo.put("social", SocialType.GOOGLE);
-        	try {
-				mapMemberInfo.put("etc", jsonMapper.writeValueAsString(userAttributes));
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
         }
         
         MemberAccount memberAccount = null;
         // (1) 소셜 인증을 통한 가입 회원
         {
-        	
-        	System.out.println("id : " + String.valueOf(mapMemberInfo.get("id")));
-        	System.out.println("type : " + client.getClientRegistration().getRegistrationId());
         	
         	SocialAuthenticationExample example = new SocialAuthenticationExample();
         	example.createCriteria()
@@ -238,7 +190,18 @@ public class AuthenticationService implements UserDetailsService {
         	} else {
         		// 회원가입
         		memberAccount = new MemberAccount();
+        		memberAccount.setMemberName(mapMemberInfo.get("name"));
+        		memberAccount.setMemberEmail(mapMemberInfo.get("email"));
+        		memberAccount.setMemberRoles("ROLE_USER");
+        		memberAccount.setMemberStatus(MemberStatus.ACTIVE.name());
+        		memberAccountMapper.insert(memberAccount);
         		
+        		// 소셜 등록
+        		SocialAuthentication socialAuthentication = new SocialAuthentication();
+        		socialAuthentication.setMemberId(memberAccount.getMemberId());
+        		socialAuthentication.setSocialType(client.getClientRegistration().getRegistrationId());
+        		socialAuthentication.setSocialId(mapMemberInfo.get("id"));
+        		socialAuthenticationMapper.insert(socialAuthentication);
         	}
         }
         

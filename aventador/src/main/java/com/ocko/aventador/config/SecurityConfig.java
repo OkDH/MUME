@@ -48,12 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private String naverClientId;
 	private String naverClientSecret;
-//	private String facebookClientId;
-//	private String facebookClientSecret;
-//	private String kakaoClientId;
-//	private String kakaoClientSecret;
-//	private String googleClientId;
-//	private String googleClientSecret;
 	
 	/**
 	 * CSRF 토큰 저장소 빈
@@ -104,15 +98,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/**").permitAll()
 				.and()
 			.formLogin()
-				.loginPage("/public/login") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
+				.loginPage("/public/#!/login") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
 				.loginProcessingUrl("/api/auth/login")
-				.defaultSuccessUrl("/")
+				.defaultSuccessUrl("/private/#!/infinite/dashboard")
 				.failureHandler(authFailureHandler)
 				.usernameParameter("userEmail")
 				.passwordParameter("userPassword")
 				.and()
 			.oauth2Login()
-				.loginPage("/public/") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
+				.loginPage("/public/#!/login") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
 				.defaultSuccessUrl("/api/auth/check-social")
 				.failureUrl("/public/?auth=failed")
 				.clientRegistrationRepository(clientRegistrationRepository())
@@ -163,34 +157,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         		.build()
         		);
 		}
-//		{
-//			clientRegistrations.add(
-//				CustomOAuth2Provider.KAKAO.getBuilder(SocialType.KAKAO)
-//        		.clientId(kakaoClientId)
-//        		.clientSecret(kakaoClientSecret)
-//        		.build()
-//        		);
-//		}
-//		{
-//			clientRegistrations.add(
-//				CommonOAuth2Provider.FACEBOOK.getBuilder(SocialType.FACEBOOK)
-//				.redirectUriTemplate("{baseUrl}/api/auth/oauth2/code/{registrationId}")
-//        		.clientId(facebookClientId)
-//        		.clientSecret(facebookClientSecret)
-//        		.build()
-//        		);
-//		}
-//		{
-//			clientRegistrations.add(
-//				CommonOAuth2Provider.GOOGLE.getBuilder(SocialType.GOOGLE)
-//				.scope("profile", "email")
-//				.redirectUriTemplate("{baseUrl}/api/auth/oauth2/code/{registrationId}")
-//        		.clientId(googleClientId)
-//        		.clientSecret(googleClientSecret)
-//        		.build()
-//        		);
-//		}
-		
         return new InMemoryClientRegistrationRepository(clientRegistrations);
     }
 	

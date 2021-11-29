@@ -1,5 +1,6 @@
 package com.ocko.aventador.service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -194,6 +195,7 @@ public class AuthenticationService implements UserDetailsService {
         		memberAccount.setMemberEmail(mapMemberInfo.get("email"));
         		memberAccount.setMemberRoles("ROLE_USER");
         		memberAccount.setMemberStatus(MemberStatus.ACTIVE.name());
+        		memberAccount.setSubscriptionDate(LocalDateTime.now());
         		memberAccountMapper.insert(memberAccount);
         		
         		// 소셜 등록

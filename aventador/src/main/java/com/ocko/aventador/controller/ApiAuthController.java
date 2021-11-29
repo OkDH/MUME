@@ -40,11 +40,6 @@ public class ApiAuthController {
 	@RequestMapping(value="/api/auth/check-social", method = { RequestMethod.GET, RequestMethod.POST } )
 	public String getAuthCheckSocial(OAuth2AuthenticationToken authentication, HttpServletRequest request) {
 		
-		System.out.println("name : " + authentication.getName());
-		System.out.println("detail : " + authentication.getDetails());
-		System.out.println("credentials : " + authentication.getCredentials());
-		
-		
 		MemberAccount memberAccount = authenticationService.authenticateSocial(authentication);
 		
 		if(memberAccount == null) {
@@ -60,6 +55,6 @@ public class ApiAuthController {
 		HttpSession session = request.getSession(true);
 		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 		
-		return "redirect:/private";
+		return "redirect:/private/#!/infinite/dashboard";
 	}
 }

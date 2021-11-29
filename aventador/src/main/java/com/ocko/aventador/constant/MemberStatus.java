@@ -1,20 +1,20 @@
 package com.ocko.aventador.constant;
 
-public class MemberStatus {
+public enum MemberStatus {
 	/**
-	 * 유효 상태 (승인)
+	 * 유효 상태
 	 */
-	public static final String ACTIVE = "ACTIVE";
+	ACTIVE,
 	/**
 	 * 휴면 상태
 	 */
-	public static final String SLEEP = "SLEEP";
+	SLEEP,
 	/**
 	 * 잠금 상태
 	 */
-	public static final String LOCKED = "LOCKED";
+	LOCKED,
 	/**
 	 * 탈퇴 상태
 	 */
-	public static final String UNSUBSCRIBED = "UNSUBSCRIBED";
+	UNSUBSCRIBED
 }

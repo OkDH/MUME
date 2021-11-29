@@ -8,19 +8,6 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import com.ocko.aventador.constant.SocialType;
 
 public enum CustomOAuth2Provider {
-	KAKAO {
-		@Override 
-		public Builder getBuilder(String registrationId) {
-			ClientRegistration.Builder builder = getBuilder(registrationId, ClientAuthenticationMethod.POST, DEFAULT_REDIRECT_URL);
-			builder.scope("profile");
-			builder.authorizationUri("https://kauth.kakao.com/oauth/authorize");
-			builder.tokenUri("https://kauth.kakao.com/oauth/token");
-			builder.userInfoUri("https://kapi.kakao.com/v2/user/me");
-			builder.userNameAttributeName("id");
-			builder.clientName(SocialType.KAKAO);
-			return builder;
-		}
-	},
 	NAVER {
 		@Override
 		public Builder getBuilder(String registrationId) {

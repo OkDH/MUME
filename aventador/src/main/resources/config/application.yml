@@ -7,9 +7,20 @@ spring:
     cache: false
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://genport112.cafe24.com:5432/aventador
+    # url: jdbc:postgresql://genport112.cafe24.com:5432/aventador
+    url: jdbc:postgresql://localhost:5432/aventador
     username: aventador
     password: aventadorU$3r
+    hikari: 
+      pool-name: hikari-cp
+      maximum-pool-size: 12
+      connection-timeout: 300000
+      minimum-idle: 2
+      data-source-properties: 
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
   custom:
     basePackage: com.ocko.aventador
   security:

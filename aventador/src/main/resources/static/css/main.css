@@ -1,0 +1,5 @@
+/* accodion css */
+.card .card-header[data-toggle=collapse]::after {
+    padding-right: 1rem;
+    line-height: 37px;
+}

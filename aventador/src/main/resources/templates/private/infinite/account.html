@@ -2,30 +2,18 @@
 
 	<!-- 계좌 이름 -->
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
-		<h1 class="h4 mb-0 text-gray-800">계좌 전체</h1>
+		<h1 class="h4 mb-0 text-gray-800">계좌현황</h1>
 
-		<!-- 옵션 -->
+		<!-- 추가, 설정 버튼 -->
 		<div class="d-sm-flex align-items-center justify-content-between">
-			<div class="dropdown">
-				<button class="btn dropdown-toggle" type="button"
-					id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false">계좌 선택</button>
-				<div class="dropdown-menu animated--fade-in"
-					aria-labelledby="dropdownMenuButton">
-					<a class="dropdown-item">계좌 전체</a> <a class="dropdown-item">계좌
-						1</a> <a class="dropdown-item">계좌 2</a>
-				</div>
-			</div>
-			<div class="dropdown">
-				<button class="btn dropdown-toggle" type="button"
-					id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false">상태 선택</button>
-				<div class="dropdown-menu animated--fade-in"
-					aria-labelledby="dropdownMenuButton">
-					<a class="dropdown-item">전체</a> <a class="dropdown-item">진행중</a> <a
-						class="dropdown-item">매수중지</a> <a class="dropdown-item">완료</a>
-				</div>
-			</div>
+			<a class="btn btn-primary btn-circle shadow-sm mr-1"
+				data-toggle="modal" data-target="#addStockModal">
+                <i class="fas fa-plus text-white"></i>
+            </a>
+			<a class="btn btn-success btn-circle shadow-sm"
+				data-toggle="modal" data-target="#settingModal">
+                <i class="fas fa-cog text-white"></i>
+            </a>
 		</div>
 	</div>
 
@@ -201,12 +189,12 @@
 						</div>
 					</div>
 					<div class="card mt-1">
-						<div class="card-header py-2 bg-light" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+						<div class="card-header py-2 bg-light collapsed" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
 							<h6 class="m-0 mt-1 font-weight-bold small">
 								매도
 							</h6>
 						</div>
-						<div class="collapse show" id="collapse4">
+						<div class="collapse" id="collapse3">
 							<div class="card-body text-center">
 								<div class="row">
 									<div class="col">
@@ -243,12 +231,12 @@
 						</div>
 					</div>
 					<div class="card mt-1">
-						<div class="card-header py-2 bg-light" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
+						<div class="card-header py-2 bg-light collapsed" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
 							<h6 class="m-0 mt-1 font-weight-bold small">
 								매수
 							</h6>
 						</div>
-						<div class="collapse show" id="collapse4">
+						<div class="collapse" id="collapse4">
 							<div class="card-body text-center">
 								<div class="row">
 									<div class="col">
@@ -325,5 +313,52 @@
 			</div>
 		</div>
 	</div>
+
+<!-- add stock Modal -->
+<div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">종목 추가</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-3">
+		    <div class="col">
+		      <label>종목</label>
+		      <select class="custom-select" size="3">
+				  <option selected>Open this select menu</option>
+				  <option value="1">One</option>
+				  <option value="2">Two</option>
+				  <option value="3">Three</option>
+				</select>
+		    </div>
+	    </div>
+	    <div class="row mb-3">
+		    <div class="col">
+		      <label>매수 시작일</label>
+		      <input type="text" class="form-control" id="validationDefault02" value="Otto">
+		    </div>
+		 </div>  
+		 <div class="row mb-3">
+		    <div class="col-md-6">
+		      <label>평단가</label>
+		      <input type="text" class="form-control" value="">
+		    </div>
+		    <div class="col-md-6">
+		      <label>수량</label>
+		      <input type="text" class="form-control" value="">
+		    </div>
+		  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Add</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </div>

@@ -47,6 +47,9 @@
     <script th:src="@{/static/js/app.js}"></script>
     <script th:src="@{/static/js/stock.js}"></script>
     <script sec:authorize="hasRole('ROLE_USER')" th:src="@{/static/js/infinite/account.js}"></script>
+    
+    <!-- my css -->
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/main.css}">
 
 </head>
 
@@ -84,29 +87,29 @@
                	 무한매수
             </div>
 
-            <li class="nav-item">
+            <li class="nav-item" ng-class="path('/infinite/dashboard') && 'active'">
                 <a class="nav-link" th:href="@{/private/#!/infinite/dashboard}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>대시보드</span></a>
             </li>
             
-            <li class="nav-item">
+            <li class="nav-item" ng-class="path('/infinite/account') && 'active'">
                 <a class="nav-link" th:href="@{/private/#!/infinite/account}">
                     <i class="fas fa-fw fa-th-list"></i>
                     <span>계좌현황</span></a>
             </li>
             
-            <li class="nav-item">
+            <li class="nav-item" ng-class="path('/infinite/income') && 'active'">
                 <a class="nav-link" th:href="@{/private/#!/infinite/income}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>손익현황</span></a>
             </li>
             
-            <li class="nav-item">
+            <!-- <li class="nav-item" ng-class="path('/infinite/setting') && 'active'">
                 <a class="nav-link" th:href="@{/private/#!/infinite/setting}">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>설정</span></a>
-            </li>
+            </li> -->
 <!-- 
             Divider
             <hr class="sidebar-divider">

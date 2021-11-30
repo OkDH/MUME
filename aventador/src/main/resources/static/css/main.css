@@ -3,3 +3,7 @@
     padding-right: 1rem;
     line-height: 37px;
 }
+/* modal none border */
+.modal-content {
+    border: 0px;
+}

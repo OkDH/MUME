@@ -57,16 +57,19 @@ public class StockDataScheduler {
 	 * schedulerUpdate2 : 화~토 오전 0시부터 5시 55분까지 5분마다 작동
 	 * schedulerUpdate3 : 화~토 오전 6시 5분에 작동(최종)
 	 */
-	@Scheduled(cron="0 0/5 17-23 * * MON-FRI")
+	@Scheduled(cron="0 0/5 17-23 * * 1-5")
 	public void schedulerUpdate1() {
+		log.info("schedulerUpdate1");
 		updateStocksHistory(LocalDate.now());
 	}
-	@Scheduled(cron="0 0/5 0-5 * * THU-SAT")
+	@Scheduled(cron="0 0/5 0-5 * * 2-6")
 	public void schedulerUpdate2() {
+		log.info("schedulerUpdate2");
 		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
 	}
-	@Scheduled(cron="0 5 6 * * THU-SAT")
+	@Scheduled(cron="0 5 6 * * 2-6")
 	public void schedulerUpdate3() {
+		log.info("schedulerUpdate3");
 		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
 	}
 	

@@ -59,6 +59,12 @@ private final static Logger logger = LoggerFactory.getLogger(PageController.clas
 			subpath = "/public" + subpath;
 		}
 		ModelAndView modelAndView = new ModelAndView(subpath);
+		
+//		if(subpath.equals("")
+//				|| subpath.endsWith("/")) {
+//			subpath += "index";
+//		}
+//		ModelAndView modelAndView = new ModelAndView("/public" + subpath);
 		return modelAndView;
 	}
 	
@@ -72,6 +78,18 @@ private final static Logger logger = LoggerFactory.getLogger(PageController.clas
 			subpath = "/private" + subpath;
 		}
 		ModelAndView modelAndView = new ModelAndView(subpath);
+//		if(subpath.equals("")
+//				|| subpath.endsWith("/")) {
+//			subpath += "index";
+//		}
+//		ModelAndView modelAndView = new ModelAndView("/private" + subpath);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/tpl/**", method = RequestMethod.GET)
+	public ModelAndView getTpl(HttpServletRequest servletRequest) {
+		String subpath = ((String)servletRequest.getAttribute( HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE )).substring("/tpl".length());
+		ModelAndView modelAndView = new ModelAndView("/tpl" + subpath);
 		return modelAndView;
 	}
 }

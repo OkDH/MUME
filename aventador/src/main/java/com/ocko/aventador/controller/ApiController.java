@@ -3,6 +3,7 @@
  */
 package com.ocko.aventador.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ocko.aventador.constant.EtfSymbol;
+import com.ocko.aventador.constant.InfiniteType;
 import com.ocko.aventador.model.StockDetail;
 import com.ocko.aventador.service.StockService;
 
@@ -38,5 +41,12 @@ public class ApiController {
 	@RequestMapping(value = "/stocks/etfs", method = RequestMethod.GET)
 	public @ResponseBody Map<String, StockDetail> getEtfs() {
 		return stockService.getEtfStocks();
+	}
+	
+	@RequestMapping(value = "/stock/init", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> init() {
+		Map<String, Object> initData = new HashMap<String, Object>();
+		initData.put("symbols", EtfSymbol.values());
+		return initData;
 	}
 }

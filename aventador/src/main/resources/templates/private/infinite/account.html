@@ -1,4 +1,4 @@
-<div ng-controller="InfiniteAccountController as infAccount">
+<div ng-controller="InfiniteAccountController as infiniteAccount">
 
 	<!-- 계좌 이름 -->
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -27,7 +27,7 @@
 							<div class="font-weight-bold text-primary text-uppercase mb-1">
 								투자 원금</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
-								$18,000</div>
+								$0</div>
 						</div>
 						<div class="col-auto">
 							<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -322,51 +322,61 @@
 		</div>
 	</div>
 
-<!-- add stock Modal -->
-<div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title">종목 추가</h5>
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row mb-3">
-		    <div class="col">
-		      <label>종목</label>
-		      <select class="custom-select" size="3">
-				  <option selected>Open this select menu</option>
-				  <option value="1">One</option>
-				  <option value="2">Two</option>
-				  <option value="3">Three</option>
-				</select>
+	<!-- add stock Modal -->
+	<div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header bg-primary text-white">
+	        <h5 class="modal-title">종목 추가</h5>
+	        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <div class="row mb-3">
+			    <div class="col-sm-6">
+			      <label>종목</label>
+			      <select class="custom-select" size="3">
+					  <option ng-repeat="symbol in infiniteAccount.initData.symbols">{{ symbol }}</option>
+				  </select>
+			    </div>
+			    <div class="col-sm-6">
+			      <label>버전</label>
+			      <select class="custom-select" size="3">
+					  <option value="v2.1" selected>v2.1</option>
+					  <option value="v2">v2</option>
+					  <option value="v1">v1</option>
+					</select>
+			    </div>
 		    </div>
+		    <div class="row mb-3">
+			    <div class="col-sm-6">
+			      <label>매수 시작일</label>
+			      <input type="text" class="form-control" value="">
+			    </div>
+			    <div class="col-sm-6">
+			      <label>배정 원금($)</label>
+			      <input type="text" class="form-control"  value="">
+			    </div>
+			 </div>  
+			 <div class="row mb-3">
+			    <div class="col-sm-6">
+			      <label>평단가($)</label>
+			      <input type="text" class="form-control" value="">
+			    </div>
+			    <div class="col-sm-6">
+			      <label>수량</label>
+			      <input type="text" class="form-control" value="">
+			    </div>
+			  </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary">Add</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
 	    </div>
-	    <div class="row mb-3">
-		    <div class="col">
-		      <label>매수 시작일</label>
-		      <input type="text" class="form-control" id="validationDefault02" value="Otto">
-		    </div>
-		 </div>  
-		 <div class="row mb-3">
-		    <div class="col-md-6">
-		      <label>평단가</label>
-		      <input type="text" class="form-control" value="">
-		    </div>
-		    <div class="col-md-6">
-		      <label>수량</label>
-		      <input type="text" class="form-control" value="">
-		    </div>
-		  </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Add</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
+	  </div>
+	</div>
+	
+	<!-- <div ng-include="meta.baseUrl + 'template/modal/add-stock.html'"></div> -->
 </div>

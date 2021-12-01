@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ocko.aventador.dao.model.aventador.MemberAccount;
+import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.service.AuthenticationService;
 
 @Controller
@@ -25,10 +25,10 @@ private final static Logger logger = LoggerFactory.getLogger(PageController.clas
 	
 	@ModelAttribute(name = "memberId")
 	public Integer modelMember() {
-		MemberAccount memberAccount = authenticationService.getCurrentMember();
-		if(memberAccount == null)
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
 			return null;
-		return memberAccount.getMemberId();
+		return memberInfo.getMemberId();
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)

@@ -27,7 +27,26 @@ app.controller("StockController", function($scope, $timeout, $q, httpService, st
 });
 
 app.service("stockService", function(httpService){
-	// 단일
+	
+	// 기본값 세팅
+	var promiseInit = null;
+	
+	this.getInitData = function(){
+		
+		if(promiseInit){
+			httpService.stop(promiseInit);
+		}
+		
+		promiseInit = httpService.get({
+			url: meta.baseUrl + "api/stock/init",
+		}).then(function(response){
+			return response.data;
+		});
+		
+		return promiseInit;
+	}
+
+	// 단일 종목 조회
 	var promiseGetStock = null;
 	
 	this.getStock = function(symbol){
@@ -37,7 +56,7 @@ app.service("stockService", function(httpService){
 		}
 		
 		promiseGetStock = httpService.get({
-			url: meta.baseUrl + "api/stock/" + symbol,
+			url: meta.baseUrl + "api/stock/" + encodeURIComponent(symbol),
 		}).then(function(response){
 			return response.data;
 		});
@@ -45,7 +64,7 @@ app.service("stockService", function(httpService){
 		return promiseGetStock;
 	}
 	
-	// 복수
+	// 복수 종목 조회
 	var promiseGetStocks = null;
 	
 	this.getStocks = function(symbols){
@@ -55,7 +74,7 @@ app.service("stockService", function(httpService){
 		}
 		
 		promiseGetStocks = httpService.get({
-			url: meta.baseUrl + "api/stocks/" + symbols,
+			url: meta.baseUrl + "api/stocks/" + encodeURIComponent(symbols),
 		}).then(function(response){
 			return response.data;
 		});

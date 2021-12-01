@@ -4,6 +4,7 @@
 package com.ocko.aventador.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.ocko.aventador.dao.model.aventador.MemberAccount;
+import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.model.MemberDetail;
 import com.ocko.aventador.service.AuthenticationService;
 
@@ -39,14 +41,14 @@ public class ApiAuthController {
 	 */
 	@RequestMapping(value="/api/auth/check-social", method = { RequestMethod.GET, RequestMethod.POST } )
 	public String getAuthCheckSocial(OAuth2AuthenticationToken authentication, HttpServletRequest request) {
+
+		MemberInfo memberInfo = authenticationService.authenticateSocial(authentication);
 		
-		MemberAccount memberAccount = authenticationService.authenticateSocial(authentication);
-		
-		if(memberAccount == null) {
+		if(memberInfo == null) {
 			return "redirect:/public/?auth=failed";
 		}
 		
-		MemberDetail memberDetail = new MemberDetail(memberAccount);
+		MemberDetail memberDetail = new MemberDetail(memberInfo);
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(memberDetail, null, memberDetail.getAuthorities());
 		
 		SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -55,6 +57,12 @@ public class ApiAuthController {
 		HttpSession session = request.getSession(true);
 		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 		
-		return "redirect:/private/#!/infinite/dashboard";
+		return "redirect:/private";
+	}
+	
+	@RequestMapping(value="/api/auth/logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request, HttpServletResponse response) {
+		new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+		return "redirect:/public";
 	}
 }

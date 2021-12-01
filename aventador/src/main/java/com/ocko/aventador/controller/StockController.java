@@ -19,31 +19,30 @@ import com.ocko.aventador.model.StockDetail;
 import com.ocko.aventador.service.StockService;
 
 /**
- * @author ok
+ * @author ocko112
  *
  */
 @Controller
-@RequestMapping(value="/api")
-public class ApiController {
+public class StockController {
 
 	@Autowired private StockService stockService;
 	
-	@RequestMapping(value = "/stock/{symbol}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/stock/{symbol}", method = RequestMethod.GET)
 	public @ResponseBody StockDetail getStock(@PathVariable String symbol) {
 		return stockService.getStock(symbol);
 	}
 	
-	@RequestMapping(value = "/stocks/{symbols}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/stocks/{symbols}", method = RequestMethod.GET)
 	public @ResponseBody Map<String, StockDetail> getStocks(@PathVariable String[] symbols) {
 		return stockService.getStocks(symbols);
 	}
 	
-	@RequestMapping(value = "/stocks/etfs", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/stocks/etfs", method = RequestMethod.GET)
 	public @ResponseBody Map<String, StockDetail> getEtfs() {
 		return stockService.getEtfStocks();
 	}
 	
-	@RequestMapping(value = "/stock/init", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/stock/init", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> init() {
 		Map<String, Object> initData = new HashMap<String, Object>();
 		initData.put("symbols", EtfSymbol.values());

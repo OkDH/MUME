@@ -100,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin()
 				.loginPage("/public/#!/login") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
 				.loginProcessingUrl("/api/auth/login")
-				.defaultSuccessUrl("/private/#!/infinite/dashboard")
+				.defaultSuccessUrl("/private")
 				.failureHandler(authFailureHandler)
 				.usernameParameter("userEmail")
 				.passwordParameter("userPassword")
@@ -121,7 +121,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.logout()
 				.logoutUrl("/api/auth/logout")
-				.logoutSuccessUrl("/public/")
+				.logoutSuccessUrl("/public")
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID")
 				.and()

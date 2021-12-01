@@ -7,3 +7,13 @@
 .modal-content {
     border: 0px;
 }
+
+/* 작은화면 텍스트 크기 변동이 필요할 때 */
+@media (max-width:768px) {
+  .text-resize {
+    font-size: .7rem;
+  }    
+  .table-sm td, .table-sm th {
+  	padding: 0.15rem;
+  }
+}

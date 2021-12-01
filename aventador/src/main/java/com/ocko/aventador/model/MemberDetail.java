@@ -1,6 +1,5 @@
 package com.ocko.aventador.model;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -10,32 +9,32 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ocko.aventador.constant.MemberStatus;
-import com.ocko.aventador.dao.model.aventador.MemberAccount;
+import com.ocko.aventador.dao.model.aventador.MemberInfo;
 
 public class MemberDetail implements  UserDetails {
 	
 	private static final long serialVersionUID = -7013410173642495413L;
 	
-	private MemberAccount memberAccount;
+	private MemberInfo memberInfo;
 	
-	public MemberDetail(MemberAccount memberAccount) {
-		this.memberAccount = memberAccount;
+	public MemberDetail(MemberInfo memberInfo) {
+		this.memberInfo = memberInfo;
 	}
 	
-	public MemberAccount getMemberAccount() {
-		return this.memberAccount;
+	public MemberInfo getMemberInfo() {
+		return this.memberInfo;
 	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority(memberAccount.getMemberRoles()));
+		authorities.add(new SimpleGrantedAuthority(memberInfo.getMemberRoles()));
 		return authorities;
 	}
 
 	@Override
 	public String getUsername() {
-		return memberAccount.getMemberEmail();
+		return memberInfo.getMemberEmail();
 	}
 	
 	
@@ -46,7 +45,7 @@ public class MemberDetail implements  UserDetails {
 	 */
 	@Override
 	public boolean isAccountNonExpired() {
-		if(memberAccount.getMemberStatus().equals(MemberStatus.UNSUBSCRIBED))
+		if(memberInfo.getMemberStatus().equals(MemberStatus.UNSUBSCRIBED))
 			return false;
 		return true;
 	}
@@ -58,9 +57,9 @@ public class MemberDetail implements  UserDetails {
 	 */
 	@Override
 	public boolean isAccountNonLocked() {
-		if(memberAccount.getMemberStatus().equals(MemberStatus.LOCKED))
+		if(memberInfo.getMemberStatus().equals(MemberStatus.LOCKED))
 			return false;
-		if(memberAccount.getMemberStatus().equals(MemberStatus.SLEEP))
+		if(memberInfo.getMemberStatus().equals(MemberStatus.SLEEP))
 			return false;
 		return true;
 	}

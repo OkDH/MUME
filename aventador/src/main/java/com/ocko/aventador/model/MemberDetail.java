@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.ocko.aventador.constant.MemberStatus;
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
 
-public class MemberDetail implements  UserDetails {
+public class MemberDetail implements UserDetails {
 	
 	private static final long serialVersionUID = -7013410173642495413L;
 	

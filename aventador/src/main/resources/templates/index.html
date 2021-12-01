@@ -47,14 +47,13 @@
     <script th:src="@{/static/js/app.js}"></script>
     <script th:src="@{/static/js/stock.js}"></script>
     <script sec:authorize="hasRole('ROLE_USER')" th:src="@{/static/js/infinite/account.js}"></script>
-    
+   
     <!-- my css -->
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/main.css}">
 
 </head>
-
+<div th:text="|My name is ${memberId} !! |"></div>
 <body id="page-top" ng-app="app" ng-controller="MainController">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 

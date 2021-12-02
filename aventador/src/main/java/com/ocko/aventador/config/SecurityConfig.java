@@ -98,7 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/**").permitAll()
 				.and()
 			.formLogin()
-				.loginPage("/public/#!/login") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
+				.loginPage("/login") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
 				.loginProcessingUrl("/api/auth/login")
 //				.defaultSuccessUrl("/private")
 				.defaultSuccessUrl("/api/auth/check-social")
@@ -107,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordParameter("userPassword")
 				.and()
 			.oauth2Login()
-				.loginPage("/public/#!/login") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
+				.loginPage("/login") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
 				.defaultSuccessUrl("/api/auth/check-social")
 				.failureUrl("/public/?auth=failed")
 				.clientRegistrationRepository(clientRegistrationRepository())

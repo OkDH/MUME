@@ -37,12 +37,6 @@ private final static Logger logger = LoggerFactory.getLogger(PageController.clas
 		return "redirect:/public/#!/stock";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage() {
-		logger.info("redirect from:/login --> to:/public/#!/login");
-		return "redirect:/public/#!/login";
-	}
-	
 	@RequestMapping(value = "/{pathName:(?:public|private)}", method = RequestMethod.GET)
 	public String getPathIncorrectly (@PathVariable String pathName) {
 		if(pathName.equals("public")) {
@@ -65,12 +59,6 @@ private final static Logger logger = LoggerFactory.getLogger(PageController.clas
 			subpath = "/public" + subpath;
 		}
 		ModelAndView modelAndView = new ModelAndView(subpath);
-		
-//		if(subpath.equals("")
-//				|| subpath.endsWith("/")) {
-//			subpath += "index";
-//		}
-//		ModelAndView modelAndView = new ModelAndView("/public" + subpath);
 		return modelAndView;
 	}
 	
@@ -84,11 +72,6 @@ private final static Logger logger = LoggerFactory.getLogger(PageController.clas
 			subpath = "/private" + subpath;
 		}
 		ModelAndView modelAndView = new ModelAndView(subpath);
-//		if(subpath.equals("")
-//				|| subpath.endsWith("/")) {
-//			subpath += "index";
-//		}
-//		ModelAndView modelAndView = new ModelAndView("/private" + subpath);
 		return modelAndView;
 	}
 	

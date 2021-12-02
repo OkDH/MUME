@@ -23,12 +23,12 @@ private final static Logger logger = LoggerFactory.getLogger(PageController.clas
 	
 	@Autowired private AuthenticationService authenticationService;
 	
-	@ModelAttribute(name = "memberId")
-	public Integer modelMember() {
+	@ModelAttribute(name = "memberEmail")
+	public String modelMember() {
 		MemberInfo memberInfo = authenticationService.getCurrentMember();
 		if(memberInfo == null)
 			return null;
-		return memberInfo.getMemberId();
+		return memberInfo.getMemberEmail();
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)

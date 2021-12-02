@@ -1,7 +1,12 @@
 package com.ocko.aventador.config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +16,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
@@ -22,6 +27,9 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import com.ocko.aventador.constant.SocialType;
@@ -69,6 +77,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
+	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
 	/**
 	 * 보안 문맥 구성
 	 */
@@ -99,16 +109,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.formLogin()
 				.loginPage("/public/#!/login") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
-				.loginProcessingUrl("/api/auth/login")
-//				.defaultSuccessUrl("/private")
-				.defaultSuccessUrl("/api/auth/check-social")
-				.failureHandler(authFailureHandler)
-				.usernameParameter("userEmail")
-				.passwordParameter("userPassword")
 				.and()
 			.oauth2Login()
 				.loginPage("/public/#!/login") // 지정해야 custom page 사용 가능, 미인증 사용자 접근시 redirect target
-				.defaultSuccessUrl("/api/auth/check-social")
+				.successHandler(new AuthenticationSuccessHandler() {
+					@Override
+					public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+							Authentication authentication) throws IOException, ServletException {
+						redirectStrategy.sendRedirect(request, response, "/api/auth/check-social");
+					}
+				})		
 				.failureUrl("/public/?auth=failed")
 				.clientRegistrationRepository(clientRegistrationRepository())
 				.authorizedClientService(authorizedClientService())

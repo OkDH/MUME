@@ -53,23 +53,21 @@ public class StockDataScheduler {
 	/**
 	 * 주가 데이터 수집 스케쥴러
 	 * 전체 프로세스 : 월~토 오후 5시 부터 다음날 오전 6시까지 5분마다 작동
-	 * schedulerUpdate1 : 월~금 오후 5시부터 11시 55분까지 5분마다 작동
-	 * schedulerUpdate2 : 화~토 오전 0시부터 5시 55분까지 5분마다 작동
-	 * schedulerUpdate3 : 화~토 오전 6시 5분에 작동(최종)
+	 * schedulerUpdateBefore : 월~금 오후 5시부터 11시 55분까지 5분마다 작동
+	 * schedulerUpdateAfter : 화~토 오전 0시부터 5시 55분까지 5분마다 작동
+	 * schedulerLastUpdate : 화~토 오전 6시 5분에 작동(최종)
 	 */
 	@Scheduled(cron="0 0/5 17-23 * * 1-5")
-	public void schedulerUpdate1() {
-		log.info("schedulerUpdate1");
+	public void schedulerUpdateBefore() {
 		updateStocksHistory(LocalDate.now());
 	}
 	@Scheduled(cron="0 0/5 0-5 * * 2-6")
-	public void schedulerUpdate2() {
-		log.info("schedulerUpdate2");
+	public void schedulerUpdateAfter() {
 		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
 	}
 	@Scheduled(cron="0 5 6 * * 2-6")
-	public void schedulerUpdate3() {
-		log.info("schedulerUpdate3");
+	public void schedulerLastUpdate() {
+		log.info("Scheduler Last Update ETF");
 		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
 	}
 	

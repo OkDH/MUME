@@ -1,4 +1,4 @@
-app.controller("InfiniteAccountController", function($scope, $timeout, $q, httpService, stockService, infiniteAccountService){
+app.controller("InfiniteAccountController", function($scope, $timeout, $q, httpService, stockService, infiniteService){
 
 	var infiniteAccount = this;
 	infiniteAccount.initData = {};
@@ -9,28 +9,9 @@ app.controller("InfiniteAccountController", function($scope, $timeout, $q, httpS
 	});
 	
 	// 계좌 정보
-	infiniteAccountService.getMyAccount().then(function(data){
+	infiniteService.getMyAccount().then(function(data){
 		console.log("my account ", data);
 	});
 	
 });
 
-app.service("infiniteAccountService", function(httpService){
-	// 기본값 세팅
-	var promiseMyAcount = null;
-	
-	this.getMyAccount = function(){
-		
-		if(promiseMyAcount){
-			httpService.stop(promiseMyAcount);
-		}
-		
-		promiseMyAcount = httpService.get({
-			url: meta.baseUrl + "api/infinite/my-account",
-		}).then(function(response){
-			return response.data;
-		});
-		
-		return promiseMyAcount;
-	}
-});

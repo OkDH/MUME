@@ -37,6 +37,12 @@ private final static Logger logger = LoggerFactory.getLogger(PageController.clas
 		return "redirect:/public/#!/stock";
 	}
 	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String loginPage() {
+		logger.info("redirect from:/login --> to:/public/#!/login");
+		return "redirect:/public/#!/login";
+	}
+	
 	@RequestMapping(value = "/{pathName:(?:public|private)}", method = RequestMethod.GET)
 	public String getPathIncorrectly (@PathVariable String pathName) {
 		if(pathName.equals("public")) {

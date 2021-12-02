@@ -43,7 +43,7 @@ public class ApiAuthController {
 	public String getAuthCheckSocial(OAuth2AuthenticationToken authentication, HttpServletRequest request) {
 
 		MemberInfo memberInfo = authenticationService.authenticateSocial(authentication);
-		System.out.println("memberInfo : " + memberInfo);
+
 		if(memberInfo == null) {
 			return "redirect:/public/?auth=failed";
 		}

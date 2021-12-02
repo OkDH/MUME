@@ -57,7 +57,7 @@
 		</table>
 		<table schema="aventador" tableName="view_today_stock">
 		</table> -->
-		<table schema="aventador" tableName="member_account">
+		<table schema="aventador" tableName="infinite_account">
 			<generatedKey column="account_id" sqlStatement="JDBC"/>
 		</table>
 		<table schema="aventador" tableName="infinite_stock">

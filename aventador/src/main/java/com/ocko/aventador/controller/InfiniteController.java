@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
 import com.ocko.aventador.dao.model.aventador.InfiniteStock;
+import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.exception.MyAccessDeniedException;
 import com.ocko.aventador.exception.MyArgumentException;
@@ -44,16 +47,39 @@ public class InfiniteController {
 		return accountService.getMyAccounts(memberInfo.getMemberId());
 	}
 	
-	@RequestMapping(value = "/api/infinite/stocks", method = RequestMethod.GET)
-	public @ResponseBody List<InfiniteStock> getMyStocks(@RequestBody Map<String, Object> param) {
+	/**
+	 * 계좌 내 종목 조회
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value = "/api/infinite/stocks", method = RequestMethod.POST)
+	public ResponseEntity<List<InfiniteStock>> getMyStocks(@RequestBody Map<String, Object> params) {
 		MemberInfo memberInfo = authenticationService.getCurrentMember();
 		if(memberInfo == null)
 			return null;
-		if(param.get("accountId") == null)
-			throw new MyArgumentException();
-		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt((String) param.get("accountId"))))
-			throw new MyAccessDeniedException();
 		
-		return null;
+		if(params.get("accountId") != null) {
+			if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+				throw new MyAccessDeniedException();
+		}
+		
+		return new ResponseEntity<List<InfiniteStock>>(stockService.getStocks(params), HttpStatus.OK);
+	}
+	
+	/**
+	 * 무한매수 종목 추가
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value = "/api/infinite/stock", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> addStock(@RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+		if(params.get("accountId") == null)
+			throw new MyArgumentException();
+		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+			throw new MyAccessDeniedException();
+		return new ResponseEntity<Boolean>(stockService.addStock(params), HttpStatus.OK);
 	}
 }

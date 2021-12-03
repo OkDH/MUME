@@ -1,5 +1,6 @@
 package com.ocko.aventador.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.ocko.aventador.constant.EtfSector;
@@ -18,9 +19,9 @@ public class StockDetail extends StockHistory {
 	/**
 	 * RSI GAP
 	 */
-	public Float getGapRsi() {
+	public BigDecimal getGapRsi() {
 		if(getRsi() != null && baseRsi != null)
-			return getRsi() - baseRsi;
+			return getRsi().subtract(new BigDecimal(baseRsi));
 		return null;
 	}
 	

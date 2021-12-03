@@ -4,6 +4,8 @@
 package com.ocko.aventador.scheduler;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -113,12 +115,19 @@ public class StockDataScheduler {
 					if(!stockHistorys.isEmpty()) {
 						StockHistory yesterDayStock = stockHistorys.get(0);
 						
-						float up = stock.getChg() > 0 ? stock.getChg() : 0.0f;
-						float down = stock.getChg() < 0 ? stock.getChg()*(-1) : 0.0f;
+						// stock.getChg() > 0 ? stock.getChg() : 0.0f;
+						BigDecimal up = stock.getChg().compareTo(new BigDecimal(0)) > 0 ? stock.getChg() : new BigDecimal(0);
+						// stock.getChg() < 0 ? stock.getChg()*(-1) : 0.0f;
+						BigDecimal down = stock.getChg().compareTo(new BigDecimal(0)) < 0 ? stock.getChg().multiply(new BigDecimal(-1)) : new BigDecimal(0);
 						
-						float upAvg = ((yesterDayStock.getUpAvg() * 13) + up) / 14;
-						float dwAvg = ((yesterDayStock.getDwAvg() * 13) + down) / 14;
-						float rsi = 100 - (100 / (1 + (upAvg / dwAvg)));
+						// ((yesterDayStock.getUpAvg() * 13) + up) / 14;
+						BigDecimal upAvg = ((yesterDayStock.getUpAvg().multiply(new BigDecimal(13))).add(up)).divide(new BigDecimal(14), 8, RoundingMode.HALF_EVEN);
+						
+						// ((yesterDayStock.getDwAvg() * 13) + down) / 14;
+						BigDecimal dwAvg = ((yesterDayStock.getDwAvg().multiply(new BigDecimal(13))).add(down)).divide(new BigDecimal(14), 8, RoundingMode.HALF_EVEN);
+						
+						// 100 - (100 / (1 + (upAvg / dwAvg)));
+						BigDecimal rsi = new BigDecimal(100).subtract(new BigDecimal(100).divide(new BigDecimal(1).add(upAvg.divide(dwAvg, 8, RoundingMode.HALF_EVEN)), 8, RoundingMode.HALF_EVEN));
 						
 						stockHistory.setUpAvg(upAvg);
 						stockHistory.setDwAvg(dwAvg);
@@ -162,17 +171,18 @@ public class StockDataScheduler {
 			Stock stock = YahooFinance.get(item.name());
 			List<HistoricalQuote> histQuotes = stock.getHistory(from, to, Interval.DAILY);
 
-			Queue<Map<String, Float>> queue = new LinkedList<>();
-			float beforeClose = 0;
-			float beforeUpAvg = 0;
-			float beforeDwAvg = 0;
+			Queue<Map<String, BigDecimal>> queue = new LinkedList<>();
+			BigDecimal beforeClose = null;
+			BigDecimal beforeUpAvg = null;
+			BigDecimal beforeDwAvg = null;
+			
 			for(HistoricalQuote data : histQuotes) {
 				StockHistory stockHistory = new StockHistory();
 				stockHistory.setSymbol(item.name());
-				stockHistory.setPriceLow(data.getLow().floatValue());
-				stockHistory.setPriceHigh(data.getHigh().floatValue());
-				stockHistory.setPriceOpen(data.getOpen().floatValue());
-				stockHistory.setPriceClose(data.getClose().floatValue());
+				stockHistory.setPriceLow(data.getLow());
+				stockHistory.setPriceHigh(data.getHigh());
+				stockHistory.setPriceOpen(data.getOpen());
+				stockHistory.setPriceClose(data.getClose());
 				stockHistory.setVolume(data.getVolume());
 				LocalDate date = LocalDateTime.ofInstant(data.getDate().toInstant(), ZoneId.systemDefault()).toLocalDate();
 				stockHistory.setStockDate(date);
@@ -180,26 +190,27 @@ public class StockDataScheduler {
 				
 				// rsi
 				// rsi 계산을 위한 상승폭 또는 하락폭 큐에 저장
-				float nowClose = data.getClose().floatValue();
-				float up = 0;
-				float down = 0;
-				Map<String, Float> upDownMap = new HashMap<String, Float>();
+				BigDecimal nowClose = data.getClose();
+				BigDecimal up = new BigDecimal(0);
+				BigDecimal down = new BigDecimal(0);
+
+				Map<String, BigDecimal> upDownMap = new HashMap<String, BigDecimal>();
 				
 				// 전날 데이터가 있을 경우에 상승폭, 하락폭 계산
-				if(beforeClose != 0) { 
+				if(beforeClose != null) { 
 					stockHistory.setPrevClose(beforeClose);
-					stockHistory.setChg(data.getClose().floatValue() - beforeClose);
-					stockHistory.setChgp((stockHistory.getChg() / beforeClose) * 100);
+					stockHistory.setChg(data.getClose().subtract(beforeClose));
+					stockHistory.setChgp((stockHistory.getChg().divide(beforeClose, 8, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100))));
 					
-					if(beforeClose < nowClose) {
-						up = nowClose - beforeClose;
-						down = 0.0f;
-					} else if(beforeClose > nowClose) {
-						up = 0.0f;
-						down = beforeClose - nowClose;
+					if(beforeClose.compareTo(nowClose) < 0) {
+						up = nowClose.subtract(beforeClose);
+						down = new BigDecimal(0);
+					} else if(beforeClose.compareTo(nowClose) > 0) {
+						up = new BigDecimal(0);
+						down = beforeClose.subtract(nowClose);
 					} else {
-						up = 0.0f;
-						down = 0.0f;
+						up = new BigDecimal(0);
+						down = new BigDecimal(0);
 					}
 					upDownMap.put("up", up);
 					upDownMap.put("down", down);
@@ -208,22 +219,26 @@ public class StockDataScheduler {
 				// 15일째 부터 rsi 계산 가능 
 				if(queue.size() == 14) {
 					
-					if(beforeUpAvg == 0 && beforeDwAvg == 0) { // 14일은 상승값 평균, 하락값 평균값 도출
-						float upSum = 0;
-						float downSum = 0;
-						for(Map<String, Float> map : queue) {
-							upSum += map.get("up");
-							downSum += map.get("down");
+					if(beforeUpAvg == null && beforeDwAvg == null) { // 14일째는 상승값 평균, 하락값 평균값 도출
+						BigDecimal upSum = new BigDecimal(0);
+						BigDecimal downSum = new BigDecimal(0);
+						for(Map<String, BigDecimal> map : queue) {
+							upSum = upSum.add(map.get("up"));
+							downSum = downSum.add(map.get("down"));
 						}
 						
-						beforeUpAvg = upSum/14;
-						beforeDwAvg = downSum/14;
+						beforeUpAvg = upSum.divide(new BigDecimal(14), 8, RoundingMode.HALF_EVEN);
+						beforeDwAvg = downSum.divide(new BigDecimal(14), 8, RoundingMode.HALF_EVEN);
 					} else { // 15일째부터 (전날 평균 값 * 13) + 15일 상승,하락값으로 계산
 						
-						beforeUpAvg = ((beforeUpAvg * 13) + up) / 14;
-						beforeDwAvg = ((beforeDwAvg * 13) + down) / 14;
+						// ((beforeUpAvg * 13) + up) / 14;
+						beforeUpAvg = ((beforeUpAvg.multiply(new BigDecimal(13))).add(up)).divide(new BigDecimal(14), 8, RoundingMode.HALF_EVEN);
+						// ((beforeDwAvg * 13) + down) / 14;
+						beforeDwAvg = ((beforeDwAvg.multiply(new BigDecimal(13))).add(down)).divide(new BigDecimal(14), 8, RoundingMode.HALF_EVEN);
 
-						float rsi = 100 - (100 / (1 + (beforeUpAvg / beforeDwAvg)));
+						// 100 - (100 / (1 + (beforeUpAvg / beforeDwAvg)));
+						BigDecimal rsi = new BigDecimal(100).subtract(new BigDecimal(100).divide(new BigDecimal(1).add(beforeUpAvg.divide(beforeDwAvg, 8, RoundingMode.HALF_EVEN)), 8, RoundingMode.HALF_EVEN));
+						
 						stockHistory.setRsi(rsi);
 					}
 					
@@ -233,7 +248,7 @@ public class StockDataScheduler {
 					queue.remove();
 				}
 				
-				if(beforeClose != 0)
+				if(beforeClose != null)
 					queue.add(upDownMap);
 				
 				beforeClose = nowClose;

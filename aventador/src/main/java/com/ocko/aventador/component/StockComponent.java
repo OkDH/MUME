@@ -4,7 +4,6 @@
 package com.ocko.aventador.component;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
@@ -93,19 +92,19 @@ public class StockComponent {
 		stockDetail.setLastTradeTime(lastTradeDate);
 		
 		// 종가 또는 현재가
-		stockDetail.setPriceClose(stock.getQuote().getPrice().floatValue());
+		stockDetail.setPriceClose(stock.getQuote().getPrice());
 		// 시가
-		stockDetail.setPriceOpen(stock.getQuote().getOpen().floatValue());
+		stockDetail.setPriceOpen(stock.getQuote().getOpen());
 		// 고가
-		stockDetail.setPriceHigh(stock.getQuote().getDayHigh().floatValue());
+		stockDetail.setPriceHigh(stock.getQuote().getDayHigh());
 		// 저가
-		stockDetail.setPriceLow(stock.getQuote().getDayLow().floatValue());
+		stockDetail.setPriceLow(stock.getQuote().getDayLow());
 		// 전일 종가
-		stockDetail.setPrevClose(stock.getQuote().getPreviousClose().floatValue());
+		stockDetail.setPrevClose(stock.getQuote().getPreviousClose());
 		// 전일 대비 변화
-		stockDetail.setChg(stock.getQuote().getChange().floatValue());
+		stockDetail.setChg(stock.getQuote().getChange());
 		// 변화율
-		stockDetail.setChgp(stock.getQuote().getChangeInPercent().floatValue());
+		stockDetail.setChgp(stock.getQuote().getChangeInPercent());
 		// 거래량
 		stockDetail.setVolume(stock.getQuote().getVolume());
 		// 섹터

@@ -43,7 +43,7 @@ public class AuthenticationService implements UserDetailsService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 	
-	@Autowired private MemberInfoMapper memberAccountMapper;
+	@Autowired private MemberInfoMapper memberInfoMapper;
 	@Autowired private SocialAuthenticationMapper socialAuthenticationMapper;
 	@Autowired private OAuth2AuthorizedClientService authorizedClientService;
 	
@@ -59,7 +59,7 @@ public class AuthenticationService implements UserDetailsService {
 		MemberInfoExample example = new MemberInfoExample();
 		example.createCriteria()
 				.andMemberEmailEqualTo(username);
-		List<MemberInfo> list = memberAccountMapper.selectByExample(example);
+		List<MemberInfo> list = memberInfoMapper.selectByExample(example);
 		if(list.size() == 0) {
 			throw new UsernameNotFoundException("Member email is not found.");
 		}
@@ -186,7 +186,7 @@ public class AuthenticationService implements UserDetailsService {
         			.andSocialIdEqualTo(String.valueOf(mapMemberInfo.get("id")));
         	if(socialAuthenticationMapper.countByExample(example) > 0) {
         		int memberId = socialAuthenticationMapper.selectByExample(example).get(0).getMemberId();
-        		memberInfo = memberAccountMapper.selectByPrimaryKey(memberId);
+        		memberInfo = memberInfoMapper.selectByPrimaryKey(memberId);
         	} else {
         		// 회원가입
         		memberInfo = new MemberInfo();
@@ -195,7 +195,7 @@ public class AuthenticationService implements UserDetailsService {
         		memberInfo.setMemberRoles("ROLE_USER");
         		memberInfo.setMemberStatus(MemberStatus.ACTIVE.name());
         		memberInfo.setSubscriptionDate(LocalDateTime.now());
-        		memberAccountMapper.insert(memberInfo);
+        		memberInfoMapper.insert(memberInfo);
         		
         		// 소셜 등록
         		SocialAuthentication socialAuthentication = new SocialAuthentication();
@@ -204,6 +204,10 @@ public class AuthenticationService implements UserDetailsService {
         		socialAuthentication.setSocialId(mapMemberInfo.get("id"));
         		socialAuthenticationMapper.insert(socialAuthentication);
         	}
+        	
+        	// 마지막 로그인 일자 기록
+        	memberInfo.setLastLoginDate(LocalDateTime.now());
+        	memberInfoMapper.updateByPrimaryKey(memberInfo);
         }
         
         return memberInfo;

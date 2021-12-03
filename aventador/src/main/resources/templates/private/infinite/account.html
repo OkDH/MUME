@@ -92,14 +92,14 @@
 	</div>
 
 	<div class="row">
-		<div class="col-xl-4 col-md-6">
+		<div class="col-xl-4 col-md-6" ng-repeat="stock in infiniteAccount.stocks">
 			<div class="card shadow mb-4">
 				<div
 					class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					<h6 class="m-0 font-weight-bold text-primary">
-						TQQQ 
-						<span class="badge rounded-pill bg-warning text-white py-1 px-3 ml-2">v2.1</span>
-						<span class="badge rounded-pill bg-primary text-white py-1 px-3">진행중</span>
+						{{ stock.symbol }}
+						<span class="badge rounded-pill bg-warning text-white py-1 px-3 ml-2">{{ stock.infiniteType }}</span>
+						<span class="badge rounded-pill bg-primary text-white py-1 px-3">{{ stock.infiniteState }}</span>
 					</h6>
 					<div class="dropdown no-arrow">
 						<a class="dropdown-toggle" role="button" id="dropdownMenuLink"
@@ -135,21 +135,21 @@
 							aria-valuemax="100"></div>
 					</div>
 					<div class="card mt-1">
-						<div class="card-header py-2 bg-light collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+						<div class="card-header py-2 bg-light collapsed" data-toggle="collapse" data-target="#collapseA_{{$index}}" aria-expanded="false" aria-controls="collapse1">
 							<h6 class="m-0 mt-1 font-weight-bold small">
 								기본정보
 							</h6>
 						</div>
-						<div class="collapse" id="collapse1">
+						<div class="collapse" id="collapseA_{{$index}}">
 							<div class="card-body text-center">
 								<div class="row">
 									<div class="col">
 										<h4 class="small">시작일자</h4>
-										<h4 class="small font-weight-bold">11/10(20)</h4>
+										<h4 class="small font-weight-bold">{{ stock.started_date }}(20)</h4>
 									</div>
 									<div class="col">
 										<h4 class="small">배정원금</h4>
-										<h4 class="small font-weight-bold">$5,200</h4>
+										<h4 class="small font-weight-bold">${{ stock.seed | number }}</h4>
 									</div>
 								</div>
 								<div class="row">
@@ -166,12 +166,12 @@
 						</div>
 					</div>
 					<div class="card mt-1">
-						<div class="card-header py-2 bg-light" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
+						<div class="card-header py-2 bg-light" data-toggle="collapse" data-target="#collapseB_{{$index}}" aria-expanded="true" aria-controls="collapse2">
 							<h6 class="m-0 mt-1 font-weight-bold small">
 								손익현황
 							</h6>
 						</div>
-						<div class="collapse show" id="collapse2">
+						<div class="collapse show" id="collapseB_{{$index}}">
 							<div class="card-body text-center">
 								<div class="row">
 									<div class="col">
@@ -197,12 +197,12 @@
 						</div>
 					</div>
 					<div class="card mt-1">
-						<div class="card-header py-2 bg-light collapsed" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+						<div class="card-header py-2 bg-light collapsed" data-toggle="collapse" data-target="#collapseC_{{$index}}" aria-expanded="false" aria-controls="collapse3">
 							<h6 class="m-0 mt-1 font-weight-bold small">
 								매도
 							</h6>
 						</div>
-						<div class="collapse" id="collapse3">
+						<div class="collapse" id="collapseC_{{$index}}">
 							<div class="card-body text-center">
 								<div class="row">
 									<div class="col">
@@ -239,12 +239,12 @@
 						</div>
 					</div>
 					<div class="card mt-1">
-						<div class="card-header py-2 bg-light collapsed" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+						<div class="card-header py-2 bg-light collapsed" data-toggle="collapse" data-target="#collapseD_{{$index}}" aria-expanded="false" aria-controls="collapse4">
 							<h6 class="m-0 mt-1 font-weight-bold small">
 								매수
 							</h6>
 						</div>
-						<div class="collapse" id="collapse4">
+						<div class="collapse" id="collapseD_{{$index}}">
 							<div class="card-body text-center">
 								<div class="row">
 									<div class="col">
@@ -283,43 +283,6 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="col-xl-4 col-md-6">
-			<div class="card shadow mb-4">
-				<div
-					class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-					<h6 class="m-0 font-weight-bold text-primary">
-						TECL 
-						<span class="badge rounded-pill bg-warning text-white py-1 px-3 ml-2">v1</span>
-						<span class="badge rounded-pill bg-danger text-white py-1 px-3">매수중지</span>
-					</h6>
-					<div class="dropdown no-arrow">
-						<a class="dropdown-toggle" role="button" id="dropdownMenuLink"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-						</a>
-						<div
-							class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-							aria-labelledby="dropdownMenuLink">
-							<a class="dropdown-item">매매 일지</a> <a class="dropdown-item">매수
-								중지</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item">종목 삭제</a>
-						</div>
-					</div>
-				</div>
-				<div class="card-body">
-					<h4 class="small font-weight-bold">
-						진행률 <span class="float-right">80%</span>
-					</h4>
-					<div class="progress mb-4">
-						<div class="progress-bar bg-danger" role="progressbar"
-							style="width: 80%" aria-valuenow="80" aria-valuemin="0"
-							aria-valuemax="100"></div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 
 	<!-- add stock Modal -->
@@ -336,13 +299,13 @@
 	        <div class="row mb-3">
 			    <div class="col-sm-6">
 			      <label>종목</label>
-			      <select class="custom-select" size="3">
+			      <select class="custom-select" size="3" ng-model="infiniteAccount.addStock.data.symbol">
 					  <option ng-repeat="symbol in infiniteAccount.initData.symbols">{{ symbol }}</option>
 				  </select>
 			    </div>
 			    <div class="col-sm-6">
 			      <label>버전</label>
-			      <select class="custom-select" size="3">
+			      <select class="custom-select" size="3" ng-model="infiniteAccount.addStock.data.infiniteType">
 					  <option value="v2.1" selected>v2.1</option>
 					  <option value="v2">v2</option>
 					  <option value="v1">v1</option>
@@ -352,26 +315,26 @@
 		    <div class="row mb-3">
 			    <div class="col-sm-6">
 			      <label>매수 시작일</label>
-			      <input type="text" class="form-control" value="">
+			      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.startedDate">
 			    </div>
 			    <div class="col-sm-6">
 			      <label>배정 원금($)</label>
-			      <input type="text" class="form-control"  value="">
+			      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.seed">
 			    </div>
 			 </div>  
 			 <div class="row mb-3">
 			    <div class="col-sm-6">
 			      <label>평단가($)</label>
-			      <input type="text" class="form-control" value="">
+			      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.unitPrice">
 			    </div>
 			    <div class="col-sm-6">
 			      <label>수량</label>
-			      <input type="text" class="form-control" value="">
+			      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.quantity">
 			    </div>
 			  </div>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary">Add</button>
+	        <button type="button" class="btn btn-primary" ng-click="infiniteAccount.addStock.add()">Add</button>
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 	      </div>
 	    </div>

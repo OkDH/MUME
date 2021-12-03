@@ -5,20 +5,10 @@ package com.ocko.aventador.constant;
 
 /**
  * @author ok
- *
+ * 무한매수 version
  */
-public enum InfiniteType {
-
-	v1("v1"),
-	v2("v2"),
-	v2_1("v2.1");
-	
-	private String versionName;
-	InfiniteType(String versionName) {
-		this.versionName = versionName;
-	}
-	
-	public String versionName() {
-		return versionName;
-	}
+public class InfiniteType {
+	public final static String V1 = "v1";
+	public final static String V2 = "v2";
+	public final static String V2_1 = "v2.1";
 }

@@ -162,7 +162,7 @@ app.service("httpService", function($http, $q){
 		
 		var promise = $http(requestOption);
 		arrayPromiseTimeout.push([ promise, timeoutDefer ]);
-		
+
 		promise.then(function(){
 			var idx = findPromiseIndex(promise);
 			if(idx >= 0){

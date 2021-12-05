@@ -1,20 +1,55 @@
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<!-- <div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">종목 추가</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        ...
+        <div class="row mb-3">
+		    <div class="col-sm-6">
+		      <label>종목</label>
+		      <select class="custom-select" size="3" ng-model="infiniteAccount.addStock.data.symbol">
+				  <option ng-repeat="symbol in infiniteAccount.initData.symbols">{{ symbol }}</option>
+			  </select>
+		    </div>
+		    <div class="col-sm-6">
+		      <label>버전</label>
+		      <select class="custom-select" size="3" ng-model="infiniteAccount.addStock.data.infiniteType">
+				  <option value="v2.1" selected>v2.1</option>
+				  <option value="v2">v2</option>
+				  <option value="v1">v1</option>
+				</select>
+		    </div>
+	    </div>
+	    <div class="row mb-3">
+		    <div class="col-sm-6">
+		      <label>매수 시작일</label>
+		      <input type="text" class="form-control" id="addStockDatePicker" ng-model="infiniteAccount.addStock.data.startedDate">
+		    </div>
+		    <div class="col-sm-6">
+		      <label>배정 원금($)</label>
+		      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.seed">
+		    </div>
+		 </div>  
+		 <div class="row mb-3">
+		    <div class="col-sm-6">
+		      <label>평단가($)</label>
+		      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.unitPrice">
+		    </div>
+		    <div class="col-sm-6">
+		      <label>수량</label>
+		      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.quantity">
+		    </div>
+		  </div>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="infiniteAccount.addStock.add()">Add</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
-</div>
+</div> -->
+

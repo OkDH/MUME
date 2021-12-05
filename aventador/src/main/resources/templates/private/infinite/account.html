@@ -284,8 +284,7 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- add stock Modal -->
+	
 	<div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
 	    <div class="modal-content">
@@ -315,7 +314,7 @@
 		    <div class="row mb-3">
 			    <div class="col-sm-6">
 			      <label>매수 시작일</label>
-			      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.startedDate">
+			      <input type="text" class="form-control" id="addStockDatePicker" ng-model="infiniteAccount.addStock.data.startedDate">
 			    </div>
 			    <div class="col-sm-6">
 			      <label>배정 원금($)</label>
@@ -340,6 +339,7 @@
 	    </div>
 	  </div>
 	</div>
-	
-	<div ng-include="meta.baseUrl + 'tpl/modal/add-stock.html'"></div>
+
+	<!-- add stock Modal -->
+	<!-- <div ng-include="meta.baseUrl + 'tpl/modal/add-stock.html'"></div> -->
 </div>

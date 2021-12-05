@@ -66,6 +66,8 @@
 		<table schema="aventador" tableName="infinite_history">
 			<generatedKey column="infinite_history_id" sqlStatement="JDBC"/>
 		</table> 
+		<table schema="aventador" tableName="view_infinite_list">
+		</table> 
 		
 	</context>
 </generatorConfiguration>

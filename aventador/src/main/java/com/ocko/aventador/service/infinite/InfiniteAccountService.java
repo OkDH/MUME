@@ -1,18 +1,13 @@
 package com.ocko.aventador.service.infinite;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ocko.aventador.constant.AccountType;
-import com.ocko.aventador.constant.InfiniteState;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccountExample;
-import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteAccountMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
 
@@ -20,7 +15,6 @@ import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
 public class InfiniteAccountService {
 
 	@Autowired private InfiniteAccountMapper infiniteAccountMapper;
-	@Autowired private ViewInfiniteListMapper viewInfiniteListMapper;
 	
 	/**
 	 * 내 계좌 리스트 불러오기
@@ -41,7 +35,6 @@ public class InfiniteAccountService {
 			infiniteAccount.setMemberId(memberId);
 			infiniteAccount.setAccountOrder(1);
 			infiniteAccount.setAccountAlias("무한매수 계좌 1");
-			infiniteAccount.setAccountType(AccountType.INFINITE.name());
 			infiniteAccount.setIsDeleted(false);
 			infiniteAccount.setRegisteredDate(LocalDateTime.now());
 			infiniteAccountMapper.insert(infiniteAccount);

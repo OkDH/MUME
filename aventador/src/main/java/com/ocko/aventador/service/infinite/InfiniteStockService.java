@@ -69,6 +69,10 @@ public class InfiniteStockService {
 			// etf 주가 정보 추가
 			infiniteDetail.setStockDetail(stockMap.get(viewInfinite.getSymbol()));
 			
+			// 매수
+			
+			// 매도
+			
 			infiniteStockList.add(infiniteDetail);
 		}
 		
@@ -91,19 +95,13 @@ public class InfiniteStockService {
 			query.put("accountId", params.get("accountId"));
 		
 		// 종목수
-		result.put("ingInfiniteCount", infiniteStockMapper.countByInfinite(query));
-		
-		
-		
-//		ViewInfiniteListExample example = new ViewInfiniteListExample();
-//		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId).andInfiniteStateEqualTo(InfiniteState.ING);
-//		if(params.get("accountId") != null)
-//			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
-//		
-//		// 종목수
-//		result.put("ingInfiniteCount", viewInfiniteListMapper.countByExample(example));
+		result.put("ingInfiniteCount", viewInfiniteListMapper.countByInfinite(query));
 		
 		// 배정 시드 총합
+		result.put("sumInfiniteSeed", viewInfiniteListMapper.sumByInfiniteSeed(query));
+		
+		// 총 매입금액
+		result.put("sumInfiniteBuyPrice", viewInfiniteListMapper.sumByBuyPrice(query));
 		
 		return result;
 	}

@@ -66,11 +66,11 @@ public class InfiniteController {
 	}
 	
 	/**
-	 * 계좌 내 종목 조회
+	 * 계좌 내 종목들 현황 조회
 	 * @param params
 	 * @return
 	 */
-	@RequestMapping(value = "/api/infinite/stocks/state", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/infinite/account/state", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> getMyAccountState(@RequestBody Map<String, Object> params) {
 		MemberInfo memberInfo = authenticationService.getCurrentMember();
 		if(memberInfo == null)

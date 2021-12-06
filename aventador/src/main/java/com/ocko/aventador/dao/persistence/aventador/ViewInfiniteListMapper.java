@@ -2,7 +2,11 @@ package com.ocko.aventador.dao.persistence.aventador;
 
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
+
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.cursor.Cursor;
 
@@ -80,4 +84,25 @@ public interface ViewInfiniteListMapper {
 	 * @mbg.generated  Mon Dec 06 12:17:12 KST 2021
 	 */
 	int updateByExample(@Param("record") ViewInfiniteList record, @Param("example") ViewInfiniteListExample example);
+
+	/**
+	 * 무매 종목 수
+	 * @param query
+	 * @return
+	 */
+	Long countByInfinite(Map<String, Object> query);
+	
+	/**
+	 * 무매 배정 시드 총합
+	 * @param query
+	 * @return
+	 */
+	BigDecimal sumByInfiniteSeed(Map<String, Object> query);
+	
+	/**
+	 * 무매 매입금액 총합
+	 * @param example
+	 * @return
+	 */
+	BigDecimal sumByBuyPrice(Map<String, Object> query);
 }

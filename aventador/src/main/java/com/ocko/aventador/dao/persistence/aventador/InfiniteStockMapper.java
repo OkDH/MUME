@@ -2,6 +2,8 @@ package com.ocko.aventador.dao.persistence.aventador;
 
 import com.ocko.aventador.dao.model.aventador.InfiniteStock;
 import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -106,10 +108,4 @@ public interface InfiniteStockMapper {
 	 */
 	int updateByPrimaryKey(InfiniteStock record);
 
-	/**
-	 * 무매 진행 중인 종목 수
-	 * @param query
-	 * @return
-	 */
-	int countByInfinite(Map<String, Object> query);
 }

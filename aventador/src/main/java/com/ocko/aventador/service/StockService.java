@@ -25,7 +25,7 @@ public class StockService {
 	
 	@Autowired private StockComponent stockComponent;
 	@Autowired private ViewTodayStockMapper viewTodayStockMapper;
-
+	
 	/**
 	 * 하나의 심볼에 대해서 stock 정보 가져오기
 	 * @param symbol

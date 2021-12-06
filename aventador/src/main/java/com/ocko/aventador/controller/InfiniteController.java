@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
-import com.ocko.aventador.dao.model.aventador.InfiniteStock;
-import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.exception.MyAccessDeniedException;
 import com.ocko.aventador.exception.MyArgumentException;
+import com.ocko.aventador.model.InfiniteDetail;
 import com.ocko.aventador.service.AuthenticationService;
 import com.ocko.aventador.service.infinite.InfiniteAccountService;
 import com.ocko.aventador.service.infinite.InfiniteStockService;
@@ -53,7 +52,7 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/stocks", method = RequestMethod.POST)
-	public ResponseEntity<List<InfiniteStock>> getMyStocks(@RequestBody Map<String, Object> params) {
+	public ResponseEntity<List<InfiniteDetail>> getMyStocks(@RequestBody Map<String, Object> params) {
 		MemberInfo memberInfo = authenticationService.getCurrentMember();
 		if(memberInfo == null)
 			return null;
@@ -63,7 +62,26 @@ public class InfiniteController {
 				throw new MyAccessDeniedException();
 		}
 		
-		return new ResponseEntity<List<InfiniteStock>>(stockService.getStocks(params), HttpStatus.OK);
+		return new ResponseEntity<List<InfiniteDetail>>(stockService.getStocks(memberInfo.getMemberId(), params), HttpStatus.OK);
+	}
+	
+	/**
+	 * 계좌 내 종목 조회
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value = "/api/infinite/stocks/state", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> getMyAccountState(@RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+		
+		if(params.get("accountId") != null) {
+			if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+				throw new MyAccessDeniedException();
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(accountService.getMyAccountState(memberInfo.getMemberId(), params), HttpStatus.OK);
 	}
 	
 	/**

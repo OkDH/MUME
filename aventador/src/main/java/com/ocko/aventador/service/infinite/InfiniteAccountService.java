@@ -8,11 +8,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ocko.aventador.constant.AccountType;
 import com.ocko.aventador.constant.InfiniteState;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccountExample;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteAccountMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
@@ -42,7 +40,6 @@ public class InfiniteAccountService {
 			infiniteAccount.setMemberId(memberId);
 			infiniteAccount.setAccountOrder(1);
 			infiniteAccount.setAccountAlias("무한매수 계좌 1");
-			infiniteAccount.setAccountType(AccountType.INFINITE.name());
 			infiniteAccount.setIsDeleted(false);
 			infiniteAccount.setRegisteredDate(LocalDateTime.now());
 			infiniteAccountMapper.insert(infiniteAccount);

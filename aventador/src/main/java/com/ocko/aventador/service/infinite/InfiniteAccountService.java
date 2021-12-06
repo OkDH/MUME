@@ -12,8 +12,7 @@ import com.ocko.aventador.constant.AccountType;
 import com.ocko.aventador.constant.InfiniteState;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccountExample;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
+import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteAccountMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
 
@@ -51,25 +50,6 @@ public class InfiniteAccountService {
 		}
 		
 		return myAccounts;
-	}
-	
-	/**
-	 * 내 계좌 통계 정보
-	 * @param memberId
-	 * @param params accountId가 null일 경우 전체 전체 계좌로 통계 
-	 * @return
-	 */
-	public Map<String, Object> getMyAccountState(int memberId, Map<String, Object> params){
-		Map<String, Object> result = new HashMap<String, Object>();
-		
-		ViewInfiniteListExample example = new ViewInfiniteListExample();
-		example.createCriteria().andMemberIdEqualTo(memberId).andInfiniteStateEqualTo(InfiniteState.ING);
-		
-		// TODO : 계좌별 통계
-		
-		result.put("ingInfiniteCount", viewInfiniteListMapper.countByExample(example));
-		
-		return result;
 	}
 	
 	/**

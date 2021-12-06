@@ -81,7 +81,7 @@ public class InfiniteController {
 				throw new MyAccessDeniedException();
 		}
 		
-		return new ResponseEntity<Map<String, Object>>(accountService.getMyAccountState(memberInfo.getMemberId(), params), HttpStatus.OK);
+		return new ResponseEntity<Map<String, Object>>(stockService.getMyAccountState(memberInfo.getMemberId(), params), HttpStatus.OK);
 	}
 	
 	/**

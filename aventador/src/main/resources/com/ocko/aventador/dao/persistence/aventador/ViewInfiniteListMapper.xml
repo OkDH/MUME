@@ -434,4 +434,34 @@
       offset ${offset}
     </if>
   </select>
+  
+  <select id="countByInfinite" parameterType="java.util.HashMap" resultType="java.lang.Long">
+    select count(*)
+	from aventador.view_infinite_list
+	where member_id = #{memberId}
+	and infinite_state = #{infiniteState}
+    <if test="accountId != null">
+      and account_id = #{accountId}
+    </if>
+  </select>
+  
+  <select id="sumByInfiniteSeed" parameterType="java.util.HashMap" resultType="java.math.BigDecimal">
+    select sum(seed)
+	from aventador.view_infinite_list
+	where member_id = #{memberId}
+	and infinite_state = #{infiniteState}
+    <if test="accountId != null">
+      and account_id = #{accountId}
+    </if>
+  </select>
+  
+  <select id="sumByBuyPrice" parameterType="java.util.HashMap" resultType="java.math.BigDecimal">
+    select sum(buy_price)
+	from aventador.view_infinite_list
+	where member_id = #{memberId}
+	and infinite_state = #{infiniteState}
+    <if test="accountId != null">
+      and account_id = #{accountId}
+    </if>
+  </select>
 </mapper>

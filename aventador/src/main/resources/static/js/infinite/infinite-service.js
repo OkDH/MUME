@@ -29,6 +29,21 @@ app.service("infiniteService", function(httpService){
 		return promiseStocks;
 	}
 	
+	// 계좌 내 종목 현황 조회
+	var promiseAccountState = null;
+	this.getAccountState = function(params){
+		if(promiseAccountState){
+			httpService.stop(promiseAccountState);
+		}
+		promiseAccountState = httpService.post({
+			url: meta.baseUrl + "api/infinite/account/state",
+			data: params
+		}).then(function(response){
+			return response.data;
+		});
+		return promiseAccountState;
+	}
+	
 	// 계좌 내 종목 추가
 	var promiseAddStock = null;
 	this.addStock = function(params){

@@ -31,12 +31,24 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 		});
 	}
 	
+	// 계좌 내 종목 현황 조회
+	infiniteAccount.getAccountState = function(accountId){
+		infiniteService.getAccountState({accountId:accountId}).then(function(data){
+			infiniteAccount.account.state = data;
+		});
+	}
+	
 	// 계좌 선택 필터 변경 시 종목 조회
 	$scope.$watch("infiniteAccount.account.query", function(query){
 		if(!query){
 			return;
 		}
 		infiniteAccount.getStocks(query);
+	}, true);
+	
+	// 계좌 선택 필터 변경 시 현황 조회
+	$scope.$watch("infiniteAccount.account.query.accountId", function(accountId){
+		infiniteAccount.getAccountState(accountId);
 	}, true);
 	
 	// 종목 추가 관련 변수 및 초기화
@@ -64,6 +76,7 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 		infiniteService.addStock(infiniteAccount.addStock.data).then(function(data){
 			if(data == true){
 				infiniteAccount.getStocks(infiniteAccount.account.query);
+				infiniteAccount.getAccountState(infiniteAccount.account.query.accountId);
 				infiniteAccount.addStock.init();
 				$('#addStockModal').modal("hide");
 				
@@ -86,7 +99,6 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	    todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false 
 	    language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
 	});
-	
 	
 });
 

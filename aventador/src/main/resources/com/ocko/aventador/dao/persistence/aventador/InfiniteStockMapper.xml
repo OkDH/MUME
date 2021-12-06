@@ -439,19 +439,4 @@
       offset ${offset}
     </if>
   </select>
-  
-  <select id="countByInfinite" parameterType="java.util.HashMap" resultType="java.lang.Long">
-    select cnt(*)
-    from aventador.infinite_account ia
-    inner join
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-    <if test="limit != null">
-      limit ${limit}
-    </if>
-    <if test="offset != null">
-      offset ${offset}
-    </if>
-  </select>
 </mapper>

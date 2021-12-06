@@ -1,20 +1,27 @@
 package com.ocko.aventador.service.infinite;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ocko.aventador.constant.AccountType;
+import com.ocko.aventador.constant.InfiniteState;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccountExample;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteAccountMapper;
+import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
 
 @Service
 public class InfiniteAccountService {
 
-	@Autowired InfiniteAccountMapper infiniteAccountMapper;
+	@Autowired private InfiniteAccountMapper infiniteAccountMapper;
+	@Autowired private ViewInfiniteListMapper viewInfiniteListMapper;
 	
 	/**
 	 * 내 계좌 리스트 불러오기
@@ -44,6 +51,25 @@ public class InfiniteAccountService {
 		}
 		
 		return myAccounts;
+	}
+	
+	/**
+	 * 내 계좌 통계 정보
+	 * @param memberId
+	 * @param params accountId가 null일 경우 전체 전체 계좌로 통계 
+	 * @return
+	 */
+	public Map<String, Object> getMyAccountState(int memberId, Map<String, Object> params){
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		ViewInfiniteListExample example = new ViewInfiniteListExample();
+		example.createCriteria().andMemberIdEqualTo(memberId).andInfiniteStateEqualTo(InfiniteState.ING);
+		
+		// TODO : 계좌별 통계
+		
+		result.put("ingInfiniteCount", viewInfiniteListMapper.countByExample(example));
+		
+		return result;
 	}
 	
 	/**

@@ -92,7 +92,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-xl-4 col-md-6" ng-repeat="stock in infiniteAccount.stocks">
+		<div class="col-xl-3 col-md-6" ng-repeat="stock in infiniteAccount.stocks">
 			<div class="card shadow mb-4">
 				<div
 					class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -127,11 +127,12 @@
 				</div>
 				<div class="card-body">
 					<h4 class="small font-weight-bold">
-						진행률 <span class="float-right">44%</span>
+						진행률 <span class="float-right">{{ stock.progressPer | number:1 }}%</span>
 					</h4>
 					<div class="progress mb-3">
-						<div class="progress-bar bg-primary" role="progressbar"
-							style="width: 44%" aria-valuenow="44" aria-valuemin="0"
+						<div class="progress-bar" ng-class="(stock.progressPer < 50 && 'bg-primary') || (stock.progressPer > 80 && 'bg-danger') || (stock.progressPer >= 50 && 'bg-warning')"
+							role="progressbar"
+							style="width: {{ stock.progressPer }}%" aria-valuenow="{{ stock.progressPer }}" aria-valuemin="0"
 							aria-valuemax="100"></div>
 					</div>
 					<div class="card mt-1">
@@ -144,22 +145,22 @@
 							<div class="card-body text-center">
 								<div class="row">
 									<div class="col">
-										<h4 class="small">시작일자</h4>
-										<h4 class="small font-weight-bold">{{ stock.started_date }}(20)</h4>
+										<h4 class="small font-weight-bold">시작일자</h4>
+										<h4 class="small">{{ stock.started_date }}(20)</h4>
 									</div>
 									<div class="col">
-										<h4 class="small">배정원금</h4>
-										<h4 class="small font-weight-bold">${{ stock.seed | number }}</h4>
+										<h4 class="small font-weight-bold">배정원금</h4>
+										<h4 class="small">{{ stock.seed | number }}$</h4>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col">
-										<h4 class="small">평단</h4>
-										<h4 class="small font-weight-bold">$54.28</h4>
+										<h4 class="small font-weight-bold">평균단가</h4>
+										<h4 class="small">{{ stock.averagePrice | number:2 }}$</h4>
 									</div>
 									<div class="col">
-										<h4 class="small">수량</h4>
-										<h4 class="small font-weight-bold">28</h4>
+										<h4 class="small font-weight-bold">보유수량</h4>
+										<h4 class="small">{{ stock.holdingQuantity }}</h4>
 									</div>
 								</div>
 							</div>
@@ -175,22 +176,28 @@
 							<div class="card-body text-center">
 								<div class="row">
 									<div class="col">
-										<h4 class="small">매입금액</h4>
-										<h4 class="small font-weight-bold">$288</h4>
+										<h4 class="small font-weight-bold">매입금액</h4>
+										<h4 class="small">${{ stock.buyPrice | number:2 }}</h4>
 									</div>
 									<div class="col">
-										<h4 class="small">평가금액</h4>
-										<h4 class="small font-weight-bold">$294.21</h4>
+										<h4 class="small font-weight-bold">평가금액</h4>
+										<h4 class="small">${{ stock.evalPrice | number:2 }}</h4>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col">
-										<h4 class="small">손익금</h4>
-										<h4 class="small font-weight-bold">$54.28</h4>
+										<h4 class="small font-weight-bold">손익금</h4>
+										<h4 class="small font-weight-bold" 
+											ng-class="(stock.income > 0 && 'text-danger') || (stock.income < 0 && 'text-primary')">
+											{{ stock.income | number:2 }}$
+										</h4>
 									</div>
 									<div class="col">
-										<h4 class="small">손익률</h4>
-										<h4 class="small font-weight-bold">+6.48%</h4>
+										<h4 class="small font-weight-bold">손익률</h4>
+										<h4 class="small font-weight-bold"
+											ng-class="(stock.income > 0 && 'text-danger') || (stock.income < 0 && 'text-primary')">
+											{{ stock.incomePer | number:2 | appendPulMa }}%
+										</h4>
 									</div>
 								</div>
 							</div>

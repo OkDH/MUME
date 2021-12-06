@@ -3,6 +3,8 @@ package com.ocko.aventador.dao.persistence.aventador;
 import com.ocko.aventador.dao.model.aventador.InfiniteStock;
 import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.cursor.Cursor;
 
@@ -103,4 +105,11 @@ public interface InfiniteStockMapper {
 	 * @mbg.generated  Fri Dec 03 16:33:09 KST 2021
 	 */
 	int updateByPrimaryKey(InfiniteStock record);
+
+	/**
+	 * 무매 진행 중인 종목 수
+	 * @param query
+	 * @return
+	 */
+	int countByInfinite(Map<String, Object> query);
 }

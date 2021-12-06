@@ -2,9 +2,7 @@ package com.ocko.aventador.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
-import com.ocko.aventador.dao.model.aventador.ViewTodayStock;
 
 public class InfiniteDetail extends ViewInfiniteList {
 	

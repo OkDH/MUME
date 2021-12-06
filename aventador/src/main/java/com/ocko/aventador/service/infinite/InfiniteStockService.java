@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import com.ocko.aventador.dao.model.aventador.InfiniteStock;
 import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteHistoryMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteStockMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
@@ -44,10 +46,11 @@ public class InfiniteStockService {
 	public List<InfiniteDetail> getStocks(int memberId, Map<String, Object> params){
 		ViewInfiniteListExample example = new ViewInfiniteListExample();
 		example.setOrderByClause("registered_date desc");
-		example.createCriteria().andMemberIdEqualTo(memberId);
-		if(params.get("accountId") != null) {
-			example.createCriteria().andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
-		}
+		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
+		if(params.get("accountId") != null)
+			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
+		if(params.get("infiniteState") != null)
+			criteria.andInfiniteStateEqualTo(params.get("infiniteState").toString());
 		
 		// view 조회
 		List<ViewInfiniteList> list = viewInfiniteListMapper.selectByExample(example);
@@ -70,6 +73,39 @@ public class InfiniteStockService {
 		}
 		
 		return infiniteStockList;
+	}
+	
+	/**
+	 * 내 계좌 통계 정보
+	 * @param memberId
+	 * @param params accountId가 null일 경우 전체 전체 계좌로 통계 
+	 * @return
+	 */
+	public Map<String, Object> getMyAccountState(int memberId, Map<String, Object> params){
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		Map<String, Object> query = new HashMap<String, Object>();
+		query.put("memberId", memberId);
+		query.put("infiniteState", InfiniteState.ING);
+		if(params.get("accountId") != null)
+			query.put("accountId", params.get("accountId"));
+		
+		// 종목수
+		result.put("ingInfiniteCount", infiniteStockMapper.countByInfinite(query));
+		
+		
+		
+//		ViewInfiniteListExample example = new ViewInfiniteListExample();
+//		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId).andInfiniteStateEqualTo(InfiniteState.ING);
+//		if(params.get("accountId") != null)
+//			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
+//		
+//		// 종목수
+//		result.put("ingInfiniteCount", viewInfiniteListMapper.countByExample(example));
+		
+		// 배정 시드 총합
+		
+		return result;
 	}
 	
 	/**

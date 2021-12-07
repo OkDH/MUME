@@ -158,7 +158,17 @@
 									</div>
 									<div class="col">
 										<h4 class="small font-weight-bold">보유수량</h4>
-										<h4 class="small">{{ stock.holdingQuantity }}</h4>
+										<h4 class="small">{{ stock.holdingQuantity | number }}주</h4>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h4 class="small font-weight-bold">1회 매수금액</h4>
+										<h4 class="small">{{ stock.oneBuySeed | number:2 }}$</h4>
+									</div>
+									<div class="col">
+										<h4 class="small font-weight-bold">1회 매수량</h4>
+										<h4 class="small">{{ stock.oneBuyQuantity | number }}주</h4>
 									</div>
 								</div>
 							</div>
@@ -223,7 +233,7 @@
 										</div>
 										<div class="col">
 											<h4 class="small">수량</h4>
-											<h4 class="small font-weight-bold">{{ info.quantity | number }}</h4>
+											<h4 class="small font-weight-bold">{{ info.quantity | number }}주</h4>
 										</div>
 									</div>
 								</div>
@@ -252,7 +262,7 @@
 										</div>
 										<div class="col">
 											<h4 class="small">수량</h4>
-											<h4 class="small font-weight-bold">{{ info.quantity | number }}</h4>
+											<h4 class="small font-weight-bold">{{ info.quantity | number }}주</h4>
 										</div>
 									</div>
 								</div>

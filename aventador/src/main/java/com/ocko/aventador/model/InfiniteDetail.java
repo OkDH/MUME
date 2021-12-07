@@ -18,11 +18,23 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매도 정보 리스트
 	private List<StockTradeInfo> sellTradeInfoList = new ArrayList<StockTradeInfo>();
 	
+	// 40분할, 1회 매수 금액
+	public BigDecimal getOneBuySeed() {
+		return getSeed().divide(new BigDecimal(40), 2, RoundingMode.DOWN);
+	}
+	
+	// 1회 매수량
+	public Integer getOneBuyQuantity() {
+		if(stockDetail == null)
+			return null;
+		return getOneBuySeed().divide(stockDetail.getPriceClose().setScale(2, RoundingMode.HALF_UP), 0, RoundingMode.DOWN).intValue();
+	}
+	
 	// 평가금액 : 종가 * 보유수량
 	public BigDecimal getEvalPrice() {
 		if(stockDetail == null)
 			return null;
-		return stockDetail.getPriceClose().multiply(new BigDecimal(getHoldingQuantity()));
+		return stockDetail.getPriceClose().setScale(2, RoundingMode.HALF_UP).multiply(new BigDecimal(getHoldingQuantity()));
 	}
 	
 	// 손익금 : 평가금액 - 매입금액 - 수수료

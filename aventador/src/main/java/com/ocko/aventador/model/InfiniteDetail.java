@@ -2,12 +2,21 @@ package com.ocko.aventador.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
 
 public class InfiniteDetail extends ViewInfiniteList {
 	
 	// 해당 심볼 주가 정보
 	private StockDetail stockDetail;
+	
+	// 매수 정보 리스트
+	private List<StockTradeInfo> buyTradeInfoList = new ArrayList<StockTradeInfo>();
+	
+	// 매도 정보 리스트
+	private List<StockTradeInfo> sellTradeInfoList = new ArrayList<StockTradeInfo>();
 	
 	// 평가금액 : 종가 * 보유수량
 	public BigDecimal getEvalPrice() {
@@ -48,5 +57,33 @@ public class InfiniteDetail extends ViewInfiniteList {
 	public void setStockDetail(StockDetail stockDetail) {
 		this.stockDetail = stockDetail;
 	}
-		
+
+	/**
+	 * @return {@link #buyTradeInfoList}
+	 */
+	public List<StockTradeInfo> getBuyTradeInfoList() {
+		return buyTradeInfoList;
+	}
+
+	/**
+	 * @param buyTradeInfoList {@link #buyTradeInfoList}
+	 */
+	public void setBuyTradeInfoList(List<StockTradeInfo> buyTradeInfoList) {
+		this.buyTradeInfoList = buyTradeInfoList;
+	}
+
+	/**
+	 * @return {@link #sellTradeInfoList}
+	 */
+	public List<StockTradeInfo> getSellTradeInfoList() {
+		return sellTradeInfoList;
+	}
+
+	/**
+	 * @param sellTradeInfoList {@link #sellTradeInfoList}
+	 */
+	public void setSellTradeInfoList(List<StockTradeInfo> sellTradeInfoList) {
+		this.sellTradeInfoList = sellTradeInfoList;
+	}
+	
 }

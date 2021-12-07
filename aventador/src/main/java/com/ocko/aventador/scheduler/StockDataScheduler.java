@@ -69,7 +69,6 @@ public class StockDataScheduler {
 	}
 	@Scheduled(cron="0 5 6 * * 2-6")
 	public void schedulerLastUpdate() {
-		log.info("Scheduler Last Update ETF");
 		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
 	}
 	

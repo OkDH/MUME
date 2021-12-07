@@ -100,4 +100,22 @@ public class InfiniteController {
 			throw new MyAccessDeniedException();
 		return new ResponseEntity<Boolean>(stockService.addStock(params), HttpStatus.OK);
 	}
+	
+	/**
+	 * 무한매수 매수 수정
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value = "/api/infinite/stock/update", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> updateinfiniteStock(@RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+		if(params.get("accountId") == null)
+			throw new MyArgumentException();
+		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+			throw new MyAccessDeniedException();
+		
+		return new ResponseEntity<Boolean>(stockService.updateinfiniteStock(params), HttpStatus.OK);
+	}
 }

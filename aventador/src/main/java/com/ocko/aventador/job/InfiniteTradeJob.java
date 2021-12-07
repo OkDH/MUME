@@ -4,6 +4,7 @@
 package com.ocko.aventador.job;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -99,18 +100,18 @@ public class InfiniteTradeJob {
 			return;
 		if(infiniteDetail.getStockDetail() == null)
 			return;
-		if(infiniteDetail.getBuyTradeInfoList() == null)
+		if(infiniteDetail.getSellTradeInfoList() == null)
 			return;
 		
 		// 보유수량
 		int holdingQuantity = infiniteDetail.getHoldingQuantity();
 		
 		// 종가
-		BigDecimal priceClose = infiniteDetail.getStockDetail().getPriceClose();
+		BigDecimal priceClose = infiniteDetail.getStockDetail().getPriceClose().setScale(2, RoundingMode.HALF_UP);
 		// 고가
-		BigDecimal priceHigh = infiniteDetail.getStockDetail().getPriceHigh();
+		BigDecimal priceHigh = infiniteDetail.getStockDetail().getPriceHigh().setScale(2, RoundingMode.HALF_UP);
 		
-		for(StockTradeInfo info : infiniteDetail.getBuyTradeInfoList()) {
+		for(StockTradeInfo info : infiniteDetail.getSellTradeInfoList()) {
 			InfiniteHistory infiniteHistory = new InfiniteHistory();
 			infiniteHistory.setInfiniteId(infiniteDetail.getInfiniteId());
 			infiniteHistory.setTradeDate(LocalDate.now().minusDays(1));
@@ -128,7 +129,7 @@ public class InfiniteTradeJob {
 					// 수수료 TODO : 개인 설정 수수료
 					BigDecimal fees = unitPrice.multiply(new BigDecimal(info.getQuantity())).multiply(new BigDecimal("0.0007"));
 					infiniteHistory.setUnitPrice(unitPrice);
-					infiniteHistory.setFees(fees.setScale(2, BigDecimal.ROUND_FLOOR));
+					infiniteHistory.setFees(fees.setScale(2, RoundingMode.DOWN));
 					
 					historyMapper.insert(infiniteHistory);
 					
@@ -143,7 +144,7 @@ public class InfiniteTradeJob {
 					// 수수료 TODO : 개인 설정 수수료
 					BigDecimal fees = unitPrice.multiply(new BigDecimal(info.getQuantity())).multiply(new BigDecimal("0.0007"));
 					infiniteHistory.setUnitPrice(unitPrice);
-					infiniteHistory.setFees(fees.setScale(2, BigDecimal.ROUND_FLOOR));
+					infiniteHistory.setFees(fees.setScale(2, RoundingMode.DOWN));
 					
 					historyMapper.insert(infiniteHistory);
 					

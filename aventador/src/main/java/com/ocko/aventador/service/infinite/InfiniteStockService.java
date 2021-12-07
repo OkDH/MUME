@@ -194,6 +194,10 @@ public class InfiniteStockService {
 			infiniteStock.setStartedDate(LocalDate.parse(params.get("startedDate").toString()));
 		}
 		
+		if(params.get("isDeleted") != null) {
+			infiniteStock.setIsDeleted(Boolean.parseBoolean(params.get("isDeleted").toString()));
+		}
+		
 		InfiniteStockExample example = new InfiniteStockExample();
 		example.createCriteria().andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()))
 			.andInfiniteIdEqualTo(Integer.parseInt(params.get("infiniteId").toString()));

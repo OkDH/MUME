@@ -81,7 +81,7 @@ public class InfiniteTradeComponent {
 				StockTradeInfo info = new StockTradeInfo();
 				info.setTradeName("LOC 매도 (+5%)");
 				BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal(FIVE_PER));
-				info.setPrice(price);
+				info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
 				info.setQuantity(quantity);
 				info.setConcludeType(ConcludeType.LOC);
 				tradeInfoList.add(info);
@@ -91,7 +91,7 @@ public class InfiniteTradeComponent {
 				StockTradeInfo info = new StockTradeInfo();
 				info.setTradeName("지정가 매도 (+10%)");
 				BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal(TEN_PER));
-				info.setPrice(price);
+				info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
 				info.setQuantity(infiniteDetail.getHoldingQuantity() - quantity);
 				info.setConcludeType(ConcludeType.PENDING_ORDER);
 				tradeInfoList.add(info);
@@ -112,7 +112,7 @@ public class InfiniteTradeComponent {
 				StockTradeInfo info = new StockTradeInfo();
 				info.setTradeName("지정가 매도 (+5%)");
 				BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal(FIVE_PER));
-				info.setPrice(price);
+				info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
 				info.setQuantity(quantity);
 				info.setConcludeType(ConcludeType.PENDING_ORDER);
 				tradeInfoList.add(info);
@@ -122,7 +122,7 @@ public class InfiniteTradeComponent {
 				StockTradeInfo info = new StockTradeInfo();
 				info.setTradeName("지정가 매도 (+10%)");
 				BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal(TEN_PER));
-				info.setPrice(price);
+				info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
 				info.setQuantity(infiniteDetail.getHoldingQuantity() - quantity - quantity);
 				info.setConcludeType(ConcludeType.PENDING_ORDER);
 				tradeInfoList.add(info);
@@ -147,7 +147,7 @@ public class InfiniteTradeComponent {
 				StockTradeInfo info = new StockTradeInfo();
 				info.setTradeName("지정가 매도 (+10%)");
 				BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal(TEN_PER));
-				info.setPrice(price);
+				info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
 				info.setQuantity(infiniteDetail.getHoldingQuantity());
 				info.setConcludeType(ConcludeType.PENDING_ORDER);
 				tradeInfoList.add(info);
@@ -161,7 +161,7 @@ public class InfiniteTradeComponent {
 				StockTradeInfo info = new StockTradeInfo();
 				info.setTradeName("지정가 매도 (+5%)");
 				BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal(TEN_PER));
-				info.setPrice(price);
+				info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
 				info.setQuantity(quantity);
 				info.setConcludeType(ConcludeType.PENDING_ORDER);
 				tradeInfoList.add(info);
@@ -171,7 +171,7 @@ public class InfiniteTradeComponent {
 				StockTradeInfo info = new StockTradeInfo();
 				info.setTradeName("지정가 매도 (+10%)");
 				BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal(TEN_PER));
-				info.setPrice(price);
+				info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
 				info.setQuantity(infiniteDetail.getHoldingQuantity() - quantity);
 				info.setConcludeType(ConcludeType.PENDING_ORDER);
 				tradeInfoList.add(info);
@@ -193,7 +193,7 @@ public class InfiniteTradeComponent {
 			StockTradeInfo info = new StockTradeInfo();
 			info.setTradeName("지정가 매도 (+10%)");
 			BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal(TEN_PER));
-			info.setPrice(price);
+			info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
 			info.setQuantity(infiniteDetail.getHoldingQuantity());
 			info.setConcludeType(ConcludeType.PENDING_ORDER);
 			tradeInfoList.add(info);
@@ -209,8 +209,8 @@ public class InfiniteTradeComponent {
 	private List<StockTradeInfo> getBuyInfoV2(InfiniteDetail infiniteDetail){
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 		
-		// 0.5회 매수 시드
-		BigDecimal oneBuySeed = infiniteDetail.getSeed().divide(new BigDecimal(80), 2, RoundingMode.FLOOR);
+		// 1회 매수 량
+		int oneBuyQuantity = infiniteDetail.getOneBuyQuantity();
 		// 현재가 +15%
 		BigDecimal nowUpPrice = infiniteDetail.getStockDetail().getPriceClose().multiply(new BigDecimal("1.15"));
 		
@@ -223,9 +223,13 @@ public class InfiniteTradeComponent {
 				
 				// 현재가 +15% 와 평단가와 비교해서 작은값
 				BigDecimal price = infiniteDetail.getAveragePrice().min(nowUpPrice);
-				info.setPrice(price);
+				info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
 				
-				info.setQuantity(oneBuySeed.divide(price, 0, RoundingMode.FLOOR).intValue());
+				// 수량
+				int quantity = (int) Math.round(oneBuyQuantity/2.0);
+				info.setQuantity(quantity);
+				oneBuyQuantity -= quantity;
+				
 				info.setConcludeType(ConcludeType.LOC);
 				tradeInfoList.add(info);
 			}
@@ -236,9 +240,9 @@ public class InfiniteTradeComponent {
 				
 				// 현재가 +15% 와 평단가+5% 와 비교해서 작은값
 				BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal("1.05"));
-				info.setPrice(price.min(nowUpPrice));
+				info.setPrice(price.min(nowUpPrice).setScale(2, RoundingMode.HALF_UP));
 				
-				info.setQuantity(oneBuySeed.divide(price, 0, RoundingMode.FLOOR).intValue());
+				info.setQuantity(oneBuyQuantity);
 				info.setConcludeType(ConcludeType.LOC);
 				tradeInfoList.add(info);
 			}
@@ -250,9 +254,9 @@ public class InfiniteTradeComponent {
 				
 				// 현재가 +15% 와 평단가와 비교해서 작은값
 				BigDecimal price = infiniteDetail.getAveragePrice().min(nowUpPrice);
-				info.setPrice(price);
+				info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
 				
-				info.setQuantity(oneBuySeed.multiply(new BigDecimal(2)).divide(price, 0, RoundingMode.FLOOR).intValue());
+				info.setQuantity(oneBuyQuantity);
 				info.setConcludeType(ConcludeType.LOC);
 				tradeInfoList.add(info);
 			}
@@ -269,8 +273,8 @@ public class InfiniteTradeComponent {
 	private List<StockTradeInfo> getBuyInfoV1(InfiniteDetail infiniteDetail){
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 		
-		// 0.5회 매수 시드
-		BigDecimal oneBuySeed = infiniteDetail.getSeed().divide(new BigDecimal(80), 2, RoundingMode.FLOOR);
+		// 1회 매수량
+		int oneBuyQuantity = infiniteDetail.getOneBuyQuantity();
 		// 현재가 +15%
 		BigDecimal nowUpPrice = infiniteDetail.getStockDetail().getPriceClose().multiply(new BigDecimal("1.15"));
 				
@@ -281,9 +285,13 @@ public class InfiniteTradeComponent {
 			
 			// 현재가 +15% 와 평단가와 비교해서 작은값
 			BigDecimal price = infiniteDetail.getAveragePrice().min(nowUpPrice);
-			info.setPrice(price);
+			info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
 			
-			info.setQuantity(oneBuySeed.divide(price, 0, RoundingMode.FLOOR).intValue());
+			// 수량
+			int quantity = (int) Math.round(oneBuyQuantity/2.0);
+			info.setQuantity(quantity);
+			oneBuyQuantity -= quantity;
+			
 			info.setConcludeType(ConcludeType.LOC);
 			tradeInfoList.add(info);
 		}
@@ -294,9 +302,9 @@ public class InfiniteTradeComponent {
 			
 			// 현재가 +15% 와 평단+10%와 비교해서 작은값
 			BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal("1.1"));
-			info.setPrice(price.min(nowUpPrice));
+			info.setPrice(price.min(nowUpPrice).setScale(2, RoundingMode.HALF_UP));
 			
-			info.setQuantity(oneBuySeed.divide(price, 0, RoundingMode.FLOOR).intValue());
+			info.setQuantity(oneBuyQuantity);
 			info.setConcludeType(ConcludeType.LOC);
 			tradeInfoList.add(info);
 		}

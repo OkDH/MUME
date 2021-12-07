@@ -143,7 +143,7 @@ public class InfiniteStockService {
 		
 		// 수수료 TODO : 개인 설정 수수료
 		BigDecimal fees = unitPrice.multiply(new BigDecimal(quantity)).multiply(new BigDecimal("0.0007"));
-		history.setFees(fees);
+		history.setFees(fees.setScale(2, BigDecimal.ROUND_FLOOR));
 		
 		history.setRegisteredType(RregisteredType.MANUAL.name());
 		history.setRegisteredDate(LocalDateTime.now());

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ocko.aventador.component.InfiniteTradeComponent;
 import com.ocko.aventador.constant.InfiniteState;
 import com.ocko.aventador.constant.RregisteredType;
 import com.ocko.aventador.constant.TradeType;
@@ -33,6 +34,7 @@ import com.ocko.aventador.service.StockService;
 public class InfiniteStockService {
 
 	@Autowired private StockService stockService;
+	@Autowired private InfiniteTradeComponent tradeComponent;
 	@Autowired private InfiniteStockMapper infiniteStockMapper;
 	@Autowired private InfiniteHistoryMapper infiniteHistoryMapper;
 	@Autowired private ViewInfiniteListMapper viewInfiniteListMapper;
@@ -69,9 +71,11 @@ public class InfiniteStockService {
 			// etf 주가 정보 추가
 			infiniteDetail.setStockDetail(stockMap.get(viewInfinite.getSymbol()));
 			
-			// 매수
+			// 매수 정보
+			infiniteDetail.setBuyTradeInfoList(tradeComponent.getBuyInfo(infiniteDetail));
 			
-			// 매도
+			// 매도 정보
+			infiniteDetail.setSellTradeInfoList(tradeComponent.getSellInfo(infiniteDetail));
 			
 			infiniteStockList.add(infiniteDetail);
 		}

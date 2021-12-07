@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ocko.aventador.component.InfiniteTradeComponent;
 import com.ocko.aventador.constant.InfiniteState;
+import com.ocko.aventador.constant.InfiniteType;
 import com.ocko.aventador.constant.RregisteredType;
 import com.ocko.aventador.constant.TradeType;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
@@ -26,6 +27,7 @@ import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteHistoryMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteStockMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
+import com.ocko.aventador.exception.MyArgumentException;
 import com.ocko.aventador.model.InfiniteDetail;
 import com.ocko.aventador.model.StockDetail;
 import com.ocko.aventador.service.StockService;
@@ -149,6 +151,55 @@ public class InfiniteStockService {
 		history.setRegisteredDate(LocalDateTime.now());
 		history.setIsDeleted(false);
 		infiniteHistoryMapper.insert(history);
+		return true;
+	}
+
+	/**
+	 * 무한매수 종목 수정
+	 * @param params
+	 * @return
+	 */
+	public Boolean updateinfiniteStock(Map<String, Object> params) {
+		if(params.get("infiniteId") == null)
+			return false;
+		
+		InfiniteStock infiniteStock = new InfiniteStock();
+		
+		if(params.get("infiniteState") != null) {
+			switch ((String) params.get("state")) {
+			case InfiniteState.ING:
+			case InfiniteState.STOP:
+				infiniteStock.setInfiniteState((String) params.get("state"));
+			default:
+				return false;
+			}
+		}
+		
+		if(params.get("infiniteType") != null) {
+			switch ((String) params.get("infiniteType")) {
+			case InfiniteType.V1:
+			case InfiniteType.V2:
+			case InfiniteType.V2_1:
+				infiniteStock.setInfiniteType((String) params.get("infiniteType"));
+			default:
+				return false;
+			}
+		}
+		
+		if(params.get("seed") != null) {
+			infiniteStock.setSeed(new BigDecimal(params.get("seed").toString()));
+		}
+		
+		if(params.get("startedDate") != null) {
+			infiniteStock.setStartedDate(LocalDate.parse(params.get("startedDate").toString()));
+		}
+		
+		InfiniteStockExample example = new InfiniteStockExample();
+		example.createCriteria().andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()))
+			.andInfiniteIdEqualTo(Integer.parseInt(params.get("infiniteId").toString()));
+		
+		infiniteStockMapper.updateByExampleSelective(infiniteStock, example);
+		
 		return true;
 	}
 }

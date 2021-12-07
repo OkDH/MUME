@@ -204,40 +204,27 @@
 					<div class="card mt-1">
 						<div class="card-header py-2 bg-light collapsed" data-toggle="collapse" data-target="#collapseC_{{$index}}" aria-expanded="false" aria-controls="collapse3">
 							<h6 class="m-0 mt-1 font-weight-bold small">
-								매도
+								매수
 							</h6>
 						</div>
 						<div class="collapse" id="collapseC_{{$index}}">
 							<div class="card-body text-center">
-								<div class="row">
-									<div class="col">
-										<h4 class="small font-weight-bold">LOC 매도 +5%</h4>
+								<div ng-repeat="info in stock.buyTradeInfoList">
+									<hr class="mb-4" ng-if="$index > 0">
+									<div class="row">
+										<div class="col">
+											<h4 class="small font-weight-bold text-danger">{{ info.tradeName }}</h4>
+										</div>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<h4 class="small">단가</h4>
-										<h4 class="small font-weight-bold">$31.96</h4>
-									</div>
-									<div class="col">
-										<h4 class="small">수량</h4>
-										<h4 class="small font-weight-bold">2</h4>
-									</div>
-								</div>
-								<hr class="mb-4">
-								<div class="row">
-									<div class="col">
-										<h4 class="small font-weight-bold">지정가 매도 +10%</h4>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<h4 class="small">단가</h4>
-										<h4 class="small font-weight-bold">$35.44</h4>
-									</div>
-									<div class="col">
-										<h4 class="small">수량</h4>
-										<h4 class="small font-weight-bold">7</h4>
+									<div class="row">
+										<div class="col">
+											<h4 class="small">가격</h4>
+											<h4 class="small font-weight-bold">${{ info.price | number:2 }}</h4>
+										</div>
+										<div class="col">
+											<h4 class="small">수량</h4>
+											<h4 class="small font-weight-bold">{{ info.quantity | number }}</h4>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -246,40 +233,27 @@
 					<div class="card mt-1">
 						<div class="card-header py-2 bg-light collapsed" data-toggle="collapse" data-target="#collapseD_{{$index}}" aria-expanded="false" aria-controls="collapse4">
 							<h6 class="m-0 mt-1 font-weight-bold small">
-								매수
+								매도
 							</h6>
 						</div>
 						<div class="collapse" id="collapseD_{{$index}}">
 							<div class="card-body text-center">
-								<div class="row">
-									<div class="col">
-										<h4 class="small font-weight-bold">LOC 평단 (0.5회치)</h4>
+								<div ng-repeat="info in stock.sellTradeInfoList">
+									<hr class="mb-4" ng-if="$index > 0">
+									<div class="row">
+										<div class="col">
+											<h4 class="small font-weight-bold text-primary">{{ info.tradeName }}</h4>
+										</div>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<h4 class="small">단가</h4>
-										<h4 class="small font-weight-bold">$31.96</h4>
-									</div>
-									<div class="col">
-										<h4 class="small">수량</h4>
-										<h4 class="small font-weight-bold">2</h4>
-									</div>
-								</div>
-								<hr class="mb-4">
-								<div class="row">
-									<div class="col">
-										<h4 class="small font-weight-bold">LOC 큰수 (0.5회치)</h4>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<h4 class="small">단가</h4>
-										<h4 class="small font-weight-bold">$35.44</h4>
-									</div>
-									<div class="col">
-										<h4 class="small">수량</h4>
-										<h4 class="small font-weight-bold">1</h4>
+									<div class="row">
+										<div class="col">
+											<h4 class="small">가격</h4>
+											<h4 class="small font-weight-bold">${{ info.price | number:2 }}</h4>
+										</div>
+										<div class="col">
+											<h4 class="small">수량</h4>
+											<h4 class="small font-weight-bold">{{ info.quantity | number }}</h4>
+										</div>
 									</div>
 								</div>
 							</div>

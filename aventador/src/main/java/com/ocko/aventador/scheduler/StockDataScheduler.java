@@ -57,7 +57,7 @@ public class StockDataScheduler {
 	 * 전체 프로세스 : 월~토 오후 5시 부터 다음날 오전 6시까지 5분마다 작동
 	 * schedulerUpdateBefore : 월~금 오후 5시부터 11시 55분까지 5분마다 작동
 	 * schedulerUpdateAfter : 화~토 오전 0시부터 5시 55분까지 5분마다 작동
-	 * schedulerLastUpdate : 화~토 오전 6시 5분에 작동(최종)
+	 * schedulerLastUpdate : 화~토 오전 6시 0분에 작동(최종)
 	 */
 	@Scheduled(cron="0 0/5 17-23 * * 1-5")
 	public void schedulerUpdateBefore() {
@@ -67,8 +67,21 @@ public class StockDataScheduler {
 	public void schedulerUpdateAfter() {
 		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
 	}
-	@Scheduled(cron="0 5 6 * * 2-6")
+	@Scheduled(cron="0 0 6 * * 2-6")
 	public void schedulerLastUpdate() {
+		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
+	}
+	//------------------
+	@Scheduled(cron="0 10 6 * * 2-6")
+	public void t1() {
+		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
+	}
+	@Scheduled(cron="0 30 6 * * 2-6")
+	public void t2() {
+		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
+	}
+	@Scheduled(cron="0 0/30 7-8 * * 2-6")
+	public void t3() {
 		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
 	}
 	
@@ -116,8 +129,8 @@ public class StockDataScheduler {
 						
 						// stock.getChg() > 0 ? stock.getChg() : 0.0f;
 						BigDecimal up = stock.getChg().compareTo(new BigDecimal(0)) > 0 ? stock.getChg() : new BigDecimal(0);
-						// stock.getChg() < 0 ? stock.getChg()*(-1) : 0.0f;
-						BigDecimal down = stock.getChg().compareTo(new BigDecimal(0)) < 0 ? stock.getChg().multiply(new BigDecimal(-1)) : new BigDecimal(0);
+						// stock.getChg() < 0 ? |stock.getChg()| : 0.0f;
+						BigDecimal down = stock.getChg().compareTo(new BigDecimal(0)) < 0 ? stock.getChg().abs() : new BigDecimal(0);
 						
 						// ((yesterDayStock.getUpAvg() * 13) + up) / 14;
 						BigDecimal upAvg = ((yesterDayStock.getUpAvg().multiply(new BigDecimal(13))).add(up)).divide(new BigDecimal(14), 8, RoundingMode.HALF_EVEN);
@@ -134,6 +147,13 @@ public class StockDataScheduler {
 						
 						stockHistory.setUpdateTime(LocalDateTime.now());
 						stockHistoryMapper.upsert(stockHistory);
+						
+						// ------
+						
+						if(stockHistory.getSymbol() == "BULZ")
+							log.info("BULZ price : " + stockHistory.getPriceClose());
+						if(stockHistory.getSymbol() == "TQQQ")
+							log.info("TQQQ price : " + stockHistory.getPriceClose());
 					}
 				}
 			}

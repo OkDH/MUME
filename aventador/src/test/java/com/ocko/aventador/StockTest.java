@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,13 +26,29 @@ public class StockTest {
 
 	@Test
 	public void test() throws IOException {
-		Stock stock = YahooFinance.get("TQQQ");
+		Stock stock = YahooFinance.get("BULZ");
 		System.out.println("close : " + stock.getQuote().getPrice());
 		System.out.println("prevClose : " + stock.getQuote().getPreviousClose());
 		System.out.println("change : " + stock.getQuote().getChange());
 		System.out.println("changePer : " + stock.getQuote().getChangeInPercent());
 		LocalDateTime date = LocalDateTime.ofInstant(stock.getQuote().getLastTradeTime().toInstant(), ZoneId.systemDefault());
 		System.out.println(date);
+	}
+	
+	@Test
+	public void test2() throws IOException {
+		String[] symbols = {"BULZ"};
+		Map<String, Stock> stocks = YahooFinance.get(symbols);
+		for(String symbol : symbols) {
+			Stock stock = stocks.get(symbol);
+			
+			System.out.println("close : " + stock.getQuote().getPrice());
+			System.out.println("prevClose : " + stock.getQuote().getPreviousClose());
+			System.out.println("change : " + stock.getQuote().getChange());
+			System.out.println("changePer : " + stock.getQuote().getChangeInPercent());
+			LocalDateTime date = LocalDateTime.ofInstant(stock.getQuote().getLastTradeTime().toInstant(), ZoneId.systemDefault());
+			System.out.println(date);
+		}
 	}
 	
 	@Test

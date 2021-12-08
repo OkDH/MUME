@@ -166,10 +166,11 @@ public class InfiniteStockService {
 		InfiniteStock infiniteStock = new InfiniteStock();
 		
 		if(params.get("infiniteState") != null) {
-			switch ((String) params.get("state")) {
+			switch ((String) params.get("infiniteState")) {
 			case InfiniteState.ING:
 			case InfiniteState.STOP:
-				infiniteStock.setInfiniteState((String) params.get("state"));
+				infiniteStock.setInfiniteState((String) params.get("infiniteState"));
+				break;
 			default:
 				return false;
 			}
@@ -181,6 +182,7 @@ public class InfiniteStockService {
 			case InfiniteType.V2:
 			case InfiniteType.V2_1:
 				infiniteStock.setInfiniteType((String) params.get("infiniteType"));
+				break;
 			default:
 				return false;
 			}

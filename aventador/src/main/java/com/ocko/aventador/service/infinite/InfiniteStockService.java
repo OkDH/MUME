@@ -19,8 +19,11 @@ import com.ocko.aventador.constant.InfiniteType;
 import com.ocko.aventador.constant.RregisteredType;
 import com.ocko.aventador.constant.TradeType;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
+import com.ocko.aventador.dao.model.aventador.InfiniteHistoryExample;
 import com.ocko.aventador.dao.model.aventador.InfiniteStock;
 import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
+import com.ocko.aventador.dao.model.aventador.StockHistory;
+import com.ocko.aventador.dao.model.aventador.StockHistoryExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
@@ -207,5 +210,20 @@ public class InfiniteStockService {
 		infiniteStockMapper.updateByExampleSelective(infiniteStock, example);
 		
 		return true;
+	}
+	
+	/**
+	 * 종목 매매 내역 조회
+	 * @param params
+	 * @return
+	 */
+	public List<InfiniteHistory> getStockHistory(Map<String, Object> params){
+		InfiniteHistoryExample example = new InfiniteHistoryExample();
+		example.createCriteria()
+			.andInfiniteHistoryIdEqualTo(Integer.parseInt(params.get("infiniteId").toString()))
+			.andIsDeletedEqualTo(false);
+		example.setOrderByClause("trade_date desc");
+		
+		return infiniteHistoryMapper.selectByExample(example);
 	}
 }

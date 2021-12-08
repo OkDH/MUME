@@ -51,7 +51,7 @@ app.service("infiniteService", function(httpService){
 			httpService.stop(promiseAddStock);
 		}
 		promiseAddStock = httpService.post({
-			url: meta.baseUrl + "api/infinite/stock",
+			url: meta.baseUrl + "api/infinite/stock/add",
 			data: params
 		}).then(function(response){
 			return response.data;
@@ -62,7 +62,7 @@ app.service("infiniteService", function(httpService){
 	// 계좌 내 종목 수정
 	var promiseUpdateStock = null;
 	this.updateStock = function(params){
-		if(promiseAddStock){
+		if(promiseUpdateStock){
 			httpService.stop(promiseUpdateStock);
 		}
 		promiseUpdateStock = httpService.post({
@@ -72,5 +72,20 @@ app.service("infiniteService", function(httpService){
 			return response.data;
 		});
 		return promiseUpdateStock;
+	}
+	
+	// 종목 매매내역
+	var promiseGetHistory = null;
+	this.getStockHistory = function(params){
+		if(promiseGetHistory){
+			httpService.stop(promiseGetHistory);
+		}
+		promiseGetHistory = httpService.post({
+			url: meta.baseUrl + "api/infinite/stock/history",
+			data: params
+		}).then(function(response){
+			return response.data;
+		});
+		return promiseGetHistory;
 	}
 });

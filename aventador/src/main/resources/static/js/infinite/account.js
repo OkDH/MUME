@@ -13,7 +13,7 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	infiniteAccount.account.query = {
 		accountId: null,
 		infiniteType: null,
-		infiniteState: "매도완료",
+		infiniteState: "진행중",
 		offset: 0,
 		limit: 30
 	};
@@ -99,6 +99,21 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 				// TODO : 알림창 
 				alert("변경되었습니다.");
 			}
+		})
+	}
+	
+	// 매매내역
+	infiniteAccount.viewStock = {}
+	// modal open
+	infiniteAccount.openHistoryModal = function(accountId, infiniteId, symbol){
+		infiniteAccount.viewStock.symbol = symbol;
+		$("#historyModal").modal("show");
+		
+		var params = {
+			accountId : accountId, infiniteId : infiniteId
+		}
+		infiniteService.getStockHistory(params).then(function(data){
+			infiniteAccount.viewStock.history = data;
 		})
 	}
 	

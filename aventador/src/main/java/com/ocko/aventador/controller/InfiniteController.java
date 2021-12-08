@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
+import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.exception.MyAccessDeniedException;
 import com.ocko.aventador.exception.MyArgumentException;
@@ -89,7 +90,7 @@ public class InfiniteController {
 	 * @param params
 	 * @return
 	 */
-	@RequestMapping(value = "/api/infinite/stock", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/infinite/stock/add", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> addStock(@RequestBody Map<String, Object> params) {
 		MemberInfo memberInfo = authenticationService.getCurrentMember();
 		if(memberInfo == null)
@@ -117,5 +118,23 @@ public class InfiniteController {
 			throw new MyAccessDeniedException();
 		
 		return new ResponseEntity<Boolean>(stockService.updateinfiniteStock(params), HttpStatus.OK);
+	}
+	
+	/**
+	 * 무한매수 매매 내역 조회
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value = "/api/infinite/stock/history", method = RequestMethod.POST)
+	public ResponseEntity<List<InfiniteHistory>> getStockHistory(@RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+		if(params.get("accountId") == null || params.get("infiniteId") == null)
+			throw new MyArgumentException();
+		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+			throw new MyAccessDeniedException();
+		
+		return new ResponseEntity<List<InfiniteHistory>>(stockService.getStockHistory(params), HttpStatus.OK);
 	}
 }

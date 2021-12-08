@@ -59,7 +59,8 @@ public class InfiniteTradeJob {
 		
 		// 진행 중인 무매 리스트 조회
 		ViewInfiniteListExample example = new ViewInfiniteListExample();
-		example.createCriteria().andInfiniteStateEqualTo(InfiniteState.ING);
+		example.createCriteria().andInfiniteStateEqualTo(InfiniteState.ING)
+			.andStartedDateNotEqualTo(LocalDate.now().minusDays(1));// 시작일이 어제(장개장일)는 제외
 		Cursor<ViewInfiniteList> infiniteList = viewInfiniteListMapper.cursorByExample(example);
 		
 		for(ViewInfiniteList infinite : infiniteList) {

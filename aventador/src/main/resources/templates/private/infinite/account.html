@@ -111,7 +111,7 @@
 						<div
 							class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
 							aria-labelledby="dropdownMenuLink">
-							<a class="dropdown-item">
+							<a class="dropdown-item" ng-click="infiniteAccount.openHistoryModal(stock.accountId, stock.infiniteId, stock.symbol)">
 								<i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> 매매 내역
 							</a> 
 							<a class="dropdown-item" ng-if="stock.infiniteState == '진행중'" ng-click="infiniteAccount.changeState(stock.accountId, stock.infiniteId, '매수중지')">
@@ -330,6 +330,50 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-primary" ng-click="infiniteAccount.addStock.add()">Add</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header bg-primary text-white">
+	        <h5 class="modal-title">{{ infiniteAccount.viewStock.symbol }} - 매매내역</h5>
+	        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <div class="row">
+		    </div>
+		    <div class="row mb-3">
+		    	<table class="table table-hover text-gray-800 text-resize mx-2" id="dataTable" width="100%" style="width: 100%;">
+					<thead>
+						<tr role="row" class="text-center">
+							<th style="width: 5px;">#</th>
+							<th style="width: 20px;">일자</th>
+							<th style="width: 10px;">적요</th>
+							<th style="width: 20px;">단가</th>
+							<th style="width: 20px;">수량</th>
+							<th style="width: 20px;">편집</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="trade in infiniteAccount.viewStock.history">
+							<td>{{ $index+1 }}</td>
+							<td>{{ trade.tradeDate }}</td>
+							<td>{{ trade.tradeType }}</td>
+							<td>{{ trade.unitPrice }}</td>
+							<td>{{ trade.quantity }}</td>
+							<td></td>
+						</tr>
+					</tbody>
+			    </table>
+			</div>
+	      </div>
+	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 	      </div>
 	    </div>

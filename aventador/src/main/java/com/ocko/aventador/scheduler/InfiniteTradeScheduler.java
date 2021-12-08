@@ -28,7 +28,7 @@ public class InfiniteTradeScheduler {
 	 * 무한매수 매매내역 업데이트
 	 * 화~토 오전 6시 10분에 작동
 	 */
-	@Scheduled(cron="0 10 6 * * 2-6")
+	@Scheduled(cron="0 40 8 * * 2-6")
 	public void updateInfiniteHistory() {
 		boolean isOpen = false;
 		

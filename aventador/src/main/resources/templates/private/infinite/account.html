@@ -151,17 +151,17 @@
 								<div class="row">
 									<div class="col">
 										<h4 class="small font-weight-bold">시작일자</h4>
-										<h4 class="small">{{ stock.started_date }}(20)</h4>
+										<h4 class="small">{{ stock.startedDate }}(20)</h4>
 									</div>
 									<div class="col">
 										<h4 class="small font-weight-bold">배정원금</h4>
-										<h4 class="small">{{ stock.seed | number }}$</h4>
+										<h4 class="small">${{ stock.seed | number }}</h4>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col">
 										<h4 class="small font-weight-bold">평균단가</h4>
-										<h4 class="small">{{ stock.averagePrice | number:2 }}$</h4>
+										<h4 class="small">${{ stock.averagePrice | number:2 }}</h4>
 									</div>
 									<div class="col">
 										<h4 class="small font-weight-bold">보유수량</h4>
@@ -171,7 +171,7 @@
 								<div class="row">
 									<div class="col">
 										<h4 class="small font-weight-bold">1회 매수금액</h4>
-										<h4 class="small">{{ stock.oneBuySeed | number:2 }}$</h4>
+										<h4 class="small">${{ stock.oneBuySeed | number:2 }}</h4>
 									</div>
 									<div class="col">
 										<h4 class="small font-weight-bold">1회 매수량</h4>
@@ -349,7 +349,7 @@
 	        <div class="row">
 		    </div>
 		    <div class="row mb-3">
-		    	<table class="table table-hover text-gray-800 text-resize mx-2" id="dataTable" width="100%" style="width: 100%;">
+		    	<table class="table table-hover text-gray-800 text-xs mx-2" id="dataTable" width="100%" style="width: 100%;">
 					<thead>
 						<tr role="row" class="text-center">
 							<th style="width: 5px;">#</th>
@@ -361,12 +361,16 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="trade in infiniteAccount.viewStock.history">
+						<tr class="text-center"
+							ng-repeat="trade in infiniteAccount.viewStock.history">
 							<td>{{ $index+1 }}</td>
 							<td>{{ trade.tradeDate }}</td>
-							<td>{{ trade.tradeType }}</td>
-							<td>{{ trade.unitPrice }}</td>
-							<td>{{ trade.quantity }}</td>
+							<td class="font-weight-bold"
+								ng-class="(trade.tradeType == '매수' && 'text-danger') || (trade.tradeType == '매도' && 'text-primary')">
+								{{ trade.tradeType }}
+							</td>
+							<td>${{ trade.unitPrice | number:2 }}</td>
+							<td>{{ trade.quantity | number }}</td>
 							<td></td>
 						</tr>
 					</tbody>

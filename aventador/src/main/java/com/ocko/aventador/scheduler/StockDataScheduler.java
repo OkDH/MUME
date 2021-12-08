@@ -59,7 +59,7 @@ public class StockDataScheduler {
 	 * schedulerUpdateAfter : 화~토 오전 0시부터 5시 55분까지 5분마다 작동
 	 * schedulerLastUpdate : 화~토 오전 6시 0분에 작동(최종)
 	 */
-	@Scheduled(cron="0 0/5 17-23 * * 1-5")
+	@Scheduled(cron="10 0/5 17-23 * * 1-5")
 	public void schedulerUpdateBefore() {
 		updateStocksHistory(LocalDate.now());
 	}

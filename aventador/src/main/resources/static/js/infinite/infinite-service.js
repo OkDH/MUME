@@ -58,4 +58,19 @@ app.service("infiniteService", function(httpService){
 		});
 		return promiseAddStock;
 	}
+	
+	// 계좌 내 종목 수정
+	var promiseUpdateStock = null;
+	this.updateStock = function(params){
+		if(promiseAddStock){
+			httpService.stop(promiseUpdateStock);
+		}
+		promiseUpdateStock = httpService.post({
+			url: meta.baseUrl + "api/infinite/stock/update",
+			data: params
+		}).then(function(response){
+			return response.data;
+		});
+		return promiseUpdateStock;
+	}
 });

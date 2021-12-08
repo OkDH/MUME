@@ -7,8 +7,8 @@ spring:
     cache: false
   datasource:
     driver-class-name: org.postgresql.Driver
-    # url: jdbc:postgresql://genport112.cafe24.com:5432/aventador
-    url: jdbc:postgresql://localhost:5432/aventador
+    url: jdbc:postgresql://genport112.cafe24.com:5432/aventador
+    # url: jdbc:postgresql://localhost:5432/aventador
     username: aventador
     password: aventadorU$3r
     hikari: 

@@ -226,4 +226,21 @@ public class InfiniteStockService {
 		
 		return infiniteHistoryMapper.selectByExample(example);
 	}
+
+	/**
+	 * 종목 매매 내역 추가
+	 * @param params
+	 * @return
+	 */
+	public Boolean addStockHistory(Map<String, Object> params) {
+		InfiniteHistory history = new InfiniteHistory();
+		history.setInfiniteId(Integer.parseInt(params.get("infiniteId").toString()));
+		history.setTradeDate(LocalDate.parse(params.get("tradeDate").toString()));
+		history.setTradeType(params.get("tradeType").toString());
+		history.setUnitPrice(new BigDecimal(params.get("unitPrice").toString()));
+		history.setQuantity(Integer.parseInt(params.get("quantity").toString()));
+		history.setIsDeleted(false);
+		infiniteHistoryMapper.insert(history);
+		return true;
+	}
 }

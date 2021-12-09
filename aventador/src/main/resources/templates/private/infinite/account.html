@@ -1,11 +1,11 @@
 <div ng-controller="InfiniteAccountController as infiniteAccount">
 
 	<!-- 계좌 이름 -->
-	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+	<div class="d-flex align-items-center justify-content-between mb-4">
 		<h1 class="h4 mb-0 text-gray-800">계좌현황</h1>
 
 		<!-- 추가, 설정 버튼 -->
-		<div class="d-sm-flex align-items-center justify-content-between">
+		<div class="d-flex align-items-center justify-content-between">
 			<a class="btn btn-primary btn-circle shadow mr-1"
 				data-toggle="modal" data-target="#addStockModal">
                 <i class="fas fa-plus text-white"></i>
@@ -91,8 +91,15 @@
 	
 	<div class="row" ng-if="infiniteAccount.stocks.length == 0">
 		<div class="col">
-			<div class="alert alert-success text-center" role="alert">
+			<div class="alert alert-info text-center" role="alert">
 			  <p>조회 된 종목이 없습니다.</p>
+			  <hr>
+			  <div class="text-resize">
+				  <a class="btn btn-success btn-circle btn-sm shadow mr-1"
+					data-toggle="modal" data-target="#filtergModal">
+	                  <i class="fas fa-filter text-white"></i>
+	           	  </a> 버튼을 클릭하여 검색 조건을 바꿔보세요.
+           	  </div>
 			  <hr>
 			  <div class="text-resize">
 				  <a class="btn btn-primary btn-circle btn-sm shadow mr-1"

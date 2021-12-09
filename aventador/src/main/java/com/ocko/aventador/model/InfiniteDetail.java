@@ -18,6 +18,9 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매도 정보 리스트
 	private List<StockTradeInfo> sellTradeInfoList = new ArrayList<StockTradeInfo>();
 	
+	// 수수료율 (default 0.07%)
+	private BigDecimal feesPer = new BigDecimal("0.0007");
+	
 	// 40분할, 1회 매수 금액
 	public BigDecimal getOneBuySeed() {
 		return getSeed().divide(new BigDecimal(40), 2, RoundingMode.DOWN);
@@ -37,11 +40,15 @@ public class InfiniteDetail extends ViewInfiniteList {
 		return stockDetail.getPriceClose().setScale(2, RoundingMode.HALF_UP).multiply(new BigDecimal(getHoldingQuantity()));
 	}
 	
-	// 손익금 : 평가금액 - 매입금액 - 수수료
+	// 손익금 : 평가금액 - 매입금액 - 매수수수료 - 매도시 수수료
 	public BigDecimal getIncome() {
 		if(stockDetail == null)
 			return null;
-		return getEvalPrice().subtract(getBuyPrice()).subtract(getFees());
+		// 매수 수수료(소수점 2자리에서 버림)
+		BigDecimal buyFees = getBuyPrice().multiply(feesPer).setScale(2, RoundingMode.DOWN);
+		// 매도시 수수료(소수점 2자리에서 버림)
+		BigDecimal sellFees = getEvalPrice().multiply(feesPer).setScale(2, RoundingMode.DOWN);
+		return getEvalPrice().subtract(getBuyPrice()).subtract(buyFees).subtract(sellFees);
 	}
 	
 	// 손익률 : 손익금 / 매입금액 * 100
@@ -97,5 +104,20 @@ public class InfiniteDetail extends ViewInfiniteList {
 	public void setSellTradeInfoList(List<StockTradeInfo> sellTradeInfoList) {
 		this.sellTradeInfoList = sellTradeInfoList;
 	}
+
+	/**
+	 * @return {@link #feesPer}
+	 */
+	public BigDecimal getFeesPer() {
+		return feesPer;
+	}
+
+	/**
+	 * @param feesPer {@link #feesPer}
+	 */
+	public void setFeesPer(BigDecimal feesPer) {
+		this.feesPer = feesPer;
+	}
+	
 	
 }

@@ -25,6 +25,7 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	});
 	
 	// 종목 리스트 조회
+	infiniteAccount.stocks = [];
 	infiniteAccount.getStocks = function(query){
 		infiniteService.getStocks(query).then(function(data){
 			infiniteAccount.stocks = data;

@@ -220,7 +220,7 @@ public class InfiniteStockService {
 	public List<InfiniteHistory> getStockHistory(Map<String, Object> params){
 		InfiniteHistoryExample example = new InfiniteHistoryExample();
 		example.createCriteria()
-			.andInfiniteHistoryIdEqualTo(Integer.parseInt(params.get("infiniteId").toString()))
+			.andInfiniteIdEqualTo(Integer.parseInt(params.get("infiniteId").toString()))
 			.andIsDeletedEqualTo(false);
 		example.setOrderByClause("trade_date desc");
 		

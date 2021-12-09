@@ -137,4 +137,22 @@ public class InfiniteController {
 		
 		return new ResponseEntity<List<InfiniteHistory>>(stockService.getStockHistory(params), HttpStatus.OK);
 	}
+	
+	/**
+	 * 무한매수 매매 내역 추가
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value = "/api/infinite/stock/history/add", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> addStockHistory(@RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+		if(params.get("accountId") == null || params.get("infiniteId") == null)
+			throw new MyArgumentException();
+		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+			throw new MyAccessDeniedException();
+		
+		return new ResponseEntity<Boolean>(stockService.addStockHistory(params), HttpStatus.OK);
+	}
 }

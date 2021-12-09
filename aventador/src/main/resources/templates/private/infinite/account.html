@@ -10,9 +10,13 @@
 				data-toggle="modal" data-target="#addStockModal">
                 <i class="fas fa-plus text-white"></i>
             </a>
-			<a class="btn btn-success btn-circle shadow"
+			<a class="btn btn-info btn-circle shadow mr-1"
 				data-toggle="modal" data-target="#filtergModal">
                 <i class="fas fa-filter text-white"></i>
+            </a>
+			<a class="btn btn-success btn-circle shadow"
+				data-toggle="modal" data-target="#simpleModal">
+                <i class="fas fa-fw fa-th-list text-white"></i>
             </a>
 		</div>
 	</div>
@@ -91,11 +95,11 @@
 	
 	<div class="row" ng-if="infiniteAccount.stocks.length == 0">
 		<div class="col">
-			<div class="alert alert-info text-center" role="alert">
-			  <p>조회 된 종목이 없습니다.</p>
+			<div class="alert alert-success text-center" role="alert">
+			  <p class="font-weight-bold mt-2">조회 된 종목이 없습니다.</p>
 			  <hr>
 			  <div class="text-resize">
-				  <a class="btn btn-success btn-circle btn-sm shadow mr-1"
+				  <a class="btn btn-info btn-circle btn-sm shadow mr-1"
 					data-toggle="modal" data-target="#filtergModal">
 	                  <i class="fas fa-filter text-white"></i>
 	           	  </a> 버튼을 클릭하여 검색 조건을 바꿔보세요.
@@ -362,48 +366,78 @@
 	  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header bg-primary text-white">
-	        <h5 class="modal-title">{{ infiniteAccount.viewStock.symbol }} - 매매내역</h5>
+	        <h5 class="modal-title">매매내역</h5>
 	        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
 	      <div class="modal-body">
 	        <div class="row">
-	        	<div class="float-right mx-3">
-					<a class="btn btn-primary btn-circle btn-sm shadow mb-1" >
-		                <i class="fas fa-plus text-white"></i>
+	        	<div class="col mx-2 font-weight-bold mb-2 text-gray-800">
+					<span class="border-bottom-primary px-2">{{ infiniteAccount.viewStock.symbol }}</span>
+				</div>
+	        	<div class="col text-right mx-3 w-100">
+					<a class="btn btn-primary btn-circle btn-sm mb-2" ng-click="infiniteAccount.addHistory.isShow = !infiniteAccount.addHistory.isShow">
+		                <i class="fas text-white" 
+		                	ng-class="(infiniteAccount.addHistory.isShow && 'fa-minus') || 'fa-plus'"></i>
 		            </a>
 				</div>
 		    </div>
 		    <div class="row">
-		    	<table class="table table-hover text-gray-800 text-xs mx-3" id="dataTable" width="100%" style="width: 100%;">
+		    	<table class="table table-sm table-hover text-gray-800 text-xs mx-3" id="dataTable" width="100%" style="width: 100%;">
 					<thead>
 						<tr role="row" class="text-center">
 							<th style="width: 5px;">#</th>
 							<th style="width: 20px;">일자</th>
 							<th style="width: 10px;">적요</th>
 							<th style="width: 20px;">단가</th>
-							<th style="width: 20px;">수량</th>
+							<th style="width: 10px;">수량</th>
 							<th style="width: 20px;">편집</th>
 						</tr>
 					</thead>
 					<tbody>
+						<tr class="text-center bg-gray-200" ng-show="infiniteAccount.addHistory.isShow">
+							<td colspan="2" class="align-middle">
+								<input type="text" class="form-control text-xs ml-1" id="addHistoryDatePicker" ng-model="infiniteAccount.addHistory.data.startedDate">
+							</td>
+							<td class="align-middle">
+								<div class="btn-group btn-group-toggle" data-toggle="buttons">
+								  <label class="btn btn-sm btn-danger active text-xs">
+								    <input type="radio" name="historyTradeType" id="option1" ng-model="infiniteAccount.addHistory.data.tradeType" value="매수"> 매수
+								  </label>
+								  <label class="btn btn-sm btn-primary text-xs">
+								    <input type="radio" name="historyTradeType" id="option2" ng-model="infiniteAccount.addHistory.data.tradeType" value="매도"> 매도
+								  </label>
+								</div>
+							</td>
+							<td class="align-middle">
+								<input type="text" class="form-control text-xs" ng-model="infiniteAccount.addHistory.data.unitPrice">
+							</td>
+							<td class="align-middle">
+								<input type="text" class="form-control text-xs" ng-model="infiniteAccount.addHistory.data.quantity">
+							</td>
+							<td class="align-middle">
+								<a class="btn btn-sm text-xs" ng-click="infiniteAccount.addHistory.add()">
+					               	 <i class="fas fa-plus text-primary"></i>
+					            </a>
+							</td>
+						</tr>	
 						<tr class="text-center"
 							ng-repeat="trade in infiniteAccount.viewStock.history">
 							<td class="align-middle">{{ infiniteAccount.viewStock.history.length - $index }}</td>
 							<td class="align-middle">{{ trade.tradeDate }}</td>
-							<td class="font-weight-bold align-middle"
+							<td class="align-middle font-weight-bold"
 								ng-class="(trade.tradeType == '매수' && 'text-danger') || (trade.tradeType == '매도' && 'text-primary')">
 								{{ trade.tradeType }}
 							</td>
-							<td class="align-middle">${{ trade.unitPrice | number:2 }}</td>
-							<td class="align-middle">{{ trade.quantity | number }}</td>
+							<td class="align-middle font-weight-bold">${{ trade.unitPrice | number:2 }}</td>
+							<td class="align-middle font-weight-bold">{{ trade.quantity | number }}</td>
 							<td class="align-middle">
-								<a class="btn btn-primary btn-success btn-sm shadow" >
-					                <i class="fas fa-edit text-white"></i>
+								<a class="btn btn-sm text-xs p-0 mr-1">
+					                <i class="fas fa-edit text-success"></i>
 					            </a>
-								<a class="btn btn-primary btn-danger btn-sm shadow" >
-					                <i class="fas fa-trash text-white"></i>
+								<a class="btn btn-sm text-xs p-0">
+					                <i class="fas fa-trash text-danger"></i>
 					            </a>
 							</td>
 						</tr>

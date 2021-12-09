@@ -87,10 +87,7 @@ public class StockDataScheduler {
 	
 	/**
 	 * 심볼별로 주가 데이터를 수집
-	 * 1. 야후 파이낸스 API에서 각 심볼별로 주가 데이터를 가져옴
-	 * 2. ViewTodayStock에서 심볼별로 가장 최신주가 데이터를 가져옴
-	 * 3. viewTodayStock의 update_time과 파이낸스 데이터의 LastTradeTime과 비교
-	 * 4. LastTradeTime이 updateTime보다 나중이라면 업데이트
+	 * 가져온 주가 데이터의 업데이트 날짜와 현재 날짜와 같은 경우 진행
 	 * @param stockDate 주가 일자
 	 */
 	private void updateStocksHistory(LocalDate stockDate) {
@@ -101,61 +98,53 @@ public class StockDataScheduler {
 		for(String symbol : stocks.keySet()) {
 			StockDetail stock = stocks.get(symbol);
 			
-			// 2. ViewTodayStock에서 가장 최신을 가져옴.
-			ViewTodayStockExample viewExample = new ViewTodayStockExample();
-			viewExample.createCriteria().andSymbolEqualTo(stock.getSymbol());
-			List<ViewTodayStock> viewTodayStockList = viewTodayStockMapper.selectByExample(viewExample);
-			if(!viewTodayStockList.isEmpty()) {
-				ViewTodayStock viewTodayStock = viewTodayStockList.get(0);
+			// 가져온 주가 데이터의 업데이트 날짜와 현재 날짜와 같은 경우 진행 
+			if(!stock.getLastTradeTime().toLocalDate().isEqual(LocalDate.now()))
+				continue;
 				
-				// 3. viewTodayStock의 update_time과 파이낸스 데이터의 LastTradeTime과 비교
-				// 4. LastTradeTime이 updateTime보다 나중이라면 업데이트
-				if(stock.getLastTradeTime().isAfter(viewTodayStock.getUpdateTime())) {
-					StockHistory stockHistory = new StockHistory();
-					
-					// 객체복사
-					BeanUtils.copyProperties(stock, stockHistory);
-					stockHistory.setStockDate(stockDate);
-					
-					// 전일 데이터 가져오기
-					StockHistoryExample example = new StockHistoryExample();
-					example.createCriteria().andSymbolEqualTo(stock.getSymbol()).andStockDateNotEqualTo(stockDate);
-					example.setOrderByClause("stock_date desc");
-					example.setLimit(1);
-					List<StockHistory> stockHistorys = stockHistoryMapper.selectByExample(example);
+			StockHistory stockHistory = new StockHistory();
+			
+			// 객체복사
+			BeanUtils.copyProperties(stock, stockHistory);
+			stockHistory.setStockDate(stockDate);
+			
+			// 전일 데이터 가져오기
+			StockHistoryExample example = new StockHistoryExample();
+			example.createCriteria().andSymbolEqualTo(stock.getSymbol()).andStockDateNotEqualTo(stockDate);
+			example.setOrderByClause("stock_date desc");
+			example.setLimit(1);
+			List<StockHistory> stockHistorys = stockHistoryMapper.selectByExample(example);
 
-					if(!stockHistorys.isEmpty()) {
-						StockHistory yesterDayStock = stockHistorys.get(0);
-						
-						// stock.getChg() > 0 ? stock.getChg() : 0.0f;
-						BigDecimal up = stock.getChg().compareTo(new BigDecimal(0)) > 0 ? stock.getChg() : new BigDecimal(0);
-						// stock.getChg() < 0 ? |stock.getChg()| : 0.0f;
-						BigDecimal down = stock.getChg().compareTo(new BigDecimal(0)) < 0 ? stock.getChg().abs() : new BigDecimal(0);
-						
-						// ((yesterDayStock.getUpAvg() * 13) + up) / 14;
-						BigDecimal upAvg = ((yesterDayStock.getUpAvg().multiply(new BigDecimal(13))).add(up)).divide(new BigDecimal(14), 8, RoundingMode.HALF_EVEN);
-						
-						// ((yesterDayStock.getDwAvg() * 13) + down) / 14;
-						BigDecimal dwAvg = ((yesterDayStock.getDwAvg().multiply(new BigDecimal(13))).add(down)).divide(new BigDecimal(14), 8, RoundingMode.HALF_EVEN);
-						
-						// 100 - (100 / (1 + (upAvg / dwAvg)));
-						BigDecimal rsi = new BigDecimal(100).subtract(new BigDecimal(100).divide(new BigDecimal(1).add(upAvg.divide(dwAvg, 8, RoundingMode.HALF_EVEN)), 8, RoundingMode.HALF_EVEN));
-						
-						stockHistory.setUpAvg(upAvg);
-						stockHistory.setDwAvg(dwAvg);
-						stockHistory.setRsi(rsi);
-						
-						stockHistory.setUpdateTime(LocalDateTime.now());
-						stockHistoryMapper.upsert(stockHistory);
-						
-						// ------
-						
-						if(stockHistory.getSymbol() == "BULZ")
-							log.info("BULZ price : " + stockHistory.getPriceClose());
-						if(stockHistory.getSymbol() == "TQQQ")
-							log.info("TQQQ price : " + stockHistory.getPriceClose());
-					}
-				}
+			if(!stockHistorys.isEmpty()) {
+				StockHistory yesterDayStock = stockHistorys.get(0);
+				
+				// stock.getChg() > 0 ? stock.getChg() : 0.0f;
+				BigDecimal up = stock.getChg().compareTo(new BigDecimal(0)) > 0 ? stock.getChg() : new BigDecimal(0);
+				// stock.getChg() < 0 ? |stock.getChg()| : 0.0f;
+				BigDecimal down = stock.getChg().compareTo(new BigDecimal(0)) < 0 ? stock.getChg().abs() : new BigDecimal(0);
+				
+				// ((yesterDayStock.getUpAvg() * 13) + up) / 14;
+				BigDecimal upAvg = ((yesterDayStock.getUpAvg().multiply(new BigDecimal(13))).add(up)).divide(new BigDecimal(14), 8, RoundingMode.HALF_EVEN);
+				
+				// ((yesterDayStock.getDwAvg() * 13) + down) / 14;
+				BigDecimal dwAvg = ((yesterDayStock.getDwAvg().multiply(new BigDecimal(13))).add(down)).divide(new BigDecimal(14), 8, RoundingMode.HALF_EVEN);
+				
+				// 100 - (100 / (1 + (upAvg / dwAvg)));
+				BigDecimal rsi = new BigDecimal(100).subtract(new BigDecimal(100).divide(new BigDecimal(1).add(upAvg.divide(dwAvg, 8, RoundingMode.HALF_EVEN)), 8, RoundingMode.HALF_EVEN));
+				
+				stockHistory.setUpAvg(upAvg);
+				stockHistory.setDwAvg(dwAvg);
+				stockHistory.setRsi(rsi);
+				
+				stockHistory.setUpdateTime(LocalDateTime.now());
+				stockHistoryMapper.upsert(stockHistory);
+				
+				// ------
+				
+				if(stockHistory.getSymbol() == "BULZ")
+					log.info("BULZ price : " + stockHistory.getPriceClose());
+				if(stockHistory.getSymbol() == "TQQQ")
+					log.info("TQQQ price : " + stockHistory.getPriceClose());
 			}
 		}
 	}

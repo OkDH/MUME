@@ -88,4 +88,19 @@ app.service("infiniteService", function(httpService){
 		});
 		return promiseGetHistory;
 	}
+	
+	// 매매내역 추가
+	var promiseAddHistory = null;
+	this.addHistory = function(params){
+		if(promiseAddHistory){
+			httpService.stop(promiseAddHistory);
+		}
+		promiseAddHistory = httpService.post({
+			url: meta.baseUrl + "api/infinite/stock/history/add",
+			data: params
+		}).then(function(response){
+			return response.data;
+		});
+		return promiseAddHistory;
+	}
 });

@@ -8,7 +8,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -87,7 +89,6 @@ public class StockDataScheduler {
 	
 	/**
 	 * 심볼별로 주가 데이터를 수집
-	 * 가져온 주가 데이터의 업데이트 날짜와 현재 날짜와 같은 경우 진행
 	 * @param stockDate 주가 일자
 	 */
 	private void updateStocksHistory(LocalDate stockDate) {
@@ -97,15 +98,17 @@ public class StockDataScheduler {
 		
 		for(String symbol : stocks.keySet()) {
 			StockDetail stock = stocks.get(symbol);
-			
-			// 가져온 주가 데이터의 업데이트 날짜와 현재 날짜와 같은 경우 진행 
-			if(!stock.getLastTradeTime().toLocalDate().isEqual(LocalDate.now()))
+
+			// 마지막 거래 시간과 현재 시간의 차이가 5분이 지나지 않을 경우 데이터 업데이트
+			if(ChronoUnit.MINUTES.between(stock.getLastTradeTime(), LocalDateTime.now()) > 5)
 				continue;
-				
+			
 			StockHistory stockHistory = new StockHistory();
 			
 			// 객체복사
 			BeanUtils.copyProperties(stock, stockHistory);
+			
+			// 주가 일자
 			stockHistory.setStockDate(stockDate);
 			
 			// 전일 데이터 가져오기
@@ -141,10 +144,10 @@ public class StockDataScheduler {
 				
 				// ------
 				
-				if(stockHistory.getSymbol() == "BULZ")
-					log.info("BULZ price : " + stockHistory.getPriceClose());
-				if(stockHistory.getSymbol() == "TQQQ")
-					log.info("TQQQ price : " + stockHistory.getPriceClose());
+				if(stockHistory.getSymbol() == "BULZ" || stockHistory.getSymbol() == "TQQQ") {
+					log.info(stockHistory.getSymbol() + " price : " + stockHistory.getPriceClose());
+					log.info(stockHistory.getSymbol() + " price : " + stockHistory.getPriceClose());
+				}
 			}
 		}
 	}

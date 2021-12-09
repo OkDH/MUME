@@ -88,16 +88,31 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="row" ng-if="infiniteAccount.stocks.length == 0">
+		<div class="col">
+			<div class="alert alert-success text-center" role="alert">
+			  <p>조회 된 종목이 없습니다.</p>
+			  <hr>
+			  <div class="text-resize">
+				  <a class="btn btn-primary btn-circle btn-sm shadow mr-1"
+					data-toggle="modal" data-target="#addStockModal">
+	                  <i class="fas fa-plus text-white"></i>
+	           	  </a> 버튼을 클릭하여 종목을 추가해보세요.
+           	  </div>
+			</div>
+		</div>
+	</div>
 
-	<div class="row">
+	<div class="row" ng-if="infiniteAccount.stocks.length > 0">
 		<div class="col-xl-3 col-md-6" ng-repeat="stock in infiniteAccount.stocks">
 			<div class="card shadow mb-4">
 				<div
 					class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-					<h6 class="m-0 font-weight-bold text-primary">
+					<h6 class="m-0 font-weight-bold text-primary float-right">
 						{{ stock.symbol }}
-						<span class="badge rounded-pill bg-warning text-white py-1 px-3 ml-2">{{ stock.infiniteType }}</span>
-						<span class="badge rounded-pill text-white py-1 px-3"
+						<span class="badge rounded-pill bg-warning text-white py-1 px-2 ml-2">{{ stock.infiniteType }}</span>
+						<span class="badge rounded-pill text-white py-1 px-2"
 							ng-class="(stock.infiniteState == '진행중' && 'bg-primary') || (stock.infiniteState == '매도완료' && 'bg-success') ||
 									(stock.infiniteState == '매수중지' && 'bg-danger') || (stock.infiniteState == '원금소진' && 'bg-danger') ">
 							{{ stock.infiniteState }}
@@ -347,9 +362,14 @@
 	      </div>
 	      <div class="modal-body">
 	        <div class="row">
+	        	<div class="float-right mx-3">
+					<a class="btn btn-primary btn-circle btn-sm shadow mb-1" >
+		                <i class="fas fa-plus text-white"></i>
+		            </a>
+				</div>
 		    </div>
-		    <div class="row mb-3">
-		    	<table class="table table-hover text-gray-800 text-xs mx-2" id="dataTable" width="100%" style="width: 100%;">
+		    <div class="row">
+		    	<table class="table table-hover text-gray-800 text-xs mx-3" id="dataTable" width="100%" style="width: 100%;">
 					<thead>
 						<tr role="row" class="text-center">
 							<th style="width: 5px;">#</th>
@@ -363,15 +383,22 @@
 					<tbody>
 						<tr class="text-center"
 							ng-repeat="trade in infiniteAccount.viewStock.history">
-							<td>{{ $index+1 }}</td>
-							<td>{{ trade.tradeDate }}</td>
-							<td class="font-weight-bold"
+							<td class="align-middle">{{ infiniteAccount.viewStock.history.length - $index }}</td>
+							<td class="align-middle">{{ trade.tradeDate }}</td>
+							<td class="font-weight-bold align-middle"
 								ng-class="(trade.tradeType == '매수' && 'text-danger') || (trade.tradeType == '매도' && 'text-primary')">
 								{{ trade.tradeType }}
 							</td>
-							<td>${{ trade.unitPrice | number:2 }}</td>
-							<td>{{ trade.quantity | number }}</td>
-							<td></td>
+							<td class="align-middle">${{ trade.unitPrice | number:2 }}</td>
+							<td class="align-middle">{{ trade.quantity | number }}</td>
+							<td class="align-middle">
+								<a class="btn btn-primary btn-success btn-sm shadow" >
+					                <i class="fas fa-edit text-white"></i>
+					            </a>
+								<a class="btn btn-primary btn-danger btn-sm shadow" >
+					                <i class="fas fa-trash text-white"></i>
+					            </a>
+							</td>
 						</tr>
 					</tbody>
 			    </table>

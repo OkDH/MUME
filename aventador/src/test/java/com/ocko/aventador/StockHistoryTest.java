@@ -24,5 +24,10 @@ public class StockHistoryTest {
 	public void firstCollectHistory() throws IOException {
 		StockDataScheduler.firstCollectStockHistory();
 	}
+	
+	@Test
+	public void lastDayHistory() throws IOException {
+		StockDataScheduler.schedulerLastUpdate();
+	}
 
 }

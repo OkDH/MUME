@@ -107,14 +107,46 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	infiniteAccount.viewStock = {}
 	// modal open
 	infiniteAccount.openHistoryModal = function(accountId, infiniteId, symbol){
-		infiniteAccount.viewStock.symbol = symbol;
+		infiniteAccount.viewStock = {
+			symbol: symbol,
+			accountId: accountId,
+			infiniteId: infiniteId
+		}
 		$("#historyModal").modal("show");
 		
-		var params = {
-			accountId : accountId, infiniteId : infiniteId
-		}
-		infiniteService.getStockHistory(params).then(function(data){
+		infiniteService.getStockHistory(infiniteAccount.viewStock).then(function(data){
 			infiniteAccount.viewStock.history = data;
+		});
+		
+		infiniteAccount.addHistory.init();
+	}
+	// 매매내역 추가 관련 변수
+	infiniteAccount.addHistory = {};
+	infiniteAccount.addHistory.init = function(){
+		infiniteAccount.addHistory.isShow = false;
+		infiniteAccount.addHistory.data = {
+			accountId: infiniteAccount.viewStock.accountId,
+			infiniteId: infiniteAccount.viewStock.infiniteId,
+			tradeType : "매수",
+			tradeDate: null,
+			unitPrice: null,
+			quantity: null
+		}
+	}
+	infiniteAccount.addHistory.add = function(){
+		// jquery에서 만든 날짜 값 가져오기
+		infiniteAccount.addHistory.data.tradeDate = $('#addHistoryDatePicker').val();
+		infiniteService.addHistory(infiniteAccount.addHistory.data).then(function(data){
+			if(data == true){
+				infiniteService.getStockHistory(infiniteAccount.viewStock).then(function(data){
+					infiniteAccount.viewStock.history = data;
+				});
+				
+				infiniteAccount.addHistory.init();
+				
+				// TODO : 알림창 
+				alert("추가되었습니다.");
+			}
 		})
 	}
 	
@@ -130,6 +162,18 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	    showWeekDays : true ,// 위에 요일 보여주는 옵션 기본값 : true
 	    todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false 
 	    language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
+	});
+	$('#addHistoryDatePicker').datepicker({
+		format: "yyyy-mm-dd",	// 데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
+		endDate: '1d',
+		autoclose : true,	// 사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
+		templates : {
+			leftArrow: '&laquo;',
+			rightArrow: '&raquo;'
+		}, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징 
+		showWeekDays : true ,// 위에 요일 보여주는 옵션 기본값 : true
+		todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false 
+		language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
 	});
 	
 });

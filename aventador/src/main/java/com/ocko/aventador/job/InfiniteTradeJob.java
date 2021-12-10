@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ocko.aventador.component.InfiniteTradeComponent;
 import com.ocko.aventador.constant.InfiniteState;
-import com.ocko.aventador.constant.RregisteredType;
+import com.ocko.aventador.constant.RegisteredType;
 import com.ocko.aventador.constant.TradeType;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
 import com.ocko.aventador.dao.model.aventador.InfiniteStock;
@@ -59,8 +59,7 @@ public class InfiniteTradeJob {
 		
 		// 진행 중인 무매 리스트 조회
 		ViewInfiniteListExample example = new ViewInfiniteListExample();
-		example.createCriteria().andInfiniteStateEqualTo(InfiniteState.ING)
-			.andStartedDateNotEqualTo(LocalDate.now().minusDays(1));// 시작일이 어제(장개장일)는 제외
+		example.createCriteria().andInfiniteStateEqualTo(InfiniteState.ING);
 		Cursor<ViewInfiniteList> infiniteList = viewInfiniteListMapper.cursorByExample(example);
 		
 		for(ViewInfiniteList infinite : infiniteList) {
@@ -118,7 +117,7 @@ public class InfiniteTradeJob {
 			infiniteHistory.setTradeDate(LocalDate.now().minusDays(1));
 			infiniteHistory.setTradeType(TradeType.SELL);
 			infiniteHistory.setQuantity(info.getQuantity());
-			infiniteHistory.setRegisteredType(RregisteredType.AUTO.name());
+			infiniteHistory.setRegisteredType(RegisteredType.AUTO.name());
 			infiniteHistory.setRegisteredDate(LocalDateTime.now());
 			infiniteHistory.setIsDeleted(false);
 			
@@ -194,7 +193,7 @@ public class InfiniteTradeJob {
 			infiniteHistory.setTradeDate(LocalDate.now().minusDays(1));
 			infiniteHistory.setTradeType(TradeType.BUY);
 			infiniteHistory.setQuantity(info.getQuantity());
-			infiniteHistory.setRegisteredType(RregisteredType.AUTO.name());
+			infiniteHistory.setRegisteredType(RegisteredType.AUTO.name());
 			infiniteHistory.setRegisteredDate(LocalDateTime.now());
 			infiniteHistory.setIsDeleted(false);
 			

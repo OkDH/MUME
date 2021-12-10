@@ -103,4 +103,19 @@ app.service("infiniteService", function(httpService){
 		});
 		return promiseAddHistory;
 	}
+	
+	// 매매내역 변경
+	var promiseUpdateHistory = null;
+	this.updateHistory = function(params){
+		if(promiseUpdateHistory){
+			httpService.stop(promiseUpdateHistory);
+		}
+		promiseUpdateHistory = httpService.post({
+			url: meta.baseUrl + "api/infinite/stock/history/update",
+			data: params
+		}).then(function(response){
+			return response.data;
+		});
+		return promiseUpdateHistory;
+	}
 });

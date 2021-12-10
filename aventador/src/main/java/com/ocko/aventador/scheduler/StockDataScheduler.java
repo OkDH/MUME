@@ -55,34 +55,16 @@ public class StockDataScheduler {
 	
 	/**
 	 * 주가 데이터 수집 스케쥴러
-	 * 전체 프로세스 : 월~토 오후 5시 부터 다음날 오전 6시까지 5분마다 작동
+	 * 전체 프로세스 : 월~토 오후 5시 부터 다음날 오전 7시까지 5분마다 작동
 	 * schedulerUpdateBefore : 월~금 오후 5시부터 11시 55분까지 5분마다 작동
-	 * schedulerUpdateAfter : 화~토 오전 0시부터 5시 55분까지 5분마다 작동
-	 * schedulerLastUpdate : 화~토 오전 6시 0분에 작동(최종)
+	 * schedulerUpdateAfter : 화~토 오전 0시부터 6시 55분까지 5분마다 작동
 	 */
 	@Scheduled(cron="30 0/5 17-23 * * 1-5")
 	public void schedulerUpdateBefore() {
 		updateStocksHistory(LocalDate.now());
 	}
-	@Scheduled(cron="30 0/5 0-5 * * 2-6")
+	@Scheduled(cron="30 0/5 0-6 * * 2-6")
 	public void schedulerUpdateAfter() {
-		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
-	}
-	@Scheduled(cron="30 0 6 * * 2-6")
-	public void schedulerLastUpdate() {
-		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
-	}
-	//------------------
-	@Scheduled(cron="0 10 6 * * 2-6")
-	public void t1() {
-		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
-	}
-	@Scheduled(cron="0 30 6 * * 2-6")
-	public void t2() {
-		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
-	}
-	@Scheduled(cron="0 0/30 7-8 * * 2-6")
-	public void t3() {
 		updateStocksHistory(LocalDate.now().minusDays(1)); // 하루 넘어갔으니 전일 날짜로 업데이트
 	}
 	
@@ -98,8 +80,8 @@ public class StockDataScheduler {
 		for(String symbol : stocks.keySet()) {
 			StockDetail stock = stocks.get(symbol);
 
-			// 마지막 거래 시간과 현재 시간의 차이가 30분이 지나지 않을 경우 데이터 업데이트
-			if(ChronoUnit.MINUTES.between(stock.getLastTradeTime(), LocalDateTime.now()) > 30)
+			// 마지막 거래 시간과 현재 시간의 차이가 60분이 지나지 않을 경우 데이터 업데이트
+			if(ChronoUnit.MINUTES.between(stock.getLastTradeTime(), LocalDateTime.now()) > 60)
 				continue;
 			
 			StockHistory stockHistory = new StockHistory();
@@ -143,7 +125,7 @@ public class StockDataScheduler {
 				
 				// ------
 				
-				if(stockHistory.getSymbol() == "BULZ" || stockHistory.getSymbol() == "TQQQ") {
+				if(stockHistory.getSymbol() == "BULZ" || stockHistory.getSymbol() == "TQQQ" || stockHistory.getSymbol() == "WEBL" || stockHistory.getSymbol() == "SOXL") {
 					log.info(stockHistory.getSymbol() + " price : " + stockHistory.getPriceClose());
 				}
 			}

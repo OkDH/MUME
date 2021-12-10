@@ -115,7 +115,16 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 		$("#historyModal").modal("show");
 		
 		infiniteService.getStockHistory(infiniteAccount.viewStock).then(function(data){
+			if(!data)
+				return;
+			
 			infiniteAccount.viewStock.history = data;
+			
+			// 원본값을 보존하고 edit 변수에 값을 넣어줌
+			infiniteAccount.viewStock.history.forEach(function(item){
+				item.edit = angular.copy(item);
+			});
+			
 		});
 		
 		infiniteAccount.addHistory.init();
@@ -143,9 +152,40 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 				});
 				
 				infiniteAccount.addHistory.init();
+				infiniteAccount.getStocks(infiniteAccount.account.query);
+				infiniteAccount.getAccountState(infiniteAccount.account.query.accountId);
 				
 				// TODO : 알림창 
 				alert("추가되었습니다.");
+			}
+		})
+	}
+	// 매매내역 삭제
+	infiniteAccount.checkDeleteHistory = function(infiniteHistoryId){
+		var isDelete = confirm( '삭제하시겠습니까?' );
+		if(isDelete){
+			infiniteAccount.deleteHistory(infiniteHistoryId);
+		}
+	}
+	infiniteAccount.deleteHistory = function(infiniteHistoryId){
+		var params = {
+			accountId : infiniteAccount.viewStock.accountId, 
+			infiniteId : infiniteAccount.viewStock.infiniteId, 
+			infiniteHistoryId : infiniteHistoryId,
+			isDeleted : true
+		}
+		
+		infiniteService.updateHistory(params).then(function(data){
+			if(data == true){
+				infiniteService.getStockHistory(infiniteAccount.viewStock).then(function(data){
+					infiniteAccount.viewStock.history = data;
+				});
+				
+				infiniteAccount.getStocks(infiniteAccount.account.query);
+				infiniteAccount.getAccountState(infiniteAccount.account.query.accountId);
+
+				// TODO : 알림창 
+				alert("삭제되었습니다.");
 			}
 		})
 	}

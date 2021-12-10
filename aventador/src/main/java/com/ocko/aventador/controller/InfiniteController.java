@@ -112,7 +112,7 @@ public class InfiniteController {
 		MemberInfo memberInfo = authenticationService.getCurrentMember();
 		if(memberInfo == null)
 			return null;
-		if(params.get("accountId") == null)
+		if(params.get("accountId") == null || params.get("infiniteId") == null)
 			throw new MyArgumentException();
 		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
 			throw new MyAccessDeniedException();
@@ -154,5 +154,23 @@ public class InfiniteController {
 			throw new MyAccessDeniedException();
 		
 		return new ResponseEntity<Boolean>(stockService.addStockHistory(params), HttpStatus.OK);
+	}
+	
+	/**
+	 * 무한매수 매매 내역 변경
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value = "/api/infinite/stock/history/update", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> updateStockHistory(@RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+		if(params.get("accountId") == null || params.get("infiniteId") == null || params.get("infiniteHistoryId") == null)
+			throw new MyArgumentException();
+		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+			throw new MyAccessDeniedException();
+		
+		return new ResponseEntity<Boolean>(stockService.updateStockHistory(params), HttpStatus.OK);
 	}
 }

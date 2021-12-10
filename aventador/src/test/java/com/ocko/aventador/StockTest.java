@@ -26,7 +26,7 @@ public class StockTest {
 
 	@Test
 	public void test() throws IOException {
-		Stock stock = YahooFinance.get("BULZ");
+		Stock stock = YahooFinance.get("WEBL");
 		System.out.println("close : " + stock.getQuote().getPrice());
 		System.out.println("prevClose : " + stock.getQuote().getPreviousClose());
 		System.out.println("change : " + stock.getQuote().getChange());

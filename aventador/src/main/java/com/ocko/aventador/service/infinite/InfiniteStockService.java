@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ocko.aventador.component.InfiniteTradeComponent;
 import com.ocko.aventador.constant.InfiniteState;
 import com.ocko.aventador.constant.InfiniteType;
-import com.ocko.aventador.constant.RregisteredType;
+import com.ocko.aventador.constant.RegisteredType;
 import com.ocko.aventador.constant.TradeType;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistoryExample;
@@ -150,7 +150,7 @@ public class InfiniteStockService {
 		BigDecimal fees = unitPrice.multiply(new BigDecimal(quantity)).multiply(new BigDecimal("0.0007"));
 		history.setFees(fees.setScale(2, BigDecimal.ROUND_FLOOR));
 		
-		history.setRegisteredType(RregisteredType.MANUAL.name());
+		history.setRegisteredType(RegisteredType.MANUAL.name());
 		history.setRegisteredDate(LocalDateTime.now());
 		history.setIsDeleted(false);
 		infiniteHistoryMapper.insert(history);
@@ -163,8 +163,6 @@ public class InfiniteStockService {
 	 * @return
 	 */
 	public Boolean updateinfiniteStock(Map<String, Object> params) {
-		if(params.get("infiniteId") == null)
-			return false;
 		
 		InfiniteStock infiniteStock = new InfiniteStock();
 		
@@ -240,7 +238,57 @@ public class InfiniteStockService {
 		history.setUnitPrice(new BigDecimal(params.get("unitPrice").toString()));
 		history.setQuantity(Integer.parseInt(params.get("quantity").toString()));
 		history.setIsDeleted(false);
+		history.setRegisteredDate(LocalDateTime.now());
+		history.setRegisteredType(RegisteredType.MANUAL.name());
 		infiniteHistoryMapper.insert(history);
+		return true;
+	}
+	
+	/**
+	 * 종목 매매 내역 변경
+	 * @param params
+	 * @return
+	 */
+	public Boolean updateStockHistory(Map<String, Object> params) {
+		
+		InfiniteHistory history = new InfiniteHistory();
+		
+		if(params.get("tradeDate") != null) {
+			history.setTradeDate(LocalDate.parse(params.get("tradeDate").toString()));
+		}
+		
+		if(params.get("tradeType") != null) {
+			switch (params.get("tradeType").toString()) {
+			case TradeType.BUY:
+			case TradeType.SELL:
+				history.setTradeType(params.get("tradeType").toString());
+				break;
+			default:
+				break;
+			}
+		}
+		
+		if(params.get("unitPrice") != null) {
+			history.setUnitPrice(new BigDecimal(params.get("unitPrice").toString()));
+		}
+		
+		if(params.get("quantity") != null) {
+			history.setQuantity(Integer.parseInt(params.get("quantity").toString()));
+		}
+		
+		if(params.get("isDeleted") != null) {
+			history.setIsDeleted(Boolean.parseBoolean(params.get("isDeleted").toString()));
+		}
+		
+		history.setUpdatedDate(LocalDateTime.now());
+		history.setRegisteredType(RegisteredType.UPDATE.name());
+		
+		InfiniteHistoryExample example = new InfiniteHistoryExample();
+		example.createCriteria().andInfiniteIdEqualTo(Integer.parseInt(params.get("infiniteId").toString()))
+			.andInfiniteHistoryIdEqualTo(Integer.parseInt(params.get("infiniteHistoryId").toString()));
+		
+		infiniteHistoryMapper.updateByExampleSelective(history, example);
+		
 		return true;
 	}
 }

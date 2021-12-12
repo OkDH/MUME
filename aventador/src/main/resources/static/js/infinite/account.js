@@ -13,7 +13,7 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	infiniteAccount.account.query = {
 		accountId: null,
 		infiniteType: null,
-		infiniteState: "진행중",
+		infiniteState: ["진행중", "매수중지"],
 		offset: 0,
 		limit: 30
 	};
@@ -43,7 +43,7 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	infiniteAccount.getSimpleOrders = function(accountId){
 		var params = {
 			accountId: accountId,
-			infiniteState: "진행중"
+			infiniteState: ["진행중"]
 		}
 		infiniteService.getStocks(params).then(function(data){
 			if(!data)

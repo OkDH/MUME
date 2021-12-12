@@ -56,8 +56,9 @@ public class InfiniteStockService {
 		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
 		if(params.get("accountId") != null)
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
-		if(params.get("infiniteState") != null)
-			criteria.andInfiniteStateEqualTo(params.get("infiniteState").toString());
+		if(params.get("infiniteState") != null) {
+			criteria.andInfiniteStateIn((List<String>) params.get("infiniteState"));
+		}
 		
 		// view 조회
 		List<ViewInfiniteList> list = viewInfiniteListMapper.selectByExample(example);

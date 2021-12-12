@@ -1,0 +1,68 @@
+<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-danger"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-primary text-white">
+				<h5 class="modal-title">진행 종목별 주문 리스트</h5>
+				<button type="button" class="close text-white" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body"> 
+				<div class="row">
+					<div class="col mx-1 w-100">
+						<h4 class="text-xs font-weight-bold">* 확인 체크박스는 주문 자가 체크용으로 저장이 되지 않습니다.</h4>
+					</div>
+				</div>
+				<div class="row">
+					<table class="table table-sm table-hover text-gray-800 text-xs mx-3" id="dataTable" width="100%" style="width: 100%;">
+						<thead class="bg-primary text-white">
+							<tr role="row" class="text-center">
+								<th style="width: 5px;">#</th>
+								<th style="width: 10px;">Symbol</th>
+								<th style="width: 10px;">주문</th>
+								<th style="width: 10px;">종류</th>
+								<th style="width: 10px;">가격</th>
+								<th style="width: 10px;">수량</th>
+								<th style="width: 10px;">확인</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center" ng-repeat="item in infiniteAccount.simpleOrders | orderBy:item.symbol"
+								ng-click="item.isCheck = !item.isCheck"
+							 	ng-class="item.isLast && 'border-bottom-primary-thin'"
+							 	ng-style="{'text-decoration':item.isCheck?'line-through':'none'}">
+								<td class="align-middle">{{ $index+1 }}</td>
+								<td class="align-middle font-weight-bold">{{ item.symbol }}</td>
+								<td class="align-middle font-weight-bold"
+									ng-class="(item.tradeType=='매수' && 'text-danger') || 'text-primary'">
+									{{ item.tradeType }}
+								</td>
+								<td class="align-middle font-weight-bold">
+									<span ng-if="item.concludeType == 'LOC'" class="text-success">LOC</span>
+									<span ng-if="item.concludeType == 'PENDING_ORDER'" class="text-warning">지정가</span>
+								</td>
+								<td class="align-middle font-weight-bold"
+									ng-class="(item.tradeType=='매수' && 'text-danger') || 'text-primary'">
+									${{ item.price | number:2 }}
+								</td>
+								<td class="align-middle font-weight-bold"
+									ng-class="(item.tradeType=='매수' && 'text-danger') || 'text-primary'">
+									{{ item.quantity | number }}
+								</td>
+								<td class="align-middle">
+									<input class="mt-1" type="checkbox" ng-model="item.isCheck">
+								</td>
+							</tr>
+						</tbody>
+					</div>
+				</table>
+			</div>
+			<div class="modal-footer">
+		    	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		    </div>
+		</div>
+	</div>
+</div>

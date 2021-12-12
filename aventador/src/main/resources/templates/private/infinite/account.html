@@ -1,6 +1,5 @@
 <div ng-controller="InfiniteAccountController as infiniteAccount">
 
-	<!-- 계좌 이름 -->
 	<div class="d-flex align-items-center justify-content-between mb-4">
 		<h1 class="h4 mb-0 text-gray-800">계좌현황</h1>
 
@@ -150,7 +149,7 @@
 								<i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i> 종목 설정
 							</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item">
+							<a class="dropdown-item" ng-click="infiniteAccount.checkDeleteInfinite(stock.accountId, stock.infiniteId)">
 								<i class="fas fa-trash fa-sm fa-fw mr-2 text-gray-400"></i> 종목 삭제
 							</a>
 						</div>
@@ -177,7 +176,7 @@
 								<div class="row">
 									<div class="col">
 										<h4 class="small font-weight-bold">시작일자</h4>
-										<h4 class="small">{{ stock.startedDate }}(20)</h4>
+										<h4 class="small">{{ stock.startedDate | date:'yyyy-MM-dd' }}</h4>
 									</div>
 									<div class="col">
 										<h4 class="small font-weight-bold">배정원금</h4>
@@ -307,63 +306,8 @@
 		</div>
 	</div>
 	
-	<div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header bg-primary text-white">
-	        <h5 class="modal-title">종목 추가</h5>
-	        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	        <div class="row mb-3">
-			    <div class="col-sm-6">
-			      <label>종목</label>
-			      <select class="custom-select" size="3" ng-model="infiniteAccount.addStock.data.symbol">
-					  <option ng-repeat="symbol in infiniteAccount.initData.symbols">{{ symbol }}</option>
-				  </select>
-			    </div>
-			    <div class="col-sm-6">
-			      <label>버전</label>
-			      <select class="custom-select" size="3" ng-model="infiniteAccount.addStock.data.infiniteType">
-					  <option value="v2.1" selected>v2.1</option>
-					  <option value="v2">v2</option>
-					  <option value="v1">v1</option>
-					</select>
-			    </div>
-		    </div>
-		    <div class="row mb-3">
-			    <div class="col-sm-6">
-			      <label>매수 시작일</label>
-			      <input type="text" class="form-control" id="addStockDatePicker" ng-model="infiniteAccount.addStock.data.startedDate">
-			    </div>
-			    <div class="col-sm-6">
-			      <label>배정 원금($)</label>
-			      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.seed">
-			    </div>
-			 </div>  
-			 <div class="row mb-3">
-			    <div class="col-sm-6">
-			      <label>평단가($)</label>
-			      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.unitPrice">
-			    </div>
-			    <div class="col-sm-6">
-			      <label>수량</label>
-			      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.quantity">
-			    </div>
-			  </div>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" ng-click="infiniteAccount.addStock.add()">Add</button>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	
-
-	<!-- add stock Modal -->
-	<!-- <div ng-include="meta.baseUrl + 'tpl/modal/add-stock.html'"></div> -->
+	<!-- Modal -->
+	<div ng-include="meta.baseUrl + 'tpl/modal/add-stock.html'"></div>
 	<div ng-include="meta.baseUrl + 'tpl/modal/history.html'"></div>
+	<div ng-include="meta.baseUrl + 'tpl/modal/simple-list.html'"></div>
 </div>

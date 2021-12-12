@@ -38,10 +38,10 @@
 						</td>
 						<td class="align-middle">
 							<div class="btn-group btn-group-toggle" data-toggle="buttons">
-							  <label class="btn btn-sm btn-danger active text-xs">
+							  <label class="btn btn-sm btn-outline-danger active font-weight-bold text-xs">
 							    <input type="radio" name="historyTradeType" id="option1" ng-model="infiniteAccount.addHistory.data.tradeType" value="매수"> 매수
 							  </label>
-							  <label class="btn btn-sm btn-primary text-xs">
+							  <label class="btn btn-sm btn-outline-primary font-weight-bold text-xs">
 							    <input type="radio" name="historyTradeType" id="option2" ng-model="infiniteAccount.addHistory.data.tradeType" value="매도"> 매도
 							  </label>
 							</div>
@@ -64,7 +64,7 @@
 						
 						<td class="align-middle" ng-if="!trade.editMode">{{ trade.tradeDate }}</td>
 						<td class="align-middle" ng-if="trade.editMode" colspan="2">
-							<input type="text" class="form-control text-xs" ng-model="trade.edit.tradeDate">
+							<input type="text" class="form-control text-xs ml-1" ng-model="trade.edit.tradeDate">
 						</td>
 						
 						<td class="align-middle font-weight-bold"
@@ -75,11 +75,13 @@
 						<td class="align-middle"
 							ng-if="trade.editMode">
 							<div class="btn-group btn-group-toggle" data-toggle="buttons">
-							  <label class="btn btn-sm btn-danger active text-xs">
-							    <input type="radio" name="historyTradeType" id="option1" ng-model="trade.edit.tradeType" value="매수"> 매수
+							  <label class="btn btn-sm btn-outline-danger font-weight-bold text-xs" 
+							  	ng-class="trade.edit.tradeType == '매수' && 'active'">
+							    <input type="radio" name="historyTradeType" ng-model="trade.edit.tradeType" value="매수"> 매수
 							  </label>
-							  <label class="btn btn-sm btn-primary text-xs">
-							    <input type="radio" name="historyTradeType" id="option2" ng-model="trade.edit.tradeType" value="매도"> 매도
+							  <label class="btn btn-sm btn-outline-primary font-weight-bold text-xs"
+							  	ng-class="trade.edit.tradeType == '매도' && 'active'">
+							    <input type="radio" name="historyTradeType" ng-model="trade.edit.tradeType" value="매도"> 매도
 							  </label>
 							</div>
 						</td>
@@ -103,7 +105,7 @@
 				            </a>
 						</td>
 						<td class="align-middle" ng-if="trade.editMode">
-							<a class="btn btn-sm text-xs p-0 mr-1">
+							<a class="btn btn-sm text-xs p-0 mr-1" ng-click="infiniteAccount.updateHistory(trade)">
 				                <i class="fas fa-save text-success"></i>
 				            </a>
 							<a class="btn btn-sm text-xs p-0 mr-1" ng-click="trade.editMode = false">

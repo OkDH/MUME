@@ -36,7 +36,7 @@ import com.ocko.aventador.service.StockService;
 
 /**
  * @author ok
- *
+ * 매매 내역 자동 기록 Job
  */
 @Component
 public class InfiniteTradeJob {

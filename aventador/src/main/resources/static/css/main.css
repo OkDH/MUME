@@ -7,6 +7,14 @@
 .modal-content {
     border: 0px;
 }
+/* dropdown-item cursor */
+.dropdown-item {
+	cursor: pointer;
+}
+/* border-bottom 얇게 */
+.border-bottom-primary-thin {
+	border-bottom: 0.1rem solid #4e73df!important;
+}
 
 /* 작은화면 텍스트 크기 변동이 필요할 때 */
 @media (max-width:768px) {

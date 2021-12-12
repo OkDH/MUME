@@ -207,6 +207,20 @@ public class InfiniteStockService {
 		
 		infiniteStockMapper.updateByExampleSelective(infiniteStock, example);
 		
+		// 종목이 삭제 된다면 매매 기록도 삭제 처리
+		if(params.get("isDeleted") != null) {
+			if(Boolean.parseBoolean(params.get("isDeleted").toString())) {
+				InfiniteHistory history = new InfiniteHistory();
+				history.setIsDeleted(true);
+				history.setUpdatedDate(LocalDateTime.now());
+				
+				InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
+				historyExample.createCriteria().andInfiniteIdEqualTo(Integer.parseInt(params.get("infiniteId").toString()));
+				
+				infiniteHistoryMapper.updateByExampleSelective(history, historyExample);
+			}
+		}
+		
 		return true;
 	}
 	

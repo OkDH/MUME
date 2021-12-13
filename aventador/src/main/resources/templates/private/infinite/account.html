@@ -121,7 +121,7 @@
 					class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					<h6 class="m-0 font-weight-bold text-primary float-right">
 						{{ stock.symbol }}
-						<span class="badge rounded-pill bg-warning text-white py-1 px-2 ml-2">{{ stock.infiniteType }}</span>
+						<span class="badge rounded-pill bg-info text-white py-1 px-2 ml-2">{{ stock.infiniteType }}</span>
 						<span class="badge rounded-pill text-white py-1 px-2"
 							ng-class="(stock.infiniteState == '진행중' && 'bg-primary') || (stock.infiniteState == '매도완료' && 'bg-success') ||
 									(stock.infiniteState == '매수중지' && 'bg-danger') || (stock.infiniteState == '원금소진' && 'bg-danger') ">
@@ -145,7 +145,7 @@
 							<a class="dropdown-item" ng-if="stock.infiniteState == '매수중지'" ng-click="infiniteAccount.changeState(stock.accountId, stock.infiniteId, '진행중')">
 								<i class="far fa-play-circle fa-sm fa-fw mr-2 text-gray-400"></i> 매수 진행
 							</a> 
-							<a class="dropdown-item">
+							<a class="dropdown-item" ng-click="infiniteAccount.updateStock.openUpdateModal(stock)">
 								<i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i> 종목 설정
 							</a>
 							<div class="dropdown-divider"></div>
@@ -308,6 +308,7 @@
 	
 	<!-- Modal -->
 	<div ng-include="meta.baseUrl + 'tpl/modal/add-stock.html'"></div>
+	<div ng-include="meta.baseUrl + 'tpl/modal/edit-stock.html'"></div>
 	<div ng-include="meta.baseUrl + 'tpl/modal/history.html'"></div>
 	<div ng-include="meta.baseUrl + 'tpl/modal/filter.html'"></div>
 	<div ng-include="meta.baseUrl + 'tpl/modal/simple-list.html'"></div>

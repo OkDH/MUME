@@ -67,7 +67,7 @@ public class InfiniteStockService {
 		List<ViewInfiniteList> list = viewInfiniteListMapper.selectByExample(example);
 		
 		// etf 주가 정보 조회
-		Map<String, StockDetail> stockMap = stockService.getEtfStocks();
+		Map<String, StockDetail> stockMap = stockService.getTodayEtfStocks();
 		
 		// 손익정보 등 값 추가
 		List<InfiniteDetail> infiniteStockList = new ArrayList<InfiniteDetail>();
@@ -174,6 +174,8 @@ public class InfiniteStockService {
 			switch ((String) params.get("infiniteState")) {
 			case InfiniteState.ING:
 			case InfiniteState.STOP:
+			case InfiniteState.DONE:
+			case InfiniteState.OUT:
 				infiniteStock.setInfiniteState((String) params.get("infiniteState"));
 				break;
 			default:

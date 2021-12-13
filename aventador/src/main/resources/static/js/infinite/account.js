@@ -12,11 +12,47 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	infiniteAccount.account = {};
 	infiniteAccount.account.query = {
 		accountId: null,
-		infiniteType: null,
-		infiniteState: ["진행중", "매수중지"],
+		infiniteType: [],
+		infiniteState: [],
 		offset: 0,
 		limit: 30
 	};
+	// fiter 와 query 변환용 변수
+	infiniteAccount.account.filter = {
+		infiniteState: {
+			ing: { name: "진행중", value: true },
+			stop: { name: "매수중지", value: true },
+			done: { name: "매도완료", value: false },
+			out: { name: "원금소진", value: false }
+		},
+		infiniteType: {
+			v2_1: { name: "v2.1", value: true },
+			v2: { name: "v2", value: true },
+			v1: { name: "v1", value: true }
+		}
+	};
+	// 검색 필터 : 무한매수 상태
+	$scope.$watch("infiniteAccount.account.filter.infiniteState", function(infiniteState){
+		if(!infiniteState){
+			return;
+		}
+		infiniteAccount.account.query.infiniteState = [];
+		Object.keys(infiniteState).forEach(function(k){
+			if(infiniteState[k].value)
+				infiniteAccount.account.query.infiniteState.push(infiniteState[k].name);
+		});
+	}, true);
+	// 검색 필터 : 무한매수 버전
+	$scope.$watch("infiniteAccount.account.filter.infiniteType", function(infiniteType){
+		if(!infiniteType){
+			return;
+		}
+		infiniteAccount.account.query.infiniteType = [];
+		Object.keys(infiniteType).forEach(function(k){
+			if(infiniteType[k].value)
+				infiniteAccount.account.query.infiniteType.push(infiniteType[k].name);
+		});
+	}, true);
 	
 	// 계좌 정보
 	infiniteService.getMyAccounts().then(function(data){
@@ -123,6 +159,13 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 				alert("추가되었습니다.");
 			}
 		})
+	}
+	
+	// 종목 변경
+	infiniteAccount.updateStock = {};
+	infiniteAccount.updateStock.openUpdateModal = function(stock){
+		infiniteAccount.updateStock.data = angular.copy(stock);
+		$('#updateStockModal').modal("show");
 	}
 	
 	// 종목 상태 변경

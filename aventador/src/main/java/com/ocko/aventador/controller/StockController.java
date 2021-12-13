@@ -39,7 +39,7 @@ public class StockController {
 	
 	@RequestMapping(value = "/api/stocks/etfs", method = RequestMethod.GET)
 	public @ResponseBody Map<String, StockDetail> getEtfs() {
-		return stockService.getEtfStocks();
+		return stockService.getTodayEtfStocks();
 	}
 	
 	@RequestMapping(value = "/api/stock/init", method = RequestMethod.GET)

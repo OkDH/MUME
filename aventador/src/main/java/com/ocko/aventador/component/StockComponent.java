@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.ocko.aventador.constant.EtfSymbol;
+import com.ocko.aventador.dao.model.aventador.StockHistory;
 import com.ocko.aventador.dao.model.aventador.ViewTodayStock;
 import com.ocko.aventador.model.StockDetail;
 
@@ -125,6 +126,29 @@ public class StockComponent {
 	 * @return
 	 */
 	public StockDetail processStockDetail(ViewTodayStock stock) {
+		StockDetail stockDetail = new StockDetail();
+		
+		// 객체복사
+		BeanUtils.copyProperties(stock, stockDetail);
+		
+		// 섹터, baseRsi
+		for(EtfSymbol item : EtfSymbol.values()) {
+			if(stock.getSymbol().equals(item.name())) {
+				stockDetail.setSector(EtfSymbol.valueOf(stock.getSymbol()).sector());
+				stockDetail.setBaseRsi(EtfSymbol.valueOf(stock.getSymbol()).defaultRsi()); // TODO : baseRsi 개인화
+				break;
+			}
+		}
+		return stockDetail;
+	}
+	
+	/**
+	 * StockHistory > StockDetail
+	 * @param symbol
+	 * @param stock
+	 * @return
+	 */
+	public StockDetail processStockDetail(StockHistory stock) {
 		StockDetail stockDetail = new StockDetail();
 		
 		// 객체복사

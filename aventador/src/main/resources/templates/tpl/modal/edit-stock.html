@@ -9,41 +9,72 @@
       </div>
       <div class="modal-body">
       	<div class="row">
-        	<div class="col mx-2 font-weight-bold mb-2 text-gray-800">
+        	<div class="col mx-2 font-weight-bold mb-3 text-gray-800">
 				<span class="border-bottom-primary px-2">{{ infiniteAccount.updateStock.data.symbol }}</span>
 			</div>
 	    </div>
         <div class="row mb-3">
-		    <div class="col-3 pt-1 pl-3 text-gray-800 font-weight-bold">
+		    <div class="col-3 pt-2 pl-4 text-gray-800 font-weight-bold">
       			진행상태
       		</div>
       		<div class="col-9 p-1">
-		      {{ infiniteAccount.updateStock.data.infiniteState }}
+		      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+				  <label class="btn btn-sm btn-outline-primary font-weight-bold text-xs" 
+				  	ng-class="infiniteAccount.updateStock.data.infiniteState == '진행중' && 'active'">
+				    <input type="radio" name="editInfiniteState" ng-model="infiniteAccount.updateStock.data.infiniteState" value="진행중"> 진 행 중
+				  </label>
+				  <label class="btn btn-sm btn-outline-warning font-weight-bold text-xs" 
+				  	ng-class="infiniteAccount.updateStock.data.infiniteState == '매수중지' && 'active'">
+				    <input type="radio" name="editInfiniteState" ng-model="infiniteAccount.updateStock.data.infiniteState" value="매수중지"> 매수중지
+				  </label>
+				  <label class="btn btn-sm btn-outline-success font-weight-bold text-xs"
+				  	ng-class="infiniteAccount.updateStock.data.infiniteState == '매도완료' && 'active'">
+				    <input type="radio" name="editInfiniteState" ng-model="infiniteAccount.updateStock.data.infiniteState" value="매도완료"> 매도완료
+				  </label>
+				  <label class="btn btn-sm btn-outline-danger font-weight-bold text-xs"
+				  	ng-class="infiniteAccount.updateStock.data.infiniteState == '원금소진' && 'active'">
+				    <input type="radio" name="editInfiniteState" ng-model="infiniteAccount.updateStock.data.infiniteState" value="원금소진"> 원금소진
+				  </label>
+			  </div>
+		    </div>
+	    </div>
+        <div class="row mb-3">
+		    <div class="col-3 pt-2 pl-4 text-gray-800 font-weight-bold">
+      			버전
+      		</div>
+      		<div class="col-9 p-1">
+		      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+				  <label style="width: 4em;"
+				  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+				  	ng-class="infiniteAccount.updateStock.data.infiniteType == 'v2.1' && 'active'">
+				    <input type="radio" name="editInfiniteType" ng-model="infiniteAccount.updateStock.data.infiniteType" value="v2.1"> v2.1
+				  </label>
+				  <label style="width: 4em;"
+				  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+				  	ng-class="infiniteAccount.updateStock.data.infiniteType == 'v2' && 'active'">
+				    <input type="radio" name="editInfiniteType" ng-model="infiniteAccount.updateStock.data.infiniteType" value="v2"> v2
+				  </label>
+				  <label style="width: 4em;"
+				  	class="btn btn-sm btn-outline-info font-weight-bold text-xs"
+				  	ng-class="infiniteAccount.updateStock.data.infiniteType == 'v1' && 'active'">
+				    <input type="radio" name="editInfiniteType" ng-model="infiniteAccount.updateStock.data.infiniteType" value="v1"> v1
+				  </label>
+			  </div>
 		    </div>
 	    </div>
 	    <div class="row mb-3">
-		    <div class="col-6">
-		      <label>매수 시작일</label>
-		      <input type="text" class="form-control" id="updateStockDatePicker" ng-model="infiniteAccount.addStock.data.startedDate">
+		    <div class="col-6 pl-4">
+		      <label class="text-gray-800 font-weight-bold">매수 시작일</label>
+		      <input type="text" class="form-control" id="updateStockDatePicker" ng-model=infiniteAccount.updateStock.data.startedDate>
 		    </div>
-		    <div class="col-6">
-		      <label>배정 원금($)</label>
-		      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.seed">
+		    <div class="col-6 pr-4">
+		      <label class="text-gray-800 font-weight-bold">배정 원금($)</label>
+		      <input type="text" class="form-control" ng-model="infiniteAccount.updateStock.data.seed">
 		    </div>
 		 </div>  
-		 <div class="row mb-3">
-		    <div class="col-6">
-		      <label>평단가($)</label>
-		      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.unitPrice">
-		    </div>
-		    <div class="col-6">
-		      <label>수량</label>
-		      <input type="text" class="form-control" ng-model="infiniteAccount.addStock.data.quantity">
-		    </div>
-		  </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="infiniteAccount.editStock.update()">Update</button>
+        <button type="button" class="btn btn-primary" ng-click="infiniteAccount.updateStock.update(infiniteAccount.updateStock.data)">Update</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>

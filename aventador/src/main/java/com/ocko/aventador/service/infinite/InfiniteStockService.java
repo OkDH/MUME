@@ -59,6 +59,9 @@ public class InfiniteStockService {
 		if(params.get("infiniteState") != null) {
 			criteria.andInfiniteStateIn((List<String>) params.get("infiniteState"));
 		}
+		if(params.get("infiniteType") != null) {
+			criteria.andInfiniteTypeIn((List<String>) params.get("infiniteType"));
+		}
 		
 		// view 조회
 		List<ViewInfiniteList> list = viewInfiniteListMapper.selectByExample(example);

@@ -55,7 +55,9 @@ public class InfiniteTradeJob {
 		log.info("Start Update Infinite History");
 		
 		// etf 주가 정보 조회
-		Map<String, StockDetail> stockMap = stockService.getEtfStocks();
+		Map<String, StockDetail> todayStockMap = stockService.getTodayEtfStocks();
+		// 어제자 주가 정보 조회
+		Map<String, StockDetail> yesterdayStockMap = stockService.getEtfStocks(LocalDate.now().minusDays(1));
 		
 		// 진행 중인 무매 리스트 조회
 		ViewInfiniteListExample example = new ViewInfiniteListExample();
@@ -72,8 +74,8 @@ public class InfiniteTradeJob {
 			if(infiniteDetail.getProgressPer().compareTo(new BigDecimal(100)) >= 0)
 				continue;
 			
-			// etf 주가 정보 추가
-			infiniteDetail.setStockDetail(stockMap.get(infinite.getSymbol()));
+			// etf 어제 날짜 주가 정보 추가
+			infiniteDetail.setStockDetail(yesterdayStockMap.get(infinite.getSymbol()));
 			
 			// 매수 정보
 			infiniteDetail.setBuyTradeInfoList(tradeComponent.getBuyInfo(infiniteDetail));
@@ -82,10 +84,10 @@ public class InfiniteTradeJob {
 			infiniteDetail.setSellTradeInfoList(tradeComponent.getSellInfo(infiniteDetail));
 			
 			// 매도 내역 저장
-			updateSell(infiniteDetail);
+			updateSell(infiniteDetail, todayStockMap.get(infinite.getSymbol()));
 			
 			// 매수 내역 저장
-			updateBuy(infiniteDetail);
+			updateBuy(infiniteDetail, todayStockMap.get(infinite.getSymbol()));
 		}
 		
 		log.info("End Update Infinite History");
@@ -94,11 +96,12 @@ public class InfiniteTradeJob {
 	/**
 	 * 매도 내역 저장
 	 * @param infiniteDetail
+	 * @param todayStock
 	 */
-	private void updateSell(InfiniteDetail infiniteDetail) {
+	private void updateSell(InfiniteDetail infiniteDetail, StockDetail todayStock) {
 		if(infiniteDetail == null)
 			return;
-		if(infiniteDetail.getStockDetail() == null)
+		if(todayStock == null)
 			return;
 		if(infiniteDetail.getSellTradeInfoList() == null)
 			return;
@@ -107,9 +110,9 @@ public class InfiniteTradeJob {
 		int holdingQuantity = infiniteDetail.getHoldingQuantity();
 		
 		// 종가
-		BigDecimal priceClose = infiniteDetail.getStockDetail().getPriceClose().setScale(2, RoundingMode.HALF_UP);
+		BigDecimal priceClose = todayStock.getPriceClose().setScale(2, RoundingMode.HALF_UP);
 		// 고가
-		BigDecimal priceHigh = infiniteDetail.getStockDetail().getPriceHigh().setScale(2, RoundingMode.HALF_UP);
+		BigDecimal priceHigh = todayStock.getPriceHigh().setScale(2, RoundingMode.HALF_UP);
 		
 		for(StockTradeInfo info : infiniteDetail.getSellTradeInfoList()) {
 			InfiniteHistory infiniteHistory = new InfiniteHistory();
@@ -172,11 +175,12 @@ public class InfiniteTradeJob {
 	/**
 	 * 매수 내역 저장
 	 * @param infiniteDetail
+	 * @param todayStock
 	 */
-	private void updateBuy(InfiniteDetail infiniteDetail) {
+	private void updateBuy(InfiniteDetail infiniteDetail, StockDetail todayStock) {
 		if(infiniteDetail == null)
 			return;
-		if(infiniteDetail.getStockDetail() == null)
+		if(todayStock == null)
 			return;
 		if(infiniteDetail.getBuyTradeInfoList() == null)
 			return;
@@ -185,7 +189,7 @@ public class InfiniteTradeJob {
 		BigDecimal buyPrice = infiniteDetail.getBuyPrice();
 		
 		// 종가
-		BigDecimal priceClose = infiniteDetail.getStockDetail().getPriceClose();
+		BigDecimal priceClose = todayStock.getPriceClose();
 		
 		for(StockTradeInfo info : infiniteDetail.getBuyTradeInfoList()) {
 			InfiniteHistory infiniteHistory = new InfiniteHistory();

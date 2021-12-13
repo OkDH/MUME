@@ -121,10 +121,11 @@
 					class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					<h6 class="m-0 font-weight-bold text-primary float-right">
 						{{ stock.symbol }}
-						<span class="badge rounded-pill bg-info text-white py-1 px-2 ml-2">{{ stock.infiniteType }}</span>
+						<span style="width: 3.5em;"
+							class="badge rounded-pill bg-info text-white py-1 px-2 ml-2">{{ stock.infiniteType }}</span>
 						<span class="badge rounded-pill text-white py-1 px-2"
 							ng-class="(stock.infiniteState == '진행중' && 'bg-primary') || (stock.infiniteState == '매도완료' && 'bg-success') ||
-									(stock.infiniteState == '매수중지' && 'bg-danger') || (stock.infiniteState == '원금소진' && 'bg-danger') ">
+									(stock.infiniteState == '매수중지' && 'bg-warning') || (stock.infiniteState == '원금소진' && 'bg-danger') ">
 							{{ stock.infiniteState }}
 						</span>
 					</h6>
@@ -155,7 +156,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-body">
+				<div class="card-body text-gray-800">
 					<h4 class="small font-weight-bold">
 						진행률 <span class="float-right">{{ stock.progressPer | number:1 }}%</span>
 					</h4>

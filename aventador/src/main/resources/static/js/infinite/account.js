@@ -41,6 +41,8 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 			if(infiniteState[k].value)
 				infiniteAccount.account.query.infiniteState.push(infiniteState[k].name);
 		});
+		
+		console.log(infiniteAccount.account.filter.infiniteState)
 	}, true);
 	// 검색 필터 : 무한매수 버전
 	$scope.$watch("infiniteAccount.account.filter.infiniteType", function(infiniteType){
@@ -166,6 +168,20 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	infiniteAccount.updateStock.openUpdateModal = function(stock){
 		infiniteAccount.updateStock.data = angular.copy(stock);
 		$('#updateStockModal').modal("show");
+	}
+	infiniteAccount.updateStock.update = function(params){
+		if(!params)
+			return;
+		infiniteService.updateStock(params).then(function(data){
+			if(data == true){
+				infiniteAccount.getStocks(infiniteAccount.account.query);
+				infiniteAccount.getAccountState(infiniteAccount.account.query.accountId);
+				infiniteAccount.getSimpleOrders(infiniteAccount.account.query.accountId);
+
+				// TODO : 알림창 
+				alert("변경되었습니다.");
+			}
+		})
 	}
 	
 	// 종목 상태 변경

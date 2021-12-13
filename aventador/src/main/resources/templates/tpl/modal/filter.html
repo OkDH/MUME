@@ -9,19 +9,49 @@
       </div>
       <div class="modal-body">
       	<div class="row">
-      		<div class="col-sm-3">
+      		<div class="col-3 pt-1 pl-3 text-gray-800 font-weight-bold">
       			진행상태
       		</div>
-      		<div class="col-sm-9">
-      			ㅇㅇㅇㅇ
+      		<div class="col-9 p-1">
+      			<div class="btn-group btn-group-toggle" data-toggle="buttons">
+				  <label class="btn btn-sm btn-outline-primary font-weight-bold text-xs" 
+				  	ng-class="infiniteAccount.account.filter.infiniteState.ing && 'active'">
+				    <input type="checkbox" name="queryInfiniteState" ng-model="infiniteAccount.account.filter.infiniteState.ing.value"> 진 행 중
+				  </label>
+				  <label class="btn btn-sm btn-outline-warning font-weight-bold text-xs" 
+				  	ng-class="infiniteAccount.account.filter.infiniteState.stop && 'active'">
+				    <input type="checkbox" name="queryInfiniteState" ng-model="infiniteAccount.account.filter.infiniteState.stop.value"> 매수중지
+				  </label>
+				  <label class="btn btn-sm btn-outline-success font-weight-bold text-xs"
+				  	ng-class="infiniteAccount.account.filter.infiniteState.done && 'active'">
+				    <input type="checkbox" name="queryInfiniteState" ng-model="infiniteAccount.account.filter.infiniteState.done.value"> 매도완료
+				  </label>
+				  <label class="btn btn-sm btn-outline-danger font-weight-bold text-xs"
+				  	ng-class="infiniteAccount.account.filter.infiniteState.out && 'active'">
+				    <input type="checkbox" name="queryInfiniteState" ng-model="infiniteAccount.account.filter.infiniteState.out.value"> 원금소진
+				  </label>
+				</div>
       		</div>
       	</div>
       	<div class="row">
-      		<div class="col-sm-3">
+      		<div class="col-3 pt-1 pl-3 text-gray-800 font-weight-bold">
       			버전
       		</div>
-      		<div class="col-sm-9">
-      			ㅇㅇㅇㅇ
+      		<div class="col-9 p-1">
+      			<div class="btn-group btn-group-toggle" data-toggle="buttons">
+				  <label class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+				  	ng-class="infiniteAccount.account.filter.infiniteType.v2_1 && 'active'">
+				    <input type="checkbox" name="queryInfiniteType" ng-model="infiniteAccount.account.filter.infiniteType.v2_1.value"> v2.1
+				  </label>
+				  <label class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+				  	ng-class="infiniteAccount.account.filter.infiniteType.v2 && 'active'">
+				    <input type="checkbox" name="queryInfiniteType" ng-model="infiniteAccount.account.filter.infiniteType.v2.value"> v2
+				  </label>
+				  <label class="btn btn-sm btn-outline-info font-weight-bold text-xs"
+				  	ng-class="infiniteAccount.account.filter.infiniteType.v1 && 'active'">
+				    <input type="checkbox" name="queryInfiniteType" ng-model="infiniteAccount.account.filter.infiniteType.v1.value"> v1
+				  </label>
+				</div>
       		</div>
       	</div>
       </div>

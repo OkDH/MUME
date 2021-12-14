@@ -52,7 +52,6 @@ public class InfiniteStockService {
 	 */
 	public List<InfiniteDetail> getStocks(int memberId, Map<String, Object> params){
 		ViewInfiniteListExample example = new ViewInfiniteListExample();
-		example.setOrderByClause("registered_date desc");
 		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
 		if(params.get("accountId") != null)
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
@@ -61,6 +60,11 @@ public class InfiniteStockService {
 		}
 		if(params.get("infiniteType") != null) {
 			criteria.andInfiniteTypeIn((List<String>) params.get("infiniteType"));
+		}
+		if(params.get("orderBy") != null) {
+			example.setOrderByClause(params.get("orderBy").toString());
+		} else {
+			example.setOrderByClause("registered_date desc");
 		}
 		
 		// view 조회

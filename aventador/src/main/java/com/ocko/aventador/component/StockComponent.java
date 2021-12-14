@@ -111,8 +111,9 @@ public class StockComponent {
 		// 섹터
 		for(EtfSymbol item : EtfSymbol.values()) {
 			if(symbol.equals(item.name())) {
-				stockDetail.setSector(EtfSymbol.valueOf(symbol).sector());
-				stockDetail.setBaseRsi(EtfSymbol.valueOf(stock.getSymbol()).defaultRsi()); // TODO : baseRsi 개인화
+				stockDetail.setSector(EtfSymbol.valueOf(symbol).getSector());
+				stockDetail.setSectorName(EtfSymbol.valueOf(stock.getSymbol()).getSector().getSectorName());
+				stockDetail.setBaseRsi(EtfSymbol.valueOf(stock.getSymbol()).getDefaultRsi()); // TODO : baseRsi 개인화
 				break;
 			}
 		}
@@ -134,8 +135,9 @@ public class StockComponent {
 		// 섹터, baseRsi
 		for(EtfSymbol item : EtfSymbol.values()) {
 			if(stock.getSymbol().equals(item.name())) {
-				stockDetail.setSector(EtfSymbol.valueOf(stock.getSymbol()).sector());
-				stockDetail.setBaseRsi(EtfSymbol.valueOf(stock.getSymbol()).defaultRsi()); // TODO : baseRsi 개인화
+				stockDetail.setSector(EtfSymbol.valueOf(stock.getSymbol()).getSector());
+				stockDetail.setSectorName(EtfSymbol.valueOf(stock.getSymbol()).getSector().getSectorName());
+				stockDetail.setBaseRsi(EtfSymbol.valueOf(stock.getSymbol()).getDefaultRsi()); // TODO : baseRsi 개인화
 				break;
 			}
 		}
@@ -157,8 +159,9 @@ public class StockComponent {
 		// 섹터, baseRsi
 		for(EtfSymbol item : EtfSymbol.values()) {
 			if(stock.getSymbol().equals(item.name())) {
-				stockDetail.setSector(EtfSymbol.valueOf(stock.getSymbol()).sector());
-				stockDetail.setBaseRsi(EtfSymbol.valueOf(stock.getSymbol()).defaultRsi()); // TODO : baseRsi 개인화
+				stockDetail.setSector(EtfSymbol.valueOf(stock.getSymbol()).getSector());
+				stockDetail.setSectorName(EtfSymbol.valueOf(stock.getSymbol()).getSector().getSectorName());
+				stockDetail.setBaseRsi(EtfSymbol.valueOf(stock.getSymbol()).getDefaultRsi()); // TODO : baseRsi 개인화
 				break;
 			}
 		}

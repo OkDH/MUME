@@ -14,6 +14,7 @@
 				<div class="row">
 					<div class="col mx-2 w-100">
 						<h4 class="text-xs font-weight-bold">* 확인 체크박스는 주문시 자가 체크용으로 저장이 되지 않습니다.</h4>
+						<h4 class="text-xs font-weight-bold">* Symbol 오름차순으로 리스트가 출력됩니다.</h4>
 					</div>
 				</div>
 				<div class="row">
@@ -30,7 +31,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="text-center" ng-repeat="item in infiniteAccount.simpleOrders | orderBy:item.symbol"
+							<tr class="text-center" ng-repeat="item in infiniteAccount.simpleOrders"
 								ng-click="item.isCheck = !item.isCheck"
 							 	ng-class="item.isLast && 'border-bottom-primary-thin'"
 							 	ng-style="{'text-decoration':item.isCheck?'line-through':'none'}">

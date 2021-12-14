@@ -55,14 +55,14 @@
 		</table> -->
 		<table schema="aventador" tableName="stock_history">
 		</table>
-		<!-- <table schema="aventador" tableName="view_today_stock">
+		<table schema="aventador" tableName="view_today_stock">
 		</table>
-		<table schema="aventador" tableName="infinite_account">
+		<!-- <table schema="aventador" tableName="infinite_account">
 			<generatedKey column="account_id" sqlStatement="JDBC"/>
-		</table>
+		</table> -->
 		<table schema="aventador" tableName="infinite_stock">
 			<generatedKey column="infinite_id" sqlStatement="JDBC"/>
-		</table> -->
+		</table>
 		<!-- <table schema="aventador" tableName="infinite_history">
 			<generatedKey column="infinite_history_id" sqlStatement="JDBC"/>
 		</table>  -->

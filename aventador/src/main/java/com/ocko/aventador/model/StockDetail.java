@@ -10,6 +10,8 @@ public class StockDetail extends StockHistory {
 
 	// 섹터
 	private EtfSector sector;
+	// 섹터 이름
+	private String sectorName;
 	// 진입 권장 RSI
 	private Integer baseRsi;
 	// 마지막 거래 시간
@@ -40,7 +42,12 @@ public class StockDetail extends StockHistory {
 	public LocalDateTime getLastTradeTime() {
 		return lastTradeTime;
 	}
-
+	public String getSectorName() {
+		return sectorName;
+	}
+	public void setSectorName(String sectorName) {
+		this.sectorName = sectorName;
+	}
 	public void setLastTradeTime(LocalDateTime lastTradeTime) {
 		this.lastTradeTime = lastTradeTime;
 	}

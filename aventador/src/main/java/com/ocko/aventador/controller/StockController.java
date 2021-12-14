@@ -45,7 +45,7 @@ public class StockController {
 	@RequestMapping(value = "/api/stock/init", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> init() {
 		Map<String, Object> initData = new HashMap<String, Object>();
-		initData.put("symbols", EtfSymbol.values());
+		initData.put("etfs", stockService.getTodayEtfStocks());
 		return initData;
 	}
 }

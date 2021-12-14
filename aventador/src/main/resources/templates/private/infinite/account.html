@@ -213,7 +213,7 @@
 						</div>
 						<div class="collapse show" id="collapseB_{{$index}}">
 							<div class="card-body text-center">
-								<div class="row">
+								<div class="row" ng-if="stock.infiniteState != '매도완료'">
 									<div class="col">
 										<h4 class="text-xs">매입금액</h4>
 										<h4 class="small font-weight-bold">${{ stock.buyPrice | number:2 }}</h4>
@@ -221,6 +221,16 @@
 									<div class="col">
 										<h4 class="text-xs">평가금액</h4>
 										<h4 class="small font-weight-bold">${{ stock.evalPrice | number:2 }}</h4>
+									</div>
+								</div>
+								<div class="row" ng-if="stock.infiniteState == '매도완료'">
+									<div class="col">
+										<h4 class="text-xs">총매입금액</h4>
+										<h4 class="small font-weight-bold">${{ stock.totalBuyPrice | number:2 }}</h4>
+									</div>
+									<div class="col">
+										<h4 class="text-xs">총매도금액</h4>
+										<h4 class="small font-weight-bold">${{ stock.totalSellPrice | number:2 }}</h4>
 									</div>
 								</div>
 								<div class="row">
@@ -250,7 +260,10 @@
 						</div>
 						<div class="collapse" id="collapseC_{{$index}}">
 							<div class="card-body text-center">
-								<div ng-repeat="info in stock.buyTradeInfoList">
+								<div ng-if="stock.infiniteState == '매도완료'">
+									<span class="badge rounded-pill text-white py-1 px-2 bg-success">매도완료</span>
+								</div>
+								<div ng-if="stock.infiniteState != '매도완료'" ng-repeat="info in stock.buyTradeInfoList">
 									<hr class="mb-4" ng-if="$index > 0">
 									<div class="row">
 										<div class="col">
@@ -279,7 +292,10 @@
 						</div>
 						<div class="collapse" id="collapseD_{{$index}}">
 							<div class="card-body text-center">
-								<div ng-repeat="info in stock.sellTradeInfoList">
+								<div ng-if="stock.infiniteState == '매도완료'">
+									<span class="badge rounded-pill text-white py-1 px-2 bg-success">매도완료</span>
+								</div>
+								<div ng-if="stock.infiniteState != '매도완료'" ng-repeat="info in stock.sellTradeInfoList">
 									<hr class="mb-4" ng-if="$index > 0">
 									<div class="row">
 										<div class="col">

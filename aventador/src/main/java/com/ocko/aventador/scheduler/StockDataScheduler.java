@@ -30,10 +30,7 @@ import com.ocko.aventador.component.StockComponent;
 import com.ocko.aventador.constant.EtfSymbol;
 import com.ocko.aventador.dao.model.aventador.StockHistory;
 import com.ocko.aventador.dao.model.aventador.StockHistoryExample;
-import com.ocko.aventador.dao.model.aventador.ViewTodayStock;
-import com.ocko.aventador.dao.model.aventador.ViewTodayStockExample;
 import com.ocko.aventador.dao.persistence.aventador.StockHistoryMapper;
-import com.ocko.aventador.dao.persistence.aventador.ViewTodayStockMapper;
 import com.ocko.aventador.model.StockDetail;
 
 import yahoofinance.Stock;

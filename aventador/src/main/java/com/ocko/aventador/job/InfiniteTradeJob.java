@@ -130,9 +130,7 @@ public class InfiniteTradeJob {
 				if(info.getPrice().compareTo(priceClose) <= 0) { 
 					BigDecimal unitPrice = priceClose.setScale(2, BigDecimal.ROUND_HALF_UP); // 소수점 2자리에서 반올림
 					// 수수료 TODO : 개인 설정 수수료
-					BigDecimal fees = unitPrice.multiply(new BigDecimal(info.getQuantity())).multiply(new BigDecimal("0.0007"));
 					infiniteHistory.setUnitPrice(unitPrice);
-					infiniteHistory.setFees(fees.setScale(2, RoundingMode.DOWN));
 					
 					historyMapper.insert(infiniteHistory);
 					
@@ -144,10 +142,7 @@ public class InfiniteTradeJob {
 				// 주문가격보다 고가가 크다면 체결
 				if(info.getPrice().compareTo(priceHigh) <= 0) { 
 					BigDecimal unitPrice = info.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP); // 소수점 2자리에서 반올림
-					// 수수료 TODO : 개인 설정 수수료
-					BigDecimal fees = unitPrice.multiply(new BigDecimal(info.getQuantity())).multiply(new BigDecimal("0.0007"));
 					infiniteHistory.setUnitPrice(unitPrice);
-					infiniteHistory.setFees(fees.setScale(2, RoundingMode.DOWN));
 					
 					historyMapper.insert(infiniteHistory);
 					
@@ -207,15 +202,12 @@ public class InfiniteTradeJob {
 				if(info.getPrice().compareTo(priceClose) >= 0) { 
 					// 단가
 					BigDecimal unitPrice = priceClose.setScale(2, BigDecimal.ROUND_HALF_UP); // 소수점 2자리에서 반올림
-					// 단가 * 수량
-					BigDecimal tradePrice = unitPrice.multiply(new BigDecimal(info.getQuantity())); 
-					// 수수료 TODO : 개인 설정 수수료
-					BigDecimal fees = tradePrice.multiply(new BigDecimal("0.0007"));
 					infiniteHistory.setUnitPrice(unitPrice);
-					infiniteHistory.setFees(fees.setScale(2, BigDecimal.ROUND_FLOOR));
 					
 					historyMapper.insert(infiniteHistory);
 					
+					// 단가 * 수량
+					BigDecimal tradePrice = unitPrice.multiply(new BigDecimal(info.getQuantity())); 
 					// 매입금액 추가
 					buyPrice.add(tradePrice);
 				}

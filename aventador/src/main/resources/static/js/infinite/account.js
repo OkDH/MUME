@@ -5,7 +5,11 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	// ETF 기본 정보
 	infiniteAccount.initData = {};
 	stockService.getInitData().then(function(data){
-		infiniteAccount.initData = data;
+		infiniteAccount.initData.etfs = [];
+		Object.keys(data.etfs).forEach(function(key){
+			infiniteAccount.initData.etfs.push(data.etfs[key]);
+		});
+		
 		infiniteAccount.addStock.init();
 	});
 	
@@ -41,9 +45,8 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 			if(infiniteState[k].value)
 				infiniteAccount.account.query.infiniteState.push(infiniteState[k].name);
 		});
-		
-		console.log(infiniteAccount.account.filter.infiniteState)
 	}, true);
+	
 	// 검색 필터 : 무한매수 버전
 	$scope.$watch("infiniteAccount.account.filter.infiniteType", function(infiniteType){
 		if(!infiniteType){
@@ -81,7 +84,8 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	infiniteAccount.getSimpleOrders = function(accountId){
 		var params = {
 			accountId: accountId,
-			infiniteState: ["진행중"]
+			infiniteState: ["진행중"],
+			orderBy: "symbol asc"
 		}
 		infiniteService.getStocks(params).then(function(data){
 			if(!data)
@@ -139,13 +143,19 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 			quantity: null,
 			accountId: null
 		}
-		if(infiniteAccount.initData.symbols)
-			infiniteAccount.addStock.data.symbol = infiniteAccount.initData.symbols[0];
 		if(infiniteAccount.account.myAccounts)
 			infiniteAccount.addStock.data.accountId = infiniteAccount.account.myAccounts[0].accountId;
 	}
 	
 	// 종목 추가
+	infiniteAccount.addStock.openAddModal = function(){
+		infiniteAccount.addStock.init();
+		$('#addStockModal').modal("show");
+		// datepicker
+		infiniteAccount.datepicker("#addStockDatePicker");
+		// selectpicker
+		$("#symbolSelect").selectpicker();
+	}
 	infiniteAccount.addStock.add = function(){
 		// jquery에서 만든 날짜 값 가져오기
 		infiniteAccount.addStock.data.startedDate = $('#addStockDatePicker').val();
@@ -168,15 +178,19 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	infiniteAccount.updateStock.openUpdateModal = function(stock){
 		infiniteAccount.updateStock.data = angular.copy(stock);
 		$('#updateStockModal').modal("show");
+		// datepicker
+		infiniteAccount.datepicker("#updateStockDatePicker");
 	}
 	infiniteAccount.updateStock.update = function(params){
 		if(!params)
 			return;
+		params.startedDate = $('#updateStockDatePicker').val();
 		infiniteService.updateStock(params).then(function(data){
 			if(data == true){
 				infiniteAccount.getStocks(infiniteAccount.account.query);
 				infiniteAccount.getAccountState(infiniteAccount.account.query.accountId);
 				infiniteAccount.getSimpleOrders(infiniteAccount.account.query.accountId);
+				$('#updateStockModal').modal("hide");
 
 				// TODO : 알림창 
 				alert("변경되었습니다.");
@@ -243,6 +257,9 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 		
 		infiniteAccount.getStockHistory();
 		infiniteAccount.addHistory.init();
+		
+		// datepicker
+		infiniteAccount.datepicker("#addHistoryDatePicker");
 	}
 	// 매매내역 조회
 	infiniteAccount.getStockHistory = function(){
@@ -338,30 +355,20 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	}
 	
 	// datepicker
-	$('#addStockDatePicker').datepicker({
-	    format: "yyyy-mm-dd",	// 데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
-	    endDate: '1d',
-	    autoclose : true,	// 사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
-	    templates : {
-	        leftArrow: '&laquo;',
-	        rightArrow: '&raquo;'
-	    }, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징 
-	    showWeekDays : true ,// 위에 요일 보여주는 옵션 기본값 : true
-	    todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false 
-	    language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
-	});
-	$('#addHistoryDatePicker').datepicker({
-		format: "yyyy-mm-dd",	// 데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
-		endDate: '1d',
-		autoclose : true,	// 사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
-		templates : {
-			leftArrow: '&laquo;',
-			rightArrow: '&raquo;'
-		}, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징 
-		showWeekDays : true ,// 위에 요일 보여주는 옵션 기본값 : true
-		todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false 
-		language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
-	});
+	infiniteAccount.datepicker = function(selector){
+		$(selector).datepicker({
+			format: "yyyy-mm-dd",	// 데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
+			endDate: '1d',
+			autoclose : true,	// 사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
+			templates : {
+				leftArrow: '&laquo;',
+				rightArrow: '&raquo;'
+			}, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징 
+			showWeekDays : true ,// 위에 요일 보여주는 옵션 기본값 : true
+			todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false 
+			language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
+		});
+	}
 	
 });
 

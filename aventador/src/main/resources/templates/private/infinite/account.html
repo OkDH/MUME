@@ -1,12 +1,10 @@
 <div ng-controller="InfiniteAccountController as infiniteAccount">
-
 	<div class="d-flex align-items-center justify-content-between mb-4">
 		<h1 class="h4 mb-0 text-gray-800">계좌현황</h1>
 
 		<!-- 추가, 설정 버튼 -->
 		<div class="d-flex align-items-center justify-content-between">
-			<a class="btn btn-primary btn-circle shadow mr-1"
-				data-toggle="modal" data-target="#addStockModal">
+			<a class="btn btn-primary btn-circle shadow mr-1" ng-click="infiniteAccount.addStock.openAddModal()">
                 <i class="fas fa-plus text-white"></i>
             </a>
 			<a class="btn btn-info btn-circle shadow mr-1"
@@ -176,32 +174,32 @@
 							<div class="card-body text-center">
 								<div class="row">
 									<div class="col">
-										<h4 class="small font-weight-bold">시작일자</h4>
-										<h4 class="small">{{ stock.startedDate | date:'yyyy-MM-dd' }}</h4>
+										<h4 class="text-xs">시작일자</h4>
+										<h4 class="small font-weight-bold">{{ stock.startedDate | date:'yyyy-MM-dd' }}</h4>
 									</div>
 									<div class="col">
-										<h4 class="small font-weight-bold">배정원금</h4>
-										<h4 class="small">${{ stock.seed | number }}</h4>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<h4 class="small font-weight-bold">평균단가</h4>
-										<h4 class="small">${{ stock.averagePrice | number:2 }}</h4>
-									</div>
-									<div class="col">
-										<h4 class="small font-weight-bold">보유수량</h4>
-										<h4 class="small">{{ stock.holdingQuantity | number }}주</h4>
+										<h4 class="text-xs">배정원금</h4>
+										<h4 class="small font-weight-bold">${{ stock.seed | number }}</h4>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col">
-										<h4 class="small font-weight-bold">1회 매수금액</h4>
-										<h4 class="small">${{ stock.oneBuySeed | number:2 }}</h4>
+										<h4 class="text-xs">평균단가</h4>
+										<h4 class="small font-weight-bold">${{ stock.averagePrice | number:2 }}</h4>
 									</div>
 									<div class="col">
-										<h4 class="small font-weight-bold">1회 매수량</h4>
-										<h4 class="small">{{ stock.oneBuyQuantity | number }}주</h4>
+										<h4 class="text-xs">보유수량</h4>
+										<h4 class="small font-weight-bold">{{ stock.holdingQuantity | number }}주</h4>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h4 class="text-xs">1회 매수금액</h4>
+										<h4 class="small font-weight-bold">${{ stock.oneBuySeed | number:2 }}</h4>
+									</div>
+									<div class="col">
+										<h4 class="text-xs">1회 매수량</h4>
+										<h4 class="small font-weight-bold">{{ stock.oneBuyQuantity | number }}주</h4>
 									</div>
 								</div>
 							</div>
@@ -217,24 +215,24 @@
 							<div class="card-body text-center">
 								<div class="row">
 									<div class="col">
-										<h4 class="small font-weight-bold">매입금액</h4>
-										<h4 class="small">${{ stock.buyPrice | number:2 }}</h4>
+										<h4 class="text-xs">매입금액</h4>
+										<h4 class="small font-weight-bold">${{ stock.buyPrice | number:2 }}</h4>
 									</div>
 									<div class="col">
-										<h4 class="small font-weight-bold">평가금액</h4>
-										<h4 class="small">${{ stock.evalPrice | number:2 }}</h4>
+										<h4 class="text-xs">평가금액</h4>
+										<h4 class="small font-weight-bold">${{ stock.evalPrice | number:2 }}</h4>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col">
-										<h4 class="small font-weight-bold">손익금</h4>
+										<h4 class="text-xs">손익금</h4>
 										<h4 class="small font-weight-bold" 
 											ng-class="(stock.income > 0 && 'text-danger') || (stock.income < 0 && 'text-primary')">
 											{{ stock.income | number:2 }}$
 										</h4>
 									</div>
 									<div class="col">
-										<h4 class="small font-weight-bold">손익률</h4>
+										<h4 class="text-xs">손익률</h4>
 										<h4 class="small font-weight-bold"
 											ng-class="(stock.income > 0 && 'text-danger') || (stock.income < 0 && 'text-primary')">
 											{{ stock.incomePer | number:2 | appendPulMa }}%
@@ -309,7 +307,7 @@
 	
 	<!-- Modal -->
 	<div ng-include="meta.baseUrl + 'tpl/modal/add-stock.html'"></div>
-	<div ng-include="meta.baseUrl + 'tpl/modal/edit-stock.html'"></div>
+	<div ng-include="meta.baseUrl + 'tpl/modal/update-stock.html'"></div>
 	<div ng-include="meta.baseUrl + 'tpl/modal/history.html'"></div>
 	<div ng-include="meta.baseUrl + 'tpl/modal/filter.html'"></div>
 	<div ng-include="meta.baseUrl + 'tpl/modal/simple-list.html'"></div>

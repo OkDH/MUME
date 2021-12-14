@@ -40,10 +40,10 @@ public enum EtfSymbol {
 		this.defaultRsi = rsi;
 	}
 	
-	public EtfSector sector() {
+	public EtfSector getSector() {
 		return sector;
 	}
-	public int defaultRsi() {
+	public int getDefaultRsi() {
 		return defaultRsi;
 	}
 }

@@ -159,6 +159,7 @@ public class InfiniteTradeJob {
 		if (holdingQuantity == 0) {
 			InfiniteStock infiniteStock = new InfiniteStock();
 			infiniteStock.setInfiniteState(InfiniteState.DONE);
+			infiniteStock.setDoneDate(LocalDate.now().minusDays(1));
 			
 			InfiniteStockExample example = new InfiniteStockExample();
 			example.createCriteria().andInfiniteIdEqualTo(infiniteDetail.getInfiniteId());

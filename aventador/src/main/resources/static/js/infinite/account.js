@@ -27,7 +27,7 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 			ing: { name: "진행중", value: true },
 			stop: { name: "매수중지", value: true },
 			done: { name: "매도완료", value: false },
-			out: { name: "원금소진", value: false }
+			out: { name: "원금소진", value: true }
 		},
 		infiniteType: {
 			v2_1: { name: "v2.1", value: true },
@@ -35,27 +35,22 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 			v1: { name: "v1", value: true }
 		}
 	};
-	// 검색 필터 : 무한매수 상태
-	$scope.$watch("infiniteAccount.account.filter.infiniteState", function(infiniteState){
-		if(!infiniteState){
+	// 검색 필터
+	$scope.$watch("infiniteAccount.account.filter", function(filter){
+		if(!filter){
 			return;
 		}
+		// 무한매수 상태 필터
 		infiniteAccount.account.query.infiniteState = [];
-		Object.keys(infiniteState).forEach(function(k){
-			if(infiniteState[k].value)
-				infiniteAccount.account.query.infiniteState.push(infiniteState[k].name);
+		Object.keys(filter.infiniteState).forEach(function(k){
+			if(filter.infiniteState[k].value)
+				infiniteAccount.account.query.infiniteState.push(filter.infiniteState[k].name);
 		});
-	}, true);
-	
-	// 검색 필터 : 무한매수 버전
-	$scope.$watch("infiniteAccount.account.filter.infiniteType", function(infiniteType){
-		if(!infiniteType){
-			return;
-		}
+		// 무한매수 버전 필터
 		infiniteAccount.account.query.infiniteType = [];
-		Object.keys(infiniteType).forEach(function(k){
-			if(infiniteType[k].value)
-				infiniteAccount.account.query.infiniteType.push(infiniteType[k].name);
+		Object.keys(filter.infiniteType).forEach(function(k){
+			if(filter.infiniteType[k].value)
+				infiniteAccount.account.query.infiniteType.push(filter.infiniteType[k].name);
 		});
 	}, true);
 	

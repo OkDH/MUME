@@ -118,4 +118,19 @@ app.service("infiniteService", function(httpService){
 		});
 		return promiseUpdateHistory;
 	}
+	
+	// 통계 조회
+	var promiseGetStatistics = null;
+	this.getStatistics = function(type, params){
+		if(promiseGetStatistics){
+			httpService.stop(promiseGetStatistics);
+		}
+		promiseGetStatistics = httpService.post({
+			url: meta.baseUrl + "api/infinite/stock/statistics/"+type,
+			data: params
+		}).then(function(response){
+			return response.data;
+		});
+		return promiseGetStatistics;
+	}
 });

@@ -172,9 +172,15 @@ public class InfiniteStockService {
 		
 		if(params.get("infiniteState") != null) {
 			switch ((String) params.get("infiniteState")) {
+			case InfiniteState.DONE:
+				if(params.get("doneDate") != null) {
+					// 매도완료일때 완료일 넣어주기
+					infiniteStock.setDoneDate(LocalDate.parse(params.get("doneDate").toString()));
+				} else { // null이라면 오늘 날짜
+					infiniteStock.setDoneDate(LocalDate.now());
+				}
 			case InfiniteState.ING:
 			case InfiniteState.STOP:
-			case InfiniteState.DONE:
 			case InfiniteState.OUT:
 				infiniteStock.setInfiniteState((String) params.get("infiniteState"));
 				break;

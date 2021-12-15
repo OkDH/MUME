@@ -80,15 +80,13 @@
 			<div class="card shadow mb-4">
 				<!-- Card Header - Dropdown -->
 				<div
-					class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+					class="card-header py-3">
 					<h6 class="m-0 font-weight-bold text-primary">월별 실현 손익</h6>
 				</div>
 				<!-- Card Body -->
 				<div class="card-body">
 					<div class="chart-area">
-						<canvas id="profitMonthlyChart"
-							style="display: block; width: 630px; height: 320px;" width="630"
-							height="320" class="chartjs-render-monitor"></canvas>
+						<canvas id="profitMonthlyChart"></canvas>
 					</div>
 				</div>
 			</div>
@@ -99,28 +97,18 @@
 			<div class="card shadow mb-4">
 				<!-- Card Header - Dropdown -->
 				<div
-					class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-					<h6 class="m-0 font-weight-bold text-primary">현금 비중</h6>
+					class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">주식 현금 비중</h6>
 				</div>
 				<!-- Card Body -->
 				<div class="card-body">
 					<div class="chart-pie pt-4 pb-2">
-						<div class="chartjs-size-monitor">
-							<div class="chartjs-size-monitor-expand">
-								<div class=""></div>
-							</div>
-							<div class="chartjs-size-monitor-shrink">
-								<div class=""></div>
-							</div>
-						</div>
-						<canvas id="myPieChart" width="630" height="245"
-							style="display: block; width: 630px; height: 245px;"
-							class="chartjs-render-monitor"></canvas>
+						<canvas id="dallerGravityChart"></canvas>
 					</div>
 					<div class="mt-4 text-center small">
-						<span class="mr-2"> <i class="fas fa-circle text-primary"></i>
+						<span class="mr-2"> <i class="fas fa-circle text-warning"></i>
 							주식
-						</span> <span class="mr-2"> <i class="fas fa-circle text-success"></i>
+						</span> <span class="mr-2"> <i class="fas fa-circle text-info"></i>
 							현금
 						</span> 
 					</div>
@@ -130,9 +118,8 @@
 	</div>
 
 	<div class="row">
-
 		<!-- Content Column -->
-		<div class="col-lg-6 mb-4">
+		<div class="col-xl-4 col-lg-5">
 
 			<!-- Project Card Example -->
 			<div class="card shadow mb-4">
@@ -158,11 +145,35 @@
 			</div>
 		</div>
 
-		<div class="col-lg-6 mb-4">
-			<!-- Illustrations -->
+		<div class="col-xl-8 col-lg-7">
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
 					<h6 class="m-0 font-weight-bold text-primary">종목별 누적손익</h6>
+				</div>
+				<div class="card-body">
+					<div class="chart-area">
+						<canvas id="profitStockChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="card shadow mb-4">
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">종목별 비중</h6>
+				</div>
+				<div class="card-body">
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-lg-6">
+			<div class="card shadow mb-4">
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">전월 대비 매입금</h6>
 				</div>
 				<div class="card-body">
 				</div>

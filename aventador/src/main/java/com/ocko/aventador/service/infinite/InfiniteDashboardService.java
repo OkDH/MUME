@@ -50,8 +50,9 @@ public class InfiniteDashboardService {
 		// 최근 12개월
 		LocalDate today = LocalDate.now();
 		LocalDate before = LocalDate.now().minusMonths(11);
-		String thisMonthText = today.getYear() + "-" + today.getMonthValue();
-		String beforeMonthText = before.getYear() + "-" + before.getMonthValue();
+		String thisMonthText = today.getYear() + "-" + (today.getMonthValue() >= 10 ? today.getMonthValue() : "0" + today.getMonthValue());
+		String beforeMonthText = before.getYear() + "-" + (before.getMonthValue() >= 10 ? before.getMonthValue() : "0" + before.getMonthValue());
+		
 		criteria.andMonthlyBetween(beforeMonthText, thisMonthText);
 		
 		example.setOrderByClause("monthly asc");
@@ -87,13 +88,13 @@ public class InfiniteDashboardService {
 		
 		// 이번달
 		LocalDate today = LocalDate.now();
-		String thisMonthText = today.getYear() + "-" + today.getMonthValue();
+		String thisMonthText = today.getYear() + "-" + (today.getMonthValue() >= 10 ? today.getMonthValue() : "0" + today.getMonthValue());
 		result.put("thisMonth", getBuyDaily(memberId, params, thisMonthText));
 		
 		
 		// 최근 2개월
 		LocalDate before = LocalDate.now().minusMonths(1);
-		String beforeMonthText = before.getYear() + "-" + before.getMonthValue();
+		String beforeMonthText = before.getYear() + "-" + (before.getMonthValue() >= 10 ? before.getMonthValue() : "0" + before.getMonthValue());
 		result.put("beforeMonth", getBuyDaily(memberId, params, beforeMonthText));
 		
 		return result;

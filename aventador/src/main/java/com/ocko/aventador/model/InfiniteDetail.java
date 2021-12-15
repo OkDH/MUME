@@ -48,7 +48,7 @@ public class InfiniteDetail extends ViewInfiniteList {
 		if(stockDetail == null)
 			return null;
 		
-		if(getInfiniteState().equals(InfiniteState.DONE)) {
+		if(getInfiniteState().equals(InfiniteState.DONE) || getBuyPrice().compareTo(new BigDecimal("0.0")) == 0) {
 			// 매수 수수료(소수점 2자리에서 버림)
 			BigDecimal buyFees = getTotalBuyPrice().multiply(feesPer).setScale(2, RoundingMode.DOWN);
 			// 매도시 수수료(소수점 2자리에서 버림)
@@ -69,8 +69,7 @@ public class InfiniteDetail extends ViewInfiniteList {
 	public BigDecimal getIncomePer() {
 		if(stockDetail == null)
 			return null;
-		
-		if(getInfiniteState().equals(InfiniteState.DONE)) {
+		if(getInfiniteState().equals(InfiniteState.DONE) || getBuyPrice().compareTo(new BigDecimal("0.0")) == 0) {
 			return getIncome().divide(getTotalBuyPrice(), 8, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100));
 		} else {
 			return getIncome().divide(getBuyPrice(), 8, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100));
@@ -81,7 +80,7 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매도완료일 때 : 전체매입금 / 배정시드 * 100 ( 100%가 큰 경우 return 100)
 	// 나머지 : 매입금액 / 배정시드 * 100
 	public BigDecimal getProgressPer() {
-		if(getInfiniteState().equals(InfiniteState.DONE)) {
+		if(getInfiniteState().equals(InfiniteState.DONE) || getBuyPrice().compareTo(new BigDecimal("0.0")) == 0) {
 			return getTotalBuyPrice().divide(getSeed(), 8, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100)).min(new BigDecimal("100"));
 		} else {
 			return getBuyPrice().divide(getSeed(), 8, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100));

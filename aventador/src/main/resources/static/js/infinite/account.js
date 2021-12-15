@@ -175,11 +175,13 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 		$('#updateStockModal').modal("show");
 		// datepicker
 		infiniteAccount.datepicker("#updateStockDatePicker");
+		infiniteAccount.datepicker("#updateDoneDatePicker");
 	}
 	infiniteAccount.updateStock.update = function(params){
 		if(!params)
 			return;
 		params.startedDate = $('#updateStockDatePicker').val();
+		params.doneDate = $('#updateDoneDatePicker').val();
 		infiniteService.updateStock(params).then(function(data){
 			if(data == true){
 				infiniteAccount.getStocks(infiniteAccount.account.query);

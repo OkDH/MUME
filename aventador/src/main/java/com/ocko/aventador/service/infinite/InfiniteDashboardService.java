@@ -4,6 +4,7 @@
 package com.ocko.aventador.service.infinite;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,15 +87,12 @@ public class InfiniteDashboardService {
 		Map<String, List<ViewInfiniteBuyTwoMonth>> result = new HashMap<String, List<ViewInfiniteBuyTwoMonth>>();
 		
 		// 이번달
-		LocalDate today = LocalDate.now();
-		String thisMonthText = today.getYear() + "-" + (today.getMonthValue() >= 10 ? today.getMonthValue() : "0" + today.getMonthValue());
-		result.put("thisMonth", getBuyDaily(memberId, params, thisMonthText));
+		YearMonth today = YearMonth.now();
+		result.put("thisMonth", getBuyDaily(memberId, params, today));
 		
-		
-		// 최근 2개월
-		LocalDate before = LocalDate.now().minusMonths(1);
-		String beforeMonthText = before.getYear() + "-" + (before.getMonthValue() >= 10 ? before.getMonthValue() : "0" + before.getMonthValue());
-		result.put("beforeMonth", getBuyDaily(memberId, params, beforeMonthText));
+		// 전월
+		YearMonth before = YearMonth.now().minusMonths(1);
+		result.put("beforeMonth", getBuyDaily(memberId, params, before));
 		
 		return result;
 	}
@@ -106,12 +104,12 @@ public class InfiniteDashboardService {
 	 * @param month
 	 * @return
 	 */
-	private List<ViewInfiniteBuyTwoMonth> getBuyDaily(int memberId, Map<String, Object> params, String month) {
+	private List<ViewInfiniteBuyTwoMonth> getBuyDaily(int memberId, Map<String, Object> params, YearMonth month) {
 		ViewInfiniteBuyTwoMonthExample example = new ViewInfiniteBuyTwoMonthExample();
 		com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyTwoMonthExample.Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
 		if(params.get("accountId") != null)
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
-//		criteria.andTrade
+		criteria.andTradeDateBetween(month.atDay(1), month.atEndOfMonth());
 		
 		example.setOrderByClause("trade_date asc");
 	

@@ -105,9 +105,15 @@ public class InfiniteStockService {
 	public Map<String, Object> getMyAccountState(int memberId, Map<String, Object> params){
 		Map<String, Object> result = new HashMap<String, Object>();
 		
+		List<String> infiniteStateList = new ArrayList<String>();
+		infiniteStateList.add(InfiniteState.ING);
+		infiniteStateList.add(InfiniteState.OUT);
+		infiniteStateList.add(InfiniteState.STOP);
+		
+		
 		Map<String, Object> query = new HashMap<String, Object>();
 		query.put("memberId", memberId);
-		query.put("infiniteState", InfiniteState.ING);
+		query.put("infiniteStateList", infiniteStateList); 
 		if(params.get("accountId") != null)
 			query.put("accountId", params.get("accountId"));
 		

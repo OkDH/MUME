@@ -470,7 +470,10 @@
     select count(*)
 	from aventador.view_infinite_list
 	where member_id = #{memberId}
-	and infinite_state = #{infiniteState}
+	and infinite_state in 
+	<foreach collection="infiniteStateList" item="state" open="(" separator="," close=")">
+		#{state}
+	</foreach>
     <if test="accountId != null">
       and account_id = #{accountId}
     </if>
@@ -480,7 +483,10 @@
     select sum(seed)
 	from aventador.view_infinite_list
 	where member_id = #{memberId}
-	and infinite_state = #{infiniteState}
+	and infinite_state in 
+	<foreach collection="infiniteStateList" item="state" open="(" separator="," close=")">
+		#{state}
+	</foreach>
     <if test="accountId != null">
       and account_id = #{accountId}
     </if>
@@ -490,7 +496,10 @@
     select sum(buy_price)
 	from aventador.view_infinite_list
 	where member_id = #{memberId}
-	and infinite_state = #{infiniteState}
+	and infinite_state in 
+	<foreach collection="infiniteStateList" item="state" open="(" separator="," close=")">
+		#{state}
+	</foreach>
     <if test="accountId != null">
       and account_id = #{accountId}
     </if>

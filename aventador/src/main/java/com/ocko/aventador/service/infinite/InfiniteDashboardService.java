@@ -10,16 +10,15 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyDaily;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyDailyExample;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyTwoMonth;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyTwoMonthExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthly;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthlyExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthlyExample.Criteria;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitStock;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitStockExample;
-import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteBuyDailyMapper;
+import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteBuyTwoMonthMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteProfitMonthlyMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteProfitStockMapper;
 
@@ -33,7 +32,7 @@ public class InfiniteDashboardService {
 	
 	@Autowired private ViewInfiniteProfitMonthlyMapper viewProfitMonthlyMapper; 
 	@Autowired private ViewInfiniteProfitStockMapper viewProfitStockMapper;
-	@Autowired private ViewInfiniteBuyDailyMapper ViewBuyDailyMapper;
+	@Autowired private ViewInfiniteBuyTwoMonthMapper ViewBuyMapper;
 	
 	/**
 	 * 월별 실현 손익 가져오기
@@ -82,9 +81,9 @@ public class InfiniteDashboardService {
 	 * @param params
 	 * @return
 	 */
-	public Map<String, List<ViewInfiniteBuyDaily>> getBuyDaily(int memberId, Map<String, Object> params) {
+	public Map<String, List<ViewInfiniteBuyTwoMonth>> getBuyDaily(int memberId, Map<String, Object> params) {
 		
-		Map<String, List<ViewInfiniteBuyDaily>> result = new HashMap<String, List<ViewInfiniteBuyDaily>>();
+		Map<String, List<ViewInfiniteBuyTwoMonth>> result = new HashMap<String, List<ViewInfiniteBuyTwoMonth>>();
 		
 		// 이번달
 		LocalDate today = LocalDate.now();
@@ -107,16 +106,16 @@ public class InfiniteDashboardService {
 	 * @param month
 	 * @return
 	 */
-	private List<ViewInfiniteBuyDaily> getBuyDaily(int memberId, Map<String, Object> params, String month) {
-		ViewInfiniteBuyDailyExample example = new ViewInfiniteBuyDailyExample();
-		com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyDailyExample.Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
+	private List<ViewInfiniteBuyTwoMonth> getBuyDaily(int memberId, Map<String, Object> params, String month) {
+		ViewInfiniteBuyTwoMonthExample example = new ViewInfiniteBuyTwoMonthExample();
+		com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyTwoMonthExample.Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
 		if(params.get("accountId") != null)
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
-		criteria.andDailyLike(month + "%");
+//		criteria.andTrade
 		
-		example.setOrderByClause("daily asc");
+		example.setOrderByClause("trade_date asc");
 	
-		return ViewBuyDailyMapper.selectByExample(example);
+		return ViewBuyMapper.selectByExample(example);
 	}
 
 }

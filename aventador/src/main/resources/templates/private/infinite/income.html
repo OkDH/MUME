@@ -1,1 +1,81 @@
-손익현황
+<div ng-controller="InfiniteIncomeController as infiniteIncome">
+	<div class="d-flex align-items-center justify-content-between mb-4">
+		<h1 class="h4 mb-0 text-gray-800">손익현황</h1>
+		
+		<!-- 필터 버튼 -->
+		<div class="d-flex align-items-center justify-content-between">
+			<a class="btn btn-info btn-circle shadow"
+				data-toggle="modal" data-target="#filterModal">
+                <i class="fas fa-filter text-white"></i>
+            </a>
+		</div>
+	</div>
+	
+	<!-- Content Row -->
+	<div class="row">
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-primary shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-primary text-uppercase mb-1">
+								기간</div>
+							<div class="small h5 mb-0 font-weight-bold text-gray-800">2021-12-01 ~ 2021-12-19</div>
+						</div>
+						<div class="col-auto">
+							<i class="far fa-calendar-alt fa-2x text-gray-300"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-success shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-success text-uppercase mb-1">매입금액</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">$0</div>
+						</div>
+						<div class="col-auto">
+							<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-info shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-info text-uppercase mb-1">매도금액</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">$0</div>
+						</div>
+						<div class="col-auto">
+							<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-warning shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-warning text-uppercase mb-1">손익금액</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">0$(0%)</div>
+						</div>
+						<div class="col-auto">
+							<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

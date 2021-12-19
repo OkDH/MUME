@@ -215,6 +215,11 @@ app.filter("appendPulMa", function() {
 			return score.toFixed(2);
 	}
 });
+app.filter('abs', function () {
+	return function(val) {
+		return Math.abs(val);
+	}
+});
 app.controller("MainController", function($scope, $http, $location) {
 	// Toggle the side navigation
 	$("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {

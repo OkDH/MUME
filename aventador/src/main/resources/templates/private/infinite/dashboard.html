@@ -195,6 +195,15 @@
 					<h6 class="m-0 font-weight-bold text-primary">전월 대비 매입금 추이</h6>
 				</div>
 				<div class="card-body">
+					<h6 class="ml-3 mb-3 font-weight-bold text-gray-800">
+						1일부터 오늘까지 {{ infiniteDashboard.state.thisMonthSumBuyPrice | number:2 }}$ 를 매입했어요.
+					</h6>
+					<h6 class="small ml-3 mb-4 font-weight-bold text-gray-800">
+						지난달 이맘때보다 
+						<span class="text-primary">{{ infiniteDashboard.state.sumBuyPriceGap | abs | number:2 }}$</span> 
+						<span class="text-primary">{{ infiniteDashboard.state.sumBuyPriceGap > 0 ? '더' : '덜' }}</span> 
+						매입했어요.
+					</h6>
 					<div class="chart-area">
 						<canvas id="buyDailyChart"></canvas>
 					</div>

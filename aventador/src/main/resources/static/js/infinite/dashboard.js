@@ -108,15 +108,7 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 							return value + '$';
 						}
 					},
-					gridLines: {
-						color: "rgb(234, 236, 244)",
-						zeroLineColor: "rgb(234, 236, 244)",
-						drawBorder: false,
-						borderDash: [2],
-						zeroLineBorderDash: [2]
-					}
 				}],
-
 			  },
 			  legend: {
 				  display: false
@@ -313,62 +305,148 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 		console.log("buyDaily :" , buyDaily);
 		
 		var labels = [];
-		var dataBefore = [];
-		var dataThis = [];
-		// 전월
-		buyDaily.beforeMonth.forEach(function(item){
-			var buyPrice = dataBefore.length == 0 ? 0 : dataBefore[dataBefore.length-1];
-			dataBefore.push(buyPrice + item.buyPrice);
-		});
 		
-		// 이번달
-		buyDaily.thisMonth.forEach(function(item){
-			var buyPrice = dataThis.length == 0 ? 0 : dataThis[dataBefore.length-1];
-			dataThis.push(buyPrice + item.buyPrice);
-		});
+		var thisDataMap = {};
+		var beforeDataMap = {};
+		
+		{
+			// 이번달 데이터 세팅
+			buyDaily.thisMonth.forEach(function(item){
+				thisDataMap[item.tradeDate] = item.buyPrice;
+			});
+			
+			// 전월 데이터 세팅
+			buyDaily.beforeMonth.forEach(function(item){
+				beforeDataMap[item.tradeDate] = item.buyPrice;
+			});
+		}
+		
+		// 최근 2개월 날짜 리스트 만들기
+		var date = new Date();
+		var y = date.getFullYear();
+		var m = date.getMonth();
+		
+		// 이번달 1일과 마지막일 변수
+		var curDate = new Date(y, m, 2);
+		var lastDate = new Date(y, m+1, 1);
+		var today = new Date(y, m, date.getDate());
+		
+		var thisMonthData = [];
+		var lastPointRadius = [];
+		
+		while(curDate <= lastDate){
+			var textDate = curDate.toISOString().split("T")[0];
+			labels.push(textDate.substring(5).replace("-", "."));
+			
+			if(curDate <= today){ // 오늘일자까지만 데이터 만들기
+				if(thisDataMap[textDate] != undefined){
+					if(thisMonthData.length == 0){
+						thisMonthData.push(thisDataMap[textDate]);
+					} else {
+						// 누적
+						thisMonthData.push(thisDataMap[textDate] + thisMonthData[thisMonthData.length - 1]);
+					}
+				} else {
+					if(thisMonthData.length == 0){
+						thisMonthData.push(0);
+					} else {
+						// 누적
+						thisMonthData.push(thisMonthData[thisMonthData.length - 1]);
+					}
+				}
+				// 마지막 포인트만 5
+				if(curDate.getMonth() == today.getMonth() && curDate.getDate() == today.getDate())
+					lastPointRadius.push(5);
+				else 
+					lastPointRadius.push(0);
+			}
+			// 다음일
+			curDate.setDate(curDate.getDate() + 1);
+		}
+		
+		// 이번달 총 매입금
+		infiniteDashboard.state.thisMonthSumBuyPrice = thisMonthData[thisMonthData.length - 1];
+		
+		// 전월 데이터 만들기
+		var curDate = new Date(y, m-1, 2);
+		var lastDate = new Date(y, m, 1);
+		
+		var beforeMonthData = [];
+		
+		while(curDate <= lastDate){
+			var textDate = curDate.toISOString().split("T")[0];
+			
+			if(beforeDataMap[textDate] != undefined){
+				if(beforeMonthData.length == 0){
+					beforeMonthData.push(beforeDataMap[textDate]);
+				} else {
+					// 누적
+					beforeMonthData.push(beforeDataMap[textDate] + beforeMonthData[beforeMonthData.length - 1]);
+				}
+			} else {
+				if(beforeMonthData.length == 0){
+					beforeMonthData.push(0);
+				} else {
+					// 누적
+					beforeMonthData.push(beforeMonthData[beforeMonthData.length - 1]);
+				}
+			}
+			
+			// 전월 이맘 때 매입금
+			if(date.getDate() == curDate.getDate()){
+				infiniteDashboard.state.beforeMonthSumBuyPrice = beforeMonthData[beforeMonthData.length - 1];
+				infiniteDashboard.state.sumBuyPriceGap = infiniteDashboard.state.thisMonthSumBuyPrice - infiniteDashboard.state.beforeMonthSumBuyPrice;
+			}
+			
+			// 다음일
+			curDate.setDate(curDate.getDate() + 1);
+		}
+		
+		if(beforeMonthData < thisMonthData) // 이번월이 전월보다 일수가 많을경우 전월 하루 추가
+			beforeMonthData.push(beforeMonthData[beforeMonthData.length - 1]);
 		
 		var ctx = document.getElementById("buyDailyChart");
 		var myLineChart = new Chart(ctx, {
 		  type: 'line',
 		  data: {
-		    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-		    datasets: [{
-		      label: "Earnings",
-		      lineTension: 0.1,
-		      backgroundColor: "rgba(78, 115, 223, 0.05)",
-		      borderColor: "rgba(78, 115, 223, 1)",
-		      pointRadius: 3,
-		      pointBackgroundColor: "rgba(78, 115, 223, 1)",
-		      pointBorderColor: "rgba(78, 115, 223, 1)",
-		      pointHoverRadius: 3,
-		      pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-		      pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-		      pointHitRadius: 10,
-		      pointBorderWidth: 0,
-		      data: dataBefore,
-		    },
-		    {
-		      label: "Earnings",
-		      lineTension: 0.3,
-		      backgroundColor: "rgba(78, 115, 223, 0.05)",
-		      borderColor: "rgba(78, 115, 223, 1)",
-		      pointRadius: 3,
-		      pointBackgroundColor: "rgba(78, 115, 223, 1)",
-		      pointBorderColor: "rgba(78, 115, 223, 1)",
-		      pointHoverRadius: 3,
-		      pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-		      pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-		      pointHitRadius: 10,
-		      pointBorderWidth: 2,
-		      data: dataThis,
-		    }],
+		    labels: labels,
+		    datasets: [
+		     {
+			      label: (m+1)+"월",
+			      lineTension: 0.3,
+			      fill: false,
+			      pointRadius: lastPointRadius,
+			      backgroundColor: "rgba(78, 115, 223, 1)",
+			      borderColor: "rgba(78, 115, 223, 1)",
+			      pointBackgroundColor: "rgba(78, 115, 223, 1)",
+			      pointBorderColor: "rgba(78, 115, 223, 1)",
+			      pointHoverRadius: 7,
+			      pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+			      pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+			      data: thisMonthData,
+			 },
+		     {
+			      label: m+"월",
+			      lineTension: 0.1,
+			      backgroundColor: "rgba(204, 204, 204, 0.3)",
+			      borderColor: "#CCCCCC",
+			      pointRadius: 0,
+			      pointBackgroundColor: "rgba(78, 115, 223, 1)",
+			      pointBorderColor: "rgba(78, 115, 223, 1)",
+			      pointHoverRadius: 0,
+			      pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+			      pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+			      data: beforeMonthData,
+			      ddd:"zzz"
+		     }
+		    ],
 		  },
 		  options: {
 		    maintainAspectRatio: false,
 		    layout: {
 		      padding: {
 		        left: 10,
-		        right: 25,
+		        right: 10,
 		        top: 10,
 		        bottom: 0
 		      }
@@ -383,7 +461,7 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 		          drawBorder: false
 		        },
 		        ticks: {
-		          maxTicksLimit: 7
+		          maxTicksLimit: 5
 		        }
 		      }],
 		      yAxes: [{
@@ -405,22 +483,21 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 		      }],
 		    },
 		    legend: {
-		      display: false
+		      display: true,
+		      position: "bottom"
 		    },
 		    tooltips: {
+		      titleMarginBottom: 10,
+			  titleFontColor: '#6e707e',
+			  titleFontSize: 14,
 		      backgroundColor: "rgb(255,255,255)",
 		      bodyFontColor: "#858796",
-		      titleMarginBottom: 10,
-		      titleFontColor: '#6e707e',
-		      titleFontSize: 14,
 		      borderColor: '#dddfeb',
 		      borderWidth: 1,
 		      xPadding: 15,
 		      yPadding: 15,
 		      displayColors: false,
-		      intersect: false,
-		      mode: 'index',
-		      caretPadding: 10,
+		      mode:'index',	
 		      callbacks: {
 		        label: function(tooltipItem, chart) {
 		          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';

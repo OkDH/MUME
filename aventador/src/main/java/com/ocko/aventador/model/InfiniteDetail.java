@@ -45,9 +45,6 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매도완료일 때 : 전체 매도금액 - 전체 매수금액 - 매수수수료 - 매도수수료
 	// 나머지 : 평가금액 - 매입금액 - 매수수수료 - 매도수수료
 	public BigDecimal getIncome() {
-		if(stockDetail == null)
-			return null;
-		
 		if(getInfiniteState().equals(InfiniteState.DONE) || getBuyPrice().compareTo(new BigDecimal("0.0")) == 0) {
 			// 매수 수수료(소수점 2자리에서 버림)
 			BigDecimal buyFees = getTotalBuyPrice().multiply(feesPer).setScale(2, RoundingMode.DOWN);
@@ -67,8 +64,6 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매도완료일 때 : 손익금 / 전체매입금액 * 100
 	// 나머지 : 손익금 / 매입금액 * 100
 	public BigDecimal getIncomePer() {
-		if(stockDetail == null)
-			return null;
 		if(getInfiniteState().equals(InfiniteState.DONE) || getBuyPrice().compareTo(new BigDecimal("0.0")) == 0) {
 			return getIncome().divide(getTotalBuyPrice(), 8, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100));
 		} else {

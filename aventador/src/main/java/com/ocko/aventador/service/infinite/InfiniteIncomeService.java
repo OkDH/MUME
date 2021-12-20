@@ -34,7 +34,8 @@ public class InfiniteIncomeService {
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
 		if(params.get("doneDateStart") != null && params.get("doneDateEnd") != null)
 			criteria.andDoneDateBetween(LocalDate.parse(params.get("doneDateStart").toString()), LocalDate.parse(params.get("doneDateEnd").toString()));
-		example.setOrderByClause("done_date desc");
+		if(params.get("order") != null)
+			example.setOrderByClause("done_date " + params.get("order").toString());
 		
 		List<ViewInfiniteList> list = viewInfiniteListMapper.selectByExample(example);;
 		

@@ -302,7 +302,6 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 	$scope.$watch("infiniteDashboard.buyDaily", function(buyDaily){
 		if(!buyDaily)
 			return;
-		console.log("buyDaily :" , buyDaily);
 		
 		var labels = [];
 		

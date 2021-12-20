@@ -126,11 +126,26 @@ app.service("infiniteService", function(httpService){
 			httpService.stop(promiseGetStatistics);
 		}
 		promiseGetStatistics = httpService.post({
-			url: meta.baseUrl + "api/infinite/stock/statistics/"+type,
+			url: meta.baseUrl + "api/infinite/statistics/"+type,
 			data: params
 		}).then(function(response){
 			return response.data;
 		});
 		return promiseGetStatistics;
+	}
+	
+	// 손익현황 조회
+	var promiseGetIncome = null;
+	this.promiseGetIncome = function(type, params){
+		if(promiseGetStatistics){
+			httpService.stop(promiseGetIncome);
+		}
+		promiseGetIncome = httpService.post({
+			url: meta.baseUrl + "api/infinite/income/"+type,
+			data: params
+		}).then(function(response){
+			return response.data;
+		});
+		return promiseGetIncome;
 	}
 });

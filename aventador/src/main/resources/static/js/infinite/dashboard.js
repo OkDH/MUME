@@ -92,8 +92,8 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 			  maintainAspectRatio: false,
 			  layout: {
 			      padding: {
-			        left: 10,
-			        right: 25,
+			        left: 0,
+			        right: 0,
 			        top: 0,
 			        bottom: 0
 			      }
@@ -178,8 +178,8 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 			  maintainAspectRatio: false,
 			  layout: {
 			      padding: {
-			        left: 10,
-			        right: 25,
+			        left: 0,
+			        right: 0,
 			        top: 0,
 			        bottom: 0
 			      }
@@ -445,8 +445,8 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 		    maintainAspectRatio: false,
 		    layout: {
 		      padding: {
-		        left: 10,
-		        right: 10,
+		        left: 0,
+		        right: 0,
 		        top: 10,
 		        bottom: 0
 		      }

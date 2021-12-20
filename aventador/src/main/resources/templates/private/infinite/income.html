@@ -20,7 +20,8 @@
 						<div class="col mr-2">
 							<div class="font-weight-bold text-primary text-uppercase mb-1">
 								기간</div>
-							<div class="small h5 mb-0 font-weight-bold text-gray-800">2021-12-01 ~ 2021-12-19</div>
+							<div class="small h5 mb-0 font-weight-bold text-gray-800">
+								{{ infiniteIncome.query.doneDateStart }} ~ {{ infiniteIncome.query.doneDateEnd }}</div>
 						</div>
 						<div class="col-auto">
 							<i class="far fa-calendar-alt fa-2x text-gray-300"></i>
@@ -35,8 +36,8 @@
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-success text-uppercase mb-1">매입금액</div>
-							<div class="h5 mb-0 font-weight-bold text-gray-800">$0</div>
+							<div class="font-weight-bold text-success text-uppercase mb-1">매수금액</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">${{ infiniteIncome.stats.totalBuy | number:2 }}</div>
 						</div>
 						<div class="col-auto">
 							<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -52,7 +53,7 @@
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
 							<div class="font-weight-bold text-info text-uppercase mb-1">매도금액</div>
-							<div class="h5 mb-0 font-weight-bold text-gray-800">$0</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">${{ infiniteIncome.stats.totalSell | number:2 }}</div>
 						</div>
 						<div class="col-auto">
 							<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -68,7 +69,11 @@
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
 							<div class="font-weight-bold text-warning text-uppercase mb-1">손익금액</div>
-							<div class="h5 mb-0 font-weight-bold text-gray-800">0$(0%)</div>
+							<div class="h5 mb-0 font-weight-bold"
+								ng-class="(infiniteIncome.stats.totalProfit > 0 && 'text-danger') || (infiniteIncome.stats.totalProfit < 0 && 'text-primary')">
+								{{ infiniteIncome.stats.totalProfit | appendPulMa }}$
+								<span class="text-xs">({{ infiniteIncome.stats.totalProfit / infiniteIncome.stats.totalBuy * 100 | appendPulMa }}%)</span>
+							</div>
 						</div>
 						<div class="col-auto">
 							<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -79,76 +84,167 @@
 		</div>
 	</div>
 	
-	<div class="row">
+	<div class="row" ng-if="infiniteIncome.profit.length == 0">
 		<div class="col">
-			<div class="card shadow mb-4">
-				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary">손익현황</h6>
-				</div>
-				<div class="card-body">
-					<table class="table table-hover text-gray-800 text-resize" id="dataTable" width="100%" style="width: 100%;">
-						<thead class="text-white bg-primary">
-							<tr role="row" class="text-center">
-								<th class="" 
-									style="width: 10px;">NO</th>
-								<th class="" 
-									style="width: 10px;">SYMBOL</th>
-								<th class="" 
-									style="width: 10px;">배정원금</th>
-								<th class="" 
-									style="width: 10px;">진행기간</th>
-								<th class="" 
-									style="width: 10px;">진행률</th>
-								<th class="" 
-									style="width: 10px;">평단가</th>
-								<th class="" 
-									style="width: 10px;">매수금액</th>
-								<th class="" 
-									style="width: 10px;">매도금액</th>
-								<th class="" 
-									style="width: 10px;">손익금액</th>
-								<th class="" 
-									style="width: 10px;">손익률</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="item in infiniteIncome.profit">
-								<td class="text-center">
-									{{ infiniteIncome.profit.length - $index }}
-								</td>
-								<td class="text-center">
-									{{ item.symbol }}
-								</td>
-								<td class="text-center">
-									${{ item.seed | number }}
-								</td>
-								<td class="text-center small" style="white-space: nowrap;">
-									{{ item.startedDate }} ~
-									{{ item.doneDate }}
-								</td>
-								<td class="text-center">
-									{{ item.progressPer | number:1 }}%
-								</td>
-								<td class="text-center">
-									${{ item.averagePrice | number:2 }}
-								</td>
-								<td class="text-center">
-									${{ item.totalBuyPrice | number:2 }}
-								</td>
-								<td class="text-center">
-									${{ item.totalSellPrice | number:2 }}
-								</td>
-								<td class="text-center">
-									{{ item.income | number:2 }}$
-								</td>
-								<td class="text-center">
-									${{ item.incomePer | number:1 }}%
-								</td>
-							</tr>
-						</tbody>
-					</table>
+			<div class="alert alert-success text-center" role="alert">
+			  <p class="font-weight-bold mt-2">조회 된 손익현황이 없습니다.</p>
+			  <hr>
+			  <div class="text-resize">
+				  <a class="btn btn-info btn-circle btn-sm shadow mr-1"
+					data-toggle="modal" data-target="#filterModal">
+	                  <i class="fas fa-filter text-white"></i>
+	           	  </a> 버튼을 클릭하여 검색 조건을 바꿔보세요.
+           	  </div>
+			</div>
+		</div>
+	</div>
+	
+	<div ng-if="infiniteIncome.profit.length > 0">
+		<div class="row">
+			<div class="col">
+				<div class="card shadow mb-4">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">손익현황</h6>
+					</div>
+					<div class="card-body">
+						<table class="table table-hover text-gray-800 text-resize" id="dataTable" width="100%" style="width: 100%;">
+							<thead class="text-white bg-primary">
+								<tr role="row" class="text-center">
+									<th class="d-none d-md-table-cell" 
+										style="width: 10px;">NO</th>
+									<th class="" 
+										style="width: 10px;">SYMBOL</th>
+									<th class="d-none d-md-table-cell" 
+										style="width: 10px;">배정원금</th>
+									<th class="d-none d-md-table-cell" 
+										style="width: 10px;">진행기간</th>
+									<th class="" 
+										style="width: 10px;">진행률</th>
+									<th class="d-none d-md-table-cell" 
+										style="width: 10px;">평단가</th>
+									<th class="d-none d-md-table-cell" 
+										style="width: 10px;">매수금액</th>
+									<th class="d-none d-md-table-cell" 
+										style="width: 10px;">매도금액</th>
+									<th class="d-none d-md-table-cell" 
+										style="width: 10px;">수수료</th>
+									<th class="" 
+										style="width: 10px;">손익금액</th>
+									<th class="" 
+										style="width: 10px;">손익률</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in infiniteIncome.profit">
+									<td class="text-center d-none d-md-table-cell">
+										{{ infiniteIncome.profit.length - $index }}
+									</td>
+									<td class="text-center font-weight-bold">
+										{{ item.symbol }}
+									</td>
+									<td class="text-center d-none d-md-table-cell">
+										${{ item.seed | number }}
+									</td>
+									<td class="text-center small align-middle d-none d-md-table-cell" style="white-space: nowrap;">
+										{{ item.startedDate }} ~
+										{{ item.doneDate }}
+									</td>
+									<td class="text-center"
+										ng-class="item.progressPer >= 50 && 'font-weight-bold'">
+										{{ item.progressPer | number:1 }}%
+									</td>
+									<td class="text-center d-none d-md-table-cell">
+										${{ item.averagePrice | number:2 }}
+									</td>
+									<td class="text-center text-danger d-none d-md-table-cell">
+										${{ item.totalBuyPrice | number:2 }}
+									</td>
+									<td class="text-center text-primary d-none d-md-table-cell">
+										${{ item.totalSellPrice | number:2 }}
+									</td>
+									<td class="text-center d-none d-md-table-cell">
+										${{ item.totalSellPrice - item.totalBuyPrice - item.income | number:2 }}
+									</td>
+									<td class="text-center font-weight-bold"
+										ng-class="(item.income > 0 && 'text-danger') || (item.income < 0 && 'text-primary')">
+										{{ item.income | appendPulMa }}$
+									</td>
+									<td class="text-center font-weight-bold"
+										ng-class="(item.incomePer > 0 && 'text-danger') || (item.incomePer < 0 && 'text-primary')">
+										{{ item.incomePer | appendPulMa }}%
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+	
+	<div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header bg-primary text-white">
+	        <h5 class="modal-title">검색 조건</h5>
+	        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="row">
+	      		<div class="col-3 pt-1 pl-3 text-gray-800 font-weight-bold">
+	      			조회기간
+	      		</div>
+	      		<div class="col-9 p-1">
+	      			<div class="btn-group btn-group-toggle" data-toggle="buttons">
+					  <label style="width: 6em;"
+					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+					  	ng-class="infiniteIncome.query.date == '1개월' && 'active'">
+					    <input type="radio" name="date" ng-model="infiniteIncome.query.date" value="1개월"> 1개월
+					  </label>
+					  <label style="width: 6em;"
+					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+					  	ng-class="infiniteIncome.query.date == '3개월' && 'active'">
+					    <input type="radio" name="date" ng-model="infiniteIncome.query.date" value="3개월"> 3개월
+					  </label>
+					  <label style="width: 6em;"
+					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+					  	ng-class="infiniteIncome.query.date == '1년' && 'active'">
+					    <input type="radio" name="date" ng-model="infiniteIncome.query.date" value="1년"> 1년
+					  </label>
+					  <label style="width: 6em;"
+					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+					  	ng-class="infiniteIncome.query.date == '조회기간' && 'active'">
+					    <input type="radio" name="date" ng-model="infiniteIncome.query.date" value="조회기간"> 조회기간
+					  </label>
+					</div>
+	      		</div>
+	      	</div>
+	      	<div class="row">
+	      		<div class="col-3 pt-1 pl-3 text-gray-800 font-weight-bold">
+	      			정렬순서
+	      		</div>
+	      		<div class="col-9 p-1">
+	      			<div class="btn-group btn-group-toggle" data-toggle="buttons">
+					  <label style="width: 6em;"
+					  	class="btn btn-sm btn-outline-primary font-weight-bold text-xs" 
+					  	ng-class="infiniteIncome.query.order == 'DESC' && 'active'">
+					    <input type="radio" name="order" ng-model="infiniteIncome.query.order" value="DESC"> 최신순
+					  </label>
+					  <label style="width: 6em;"
+					  	class="btn btn-sm btn-outline-primary font-weight-bold text-xs" 
+					  	ng-class="infiniteIncome.query.order == 'ASC' && 'active'">
+					    <input type="radio" name="order" ng-model="infiniteIncome.query.order" value="ASC"> 과거순
+					  </label>
+					</div>
+	      		</div>
+	      	</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
 	</div>
 </div>

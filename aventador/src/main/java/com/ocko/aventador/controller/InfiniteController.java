@@ -22,6 +22,7 @@ import com.ocko.aventador.model.InfiniteDetail;
 import com.ocko.aventador.service.AuthenticationService;
 import com.ocko.aventador.service.infinite.InfiniteAccountService;
 import com.ocko.aventador.service.infinite.InfiniteDashboardService;
+import com.ocko.aventador.service.infinite.InfiniteIncomeService;
 import com.ocko.aventador.service.infinite.InfiniteStockService;
 
 /**
@@ -36,6 +37,7 @@ public class InfiniteController {
 	@Autowired private InfiniteAccountService accountService;
 	@Autowired private InfiniteStockService stockService;
 	@Autowired private InfiniteDashboardService dashboardService;
+	@Autowired private InfiniteIncomeService incomeService;
 	
 	/**
 	 * 내 계좌 리스트 조회
@@ -182,7 +184,7 @@ public class InfiniteController {
 	 * @param params
 	 * @return
 	 */
-	@RequestMapping(value = "/api/infinite/stock/statistics/{type}", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/infinite/statistics/{type}", method = RequestMethod.POST)
 	public ResponseEntity<Object> getInfiniteStatistics(@PathVariable String type, @RequestBody Map<String, Object> params) {
 		MemberInfo memberInfo = authenticationService.getCurrentMember();
 		if(memberInfo == null)
@@ -197,6 +199,31 @@ public class InfiniteController {
 		if(type.equals("profit-stock"))
 			return new ResponseEntity<Object>(dashboardService.getProfitStock(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		if(type.equals("buy-daily"))
+			return new ResponseEntity<Object>(dashboardService.getBuyDaily(memberInfo.getMemberId(), params) ,HttpStatus.OK);
+		
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+	
+	/**
+	 * 손익현황
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value = "/api/infinite/income/{type}", method = RequestMethod.POST)
+	public ResponseEntity<Object> getInfiniteIncome(@PathVariable String type, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+		if(params.get("accountId") != null) {
+			if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+				throw new MyAccessDeniedException();
+		}
+		
+		if(type.equals("profit"))
+			return new ResponseEntity<Object>(incomeService.getIncomeProfit(memberInfo.getMemberId(), params) ,HttpStatus.OK);
+		if(type.equals("stock"))
+			return new ResponseEntity<Object>(dashboardService.getProfitStock(memberInfo.getMemberId(), params) ,HttpStatus.OK);
+		if(type.equals("monthly"))
 			return new ResponseEntity<Object>(dashboardService.getBuyDaily(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);

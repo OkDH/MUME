@@ -68,12 +68,12 @@
 		</table>  
 		<table schema="aventador" tableName="view_infinite_list">
 		</table>  -->
-		<!-- <table schema="aventador" tableName="view_infinite_profit_monthly">
+		<table schema="aventador" tableName="view_infinite_profit_monthly">
 		</table>
 		<table schema="aventador" tableName="view_infinite_profit_stock">
-		</table> -->
-		<table schema="aventador" tableName="view_infinite_buy_two_month">
 		</table>
+		<!-- <table schema="aventador" tableName="view_infinite_buy_two_month">
+		</table> -->
 		
 	</context>
 </generatorConfiguration>

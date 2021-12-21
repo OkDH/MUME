@@ -55,7 +55,11 @@ app.controller("InfiniteIncomeController", function($scope, httpService, infinit
 		// 종목별 손익현황 가져오기
 		infiniteService.promiseGetIncome("stock", query).then(function(data){
 			infiniteIncome.profitStock = data;
-			console.log("stock : ", data)
+		});
+		
+		// 월별 손익현황 가져오기
+		infiniteService.promiseGetIncome("monthly", query).then(function(data){
+			infiniteIncome.profitMonthly = data;
 		});
 		
 	}, true);

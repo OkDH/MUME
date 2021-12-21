@@ -16,13 +16,17 @@ import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthly;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthlyExample;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
+import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteProfitMonthlyMapper;
 import com.ocko.aventador.model.InfiniteDetail;
+import com.ocko.aventador.model.ProfitMonthlyDetail;
 
 @Service
 public class InfiniteIncomeService {
 	
 	@Autowired private ViewInfiniteListMapper viewInfiniteListMapper;
+	@Autowired private ViewInfiniteProfitMonthlyMapper viewInfiniteProfitMonthlyMapper;
 	
 	/**
 	 * 손익현황 조회
@@ -91,8 +95,27 @@ public class InfiniteIncomeService {
 	 * @param params
 	 * @return
 	 */
-	public List<ViewInfiniteProfitMonthly> getIncomeProfitMonthly(int memberId, Map<String, Object> params){
-		return null;
+	public List<ProfitMonthlyDetail> getIncomeProfitMonthly(int memberId, Map<String, Object> params){
+		ViewInfiniteProfitMonthlyExample example = new ViewInfiniteProfitMonthlyExample();
+		com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthlyExample.Criteria criteria = 
+				example.createCriteria().andMemberIdEqualTo(memberId);
+		if(params.get("accountId") != null)
+			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
+		if(params.get("doneDateStart") != null && params.get("doneDateEnd") != null)
+			criteria.andMonthlyBetween(params.get("doneDateStart").toString(), params.get("doneDateEnd").toString());
+		if(params.get("order") != null)
+			example.setOrderByClause("monthly " + params.get("order").toString());
+		
+		List<ViewInfiniteProfitMonthly> list = viewInfiniteProfitMonthlyMapper.selectByExample(example);
+		List<ProfitMonthlyDetail> profitList = new ArrayList<ProfitMonthlyDetail>();
+		for(ViewInfiniteProfitMonthly viewProfit : list) {
+			ProfitMonthlyDetail profitDetail = new ProfitMonthlyDetail();
+			// 객체복사
+			BeanUtils.copyProperties(viewProfit, profitDetail);
+			profitList.add(profitDetail);
+		}
+		
+		return profitList;
 	}
 
 }

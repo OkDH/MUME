@@ -71,8 +71,8 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 
 		profitMonthly.forEach(function(item){
 			labels.push(item.monthly);
-			data.push(item.profit);
-			backgroundColors.push(item.profit > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
+			data.push(item.income);
+			backgroundColors.push(item.income > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
 		});
 
 		// Area Chart Example
@@ -157,8 +157,8 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 
 		profitStock.forEach(function(item){
 			labels.push(item.symbol);
-			data.push(item.profit);
-			backgroundColors.push(item.profit > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
+			data.push(item.income);
+			backgroundColors.push(item.income > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
 		});
 		
 		// Area Chart Example

@@ -17,7 +17,6 @@ public class StockDetail extends StockHistory {
 	// 마지막 거래 시간
 	private LocalDateTime lastTradeTime;
 	
-	
 	/**
 	 * RSI GAP
 	 */

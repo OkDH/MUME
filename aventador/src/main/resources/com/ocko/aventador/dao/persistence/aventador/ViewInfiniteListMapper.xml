@@ -514,6 +514,9 @@
 	<if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-	group by member_id, account_id, symbol;
+	group by member_id, account_id, symbol
+	<if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>;
   </select>
 </mapper>

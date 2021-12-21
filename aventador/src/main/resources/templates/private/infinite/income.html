@@ -110,7 +110,7 @@
 						<table class="table table-hover text-gray-800 text-resize" id="dataTable" width="100%" style="width: 100%;">
 							<thead class="text-white bg-primary">
 								<tr role="row" class="text-center">
-									<th class="d-none d-lg-table-cell" 
+									<th class="" 
 										style="width: 10px;">NO</th>
 									<th class="" 
 										style="width: 10px;">SYMBOL</th>
@@ -136,7 +136,7 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="item in infiniteIncome.profit">
-									<td class="text-center d-none d-lg-table-cell">
+									<td class="text-center">
 										{{ infiniteIncome.profit.length - $index }}
 									</td>
 									<td class="text-center font-weight-bold">
@@ -182,6 +182,72 @@
 		</div>
 	</div>
 	
+	<div ng-if="infiniteIncome.profitStock.length > 0">
+		<div class="row">
+			<div class=col-sm-12>
+				<div class="card shadow mb-4">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">종목별 손익현황</h6>
+					</div>
+					<div class="card-body">
+						<table class="table table-hover text-gray-800 text-resize" id="dataTable" width="100%" style="width: 100%;">
+							<thead class="text-white bg-primary">
+								<tr role="row" class="text-center">
+									<th class="" 
+										style="width: 10px;">NO</th>
+									<th class="" 
+										style="width: 10px;">SYMBOL</th>
+									<th class="" 
+										style="width: 10px;">매도<br>완료수</th>
+									<th class="d-none d-lg-table-cell" 
+										style="width: 10px;">누적<br>매수금액</th>
+									<th class="d-none d-lg-table-cell" 
+										style="width: 10px;">누적<br>매도금액</th>
+									<th class="d-none d-lg-table-cell" 
+										style="width: 10px;">누적<br>수수료</th>
+									<th class="" 
+										style="width: 10px;">누적<br>손익금액</th>
+									<th class="" 
+										style="width: 10px;">손익률</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in infiniteIncome.profitStock">
+									<td class="text-center">
+										{{ infiniteIncome.profitStock.length - $index }}
+									</td>
+									<td class="text-center font-weight-bold">
+										{{ item.symbol }}
+									</td>
+									<td class="text-center">
+										{{ item.sell_count | number }}
+									</td>
+									<td class="text-center text-danger d-none d-lg-table-cell">
+										${{ item.total_buy_price | number:2 }}
+									</td>
+									<td class="text-center text-primary d-none d-lg-table-cell">
+										${{ item.total_sell_price | number:2 }}
+									</td>
+									<td class="text-center d-none d-lg-table-cell">
+										${{ item.total_sell_price - item.total_buy_price - item.income | number:2 }}
+									</td>
+									<td class="text-center font-weight-bold"
+										ng-class="(item.income > 0 && 'text-danger') || (item.income < 0 && 'text-primary')">
+										{{ item.income | appendPulMa }}$
+									</td>
+									<td class="text-center font-weight-bold"
+										ng-class="(item.incomePer > 0 && 'text-danger') || (item.incomePer < 0 && 'text-primary')">
+										{{ item.incomePer | appendPulMa }}%
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
 	    <div class="modal-content">
@@ -200,24 +266,24 @@
 	      			<div class="btn-group btn-group-toggle" data-toggle="buttons">
 					  <label style="width: 6em;"
 					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
-					  	ng-class="infiniteIncome.query.date == '1개월' && 'active'">
-					    <input type="radio" name="date" ng-model="infiniteIncome.query.date" value="1개월"> 1개월
+					  	ng-class="infiniteIncome.filter.date == '1개월' && 'active'">
+					    <input type="radio" name="date" ng-model="infiniteIncome.filter.date" value="1개월"> 1개월
 					  </label>
 					  <label style="width: 6em;"
 					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
-					  	ng-class="infiniteIncome.query.date == '3개월' && 'active'">
-					    <input type="radio" name="date" ng-model="infiniteIncome.query.date" value="3개월"> 3개월
+					  	ng-class="infiniteIncome.filter.date == '3개월' && 'active'">
+					    <input type="radio" name="date" ng-model="infiniteIncome.filter.date" value="3개월"> 3개월
 					  </label>
 					  <label style="width: 6em;"
 					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
-					  	ng-class="infiniteIncome.query.date == '1년' && 'active'">
-					    <input type="radio" name="date" ng-model="infiniteIncome.query.date" value="1년"> 1년
+					  	ng-class="infiniteIncome.filter.date == '1년' && 'active'">
+					    <input type="radio" name="date" ng-model="infiniteIncome.filter.date" value="1년"> 1년
 					  </label>
-					  <label style="width: 6em;"
+					 <!--  <label style="width: 6em;"
 					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
-					  	ng-class="infiniteIncome.query.date == '조회기간' && 'active'">
-					    <input type="radio" name="date" ng-model="infiniteIncome.query.date" value="조회기간"> 조회기간
-					  </label>
+					  	ng-class="infiniteIncome.filter.date == '조회기간' && 'active'">
+					    <input type="radio" name="date" ng-model="infiniteIncome.filter.date" value="조회기간"> 조회기간
+					  </label> -->
 					</div>
 	      		</div>
 	      	</div>

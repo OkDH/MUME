@@ -6,7 +6,9 @@ app.controller("InfiniteIncomeController", function($scope, httpService, infinit
 		accountId: null,
 		doneDateStart: new Date(new Date().setFullYear(now.getFullYear() - 1)).toISOString().split("T")[0], // 1년
 		doneDateEnd: now.toISOString().split("T")[0],
-		order: 'DESC',
+		order: 'DESC'
+	}
+	infiniteIncome.filter = {
 		date: '1년'
 	}
 	
@@ -16,7 +18,23 @@ app.controller("InfiniteIncomeController", function($scope, httpService, infinit
 		totalProfit: 0
 	}
 	
+	$scope.$watch("infiniteIncome.filter", function(filter){
+		if(!filter)
+			return;
+		if(filter.date == "1개월"){
+			infiniteIncome.query.doneDateStart = new Date(new Date().setMonth(now.getMonth() - 1)).toISOString().split("T")[0];
+			infiniteIncome.query.doneDateEnd = now.toISOString().split("T")[0];
+		} else if(filter.date == "3개월"){
+			infiniteIncome.query.doneDateStart = new Date(new Date().setMonth(now.getMonth() - 3)).toISOString().split("T")[0];
+			infiniteIncome.query.doneDateEnd = now.toISOString().split("T")[0];
+		} else if(filter.date == "1년"){
+			infiniteIncome.query.doneDateStart = new Date(new Date().setFullYear(now.getFullYear() - 1)).toISOString().split("T")[0];
+			infiniteIncome.query.doneDateEnd = now.toISOString().split("T")[0];
+		}
+	}, true);
+	
 	$scope.$watch("infiniteIncome.query", function(query){
+		
 		// 손익현황 가져오기
 		infiniteService.promiseGetIncome("profit", query).then(function(data){
 			infiniteIncome.profit = data;
@@ -33,5 +51,12 @@ app.controller("InfiniteIncomeController", function($scope, httpService, infinit
 				infiniteIncome.stats.totalProfit += item.income;
 			});
 		});
+		
+		// 종목별 손익현황 가져오기
+		infiniteService.promiseGetIncome("stock", query).then(function(data){
+			infiniteIncome.profitStock = data;
+			console.log("stock : ", data)
+		});
+		
 	}, true);
 });

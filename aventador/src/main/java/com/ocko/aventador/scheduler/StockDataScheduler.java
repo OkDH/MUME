@@ -119,12 +119,6 @@ public class StockDataScheduler {
 				
 				stockHistory.setUpdateTime(LocalDateTime.now());
 				stockHistoryMapper.upsert(stockHistory);
-				
-				// ------
-				
-				if(stockHistory.getSymbol() == "BULZ" || stockHistory.getSymbol() == "TQQQ" || stockHistory.getSymbol() == "WEBL" || stockHistory.getSymbol() == "SOXL") {
-					log.info(stockHistory.getSymbol() + " price : " + stockHistory.getPriceClose());
-				}
 			}
 		}
 	}

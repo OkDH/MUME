@@ -222,9 +222,9 @@ public class InfiniteController {
 		if(type.equals("profit"))
 			return new ResponseEntity<Object>(incomeService.getIncomeProfit(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		if(type.equals("stock"))
-			return new ResponseEntity<Object>(dashboardService.getProfitStock(memberInfo.getMemberId(), params) ,HttpStatus.OK);
+			return new ResponseEntity<Object>(incomeService.getIncomeProfitStock(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		if(type.equals("monthly"))
-			return new ResponseEntity<Object>(dashboardService.getBuyDaily(memberInfo.getMemberId(), params) ,HttpStatus.OK);
+			return new ResponseEntity<Object>(incomeService.getIncomeProfitMonthly(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}

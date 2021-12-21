@@ -74,6 +74,23 @@
 		</div>
 	</div>
 
+	<div class="row" ng-if="infiniteDashboard.stocks.length == 0 && infiniteDashboard.profitStock.length == 0">
+		<div class="col">
+			<div class="alert alert-success text-center" role="alert">
+			  <p class="font-weight-bold mt-2">조회 된 통계 정보가 없습니다.</p>
+			  <hr>
+			  <div class="text-resize">
+				  <a class="btn btn-primary btn-circle btn-sm shadow mr-1"
+					th:href="@{/private/#!/infinite/account}">
+	                  <i class="fas fa-fw fa-th-list"></i> 
+	           	  </a> 
+	           	  <a th:href="@{/private/#!/infinite/account}">계좌 현황</a> 
+	           	    메뉴에서 무한매수 종목을 추가해보세요.
+           	  </div>
+			</div>
+		</div>
+	</div>
+	
 	<div class="row">
 		<!-- Area Chart -->
 		<div class="col-xl-8 col-lg-7">

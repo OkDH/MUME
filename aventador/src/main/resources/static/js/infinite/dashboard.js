@@ -144,7 +144,7 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 			  }
 		  }
 		});
-	});
+	}, true);
 	
 	// 종목별 누적 손익 차트
 	$scope.$watch("infiniteDashboard.profitStock", function(profitStock){
@@ -230,7 +230,7 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 			  }
 		  }
 		});
-	});
+	}, true);
 	
 	// 비중 관련 차트
 	$scope.$watch("infiniteDashboard.stocks", function(stocks){
@@ -296,7 +296,7 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 			});
 		}
 
-	});
+	}, true);
 	
 	// 최근 2개월 매수 손익현황 차트
 	$scope.$watch("infiniteDashboard.buyDaily", function(buyDaily){
@@ -506,7 +506,6 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 		    }
 		  }
 		});
-
-	});
+	}, true);
 	
 });

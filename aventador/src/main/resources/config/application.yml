@@ -28,9 +28,9 @@ spring:
       client:
         registration:
           NAVER:
-            client-id: 7mHREwNLi4YvnhixgB82
-            client-secret: lbPzJXzVg1
+            client-id: QyziMDfXfgFrKsHmyHIs
+            client-secret: ZUgzqbmb_v
 server:
   servlet:
-    context-path: /aventador
+    context-path: /
   port: 8088

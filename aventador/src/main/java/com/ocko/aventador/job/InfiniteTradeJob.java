@@ -57,7 +57,7 @@ public class InfiniteTradeJob {
 		// etf 주가 정보 조회
 		Map<String, StockDetail> todayStockMap = stockService.getTodayEtfStocks();
 		// 어제자 주가 정보 조회
-		Map<String, StockDetail> yesterdayStockMap = stockService.getEtfStocks(LocalDate.now().minusDays(1));
+		Map<String, StockDetail> yesterdayStockMap = stockService.getEtfStocks(LocalDate.now().minusDays(2));
 		
 		// 진행 중인 무매 리스트 조회
 		ViewInfiniteListExample example = new ViewInfiniteListExample();

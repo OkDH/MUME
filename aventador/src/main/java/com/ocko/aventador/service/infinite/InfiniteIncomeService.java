@@ -77,10 +77,9 @@ public class InfiniteIncomeService {
 			BigDecimal buyPrice = (BigDecimal) data.get("total_buy_price");
 			BigDecimal sellPrice = (BigDecimal) data.get("total_sell_price");
 			
-			BigDecimal buyFees = buyPrice.multiply(new BigDecimal("0.0007")).setScale(2, RoundingMode.DOWN);
-			BigDecimal sellFees = sellPrice.multiply(new BigDecimal("0.0007")).setScale(2, RoundingMode.DOWN);
+			BigDecimal fees = buyPrice.add(sellPrice).multiply(new BigDecimal("0.0007")).setScale(2, RoundingMode.DOWN);
 			
-			BigDecimal income = sellPrice.subtract(buyPrice).subtract(buyFees).subtract(sellFees);
+			BigDecimal income = sellPrice.subtract(buyPrice).subtract(fees);
 			BigDecimal incomePer = income.divide(buyPrice, 8, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100));
 			
 			data.put("income", income);

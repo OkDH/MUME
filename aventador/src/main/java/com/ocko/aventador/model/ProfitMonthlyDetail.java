@@ -11,13 +11,11 @@ public class ProfitMonthlyDetail extends ViewInfiniteProfitMonthly {
 	private BigDecimal feesPer = new BigDecimal("0.0007");
 	
 	// 손익금 
-	// 전체 매도금액 - 전체 매수금액 - 매수수수료 - 매도수수료
+	// 전체 매도금액 - 전체 매수금액 - 수수료
 	public BigDecimal getIncome() {
-		// 매수 수수료(소수점 2자리에서 버림)
-		BigDecimal buyFees = getTotalBuyPrice().multiply(feesPer).setScale(2, RoundingMode.DOWN);
-		// 매도시 수수료(소수점 2자리에서 버림)
-		BigDecimal sellFees = getTotalSellPrice().multiply(feesPer).setScale(2, RoundingMode.DOWN);
-		return getTotalSellPrice().subtract(getTotalBuyPrice()).subtract(buyFees).subtract(sellFees);
+		// 수수료(소수점 2자리에서 버림) : (총매수금액 + 총매도금액) / 수수료율
+		BigDecimal fees = getTotalBuyPrice().add(getTotalSellPrice()).multiply(feesPer).setScale(2, RoundingMode.DOWN);
+		return getTotalSellPrice().subtract(getTotalBuyPrice()).subtract(fees);
 	}
 	
 	// 손익률

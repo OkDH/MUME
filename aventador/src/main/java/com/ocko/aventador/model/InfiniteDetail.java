@@ -42,21 +42,17 @@ public class InfiniteDetail extends ViewInfiniteList {
 	}
 	
 	// 손익금 
-	// 매도완료일 때 : 전체 매도금액 - 전체 매수금액 - 매수수수료 - 매도수수료
-	// 나머지 : 평가금액 - 매입금액 - 매수수수료 - 매도수수료
+	// 매도완료일 때 : 전체 매도금액 - 전체 매수금액 - 수수료
+	// 나머지 : 평가금액 - 매입금액 - 수수료
 	public BigDecimal getIncome() {
 		if(getInfiniteState().equals(InfiniteState.DONE) || getBuyPrice().compareTo(new BigDecimal("0.0")) == 0) {
-			// 매수 수수료(소수점 2자리에서 버림)
-			BigDecimal buyFees = getTotalBuyPrice().multiply(feesPer).setScale(2, RoundingMode.DOWN);
-			// 매도시 수수료(소수점 2자리에서 버림)
-			BigDecimal sellFees = getTotalSellPrice().multiply(feesPer).setScale(2, RoundingMode.DOWN);
-			return getTotalSellPrice().subtract(getTotalBuyPrice()).subtract(buyFees).subtract(sellFees);
+			// 수수료(소수점 2자리에서 버림) : (총매수금액 + 총매도금액) / 수수료율
+			BigDecimal fees = getTotalBuyPrice().add(getTotalSellPrice()).multiply(feesPer).setScale(2, RoundingMode.DOWN);
+			return getTotalSellPrice().subtract(getTotalBuyPrice()).subtract(fees);
 		} else {
-			// 매수 수수료(소수점 2자리에서 버림)
-			BigDecimal buyFees = getBuyPrice().multiply(feesPer).setScale(2, RoundingMode.DOWN);
-			// 매도시 수수료(소수점 2자리에서 버림)
-			BigDecimal sellFees = getEvalPrice().multiply(feesPer).setScale(2, RoundingMode.DOWN);
-			return getEvalPrice().subtract(getBuyPrice()).subtract(buyFees).subtract(sellFees);
+			// 수수료(소수점 2자리에서 버림) : (매입금 + 평가금) / 수수료율
+			BigDecimal fees = getBuyPrice().add(getEvalPrice()).multiply(feesPer).setScale(2, RoundingMode.DOWN);
+			return getEvalPrice().subtract(getBuyPrice()).subtract(fees);
 		}
 	}
 	

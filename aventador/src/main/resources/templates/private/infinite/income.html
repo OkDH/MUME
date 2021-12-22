@@ -110,14 +110,14 @@
 						<table class="table table-hover text-gray-800 text-resize" width="100%" style="width: 100%;">
 							<thead class="text-white bg-primary">
 								<tr role="row" class="text-center">
-									<th class="" 
+									<th class="d-none d-lg-table-cell" 
 										style="width: 10px;">NO</th>
 									<th class="" 
 										style="width: 10px;">SYMBOL</th>
 									<th class="d-none d-lg-table-cell" 
 										style="width: 10px;">배정원금</th>
 									<th class="d-none d-lg-table-cell" 
-										style="width: 10px;">진행기간</th>
+										style="width: 10px;">매도일</th>
 									<th class="" 
 										style="width: 10px;">진행률</th>
 									<th class="d-none d-lg-table-cell" 
@@ -126,8 +126,6 @@
 										style="width: 10px;">매수금액</th>
 									<th class="d-none d-lg-table-cell" 
 										style="width: 10px;">매도금액</th>
-									<th class="d-none d-lg-table-cell" 
-										style="width: 10px;">수수료</th>
 									<th class="" 
 										style="width: 10px;">손익금액</th>
 									<th class="" 
@@ -136,7 +134,7 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="item in infiniteIncome.profit">
-									<td class="text-center">
+									<td class="text-center d-none d-lg-table-cell">
 										{{ $index + 1 }}
 									</td>
 									<td class="text-center font-weight-bold">
@@ -146,7 +144,6 @@
 										${{ item.seed | number }}
 									</td>
 									<td class="text-center small align-middle d-none d-lg-table-cell" style="white-space: nowrap;">
-										{{ item.startedDate }} ~
 										{{ item.doneDate }}
 									</td>
 									<td class="text-center"
@@ -161,9 +158,6 @@
 									</td>
 									<td class="text-center text-primary d-none d-lg-table-cell">
 										${{ item.totalSellPrice | number:2 }}
-									</td>
-									<td class="text-center d-none d-lg-table-cell">
-										${{ item.totalSellPrice - item.totalBuyPrice - item.income | number:2 }}
 									</td>
 									<td class="text-center font-weight-bold"
 										ng-class="(item.income > 0 && 'text-danger') || (item.income < 0 && 'text-primary')">
@@ -193,27 +187,25 @@
 						<table class="table table-hover text-gray-800 text-resize" width="100%" style="width: 100%;">
 							<thead class="text-white bg-primary">
 								<tr role="row" class="text-center">
-									<th class="" 
+									<th class="d-none d-lg-table-cell" 
 										style="width: 10px;">NO</th>
 									<th class="" 
 										style="width: 10px;">SYMBOL</th>
 									<th class="" 
-										style="width: 10px;">매도수</th>
+										style="width: 10px; white-space: nowrap;">매도횟수</th>
 									<th class="d-none d-lg-table-cell" 
-										style="width: 10px;">누적<br>매수금액</th>
+										style="width: 10px;">매수금액</th>
 									<th class="d-none d-lg-table-cell" 
-										style="width: 10px;">누적<br>매도금액</th>
-									<th class="d-none d-lg-table-cell" 
-										style="width: 10px;">누적<br>수수료</th>
+										style="width: 10px;">매도금액</th>
 									<th class="" 
-										style="width: 10px;">누적<br>손익금액</th>
+										style="width: 10px;">손익금액</th>
 									<th class="" 
 										style="width: 10px;">손익률</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr ng-repeat="item in infiniteIncome.profitStock">
-									<td class="text-center">
+									<td class="text-center d-none d-lg-table-cell">
 										{{ $index + 1 }}
 									</td>
 									<td class="text-center font-weight-bold">
@@ -227,9 +219,6 @@
 									</td>
 									<td class="text-center text-primary d-none d-lg-table-cell">
 										${{ item.total_sell_price | number:2 }}
-									</td>
-									<td class="text-center d-none d-lg-table-cell">
-										${{ item.total_sell_price - item.total_buy_price - item.income | number:2 }}
 									</td>
 									<td class="text-center font-weight-bold"
 										ng-class="(item.income > 0 && 'text-danger') || (item.income < 0 && 'text-primary')">
@@ -260,26 +249,19 @@
 							<thead class="text-white bg-primary">
 								<tr role="row" class="text-center">
 									<th class="" 
-										style="width: 10px;">NO</th>
-									<th class="" 
 										style="width: 10px;">연월</th>
 									<th class="d-none d-lg-table-cell" 
-										style="width: 10px;">누적<br>매수금액</th>
+										style="width: 10px;">매수금액</th>
 									<th class="d-none d-lg-table-cell" 
-										style="width: 10px;">누적<br>매도금액</th>
-									<th class="d-none d-lg-table-cell" 
-										style="width: 10px;">누적<br>수수료</th>
+										style="width: 10px;">매도금액</th>
 									<th class="" 
-										style="width: 10px;">누적<br>손익금액</th>
+										style="width: 10px;">손익금액</th>
 									<th class="" 
 										style="width: 10px;">손익률</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr ng-repeat="item in infiniteIncome.profitMonthly">
-									<td class="text-center">
-										{{ $index + 1 }}
-									</td>
 									<td class="text-center font-weight-bold">
 										{{ item.monthly }}
 									</td>
@@ -288,9 +270,6 @@
 									</td>
 									<td class="text-center text-primary d-none d-lg-table-cell">
 										${{ item.totalSellPrice | number:2 }}
-									</td>
-									<td class="text-center d-none d-lg-table-cell">
-										${{ item.totalSellPrice - item.totalBuyPrice - item.income | number:2 }}
 									</td>
 									<td class="text-center font-weight-bold"
 										ng-class="(item.income > 0 && 'text-danger') || (item.income < 0 && 'text-primary')">

@@ -4,7 +4,7 @@ public enum EtfSymbol {
 	TQQQ(EtfSector.S1, 60),
 	TECL(EtfSector.S1, 60),
 	SOXL(EtfSector.S1, 65),
-	BULZ(EtfSector.S1, 60),
+	BULZ(EtfSector.S1, 65),
 	
 	WEBL(EtfSector.S2, 60),
 	UPRO(EtfSector.S2, 55),

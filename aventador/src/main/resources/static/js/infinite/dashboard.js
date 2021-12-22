@@ -21,7 +21,6 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 	// 기본 상태 정보
 	infiniteDashboard.state = {};
 	
-	
 	// 계좌 정보
 	infiniteService.getMyAccounts().then(function(data){
 		infiniteDashboard.myAccounts = data;

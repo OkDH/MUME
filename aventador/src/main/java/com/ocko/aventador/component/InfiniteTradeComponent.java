@@ -19,6 +19,8 @@ public class InfiniteTradeComponent {
 	private static String TEN_PER = "1.1017";
 	// 수수료 포함 5% 계산용
 	private static String FIVE_PER = "1.0517";
+	// 수수료 포함 0% 계산용
+	private static String ZERO_PER = "1.0017";
 
 	/**
 	 * 매수 정보 가져오기
@@ -102,7 +104,7 @@ public class InfiniteTradeComponent {
 				// LOC 매도 +0%
 				StockTradeInfo info = new StockTradeInfo();
 				info.setTradeName("LOC 매도 (+0%)");
-				info.setPrice(infiniteDetail.getAveragePrice());
+				info.setPrice(infiniteDetail.getAveragePrice().multiply(new BigDecimal(ZERO_PER)));
 				info.setQuantity(quantity);
 				info.setConcludeType(ConcludeType.LOC);
 				tradeInfoList.add(info);

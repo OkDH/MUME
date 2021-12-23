@@ -51,24 +51,26 @@
 				<div class="row mb-3">
 					<div class="col-6">
 						<label class="font-weight-bold">매수 시작일</label> 
-						<input type="text" class="form-control bg-light border-0" id="addStockDatePicker"
+						<input type="text" class="form-control" id="addStockDatePicker"
 							ng-model="infiniteAccount.addStock.data.startedDate">
 					</div>
 					<div class="col-6">
-						<label class="font-weight-bold">배정 원금($)</label> 
-						<input type="text" class="form-control bg-light border-0"
-							ng-model="infiniteAccount.addStock.data.seed">
+						<div class="form-group">
+							<label class="font-weight-bold">배정 원금($)</label> 
+							<input type="text" class="form-control"
+								ng-model="infiniteAccount.addStock.data.seed">
+						</div>
 					</div>
 				</div>
 				<div class="row mb-3">
 					<div class="col-6">
 						<label class="font-weight-bold">평단가($)</label> 
-						<input type="text" class="form-control bg-light border-0"
+						<input type="text" class="form-control"
 							ng-model="infiniteAccount.addStock.data.unitPrice">
 					</div>
 					<div class="col-6">
 						<label class="font-weight-bold">수량</label> 
-						<input type="text" class="form-control bg-light border-0"
+						<input type="text" class="form-control"
 							ng-model="infiniteAccount.addStock.data.quantity">
 					</div>
 				</div>

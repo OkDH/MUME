@@ -220,6 +220,25 @@ app.filter('abs', function () {
 		return Math.abs(val);
 	}
 });
+app.directive('validationDoller', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attr, mCtrl) {
+            function isValidation(value) {
+            	var temp = value; 
+            	temp += ''// 문자열로 변환
+            	temp = temp.replace(/^\s*|\s*$/g, ''); // 좌우 공백 제거
+            	if (temp == '' || isNaN(temp)) {
+            		mCtrl.$setValidity('doller', false);
+            	} else {
+            		mCtrl.$setValidity('doller', true);
+            	}
+            	return value;
+            }
+            mCtrl.$parsers.push(isValidation);
+        }
+    };
+});
 app.controller("MainController", function($scope, $http, $location) {
 	// Toggle the side navigation
 	$("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {

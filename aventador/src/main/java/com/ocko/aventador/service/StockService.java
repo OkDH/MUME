@@ -67,13 +67,17 @@ public class StockService {
 	}
 	
 	/**
-	 * 3X ETFs 정보 가져오기 (History 데이터)
-	 * @param localDate
+	 * 3X ETFs 정보 가져오기 (전거래일 데이터)
+	 * @param todayDate 오늘 날짜
 	 * @return
 	 */
-	public Map<String, StockDetail> getEtfStocks(LocalDate localDate) {
+	public Map<String, StockDetail> getBeforeEtfStocks(LocalDate todayDate) {
+		
+		// 전거래일 날짜 가져오기
+		LocalDate beforeDate = getBeforeTradeDate(todayDate);
+		
 		StockHistoryExample example = new StockHistoryExample();
-		example.createCriteria().andStockDateEqualTo(localDate);
+		example.createCriteria().andStockDateEqualTo(beforeDate);
 		List<StockHistory> etfs = stockHistoryMapper.selectByExample(example);
 		
 		Map<String, StockDetail> result = new HashMap<String, StockDetail>();
@@ -85,6 +89,20 @@ public class StockService {
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * 전거래일 날짜 가져오기
+	 * @param todayDate 오늘날짜
+	 * @return
+	 */
+	private LocalDate getBeforeTradeDate(LocalDate todayDate) {
+		StockHistoryExample example = new StockHistoryExample();
+		example.createCriteria().andStockDateNotEqualTo(todayDate);
+		example.setOrderByClause("stock_date desc");
+		example.setLimit(1);
+		List<StockHistory> etfs = stockHistoryMapper.selectByExample(example);
+		return etfs.get(0).getStockDate();
 	}
 	
 }

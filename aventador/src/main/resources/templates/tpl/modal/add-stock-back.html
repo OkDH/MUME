@@ -1,0 +1,85 @@
+<div class="modal fade" id="addStockModal" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-danger"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-primary text-white">
+				<h5 class="modal-title">종목 추가</h5>
+				<button type="button" class="close text-white" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body text-gray-800">
+				<div class="row mb-3">
+					<div class="col-6">
+						<label class="font-weight-bold">종목</label> <select
+							id="symbolSelect" data-live-search="true"
+							ng-model="infiniteAccount.addStock.data.symbol">
+							<option ng-repeat="etf in infiniteAccount.initData.etfs | orderBy:'symbol'" ng-value="etf.symbol">{{ etf.symbol }} ({{ etf.sectorName }})</option>
+						</select>
+					</div>
+					<div class="col-6">
+						<label class="font-weight-bold">버전</label>
+						<div class="mt-1">
+							<div class="btn-group btn-group-toggle" data-toggle="buttons">
+								<label style="width: 4em;"
+									class="btn btn-sm btn-outline-info font-weight-bold text-xs"
+									ng-class="infiniteAccount.addStock.data.infiniteType == 'v2.1' && 'active'">
+									<input type="radio" name="editInfiniteType"
+									ng-model="infiniteAccount.addStock.data.infiniteType"
+									value="v2.1"> v2.1
+								</label> 
+								<label style="width: 4em;"
+									class="btn btn-sm btn-outline-info font-weight-bold text-xs"
+									ng-class="infiniteAccount.addStock.data.infiniteType == 'v2' && 'active'">
+									<input type="radio" name="editInfiniteType"
+									ng-model="infiniteAccount.addStock.data.infiniteType"
+									value="v2"> v2
+								</label> 
+								<label style="width: 4em;"
+									class="btn btn-sm btn-outline-info font-weight-bold text-xs"
+									ng-class="infiniteAccount.addStock.data.infiniteType == 'v1' && 'active'">
+									<input type="radio" name="editInfiniteType"
+									ng-model="infiniteAccount.addStock.data.infiniteType"
+									value="v1"> v1
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col-6">
+						<label class="font-weight-bold">매수 시작일</label> 
+						<input type="text" class="form-control" id="addStockDatePicker"
+							ng-model="infiniteAccount.addStock.data.startedDate">
+					</div>
+					<div class="col-6">
+						<div class="form-group">
+							<label class="font-weight-bold">배정 원금($)</label> 
+							<input type="text" class="form-control"
+								ng-model="infiniteAccount.addStock.data.seed">
+						</div>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col-6">
+						<label class="font-weight-bold">평단가($)</label> 
+						<input type="text" class="form-control"
+							ng-model="infiniteAccount.addStock.data.unitPrice">
+					</div>
+					<div class="col-6">
+						<label class="font-weight-bold">수량</label> 
+						<input type="text" class="form-control"
+							ng-model="infiniteAccount.addStock.data.quantity">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary"
+					ng-click="infiniteAccount.addStock.add()">Add</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

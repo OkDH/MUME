@@ -146,26 +146,25 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	infiniteAccount.addStock.openAddModal = function(){
 		infiniteAccount.addStock.init();
 		$('#addStockModal').modal("show");
-		// datepicker
-		infiniteAccount.datepicker("#addStockDatePicker");
 		// selectpicker
 		$("#symbolSelect").selectpicker();
 	}
-	infiniteAccount.addStock.add = function(){
+	infiniteAccount.addStock.add = function(addStockForm){
 		// jquery에서 만든 날짜 값 가져오기
-		infiniteAccount.addStock.data.startedDate = $('#addStockDatePicker').val();
-		infiniteService.addStock(infiniteAccount.addStock.data).then(function(data){
-			if(data == true){
-				infiniteAccount.getStocks(infiniteAccount.account.query);
-				infiniteAccount.getAccountState(infiniteAccount.account.query.accountId);
-				infiniteAccount.getSimpleOrders(infiniteAccount.account.query.accountId);
-				infiniteAccount.addStock.init();
-				$('#addStockModal').modal("hide");
-				
-				// TODO : 알림창 
-				alert("추가되었습니다.");
-			}
-		})
+//		infiniteService.addStock(infiniteAccount.addStock.data).then(function(data){
+//			if(data == true){
+//				infiniteAccount.getStocks(infiniteAccount.account.query);
+//				infiniteAccount.getAccountState(infiniteAccount.account.query.accountId);
+//				infiniteAccount.getSimpleOrders(infiniteAccount.account.query.accountId);
+//				infiniteAccount.addStock.init();
+//				$('#addStockModal').modal("hide");
+//				
+//				// TODO : 알림창 
+//				alert("추가되었습니다.");
+//			}
+//		})
+		
+		console.log(addStockForm);
 	}
 	
 	// 종목 변경
@@ -173,15 +172,10 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	infiniteAccount.updateStock.openUpdateModal = function(stock){
 		infiniteAccount.updateStock.data = angular.copy(stock);
 		$('#updateStockModal').modal("show");
-		// datepicker
-		infiniteAccount.datepicker("#updateStockDatePicker");
-		infiniteAccount.datepicker("#updateDoneDatePicker");
 	}
 	infiniteAccount.updateStock.update = function(params){
 		if(!params)
 			return;
-		params.startedDate = $('#updateStockDatePicker').val();
-		params.doneDate = $('#updateDoneDatePicker').val();
 		infiniteService.updateStock(params).then(function(data){
 			if(data == true){
 				infiniteAccount.getStocks(infiniteAccount.account.query);
@@ -254,10 +248,8 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 		
 		infiniteAccount.getStockHistory();
 		infiniteAccount.addHistory.init();
-		
-		// datepicker
-		infiniteAccount.datepicker("#addHistoryDatePicker");
 	}
+	
 	// 매매내역 조회
 	infiniteAccount.getStockHistory = function(){
 		if(!infiniteAccount.viewStock)
@@ -291,8 +283,6 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 		}
 	}
 	infiniteAccount.addHistory.add = function(){
-		// jquery에서 만든 날짜 값 가져오기
-		infiniteAccount.addHistory.data.tradeDate = $('#addHistoryDatePicker').val();
 		infiniteService.addHistory(infiniteAccount.addHistory.data).then(function(data){
 			if(data == true){
 				infiniteAccount.getStockHistory();
@@ -349,22 +339,6 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 				alert("변경되었습니다.");
 			}
 		})
-	}
-	
-	// datepicker
-	infiniteAccount.datepicker = function(selector){
-		$(selector).datepicker({
-			format: "yyyy-mm-dd",	// 데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
-			endDate: '1d',
-			autoclose : true,	// 사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
-			templates : {
-				leftArrow: '&laquo;',
-				rightArrow: '&raquo;'
-			}, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징 
-			showWeekDays : true ,// 위에 요일 보여주는 옵션 기본값 : true
-			todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false 
-			language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
-		});
 	}
 	
 });

@@ -44,7 +44,14 @@
 	      			매도완료일
 	      		</div>
 	      		<div class="col-9 p-1 pr-4">
-	      			<input type="date" class="form-control bg-light border-0" ng-model=infiniteAccount.updateStock.data.doneDate>
+	      			<input type="date" class="form-control" 
+	      				ng-model="infiniteAccount.updateStock.data.doneDate"
+	      				name="doneDate"
+	      				ng-required="infiniteAccount.updateStock.data.infiniteState == '매도완료'"
+	      				ng-class="infiniteAccount.updateStock.data.infiniteState == '매도완료' && updateStockForm.doneDate.$dirty 
+							&& ((updateStockForm.doneDate.$invalid && 'invalid')
+							|| (updateStockForm.doneDate.$valid && 'valid'))">
+					<span class="invalid-feedback" ng-show="infiniteAccount.updateStock.data.infiniteState == '매도완료' && updateStockForm.doneDate.$dirty && updateStockForm.doneDate.$invalid">필수 작성 항목입니다.</span>
 	      		</div>
 		    </div>
 	        <div class="row mb-3">
@@ -97,7 +104,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" 
-        	ng-disabled="!updateStockForm.$dirty || updateStockForm.$invalid"
+        	ng-disabled="!updateStockForm.$dirty || updateStockForm.startedDate.$invalid || updateStockForm.seed.$invalid
+        		|| (infiniteAccount.updateStock.data.infiniteState == '매도완료' && updateStockForm.doneDate.$invalid)"
         	ng-click="infiniteAccount.updateStock.update(infiniteAccount.updateStock.data)">Update</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>

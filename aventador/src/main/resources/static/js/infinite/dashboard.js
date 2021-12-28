@@ -1,4 +1,4 @@
-app.controller("InfiniteDashboardController", function($scope, httpService, infiniteService){
+app.controller("InfiniteDashboardController", function($scope, $filter, httpService, infiniteService){
 	var infiniteDashboard = this;
 	infiniteDashboard.query = {
 		accountId: null,
@@ -104,7 +104,7 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 						padding: 5,
 						// Include a dollar sign in the ticks
 						callback: function(value, index, values) {
-							return value + '$';
+							return $filter('number')(value, 0) + '$';
 						}
 					},
 				}],
@@ -127,14 +127,14 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 			      callbacks: {
 			        label: function(tooltipItem, chart) {
 			          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-			          return datasetLabel + ': ' + tooltipItem.yLabel + '$';
+			          return datasetLabel + ': ' + $filter('number')(tooltipItem.yLabel, 2) + '$';
 			        }
 			  	 }
 			  },
 			  plugins: {
 				  labels: {
 					  render: function (args) {
-					      return args.value + '$';
+					      return $filter('number')(args.value, 2) + '$';
 					  },
 					  fontColor: function (args) {
 						  return args.value > 0 ? '#6f6f6f' : '#ffffff';
@@ -190,7 +190,7 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 						padding: 5,
 						// Include a dollar sign in the ticks
 						callback: function(value, index, values) {
-							return value + '$';
+							return $filter('number')(value, 0) + '$';
 						}
 					}
 				}],
@@ -213,14 +213,14 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 			      callbacks: {
 			        label: function(tooltipItem, chart) {
 			          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-			          return datasetLabel + ': ' + tooltipItem.yLabel + '$';
+			          return datasetLabel + ': ' + $filter('number')(tooltipItem.yLabel, 2) + '$';
 			        }
 			  	 }
 			  },
 			  plugins: {
 				  labels: {
 					  render: function (args) {
-					      return args.value + '$';
+					      return $filter('number')(args.value, 2) + '$';
 					  },
 					  fontColor: function (args) {
 						  return args.value > 0 ? '#6f6f6f' : '#ffffff';
@@ -271,7 +271,7 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 				      callbacks: {
 				        label: function(tooltipItem, chart) {
 				        	var datasetLabel = chart.labels[tooltipItem.index] || '';
-				        	return datasetLabel + ': ' + chart.datasets[0].data[tooltipItem.index] + '$';
+				        	return datasetLabel + ': ' + $filter('number')(chart.datasets[0].data[tooltipItem.index], 2) + '$';
 				        }
 				  	 }
 				  },
@@ -325,7 +325,7 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 		var m = date.getMonth();
 		
 		// 이번달 1일과 마지막일 변수
-		var curDate = new Date(y, m, 2);
+		var curDate = new Date(y, m, 1);
 		var lastDate = new Date(y, m+1, 1);
 		var today = new Date(y, m, date.getDate());
 		
@@ -333,7 +333,7 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 		var lastPointRadius = [];
 		
 		while(curDate <= lastDate){
-			var textDate = curDate.toISOString().split("T")[0];
+			var textDate = $filter("printDate")(curDate);
 			labels.push(textDate.substring(5).replace("-", "."));
 			
 			if(curDate <= today){ // 오늘일자까지만 데이터 만들기
@@ -366,13 +366,13 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 		infiniteDashboard.state.thisMonthSumBuyPrice = thisMonthData[thisMonthData.length - 1];
 		
 		// 전월 데이터 만들기
-		var curDate = new Date(y, m-1, 2);
+		var curDate = new Date(y, m-1, 1);
 		var lastDate = new Date(y, m, 1);
 		
 		var beforeMonthData = [];
 		
 		while(curDate <= lastDate){
-			var textDate = curDate.toISOString().split("T")[0];
+			var textDate = $filter("printDate")(curDate);
 			
 			if(beforeDataMap[textDate] != undefined){
 				if(beforeMonthData.length == 0){
@@ -435,7 +435,6 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 			      pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
 			      pointHoverBorderColor: "rgba(78, 115, 223, 1)",
 			      data: beforeMonthData,
-			      ddd:"zzz"
 		     }
 		    ],
 		  },
@@ -482,14 +481,14 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 		    },
 		    legend: {
 		      display: true,
-		      position: "bottom"
+		      position: 'bottom'
 		    },
 		    tooltips: {
 		      titleMarginBottom: 10,
 			  titleFontColor: '#6e707e',
 			  titleFontSize: 14,
-		      backgroundColor: "rgb(255,255,255)",
-		      bodyFontColor: "#858796",
+		      backgroundColor: 'rgb(255,255,255)',
+		      bodyFontColor: '#858796',
 		      borderColor: '#dddfeb',
 		      borderWidth: 1,
 		      xPadding: 15,
@@ -499,7 +498,7 @@ app.controller("InfiniteDashboardController", function($scope, httpService, infi
 		      callbacks: {
 		        label: function(tooltipItem, chart) {
 		          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-		          return datasetLabel + ': ' + tooltipItem.yLabel + '$';
+		          return datasetLabel + ': ' + $filter('number')(tooltipItem.yLabel, 2) + '$';
 		        }
 		      }
 		    }

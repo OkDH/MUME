@@ -16,6 +16,7 @@
 						<div class="col-6">
 							<label class="font-weight-bold">종목</label> <select
 								id="symbolSelect" data-live-search="true"
+								ng-required="true"
 								ng-model="infiniteAccount.addStock.data.symbol">
 								<option ng-repeat="etf in infiniteAccount.initData.etfs | orderBy:'symbol'" ng-value="etf.symbol">{{ etf.symbol }} ({{ etf.sectorName }})</option>
 							</select>
@@ -54,11 +55,11 @@
 							<label class="font-weight-bold">매수 시작일</label> 
 							<input type="date" class="form-control"
 								ng-model="infiniteAccount.addStock.data.startedDate" name="startedDate"
-									ng-required="true"
-									ng-class="addStockForm.startedDate.$touched 
+								ng-required="true"
+								ng-class="addStockForm.startedDate.$touched 
 									&& ((addStockForm.startedDate.$invalid && 'invalid')
 									|| (addStockForm.startedDate.$valid && 'valid'))">
-							<span class="invalid-feedback" ng-show="addStockForm.startedDate.$touched && addStockForm.startedDate.$invalid">The name is required.</span>
+							<span class="invalid-feedback" ng-show="addStockForm.startedDate.$touched && addStockForm.startedDate.$invalid">필수 작성 항목입니다.</span>
 						</div>
 						<div class="col-6">
 							<label class="font-weight-bold">배정 원금($)</label> 
@@ -68,7 +69,7 @@
 								ng-class="addStockForm.seed.$touched 
 								&& ((addStockForm.seed.$invalid && 'invalid')
 								|| (addStockForm.seed.$valid && 'valid'))">
-							<span class="invalid-feedback" ng-show="addStockForm.seed.$touched && addStockForm.seed.$invalid">The name is required.</span>
+							<span class="invalid-feedback" ng-show="addStockForm.seed.$touched && addStockForm.seed.$invalid">필수 작성 항목입니다.</span>
 						</div>
 					</div>
 					<div class="row mb-3">
@@ -80,7 +81,7 @@
 								ng-class="addStockForm.unitPrice.$touched 
 									&& ((addStockForm.unitPrice.$invalid && 'invalid')
 									|| (addStockForm.unitPrice.$valid && 'valid'))">
-							<span class="invalid-feedback" ng-show="addStockForm.unitPrice.$touched && addStockForm.unitPrice.$invalid">The name is required.</span>
+							<span class="invalid-feedback" ng-show="addStockForm.unitPrice.$touched && addStockForm.unitPrice.$invalid">필수 작성 항목입니다.</span>
 						</div>
 						<div class="col-6">
 							<label class="font-weight-bold">수량</label> 
@@ -89,14 +90,15 @@
 								ng-class="addStockForm.quantity.$touched 
 									&& ((addStockForm.quantity.$invalid && 'invalid')
 									|| (addStockForm.quantity.$valid && 'valid'))">
-							<span class="invalid-feedback" ng-show="addStockForm.quantity.$touched && addStockForm.quantity.$invalid">The name is required.</span>
+							<span class="invalid-feedback" ng-show="addStockForm.quantity.$touched && addStockForm.quantity.$invalid">필수 작성 항목입니다.</span>
 						</div>
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary"
-					ng-click="infiniteAccount.addStock.add(addStockForm)">Add</button>
+					ng-disabled="addStockForm.$invalid"
+					ng-click="infiniteAccount.addStock.add()">Add</button>
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			</div>
 		</div>

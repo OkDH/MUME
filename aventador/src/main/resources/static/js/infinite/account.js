@@ -1,4 +1,4 @@
-app.controller("InfiniteAccountController", function($scope, httpService, stockService, infiniteService){
+app.controller("InfiniteAccountController", function($scope, $filter, httpService, stockService, infiniteService){
 
 	var infiniteAccount = this;
 	
@@ -149,22 +149,20 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 		// selectpicker
 		$("#symbolSelect").selectpicker();
 	}
-	infiniteAccount.addStock.add = function(addStockForm){
-		// jquery에서 만든 날짜 값 가져오기
-//		infiniteService.addStock(infiniteAccount.addStock.data).then(function(data){
-//			if(data == true){
-//				infiniteAccount.getStocks(infiniteAccount.account.query);
-//				infiniteAccount.getAccountState(infiniteAccount.account.query.accountId);
-//				infiniteAccount.getSimpleOrders(infiniteAccount.account.query.accountId);
-//				infiniteAccount.addStock.init();
-//				$('#addStockModal').modal("hide");
-//				
-//				// TODO : 알림창 
-//				alert("추가되었습니다.");
-//			}
-//		})
-		
-		console.log(addStockForm);
+	infiniteAccount.addStock.add = function(){
+		infiniteAccount.addStock.data.startedDate = $filter("printDate")(infiniteAccount.addStock.data.startedDate);
+		infiniteService.addStock(infiniteAccount.addStock.data).then(function(data){
+			if(data == true){
+				infiniteAccount.getStocks(infiniteAccount.account.query);
+				infiniteAccount.getAccountState(infiniteAccount.account.query.accountId);
+				infiniteAccount.getSimpleOrders(infiniteAccount.account.query.accountId);
+				infiniteAccount.addStock.init();
+				$('#addStockModal').modal("hide");
+				
+				// TODO : 알림창 
+				alert("추가되었습니다.");
+			}
+		})
 	}
 	
 	// 종목 변경
@@ -176,6 +174,7 @@ app.controller("InfiniteAccountController", function($scope, httpService, stockS
 	infiniteAccount.updateStock.update = function(params){
 		if(!params)
 			return;
+		params.startedDate = $filter("printDate")(params.startedDate);
 		infiniteService.updateStock(params).then(function(data){
 			if(data == true){
 				infiniteAccount.getStocks(infiniteAccount.account.query);

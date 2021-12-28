@@ -150,7 +150,9 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		$("#symbolSelect").selectpicker();
 	}
 	infiniteAccount.addStock.add = function(){
+		// Date to StringDate
 		infiniteAccount.addStock.data.startedDate = $filter("printDate")(infiniteAccount.addStock.data.startedDate);
+		
 		infiniteService.addStock(infiniteAccount.addStock.data).then(function(data){
 			if(data == true){
 				infiniteAccount.getStocks(infiniteAccount.account.query);
@@ -169,12 +171,24 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	infiniteAccount.updateStock = {};
 	infiniteAccount.updateStock.openUpdateModal = function(stock){
 		infiniteAccount.updateStock.data = angular.copy(stock);
+		
+		// StringDate to Date
+		if(infiniteAccount.updateStock.data.startedDate)
+			infiniteAccount.updateStock.data.startedDate = new Date(infiniteAccount.updateStock.data.startedDate);
+		if(infiniteAccount.updateStock.data.doneDate)
+			infiniteAccount.updateStock.data.doneDate = new Date(infiniteAccount.updateStock.data.doneDate);
+		
 		$('#updateStockModal').modal("show");
 	}
 	infiniteAccount.updateStock.update = function(params){
 		if(!params)
 			return;
+		
+		// Date to StringDate
 		params.startedDate = $filter("printDate")(params.startedDate);
+		if(params.doneDate)
+			params.doneDate = $filter("printDate")(params.doneDate);
+		
 		infiniteService.updateStock(params).then(function(data){
 			if(data == true){
 				infiniteAccount.getStocks(infiniteAccount.account.query);

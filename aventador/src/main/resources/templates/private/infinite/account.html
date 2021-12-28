@@ -245,7 +245,7 @@
 										<h4 class="text-xs">손익률</h4>
 										<h4 class="small font-weight-bold"
 											ng-class="(stock.income > 0 && 'text-danger') || (stock.income < 0 && 'text-primary')">
-											{{ stock.incomePer | number:2 | appendPulMa }}%
+											{{ stock.incomePer | appendPulMa | number:2 }}%
 										</h4>
 									</div>
 								</div>

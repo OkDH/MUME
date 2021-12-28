@@ -8,81 +8,97 @@
         </button>
       </div>
       <div class="modal-body">
-      	<div class="row">
-        	<div class="col mx-2 font-weight-bold mb-3 text-gray-800">
-				<span class="border-bottom-primary px-2">{{ infiniteAccount.updateStock.data.symbol }}</span>
-			</div>
-	    </div>
-        <div class="row mb-3">
-		    <div class="col-3 pt-2 pl-4 text-gray-800 font-weight-bold">
-      			진행상태
-      		</div>
-      		<div class="col-9 p-1">
-		      <div class="btn-group btn-group-toggle" data-toggle="buttons">
-				  <label class="btn btn-sm btn-outline-primary font-weight-bold text-xs" 
-				  	ng-class="infiniteAccount.updateStock.data.infiniteState == '진행중' && 'active'">
-				    <input type="radio" name="editInfiniteState" ng-model="infiniteAccount.updateStock.data.infiniteState" value="진행중"> 진 행 중
-				  </label>
-				  <label class="btn btn-sm btn-outline-warning font-weight-bold text-xs" 
-				  	ng-class="infiniteAccount.updateStock.data.infiniteState == '매수중지' && 'active'">
-				    <input type="radio" name="editInfiniteState" ng-model="infiniteAccount.updateStock.data.infiniteState" value="매수중지"> 매수중지
-				  </label>
-				  <label class="btn btn-sm btn-outline-success font-weight-bold text-xs"
-				  	ng-class="infiniteAccount.updateStock.data.infiniteState == '매도완료' && 'active'">
-				    <input type="radio" name="editInfiniteState" ng-model="infiniteAccount.updateStock.data.infiniteState" value="매도완료"> 매도완료
-				  </label>
-				  <label class="btn btn-sm btn-outline-danger font-weight-bold text-xs"
-				  	ng-class="infiniteAccount.updateStock.data.infiniteState == '원금소진' && 'active'">
-				    <input type="radio" name="editInfiniteState" ng-model="infiniteAccount.updateStock.data.infiniteState" value="원금소진"> 원금소진
-				  </label>
-			  </div>
+      	<form name="updateStockForm">
+	      	<div class="row">
+	        	<div class="col mx-2 font-weight-bold mb-3 text-gray-800">
+					<span class="border-bottom-primary px-2">{{ infiniteAccount.updateStock.data.symbol }}</span>
+				</div>
 		    </div>
-	    </div>
-	    <div class="row mb-3" ng-if="infiniteAccount.updateStock.data.infiniteState == '매도완료'">
-	    	<div class="col-3 pt-2 pl-4 text-gray-800 font-weight-bold">
-      			매도완료일
-      		</div>
-      		<div class="col-9 p-1 pr-4">
-      			<input type="date" class="form-control bg-light border-0" ng-model=infiniteAccount.updateStock.data.doneDate>
-      		</div>
-	    </div>
-        <div class="row mb-3">
-		    <div class="col-3 pt-2 pl-4 text-gray-800 font-weight-bold">
-      			버전
-      		</div>
-      		<div class="col-9 p-1">
-		      <div class="btn-group btn-group-toggle" data-toggle="buttons">
-				  <label style="width: 4em;"
-				  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
-				  	ng-class="infiniteAccount.updateStock.data.infiniteType == 'v2.1' && 'active'">
-				    <input type="radio" name="editInfiniteType" ng-model="infiniteAccount.updateStock.data.infiniteType" value="v2.1"> v2.1
-				  </label>
-				  <label style="width: 4em;"
-				  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
-				  	ng-class="infiniteAccount.updateStock.data.infiniteType == 'v2' && 'active'">
-				    <input type="radio" name="editInfiniteType" ng-model="infiniteAccount.updateStock.data.infiniteType" value="v2"> v2
-				  </label>
-				  <label style="width: 4em;"
-				  	class="btn btn-sm btn-outline-info font-weight-bold text-xs"
-				  	ng-class="infiniteAccount.updateStock.data.infiniteType == 'v1' && 'active'">
-				    <input type="radio" name="editInfiniteType" ng-model="infiniteAccount.updateStock.data.infiniteType" value="v1"> v1
-				  </label>
-			  </div>
+	        <div class="row mb-3">
+			    <div class="col-3 pt-2 pl-4 text-gray-800 font-weight-bold">
+	      			진행상태
+	      		</div>
+	      		<div class="col-9 p-1">
+			      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+					  <label class="btn btn-sm btn-outline-primary font-weight-bold text-xs" 
+					  	ng-class="infiniteAccount.updateStock.data.infiniteState == '진행중' && 'active'">
+					    <input type="radio" name="editInfiniteState" ng-model="infiniteAccount.updateStock.data.infiniteState" value="진행중"> 진 행 중
+					  </label>
+					  <label class="btn btn-sm btn-outline-warning font-weight-bold text-xs" 
+					  	ng-class="infiniteAccount.updateStock.data.infiniteState == '매수중지' && 'active'">
+					    <input type="radio" name="editInfiniteState" ng-model="infiniteAccount.updateStock.data.infiniteState" value="매수중지"> 매수중지
+					  </label>
+					  <label class="btn btn-sm btn-outline-success font-weight-bold text-xs"
+					  	ng-class="infiniteAccount.updateStock.data.infiniteState == '매도완료' && 'active'">
+					    <input type="radio" name="editInfiniteState" ng-model="infiniteAccount.updateStock.data.infiniteState" value="매도완료"> 매도완료
+					  </label>
+					  <label class="btn btn-sm btn-outline-danger font-weight-bold text-xs"
+					  	ng-class="infiniteAccount.updateStock.data.infiniteState == '원금소진' && 'active'">
+					    <input type="radio" name="editInfiniteState" ng-model="infiniteAccount.updateStock.data.infiniteState" value="원금소진"> 원금소진
+					  </label>
+				  </div>
+			    </div>
 		    </div>
-	    </div>
-	    <div class="row mb-3">
-		    <div class="col-6 pl-4">
-		      <label class="text-gray-800 font-weight-bold">매수 시작일</label>
-		      <input type="date" class="form-control bg-light border-0" ng-model=infiniteAccount.updateStock.data.startedDate>
+		    <div class="row mb-3" ng-if="infiniteAccount.updateStock.data.infiniteState == '매도완료'">
+		    	<div class="col-3 pt-2 pl-4 text-gray-800 font-weight-bold">
+	      			매도완료일
+	      		</div>
+	      		<div class="col-9 p-1 pr-4">
+	      			<input type="date" class="form-control bg-light border-0" ng-model=infiniteAccount.updateStock.data.doneDate>
+	      		</div>
 		    </div>
-		    <div class="col-6 pr-4">
-		      <label class="text-gray-800 font-weight-bold">배정 원금($)</label>
-		      <input type="text" class="form-control bg-light border-0" ng-model="infiniteAccount.updateStock.data.seed">
+	        <div class="row mb-3">
+			    <div class="col-3 pt-2 pl-4 text-gray-800 font-weight-bold">
+	      			버전
+	      		</div>
+	      		<div class="col-9 p-1">
+			      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+					  <label style="width: 4em;"
+					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+					  	ng-class="infiniteAccount.updateStock.data.infiniteType == 'v2.1' && 'active'">
+					    <input type="radio" name="editInfiniteType" ng-model="infiniteAccount.updateStock.data.infiniteType" value="v2.1"> v2.1
+					  </label>
+					  <label style="width: 4em;"
+					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+					  	ng-class="infiniteAccount.updateStock.data.infiniteType == 'v2' && 'active'">
+					    <input type="radio" name="editInfiniteType" ng-model="infiniteAccount.updateStock.data.infiniteType" value="v2"> v2
+					  </label>
+					  <label style="width: 4em;"
+					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs"
+					  	ng-class="infiniteAccount.updateStock.data.infiniteType == 'v1' && 'active'">
+					    <input type="radio" name="editInfiniteType" ng-model="infiniteAccount.updateStock.data.infiniteType" value="v1"> v1
+					  </label>
+				  </div>
+			    </div>
 		    </div>
-		 </div>  
+		    <div class="row mb-3">
+			    <div class="col-6 pl-4">
+			      <label class="text-gray-800 font-weight-bold">매수 시작일</label>
+			      <input type="date" class="form-control"
+						ng-model="infiniteAccount.updateStock.data.startedDate" name="startedDate"
+						ng-required="true"
+						ng-class="updateStockForm.startedDate.$dirty 
+							&& ((updateStockForm.startedDate.$invalid && 'invalid')
+							|| (updateStockForm.startedDate.$valid && 'valid'))">
+				  <span class="invalid-feedback" ng-show="updateStockForm.startedDate.$dirty && updateStockForm.startedDate.$invalid">필수 작성 항목입니다.</span>
+			    </div>
+			    <div class="col-6 pr-4">
+			      <label class="text-gray-800 font-weight-bold">배정 원금($)</label>
+			      <input type="text" class="form-control"
+						ng-model="infiniteAccount.updateStock.data.seed" name="seed"
+						validation-doller ng-required="true"
+						ng-class="updateStockForm.seed.$dirty 
+						&& ((updateStockForm.seed.$invalid && 'invalid')
+						|| (updateStockForm.seed.$valid && 'valid'))">
+				  <span class="invalid-feedback" ng-show="updateStockForm.seed.$dirty && updateStockForm.seed.$invalid">필수 작성 항목입니다.</span>
+			    </div>
+			 </div>  
+	      </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="infiniteAccount.updateStock.update(infiniteAccount.updateStock.data)">Update</button>
+        <button type="button" class="btn btn-primary" 
+        	ng-disabled="!updateStockForm.$dirty || updateStockForm.$invalid"
+        	ng-click="infiniteAccount.updateStock.update(infiniteAccount.updateStock.data)">Update</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>

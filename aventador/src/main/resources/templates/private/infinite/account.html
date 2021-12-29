@@ -21,7 +21,8 @@
 	<!-- Content Row -->
 	<div class="row">
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card border-left-primary shadow h-100 py-2">
+			<div class="card border-left-primary shadow h-100 py-2" style="cursor: pointer;"
+				data-toggle="modal" data-target="#seedModal">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
@@ -327,4 +328,5 @@
 	<div ng-include="meta.baseUrl + 'tpl/modal/history.html'"></div>
 	<div ng-include="meta.baseUrl + 'tpl/modal/filter.html'"></div>
 	<div ng-include="meta.baseUrl + 'tpl/modal/simple-list.html'"></div>
+	<div ng-include="meta.baseUrl + 'tpl/modal/seed.html'"></div>
 </div>

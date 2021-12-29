@@ -8,7 +8,7 @@
         </button>
       </div>
       <div class="modal-body">
-      	<form name="updateStockForm">
+      	<form name="infiniteAccount.updateStockForm">
 	      	<div class="row">
 	        	<div class="col mx-2 font-weight-bold mb-3 text-gray-800">
 					<span class="border-bottom-primary px-2">{{ infiniteAccount.updateStock.data.symbol }}</span>
@@ -48,10 +48,10 @@
 	      				ng-model="infiniteAccount.updateStock.data.doneDate"
 	      				name="doneDate"
 	      				ng-required="infiniteAccount.updateStock.data.infiniteState == '매도완료'"
-	      				ng-class="infiniteAccount.updateStock.data.infiniteState == '매도완료' && updateStockForm.doneDate.$dirty 
-							&& ((updateStockForm.doneDate.$invalid && 'invalid')
-							|| (updateStockForm.doneDate.$valid && 'valid'))">
-					<span class="invalid-feedback" ng-show="infiniteAccount.updateStock.data.infiniteState == '매도완료' && updateStockForm.doneDate.$dirty && updateStockForm.doneDate.$invalid">필수 작성 항목입니다.</span>
+	      				ng-class="infiniteAccount.updateStock.data.infiniteState == '매도완료' && infiniteAccount.updateStockForm.doneDate.$dirty 
+							&& ((infiniteAccount.updateStockForm.doneDate.$invalid && 'invalid')
+							|| (infiniteAccount.updateStockForm.doneDate.$valid && 'valid'))">
+					<span class="invalid-feedback" ng-show="infiniteAccount.updateStock.data.infiniteState == '매도완료' && infiniteAccount.updateStockForm.doneDate.$dirty && infiniteAccount.updateStockForm.doneDate.$invalid">필수 작성 항목입니다.</span>
 	      		</div>
 		    </div>
 	        <div class="row mb-3">
@@ -84,28 +84,28 @@
 			      <input type="date" class="form-control"
 						ng-model="infiniteAccount.updateStock.data.startedDate" name="startedDate"
 						ng-required="true"
-						ng-class="updateStockForm.startedDate.$dirty 
-							&& ((updateStockForm.startedDate.$invalid && 'invalid')
-							|| (updateStockForm.startedDate.$valid && 'valid'))">
-				  <span class="invalid-feedback" ng-show="updateStockForm.startedDate.$dirty && updateStockForm.startedDate.$invalid">필수 작성 항목입니다.</span>
+						ng-class="infiniteAccount.updateStockForm.startedDate.$dirty 
+							&& ((infiniteAccount.updateStockForm.startedDate.$invalid && 'invalid')
+							|| (infiniteAccount.updateStockForm.startedDate.$valid && 'valid'))">
+				  <span class="invalid-feedback" ng-show="infiniteAccount.updateStockForm.startedDate.$dirty && infiniteAccount.updateStockForm.startedDate.$invalid">필수 작성 항목입니다.</span>
 			    </div>
 			    <div class="col-6 pr-4">
 			      <label class="text-gray-800 font-weight-bold">배정 원금($)</label>
 			      <input type="text" class="form-control"
 						ng-model="infiniteAccount.updateStock.data.seed" name="seed"
 						validation-doller ng-required="true"
-						ng-class="updateStockForm.seed.$dirty 
-						&& ((updateStockForm.seed.$invalid && 'invalid')
-						|| (updateStockForm.seed.$valid && 'valid'))">
-				  <span class="invalid-feedback" ng-show="updateStockForm.seed.$dirty && updateStockForm.seed.$invalid">필수 작성 항목입니다.</span>
+						ng-class="infiniteAccount.updateStockForm.seed.$dirty 
+						&& ((infiniteAccount.updateStockForm.seed.$invalid && 'invalid')
+						|| (infiniteAccount.updateStockForm.seed.$valid && 'valid'))">
+				  <span class="invalid-feedback" ng-show="infiniteAccount.updateStockForm.seed.$dirty && infiniteAccount.updateStockForm.seed.$invalid">필수 작성 항목입니다.</span>
 			    </div>
 			 </div>  
 	      </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" 
-        	ng-disabled="!updateStockForm.$dirty || updateStockForm.startedDate.$invalid || updateStockForm.seed.$invalid
-        		|| (infiniteAccount.updateStock.data.infiniteState == '매도완료' && updateStockForm.doneDate.$invalid)"
+        	ng-disabled="!infiniteAccount.updateStockForm.$dirty || infiniteAccount.updateStockForm.startedDate.$invalid || infiniteAccount.updateStockForm.seed.$invalid
+        		|| (infiniteAccount.updateStock.data.infiniteState == '매도완료' && infiniteAccount.updateStockForm.doneDate.$invalid)"
         	ng-click="infiniteAccount.updateStock.update(infiniteAccount.updateStock.data)">Update</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>

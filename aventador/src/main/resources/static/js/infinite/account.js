@@ -277,6 +277,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 			// 원본값을 보존하고 edit 변수에 값을 넣어줌
 			infiniteAccount.viewStock.history.forEach(function(item){
 				item.edit = angular.copy(item);
+				item.edit.tradeDate = new Date(item.edit.tradeDate);
 			});
 			
 		});
@@ -296,6 +297,8 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		}
 	}
 	infiniteAccount.addHistory.add = function(){
+		infiniteAccount.addHistory.data.tradeDate = $filter("printDate")(infiniteAccount.addHistory.data.tradeDate);
+		
 		infiniteService.addHistory(infiniteAccount.addHistory.data).then(function(data){
 			if(data == true){
 				infiniteAccount.getStockHistory();
@@ -340,6 +343,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	infiniteAccount.updateHistory = function(trade){
 		trade.editMode = false;
 		trade.edit.accountId = infiniteAccount.viewStock.accountId;
+		trade.edit.tradeDate = $filter("printDate")(trade.edit.tradeDate);
 		
 		infiniteService.updateHistory(trade.edit).then(function(data){
 			if(data == true){

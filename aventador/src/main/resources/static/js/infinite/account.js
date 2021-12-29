@@ -140,6 +140,12 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		}
 		if(infiniteAccount.account.myAccounts)
 			infiniteAccount.addStock.data.accountId = infiniteAccount.account.myAccounts[0].accountId;
+		
+		// form validation 초기화
+		if(infiniteAccount.addStockForm){
+			infiniteAccount.addStockForm.$setPristine();
+			infiniteAccount.addStockForm.$setUntouched();
+		}
 	}
 	
 	// 종목 추가
@@ -147,7 +153,8 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		infiniteAccount.addStock.init();
 		$('#addStockModal').modal("show");
 		// selectpicker
-		$("#symbolSelect").selectpicker();
+		$("#symbolSelect").val('');
+		$("#symbolSelect").selectpicker("refresh");
 	}
 	infiniteAccount.addStock.add = function(){
 		// Date to StringDate
@@ -171,6 +178,12 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	infiniteAccount.updateStock = {};
 	infiniteAccount.updateStock.openUpdateModal = function(stock){
 		infiniteAccount.updateStock.data = angular.copy(stock);
+		
+		// form validation 초기화
+		if(infiniteAccount.updateStockForm){
+			infiniteAccount.updateStockForm.$setPristine();
+			infiniteAccount.updateStockForm.$setUntouched();
+		}
 		
 		// StringDate to Date
 		if(infiniteAccount.updateStock.data.startedDate)

@@ -212,7 +212,7 @@ public class InfiniteTradeComponent {
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 		
 		// 1회 매수 량
-		int oneBuyQuantity = infiniteDetail.getOneBuyQuantity();
+		Integer oneBuyQuantity = infiniteDetail.getOneBuyQuantity();
 		// 현재가 +15%
 		BigDecimal nowUpPrice = infiniteDetail.getStockDetail().getPriceClose().multiply(new BigDecimal("1.15"));
 		
@@ -276,7 +276,7 @@ public class InfiniteTradeComponent {
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 		
 		// 1회 매수량
-		int oneBuyQuantity = infiniteDetail.getOneBuyQuantity();
+		Integer oneBuyQuantity = infiniteDetail.getOneBuyQuantity();
 		// 현재가 +15%
 		BigDecimal nowUpPrice = infiniteDetail.getStockDetail().getPriceClose().multiply(new BigDecimal("1.15"));
 				

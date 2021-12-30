@@ -121,11 +121,11 @@
                     <span>손익현황</span></a>
             </li>
             
-            <li class="nav-item" ng-class="path('/infinite/setting') && 'active'">
+            <!-- <li class="nav-item" ng-class="path('/infinite/setting') && 'active'">
                 <a class="nav-link" th:href="@{/private/#!/infinite/setting}">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>설정</span></a>
-            </li>
+            </li> -->
 <!-- 
             Divider
             <hr class="sidebar-divider">
@@ -196,7 +196,7 @@
 
                         <li sec:authorize="isAnonymous()" class="nav-item dropdown no-arrow">
                             <a class="nav-link" th:href="@{/public/#!/login}">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600">Login</span>
+                                <span class="mr-2 text-gray-600">Login</span>
                             </a>
                         </li>
                         
@@ -245,7 +245,8 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                    	<h4 class="text-xs font-weight-bold">모든 투자에 대한 책임은 투자자 본인에게 있습니다.</h4>
+                        <span>Copyright &copy; MUME 2021</span>
                     </div>
                 </div>
             </footer>

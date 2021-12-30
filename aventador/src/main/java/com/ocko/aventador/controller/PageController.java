@@ -19,8 +19,6 @@ import com.ocko.aventador.service.AuthenticationService;
 @Controller
 public class PageController {
 
-private final static Logger logger = LoggerFactory.getLogger(PageController.class);
-	
 	@Autowired private AuthenticationService authenticationService;
 	
 	@ModelAttribute(name = "memberEmail")
@@ -33,18 +31,15 @@ private final static Logger logger = LoggerFactory.getLogger(PageController.clas
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getRoot() {
-		logger.info("redirect from:/ --> to:/public/#!/stock");
 		return "redirect:/public/#!/stock";
 	}
 	
 	@RequestMapping(value = "/{pathName:(?:public|private)}", method = RequestMethod.GET)
 	public String getPathIncorrectly (@PathVariable String pathName) {
 		if(pathName.equals("public")) {
-			logger.info("redirect from:/{} --> to:/{}/#!/stock", pathName, pathName);
 			return "redirect:/public/#!/stock";
 		} else if(pathName.equals("private")) {
-			logger.info("redirect from:/{} --> to:/{}/#!/infinity/dashboard", pathName, pathName);
-			return "redirect:/private/#!/infinite/dashboard";
+			return "redirect:/private/#!/infinite/account";
 		}
 		return "redirect:/" + pathName + "/";
 	}

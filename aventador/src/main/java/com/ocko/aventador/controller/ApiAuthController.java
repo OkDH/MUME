@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
+import com.ocko.aventador.dao.persistence.aventador.MemberSettingMapper;
 import com.ocko.aventador.model.MemberDetail;
 import com.ocko.aventador.service.AuthenticationService;
+import com.ocko.aventador.service.MemberSettingService;
 
 /**
  * @author ok
@@ -49,6 +51,8 @@ public class ApiAuthController {
 		}
 		
 		MemberDetail memberDetail = new MemberDetail(memberInfo);
+		
+		// AuthToken
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(memberDetail, null, memberDetail.getAuthorities());
 		
 		SecurityContext securityContext = SecurityContextHolder.getContext();

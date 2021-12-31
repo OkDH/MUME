@@ -260,7 +260,7 @@ public class MemberSettingExample {
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdEqualTo(Integer value) {
+        public Criteria andMemberIdEqualTo(String value) {
             addCriterion("member_id =", value, "memberId");
             return (Criteria) this;
         }

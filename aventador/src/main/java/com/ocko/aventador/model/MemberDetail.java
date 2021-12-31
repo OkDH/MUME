@@ -15,6 +15,7 @@ public class MemberDetail implements UserDetails {
 	
 	private static final long serialVersionUID = -7013410173642495413L;
 	
+	// 회원정보
 	private MemberInfo memberInfo;
 	
 	public MemberDetail(MemberInfo memberInfo) {
@@ -36,7 +37,6 @@ public class MemberDetail implements UserDetails {
 	public String getUsername() {
 		return memberInfo.getMemberEmail();
 	}
-	
 	
 	/**
 	 * {@link MemberStatus#EXPIRED}<br>

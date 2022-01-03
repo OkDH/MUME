@@ -56,6 +56,7 @@
     <script sec:authorize="hasRole('ROLE_USER')" th:src="@{/static/js/infinite/account.js}"></script>
     <script sec:authorize="hasRole('ROLE_USER')" th:src="@{/static/js/infinite/dashboard.js}"></script>
     <script sec:authorize="hasRole('ROLE_USER')" th:src="@{/static/js/infinite/income.js}"></script>
+    <script sec:authorize="hasRole('ROLE_USER')" th:src="@{/static/js/setting/setting.js}"></script>
    
     <!-- my css -->
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/main.css}">
@@ -120,11 +121,13 @@
                     <span>손익현황</span></a>
             </li>
             
-            <!-- <li class="nav-item" ng-class="path('/infinite/setting') && 'active'">
-                <a class="nav-link" th:href="@{/private/#!/infinite/setting}">
+            <hr class="sidebar-divider" style="margin: 0 1rem;">
+            
+            <li class="nav-item" ng-class="path('/setting') && 'active'">
+                <a class="nav-link" th:href="@{/private/#!/setting}">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>설정</span></a>
-            </li> -->
+            </li>
 <!-- 
             Divider
             <hr class="sidebar-divider">

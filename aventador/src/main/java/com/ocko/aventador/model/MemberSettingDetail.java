@@ -2,8 +2,7 @@ package com.ocko.aventador.model;
 
 import java.util.Map;
 
-public abstract class MemberSettingDetail {
-
+public class MemberSettingDetail {
 
     private TlpSetting tlpSetting;
     private VrSetting vrSetting;

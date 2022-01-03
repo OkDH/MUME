@@ -1,4 +1,4 @@
-app.controller("InfiniteSettingController", function($scope, httpService, stockService, infiniteService){
+app.controller("SettingController", function($scope, httpService, stockService, infiniteService){
 
     var infiniteSetting = this;
 

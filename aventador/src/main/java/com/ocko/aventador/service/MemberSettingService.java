@@ -20,6 +20,40 @@ public class MemberSettingService {
 
     @Autowired
     private MemberSettingMapper memberSettingMapper;
+    
+    /**
+     * 사용자 설정 upsert
+     * @param memberId
+     * @param settingDetail
+     */
+    public void upsertMemberSetting(Integer memberId, MemberSettingDetail settingDetail) {
+    	if(memberId == null || settingDetail == null)
+    		return;
+    	
+        ObjectMapper om = new ObjectMapper();
+        try {
+			String settingJson = om.writeValueAsString(settingDetail);
+			
+			MemberSetting memberSetting = new MemberSetting();
+			memberSetting.setMemberId(memberId);
+			memberSetting.setSettingDetail(settingJson);
+			
+			memberSettingMapper.upsert(memberSetting);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    /**
+     * 사용자 설정 초기값 만들기(회원가입 시 호출)
+     * @param memberId
+     * @return
+     */
+    public MemberSettingDetail getInitMemberSetting(Integer memberId) {
+    	MemberSettingDetail settingDetail = new MemberSettingDetail();
+    	
+    	return null;
+    }
 
     /**
      * 회원 설정 조회

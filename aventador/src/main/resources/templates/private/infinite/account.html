@@ -21,8 +21,7 @@
 	<!-- Content Row -->
 	<div class="row">
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card border-left-primary shadow h-100 py-2" style="cursor: pointer;"
-				data-toggle="modal" data-target="#seedModal">
+			<div class="card border-left-primary shadow h-100 py-2">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
@@ -120,9 +119,7 @@
 					class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					<h6 class="m-0 font-weight-bold text-primary float-right">
 						{{ stock.symbol }}
-						<span style="width: 3.5em;"
-							class="badge rounded-pill bg-info text-white py-1 px-2 ml-2">{{ stock.infiniteType }}</span>
-						<span class="badge rounded-pill text-white py-1 px-2"
+						<span class="badge rounded-pill text-white py-1 px-2 ml-2"
 							ng-class="(stock.infiniteState == '진행중' && 'bg-primary') || (stock.infiniteState == '매도완료' && 'bg-success') ||
 									(stock.infiniteState == '매수중지' && 'bg-warning') || (stock.infiniteState == '원금소진' && 'bg-danger') ">
 							{{ stock.infiniteState }}
@@ -159,11 +156,18 @@
 					<h4 class="small font-weight-bold">
 						진행률 <span class="float-right">{{ stock.progressPer | number:1 }}%</span>
 					</h4>
-					<div class="progress mb-3">
+					<div class="progress mb-2">
 						<div class="progress-bar" ng-class="(stock.progressPer < 50 && 'bg-primary') || (stock.progressPer > 80 && 'bg-danger') || (stock.progressPer >= 50 && 'bg-warning')"
 							role="progressbar"
 							style="width: {{ stock.progressPer }}%" aria-valuenow="{{ stock.progressPer }}" aria-valuemin="0"
 							aria-valuemax="100"></div>
+					</div>
+					<div style="text-align: right;" class="mb-2">
+						<span style="width: 3.5em;"
+							class="badge bg-info text-white py-1 px-2">{{ stock.infiniteType }}</span>
+						<span class="badge bg-success text-white py-1 px-2">
+							계좌 1
+						</span>
 					</div>
 					<div class="card mt-1">
 						<div class="card-header py-2 bg-light collapsed" data-toggle="collapse" data-target="#collapseA_{{$index}}" aria-expanded="false" aria-controls="collapse1">
@@ -328,5 +332,4 @@
 	<div ng-include="meta.baseUrl + 'tpl/modal/history.html'"></div>
 	<div ng-include="meta.baseUrl + 'tpl/modal/filter.html'"></div>
 	<div ng-include="meta.baseUrl + 'tpl/modal/simple-list.html'"></div>
-	<div ng-include="meta.baseUrl + 'tpl/modal/seed.html'"></div>
 </div>

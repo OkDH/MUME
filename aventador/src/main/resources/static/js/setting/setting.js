@@ -1,12 +1,23 @@
-app.controller("SettingController", function($scope, httpService, stockService, infiniteService){
+app.controller("SettingController", function($scope, httpService, infiniteService){
 
-    var infiniteSetting = this;
-
-    var initSetting = infiniteSettingService.getInitSetting();      /*param값넘겨줘야한다.*/
-
+    var setting = this;
+    setting.infinite = {};
+    
+    infiniteService.getMyAccounts().then(function(data){
+    	setting.infinite.account = {};
+    	setting.infinite.account.list = data;
+	});
+    
+    $scope.$watch("setting.infinite.account.isEditMode", function(isEditMode){
+    	if(!isEditMode)
+    		return;
+    	$("#accountTable").tableDnD();
+    });
+    
+    //var initSetting = settingService.getInitSetting();      /*param값넘겨줘야한다.*/
 });
 
-app.service("infiniteSettingService", function(){
+app.service("settingService", function(){
 
     var initSetting = null;
 

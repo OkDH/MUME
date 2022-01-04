@@ -13,7 +13,6 @@
 			<div class="modal-body"> 
 				<div class="row">
 					<div class="col mx-2 w-100">
-						<h4 class="text-xs font-weight-bold">* 확인 체크박스는 주문시 자가 체크용으로 저장이 되지 않습니다.</h4>
 						<h4 class="text-xs font-weight-bold">* Symbol 오름차순으로 리스트가 출력됩니다.</h4>
 						<h4 class="text-xs font-weight-bold">* <mark>모든 투자에 대한 책임은 투자자 본인에게 있습니다.</mark></h4>
 					</div>
@@ -23,20 +22,19 @@
 						<thead class="bg-primary text-white">
 							<tr role="row" class="text-center">
 								<th style="width: 5px;">#</th>
+								<th style="width: 10px;">계좌</th>
 								<th style="width: 10px;">Symbol</th>
 								<th style="width: 10px;">주문</th>
 								<th style="width: 10px;">종류</th>
 								<th style="width: 10px;">가격</th>
 								<th style="width: 10px;">수량</th>
-								<th style="width: 10px;">확인</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr class="text-center" ng-repeat="item in infiniteAccount.simpleOrders"
-								ng-click="item.isCheck = !item.isCheck"
-							 	ng-class="item.isLast && 'border-bottom-primary-thin'"
-							 	ng-style="{'text-decoration':item.isCheck?'line-through':'none'}">
+							 	ng-class="item.isLast && 'border-bottom-primary-thin'">
 								<td class="align-middle">{{ $index+1 }}</td>
+								<td class="align-middle font-weight-bold">계좌 {{ infiniteAccount.account.myAccountsOrder[item.accountId].order }}</td>
 								<td class="align-middle font-weight-bold">{{ item.symbol }}</td>
 								<td class="align-middle font-weight-bold"
 									ng-class="(item.tradeType=='매수' && 'text-danger') || 'text-primary'">
@@ -53,9 +51,6 @@
 								<td class="align-middle font-weight-bold"
 									ng-class="(item.tradeType=='매수' && 'text-danger') || 'text-primary'">
 									{{ item.quantity | number }}
-								</td>
-								<td class="align-middle">
-									<input class="mt-1" type="checkbox" ng-model="item.isCheck">
 								</td>
 							</tr>
 						</tbody>

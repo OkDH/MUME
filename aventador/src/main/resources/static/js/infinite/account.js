@@ -106,6 +106,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 			data.forEach(function(d){
 				d.buyTradeInfoList.forEach(function(info){
 					infiniteAccount.simpleOrders.push({
+						accountId: d.accountId,
 						symbol: d.symbol,
 						tradeName: info.tradeName,
 						tradeType: "매수",
@@ -116,6 +117,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 				});
 				d.sellTradeInfoList.forEach(function(info){
 					infiniteAccount.simpleOrders.push({
+						accountId: d.accountId,
 						symbol: d.symbol,
 						tradeName: info.tradeName,
 						tradeType: "매도",

@@ -421,7 +421,7 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			      data: thisMonthData,
 			 },
 		     {
-			      label: m+"월",
+			      label: (m != 0 ? m : 12)+"월",
 			      lineTension: 0.1,
 			      backgroundColor: "rgba(204, 204, 204, 0.3)",
 			      borderColor: "#CCCCCC",

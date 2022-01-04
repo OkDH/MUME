@@ -18,19 +18,18 @@ import com.ocko.aventador.constant.InfiniteState;
 import com.ocko.aventador.constant.InfiniteType;
 import com.ocko.aventador.constant.RegisteredType;
 import com.ocko.aventador.constant.TradeType;
+import com.ocko.aventador.dao.model.aventador.InfiniteAccountExample;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistoryExample;
 import com.ocko.aventador.dao.model.aventador.InfiniteStock;
 import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
-import com.ocko.aventador.dao.model.aventador.StockHistory;
-import com.ocko.aventador.dao.model.aventador.StockHistoryExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
+import com.ocko.aventador.dao.persistence.aventador.InfiniteAccountMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteHistoryMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteStockMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
-import com.ocko.aventador.exception.MyArgumentException;
 import com.ocko.aventador.model.InfiniteDetail;
 import com.ocko.aventador.model.StockDetail;
 import com.ocko.aventador.service.StockService;
@@ -40,6 +39,7 @@ public class InfiniteStockService {
 
 	@Autowired private StockService stockService;
 	@Autowired private InfiniteTradeComponent tradeComponent;
+	@Autowired private InfiniteAccountMapper infiniteAccountMapper;
 	@Autowired private InfiniteStockMapper infiniteStockMapper;
 	@Autowired private InfiniteHistoryMapper infiniteHistoryMapper;
 	@Autowired private ViewInfiniteListMapper viewInfiniteListMapper;
@@ -53,7 +53,7 @@ public class InfiniteStockService {
 	public List<InfiniteDetail> getStocks(int memberId, Map<String, Object> params){
 		ViewInfiniteListExample example = new ViewInfiniteListExample();
 		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
-		if(params.get("accountId") != null)
+		if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL"))
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
 		if(params.get("infiniteState") != null) {
 			criteria.andInfiniteStateIn((List<String>) params.get("infiniteState"));
@@ -110,12 +110,12 @@ public class InfiniteStockService {
 		infiniteStateList.add(InfiniteState.OUT);
 		infiniteStateList.add(InfiniteState.STOP);
 		
-		
 		Map<String, Object> query = new HashMap<String, Object>();
 		query.put("memberId", memberId);
 		query.put("infiniteStateList", infiniteStateList); 
-		if(params.get("accountId") != null)
+		if(params.get("accountId") != null && !params.get("accountId").equals("ALL")) {
 			query.put("accountId", params.get("accountId"));
+		}
 		
 		// 종목수
 		result.put("ingInfiniteCount", viewInfiniteListMapper.countByInfinite(query));
@@ -125,6 +125,9 @@ public class InfiniteStockService {
 		
 		// 총 매입금액
 		result.put("sumInfiniteBuyPrice", viewInfiniteListMapper.sumByBuyPrice(query));
+		
+		// 원금
+		result.put("sumAccountSeed", infiniteAccountMapper.sumByAccountSeed(query));
 		
 		return result;
 	}

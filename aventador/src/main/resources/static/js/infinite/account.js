@@ -15,12 +15,26 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	
 	infiniteAccount.account = {};
 	infiniteAccount.account.query = {
-		accountId: null,
+		accountId: "ALL",  
 		infiniteType: [],
 		infiniteState: [],
 		offset: 0,
 		limit: 30
 	};
+	
+	// 계좌 정보
+	infiniteService.getMyAccounts().then(function(data){
+		infiniteAccount.account.myAccounts = data;
+		
+		// 계좌 order map
+		infiniteAccount.account.myAccountsOrder = {};
+		data.forEach(function(d){
+			infiniteAccount.account.myAccountsOrder[d.accountId] = {};
+			infiniteAccount.account.myAccountsOrder[d.accountId].order = d.accountOrder;
+			infiniteAccount.account.myAccountsOrder[d.accountId].alias = d.accountAlias;
+		});
+	});
+	
 	// fiter 와 query 변환용 변수
 	infiniteAccount.account.filter = {
 		infiniteState: {
@@ -35,6 +49,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 			v1: { name: "v1", value: true }
 		}
 	};
+	
 	// 검색 필터
 	$scope.$watch("infiniteAccount.account.filter", function(filter){
 		if(!filter){
@@ -54,11 +69,13 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		});
 	}, true);
 	
-	// 계좌 정보
-	infiniteService.getMyAccounts().then(function(data){
-		infiniteAccount.account.myAccounts = data;
+	// 필터 모달
+	infiniteAccount.openFilterModal = function(){
 		infiniteAccount.addStock.init();
-	});
+		$('#filterModal').modal("show");
+		// selectpicker
+		$("#filterModal #accountSelect").selectpicker("refresh");
+	}
 	
 	// 종목 리스트 조회
 	infiniteAccount.stocks = [];
@@ -138,8 +155,8 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 			quantity: null,
 			accountId: null
 		}
-		if(infiniteAccount.account.myAccounts)
-			infiniteAccount.addStock.data.accountId = infiniteAccount.account.myAccounts[0].accountId;
+		if(infiniteAccount.account.query.accountId !== "ALL")
+			infiniteAccount.addStock.data.accountId = infiniteAccount.account.query.accountId;
 		
 		// form validation 초기화
 		if(infiniteAccount.addStockForm){
@@ -153,8 +170,10 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		infiniteAccount.addStock.init();
 		$('#addStockModal').modal("show");
 		// selectpicker
-		$("#symbolSelect").val('');
-		$("#symbolSelect").selectpicker("refresh");
+		$("#addStockForm #symbolSelect").val('');
+		$("#addStockForm #symbolSelect").selectpicker("refresh");
+		$("#addStockForm #accountSelect").val('');
+		$("#addStockForm #accountSelect").selectpicker("refresh");
 	}
 	infiniteAccount.addStock.add = function(){
 		// Date to StringDate

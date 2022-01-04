@@ -11,10 +11,24 @@
 				</button>
 			</div>
 			<div class="modal-body text-gray-800">
-				<form name="infiniteAccount.addStockForm">
+				<form id="addStockForm" name="infiniteAccount.addStockForm">
+					<div class="row mb-3">
+						<div class="col-2 pt-2 text-gray-800 font-weight-bold">
+			      			계좌
+			      		</div>
+			      		<div class="col-10 p-1">
+			      			<select
+								id="accountSelect" 
+								ng-required="true"
+								ng-model="infiniteAccount.addStock.data.accountId">
+								<option ng-repeat="account in infiniteAccount.account.myAccounts" ng-value="account.accountId">계좌 {{ account.accountOrder }} : {{ account.accountAlias }}</option>
+							</select>
+			      		</div>
+					</div>
 					<div class="row mb-3">
 						<div class="col-6">
-							<label class="font-weight-bold">종목</label> <select
+							<label class="font-weight-bold">종목</label> 
+							<select
 								id="symbolSelect" data-live-search="true"
 								ng-required="true"
 								ng-model="infiniteAccount.addStock.data.symbol">

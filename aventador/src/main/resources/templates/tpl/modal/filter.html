@@ -10,6 +10,19 @@
       <div class="modal-body">
       	<div class="row">
       		<div class="col-3 pt-1 pl-3 text-gray-800 font-weight-bold">
+      			계좌
+      		</div>
+      		<div class="col-9 p-1">
+      			<select
+					id="accountSelect" 
+					ng-model="infiniteAccount.account.query.accountId">
+					<option value="ALL">전체</option>
+					<option ng-repeat="account in infiniteAccount.account.myAccounts" ng-value="account.accountId">계좌 {{ account.accountOrder }} : {{ account.accountAlias }}</option>
+				</select>
+      		</div>
+      	</div>
+      	<div class="row">
+      		<div class="col-3 pt-1 pl-3 text-gray-800 font-weight-bold">
       			진행상태
       		</div>
       		<div class="col-9 p-1">

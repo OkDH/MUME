@@ -1,6 +1,16 @@
 <div ng-controller="InfiniteAccountController as infiniteAccount">
 	<div class="d-flex align-items-center justify-content-between mb-4">
-		<h1 class="h4 mb-0 text-gray-800">계좌현황</h1>
+		<h1 class="h4 mb-0 text-gray-800"> 
+			계좌 현황
+			<span ng-if="infiniteAccount.account.query.accountId == 'ALL'" class="small">
+				( 전체 )
+			</span>
+			<span ng-if="infiniteAccount.account.query.accountId != 'ALL'" class="small">
+				( 계좌  {{ infiniteAccount.account.myAccountsOrder[infiniteAccount.account.query.accountId].order }}
+				<span class="d-none d-md-table-cell"> : {{ infiniteAccount.account.myAccountsOrder[infiniteAccount.account.query.accountId].alias }}</span>
+				)
+			</span>
+		</h1>
 
 		<!-- 추가, 설정 버튼 -->
 		<div class="d-flex align-items-center justify-content-between">
@@ -8,7 +18,7 @@
                 <i class="fas fa-plus text-white"></i>
             </a>
 			<a class="btn btn-info btn-circle shadow mr-1"
-				data-toggle="modal" data-target="#filterModal">
+				data-toggle="modal" ng-click="infiniteAccount.openFilterModal()">
                 <i class="fas fa-filter text-white"></i>
             </a>
 			<a class="btn btn-success btn-circle shadow"
@@ -28,7 +38,7 @@
 							<div class="font-weight-bold text-primary text-uppercase mb-1">
 								투자 원금</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
-								$20,000</div>
+								${{ infiniteAccount.account.state.sumAccountSeed | number }}</div>
 						</div>
 						<div class="col-auto">
 							<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -166,7 +176,7 @@
 						<span style="width: 3.5em;"
 							class="badge bg-info text-white py-1 px-2">{{ stock.infiniteType }}</span>
 						<span class="badge bg-success text-white py-1 px-2">
-							계좌 1
+							계좌 {{ infiniteAccount.account.myAccountsOrder[stock.accountId].order }}
 						</span>
 					</div>
 					<div class="card mt-1">

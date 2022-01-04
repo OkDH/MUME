@@ -213,6 +213,7 @@ public class InfiniteTradeComponent {
 		
 		// 1회 매수 량
 		Integer oneBuyQuantity = infiniteDetail.getOneBuyQuantity();
+		
 		// 현재가 +15%
 		BigDecimal nowUpPrice = infiniteDetail.getStockDetail().getPriceClose().multiply(new BigDecimal("1.15"));
 		

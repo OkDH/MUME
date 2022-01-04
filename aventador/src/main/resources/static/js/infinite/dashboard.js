@@ -33,9 +33,6 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		infiniteService.getAccountState({accountId:query}).then(function(data){
 			infiniteDashboard.state = data;
 			
-			// TODO : 원금 가져오기
-			infiniteDashboard.state.seed = 20000;
-			
 			// 월별 손익현황
 			infiniteService.getStatistics("profit-monthly", infiniteDashboard.query).then(function(data){
 				infiniteDashboard.profitMonthly = data;
@@ -245,7 +242,7 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			  data: {
 			    labels: ["주식", "현금"],
 			    datasets: [{
-			      data: [infiniteDashboard.state.sumInfiniteBuyPrice, infiniteDashboard.state.seed-infiniteDashboard.state.sumInfiniteBuyPrice],
+			      data: [infiniteDashboard.state.sumInfiniteBuyPrice, infiniteDashboard.state.sumAccountSeed-infiniteDashboard.state.sumInfiniteBuyPrice],
 			      backgroundColor: ['#f6c23e', '#36b9cc'],
 			      hoverBackgroundColor: ['#f5ba25', '#2c9faf'],
 			      hoverBorderColor: "rgba(234, 236, 244, 1)",

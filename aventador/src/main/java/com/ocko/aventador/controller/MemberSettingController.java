@@ -1,6 +1,8 @@
 package com.ocko.aventador.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ocko.aventador.dao.model.aventador.MemberInfo;
+import com.ocko.aventador.dao.model.aventador.MemberSetting;
 import com.ocko.aventador.service.AuthenticationService;
 import com.ocko.aventador.service.MemberSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,12 @@ public class MemberSettingController {
      * 회원 설정 조회
      * @return
      */
-    @RequestMapping(value = "/api/infinite/setting/get", method = RequestMethod.POST)
-    public @ResponseBody
-    String getMemberSetting(@RequestBody Map<String, String> param){
-        return memberSettingService.getMemberSetting(param);
+    @RequestMapping(value = "/api/infinite/setting", method = RequestMethod.GET)
+    public @ResponseBody MemberSetting getMemberSetting(){
+    	MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+        return memberSettingService.getMemberSetting(memberInfo.getMemberId());
     }
 
     /**

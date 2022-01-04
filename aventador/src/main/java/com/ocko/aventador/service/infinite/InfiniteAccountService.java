@@ -1,15 +1,18 @@
 package com.ocko.aventador.service.infinite;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccountExample;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteAccountMapper;
-import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
 
 @Service
 public class InfiniteAccountService {
@@ -21,8 +24,11 @@ public class InfiniteAccountService {
 	 * 내 계좌가 없다면 하나 생성
 	 * @param memberId
 	 * @return
+	 * @throws IOException 
+	 * @throws JsonMappingException 
+	 * @throws JsonParseException 
 	 */
-	public List<InfiniteAccount> getMyAccounts(int memberId){
+	public List<InfiniteAccount> getMyAccounts(int memberId) throws Exception {
 		InfiniteAccountExample example = new InfiniteAccountExample();
 		example.createCriteria().andMemberIdEqualTo(memberId);
 		example.setOrderByClause("account_order asc");
@@ -34,7 +40,9 @@ public class InfiniteAccountService {
 			InfiniteAccount infiniteAccount = new InfiniteAccount();
 			infiniteAccount.setMemberId(memberId);
 			infiniteAccount.setAccountOrder(1);
-			infiniteAccount.setAccountAlias("무한매수 계좌 1");
+			infiniteAccount.setAccountAlias("무한매수 계좌");
+			infiniteAccount.setFeesPer(new BigDecimal("0.07"));
+			infiniteAccount.setSeed(BigDecimal.ZERO);
 			infiniteAccount.setIsDeleted(false);
 			infiniteAccount.setRegisteredDate(LocalDateTime.now());
 			infiniteAccountMapper.insert(infiniteAccount);

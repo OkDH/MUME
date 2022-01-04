@@ -32,11 +32,14 @@ import com.ocko.aventador.constant.MemberStatus;
 import com.ocko.aventador.constant.SocialType;
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.dao.model.aventador.MemberInfoExample;
+import com.ocko.aventador.dao.model.aventador.MemberSetting;
 import com.ocko.aventador.dao.model.aventador.SocialAuthentication;
 import com.ocko.aventador.dao.model.aventador.SocialAuthenticationExample;
 import com.ocko.aventador.dao.persistence.aventador.MemberInfoMapper;
+import com.ocko.aventador.dao.persistence.aventador.MemberSettingMapper;
 import com.ocko.aventador.dao.persistence.aventador.SocialAuthenticationMapper;
 import com.ocko.aventador.model.MemberDetail;
+import com.ocko.aventador.model.setting.MemberSettingDetail;
 
 @Service
 public class AuthenticationService implements UserDetailsService {
@@ -44,6 +47,7 @@ public class AuthenticationService implements UserDetailsService {
 	private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 	
 	@Autowired private MemberInfoMapper memberInfoMapper;
+	@Autowired private MemberSettingMapper memberSettingMapper;
 	@Autowired private SocialAuthenticationMapper socialAuthenticationMapper;
 	@Autowired private OAuth2AuthorizedClientService authorizedClientService;
 	
@@ -203,6 +207,11 @@ public class AuthenticationService implements UserDetailsService {
         		socialAuthentication.setSocialType(client.getClientRegistration().getRegistrationId());
         		socialAuthentication.setSocialId(mapMemberInfo.get("id"));
         		socialAuthenticationMapper.insert(socialAuthentication);
+        		
+        		// 회원 설정
+        		MemberSetting memberSetting = new MemberSetting();
+        		memberSetting.setMemberId(memberInfo.getMemberId());
+        		memberSettingMapper.insert(memberSetting);
         	}
         	
         	// 마지막 로그인 일자 기록

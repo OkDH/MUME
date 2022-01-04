@@ -43,9 +43,10 @@ public class InfiniteController {
 	 * 내 계좌 리스트 조회
 	 * @param request
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/api/infinite/my-account", method = RequestMethod.GET)
-	public @ResponseBody List<InfiniteAccount> getMyAccount() {
+	public @ResponseBody List<InfiniteAccount> getMyAccount() throws Exception {
 		MemberInfo memberInfo = authenticationService.getCurrentMember();
 		if(memberInfo == null)
 			return null;
@@ -64,8 +65,9 @@ public class InfiniteController {
 			return null;
 		
 		if(params.get("accountId") != null) {
-			if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
-				throw new MyAccessDeniedException();
+			if(!params.get("accountId").toString().equals("ALL"))
+				if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+					throw new MyAccessDeniedException();
 		}
 		
 		return new ResponseEntity<List<InfiniteDetail>>(stockService.getStocks(memberInfo.getMemberId(), params), HttpStatus.OK);
@@ -83,8 +85,9 @@ public class InfiniteController {
 			return null;
 		
 		if(params.get("accountId") != null) {
-			if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
-				throw new MyAccessDeniedException();
+			if(!params.get("accountId").toString().equals("ALL"))
+				if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+					throw new MyAccessDeniedException();
 		}
 		
 		return new ResponseEntity<Map<String, Object>>(stockService.getMyAccountState(memberInfo.getMemberId(), params), HttpStatus.OK);

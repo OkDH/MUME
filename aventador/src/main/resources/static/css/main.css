@@ -39,7 +39,11 @@
     font-size: 80%;
     color: #e74a3b;
 }
-
+/* 테이블 드래그 스타일 */
+.drag {
+	background-color: #eee;
+    -webkit-box-shadow: 6px 3px 5px #555, 0 1px 0 #ccc inset, 0 -1px 0 #ccc inset;
+}
 /* 작은화면 텍스트 크기 변동이 필요할 때 */
 @media (max-width:768px) {
   .text-resize {

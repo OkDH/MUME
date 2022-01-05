@@ -54,6 +54,19 @@ public class InfiniteController {
 	}
 	
 	/**
+	 * 무한매수 계좌 추가
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value = "/api/infinite/account/add", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> addInfiniteAccount(@RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+		return new ResponseEntity<Boolean>(accountService.addAccount(memberInfo.getMemberId(), params), HttpStatus.OK);
+	}
+	
+	/**
 	 * 계좌 내 종목 조회
 	 * @param params
 	 * @return

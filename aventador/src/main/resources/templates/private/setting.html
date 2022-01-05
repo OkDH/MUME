@@ -12,10 +12,10 @@
 				<div class="card-body">
 					<div class="row">
 			        	<div class="col text-right w-100 mb-2">
-							<a class="btn btn-info btn-circle" ng-click="setting.infinite.account.isEditMode = !setting.infinite.account.isEditMode">
+							<a class="btn btn-info btn-circle btn-sm" ng-click="setting.infinite.account.isEditMode = !setting.infinite.account.isEditMode">
 				                <i class="fas text-white fa-plus"></i>
 				            </a>
-							<a class="btn btn-info btn-circle" ng-click="setting.infinite.account.isEditMode = !setting.infinite.account.isEditMode">
+							<a class="btn btn-info btn-circle btn-sm" ng-click="setting.infinite.account.isEditMode = !setting.infinite.account.isEditMode">
 				                <i class="fas text-white fa-edit"></i>
 				            </a>
 						</div>
@@ -23,16 +23,16 @@
 					<table class="table table-hover text-gray-800 text-resize" id="accountTable" width="100%" style="width: 100%;">
 						<thead class="bg-primary text-white">
 							<tr role="row" class="text-center">
-								<th style="width: 5px;">#</th>
-								<th style="width: 20px;">계좌 별칭</th>
-								<th style="width: 10px;">원금</th>
-								<th style="width: 10px;">수수료율</th>
+								<th style="width: 5px; white-space: nowrap;">계좌</th>
+								<th style="width: 20px; white-space: nowrap;">계좌 별칭</th>
+								<th style="width: 10px; white-space: nowrap;">원금</th>
+								<th style="width: 10px; white-space: nowrap;">수수료율</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr ng-repeat="account in setting.infinite.account.list" class="text-center">
 								<td class="align-middle">{{ account.accountOrder }}</td>
-								<td class="align-middle">{{ account.accountAlias }}</td>
+								<td class="align-middle" style="white-space: nowrap;">{{ account.accountAlias }}</td>
 								<td class="align-middle">${{ account.seed | number }}</td>
 								<td class="align-middle">{{ account.feesPer }}%</td>
 							</tr>
@@ -48,14 +48,12 @@
 				</div>
 				<div class="card-body">
 					<h6 class="small mb-4 font-weight-bold text-gray-800">
-						* 지니님 프로그램 연동을 위한 API Key
+						* 지니님 프로그램 연동 API Key
 					</h6>
 					<div class="row">
-						<div class="col-9">
-							<input type="text" class="form-control" disabled="disabled">
-						</div>
-						<div class="col-3">
-							<a class="btn btn-success" ng-click="">
+						<div class="col-12">
+							<input type="text" class="form-control mb-2" disabled="disabled">
+							<a class="btn btn-success w-100 text-resize" ng-click="">
 				                	발급
 				            </a>
 						</div>

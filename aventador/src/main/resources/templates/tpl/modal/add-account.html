@@ -1,0 +1,64 @@
+<div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">계좌 추가</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<form id="addAccountForm" name="setting.infinite.addAccountForm">
+      		<div class="row mb-3">
+				<div class="col-3 pt-2 text-gray-800 font-weight-bold">
+	      			계좌 별칭
+	      		</div>
+	      		<div class="col-9 pr-3">
+	      			<input type="text" class="form-control"
+						ng-model="setting.infinite.addAccount.data.accountAlias" name="accountAlias"
+						ng-required="true"
+						ng-class="setting.infinite.addAccountForm.accountAlias.$touched 
+							&& ((setting.infinite.addAccountForm.accountAlias.$invalid && 'invalid')
+							|| (setting.infinite.addAccountForm.accountAlias.$valid && 'valid'))">
+					<span class="invalid-feedback" ng-show="setting.infinite.addAccountForm.accountAlias.$touched && setting.infinite.addAccountForm.accountAlias.$invalid">필수 작성 항목입니다.</span>
+	      		</div>
+			</div>
+      		<div class="row mb-3">
+				<div class="col-3 pt-2 text-gray-800 font-weight-bold">
+	      			원금
+	      		</div>
+	      		<div class="col-9 pr-3">
+	      			<input type="text" class="form-control"
+						ng-model="setting.infinite.addAccount.data.seed" name="seed"
+						ng-required="true" validation-doller
+						ng-class="setting.infinite.addAccountForm.seed.$touched 
+							&& ((setting.infinite.addAccountForm.seed.$invalid && 'invalid')
+							|| (setting.infinite.addAccountForm.seed.$valid && 'valid'))">
+					<span class="invalid-feedback" ng-show="setting.infinite.addAccountForm.seed.$touched && setting.infinite.addAccountForm.seed.$invalid">필수 작성 항목입니다.</span>
+	      		</div>
+			</div>
+      		<div class="row mb-3">
+				<div class="col-3 pt-2 text-gray-800 font-weight-bold">
+	      			수수료율
+	      		</div>
+	      		<div class="col-9 pr-3">
+	      			<input type="number" class="form-control"
+						ng-model="setting.infinite.addAccount.data.feesPer" name="feesPer"
+						ng-required="true"
+						ng-class="setting.infinite.addAccountForm.feesPer.$touched 
+							&& ((setting.infinite.addAccountForm.feesPer.$invalid && 'invalid')
+							|| (setting.infinite.addAccountForm.feesPer.$valid && 'valid'))">
+					<span class="invalid-feedback" ng-show="setting.infinite.addAccountForm.feesPer.$touched && setting.infinite.addAccountForm.feesPer.$invalid">필수 작성 항목입니다.</span>
+	      		</div>
+			</div>
+      	</form>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-primary"
+				ng-disabled="setting.infinite.addAccountForm.$invalid"
+				ng-click="setting.infinite.addAccount.add()">Add</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

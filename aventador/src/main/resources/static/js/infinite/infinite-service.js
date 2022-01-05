@@ -148,4 +148,19 @@ app.service("infiniteService", function(httpService){
 		});
 		return promiseGetIncome;
 	}
+	
+	// 계좌 추가
+	var promiseAddAccount = null;
+	this.addAccount = function(params){
+		if(promiseAddAccount){
+			httpService.stop(promiseAddAccount);
+		}
+		promiseAddAccount = httpService.post({
+			url: meta.baseUrl + "api/infinite/account/add",
+			data: params
+		}).then(function(response){
+			return response.data;
+		});
+		return promiseAddAccount;
+	}
 });

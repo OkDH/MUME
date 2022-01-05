@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -65,6 +66,24 @@ public class InfiniteAccountService {
 		List<InfiniteAccount> myAccount = infiniteAccountMapper.selectByExample(example);
 		if(myAccount.isEmpty())
 			return false;
+		return true;
+	}
+
+	/**
+	 * 계좌 추가
+	 * @param params
+	 * @return
+	 */
+	public Boolean addAccount(int memberId, Map<String, Object> params) {
+		InfiniteAccount infiniteAccount = new InfiniteAccount();
+		infiniteAccount.setMemberId(memberId);
+		infiniteAccount.setAccountOrder(Integer.parseInt(params.get("accountOrder").toString()));
+		infiniteAccount.setAccountAlias(params.get("accountAlias").toString());
+		infiniteAccount.setFeesPer(new BigDecimal(params.get("feesPer").toString()));
+		infiniteAccount.setSeed(new BigDecimal(params.get("seed").toString()));
+		infiniteAccount.setIsDeleted(false);
+		infiniteAccount.setRegisteredDate(LocalDateTime.now());
+		infiniteAccountMapper.insert(infiniteAccount);
 		return true;
 	}
 }

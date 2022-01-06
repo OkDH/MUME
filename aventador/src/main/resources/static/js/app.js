@@ -248,16 +248,20 @@ app.directive('googleAd', ['$timeout', function($timeout) {
 		return {
 			restrict: 'A',
 			link: function(scope, element, attr) {
-				return $timeout(function() {
+				return $timeout(function(type) {
 					var adsbygoogle, html, rand;
 					rand = Math.random();
-					// 인피드
-					// html = "<ins class='adsbygoogle' style='display:block' data-ad-format='fluid' data-ad-layout-key='-f9+5v+4m-d8+7b' data-ad-client='ca-pub-2618229544885366' data-ad-slot='6388629048'></ins>";
+					
+					console.log("type ", type)
+					// 인피드 텍스트
+					// html = "<ins class='adsbygoogle' style='display:block' data-ad-format='fluid' data-ad-layout-key='-he-3+1f-3d+2z' data-ad-client='ca-pub-2618229544885366' data-ad-slot='2432361728'></ins>";
 					// 자동
 					html = "<ins class='adsbygoogle' style='display:block; text-align:center;' data-ad-layout='in-article' data-ad-format='fluid' data-ad-client='ca-pub-2618229544885366' data-ad-slot='5239198906'></ins>";
+					// 카드
+					// html = "<ins class='adsbygoogle' style='display:block' data-ad-client='ca-pub-2618229544885366' data-ad-slot='8633285480' data-ad-format='auto' data-full-width-responsive='true'></ins>";
 					$(element).append(html);
 					return (adsbygoogle = window.adsbygoogle || []).push({});
-				});
+				}, 50);
 			}
 		};
 	}

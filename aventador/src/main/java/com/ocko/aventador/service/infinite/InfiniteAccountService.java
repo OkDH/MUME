@@ -13,12 +13,16 @@ import org.springframework.stereotype.Service;
 
 import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccountExample;
+import com.ocko.aventador.dao.model.aventador.InfiniteStock;
+import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteAccountMapper;
+import com.ocko.aventador.dao.persistence.aventador.InfiniteStockMapper;
 
 @Service
 public class InfiniteAccountService {
 
 	@Autowired private InfiniteAccountMapper infiniteAccountMapper;
+	@Autowired private InfiniteStockMapper infiniteStockMapper;
 	
 	/**
 	 * 내 계좌 리스트 불러오기
@@ -141,6 +145,20 @@ public class InfiniteAccountService {
 			.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
 		
 		infiniteAccountMapper.updateByExampleSelective(infiniteAccount, example);
+		
+		// 계좌 삭제일 경우 종목도 삭제
+		if(params.get("isDeleted") != null) {
+			if(Boolean.parseBoolean(params.get("isDeleted").toString())) {
+				InfiniteStock stock = new InfiniteStock();
+				stock.setIsDeleted(true);
+				
+				InfiniteStockExample stockExample = new InfiniteStockExample();
+				stockExample.createCriteria().andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
+				
+				infiniteStockMapper.updateByExampleSelective(stock, stockExample);
+			}
+		}
+		
 		return true;
 	}
 }

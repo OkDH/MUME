@@ -1,4 +1,4 @@
-<div ng-controller="InfiniteAccountController as infiniteAccount">
+<div ng-controller="InfiniteAccountController as infiniteAccount" scroll-loader="infiniteAccount.test()">
 	<div class="d-flex align-items-center justify-content-between mb-4">
 		<h1 class="h4 mb-0 text-gray-800"> 
 			계좌 현황
@@ -332,6 +332,15 @@
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row" ng-if="infiniteAccount.stocks.length >= infiniteAccount.account.query.limit && infiniteAccount.isMore">
+		<div class="col">
+			<div class="alert bg-gray-200 text-center" style="cursor: pointer;"
+				ng-click="infiniteAccount.more()">
+			  <span class="font-weight-bold m-0">더보기(MORE)</span>
 			</div>
 		</div>
 	</div>

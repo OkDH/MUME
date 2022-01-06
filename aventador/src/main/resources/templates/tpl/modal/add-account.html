@@ -8,19 +8,19 @@
         </button>
       </div>
       <div class="modal-body">
-      	<form id="addAccountForm" name="setting.infinite.addAccountForm">
+      	<form id="addAccountForm" name="setting.infinite.account.addForm">
       		<div class="row mb-3">
 				<div class="col-3 pt-2 text-gray-800 font-weight-bold">
 	      			계좌 별칭
 	      		</div>
 	      		<div class="col-9 pr-3">
 	      			<input type="text" class="form-control"
-						ng-model="setting.infinite.addAccount.data.accountAlias" name="accountAlias"
+						ng-model="setting.infinite.account.addData.accountAlias" name="accountAlias"
 						ng-required="true"
-						ng-class="setting.infinite.addAccountForm.accountAlias.$touched 
-							&& ((setting.infinite.addAccountForm.accountAlias.$invalid && 'invalid')
-							|| (setting.infinite.addAccountForm.accountAlias.$valid && 'valid'))">
-					<span class="invalid-feedback" ng-show="setting.infinite.addAccountForm.accountAlias.$touched && setting.infinite.addAccountForm.accountAlias.$invalid">필수 작성 항목입니다.</span>
+						ng-class="setting.infinite.account.addForm.accountAlias.$touched 
+							&& ((setting.infinite.account.addForm.accountAlias.$invalid && 'invalid')
+							|| (setting.infinite.account.addForm.accountAlias.$valid && 'valid'))">
+					<span class="invalid-feedback" ng-show="setting.infinite.account.addForm.accountAlias.$touched && setting.infinite.account.addForm.accountAlias.$invalid">필수 작성 항목입니다.</span>
 	      		</div>
 			</div>
       		<div class="row mb-3">
@@ -29,12 +29,12 @@
 	      		</div>
 	      		<div class="col-9 pr-3">
 	      			<input type="text" class="form-control"
-						ng-model="setting.infinite.addAccount.data.seed" name="seed"
+						ng-model="setting.infinite.account.addData.seed" name="seed"
 						ng-required="true" validation-doller
-						ng-class="setting.infinite.addAccountForm.seed.$touched 
-							&& ((setting.infinite.addAccountForm.seed.$invalid && 'invalid')
-							|| (setting.infinite.addAccountForm.seed.$valid && 'valid'))">
-					<span class="invalid-feedback" ng-show="setting.infinite.addAccountForm.seed.$touched && setting.infinite.addAccountForm.seed.$invalid">필수 작성 항목입니다.</span>
+						ng-class="setting.infinite.account.addForm.seed.$touched 
+							&& ((setting.infinite.account.addForm.seed.$invalid && 'invalid')
+							|| (setting.infinite.account.addForm.seed.$valid && 'valid'))">
+					<span class="invalid-feedback" ng-show="setting.infinite.account.addForm.seed.$touched && setting.infinite.account.addForm.seed.$invalid">필수 작성 항목입니다.</span>
 	      		</div>
 			</div>
       		<div class="row mb-3">
@@ -43,20 +43,20 @@
 	      		</div>
 	      		<div class="col-9 pr-3">
 	      			<input type="number" class="form-control"
-						ng-model="setting.infinite.addAccount.data.feesPer" name="feesPer"
+						ng-model="setting.infinite.account.addData.feesPer" name="feesPer"
 						ng-required="true"
-						ng-class="setting.infinite.addAccountForm.feesPer.$touched 
-							&& ((setting.infinite.addAccountForm.feesPer.$invalid && 'invalid')
-							|| (setting.infinite.addAccountForm.feesPer.$valid && 'valid'))">
-					<span class="invalid-feedback" ng-show="setting.infinite.addAccountForm.feesPer.$touched && setting.infinite.addAccountForm.feesPer.$invalid">필수 작성 항목입니다.</span>
+						ng-class="setting.infinite.account.addForm.feesPer.$touched 
+							&& ((setting.infinite.account.addForm.feesPer.$invalid && 'invalid')
+							|| (setting.infinite.account.addForm.feesPer.$valid && 'valid'))">
+					<span class="invalid-feedback" ng-show="setting.infinite.account.addForm.feesPer.$touched && setting.infinite.account.addForm.feesPer.$invalid">필수 작성 항목입니다.</span>
 	      		</div>
 			</div>
       	</form>
       </div>
       <div class="modal-footer">
       	<button type="button" class="btn btn-primary"
-				ng-disabled="setting.infinite.addAccountForm.$invalid"
-				ng-click="setting.infinite.addAccount.add()">Add</button>
+				ng-disabled="setting.infinite.account.addForm.$invalid"
+				ng-click="setting.infinite.account.add()">Add</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>

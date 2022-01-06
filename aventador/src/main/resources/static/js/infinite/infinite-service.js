@@ -163,4 +163,19 @@ app.service("infiniteService", function(httpService){
 		});
 		return promiseAddAccount;
 	}
+	
+	// 계좌 수정
+	var promiseUpdateAccount = null;
+	this.updateAccount = function(params){
+		if(promiseUpdateHistory){
+			httpService.stop(promiseUpdateAccount);
+		}
+		promiseUpdateAccount = httpService.post({
+			url: meta.baseUrl + "api/infinite/account/update",
+			data: params
+		}).then(function(response){
+			return response.data;
+		});
+		return promiseUpdateAccount;
+	}
 });

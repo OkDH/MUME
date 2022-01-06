@@ -55,6 +55,8 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		if(!filter)
 			return;
 		
+		infiniteAccount.account.query.offset = 0;
+		
 		// 무한매수 상태 필터
 		infiniteAccount.account.query.infiniteState = [];
 		Object.keys(filter.infiniteState).forEach(function(k){
@@ -81,8 +83,22 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	infiniteAccount.stocks = [];
 	infiniteAccount.getStocks = function(query){
 		infiniteService.getStocks(query).then(function(data){
-			infiniteAccount.stocks = data;
+			if(query.offset == 0){
+				infiniteAccount.isMore = true;
+				infiniteAccount.stocks = data;
+			} else {
+				if(data.length > 0)
+					Array.prototype.push.apply(infiniteAccount.stocks, data);
+				else 
+					infiniteAccount.isMore = false;
+			}
 		});
+	}
+	
+	// 더보기
+	infiniteAccount.isMore = true;
+	infiniteAccount.more = function(){
+		infiniteAccount.account.query.offset += infiniteAccount.account.query.limit;
 	}
 	
 	// 계좌 내 종목 현황 조회

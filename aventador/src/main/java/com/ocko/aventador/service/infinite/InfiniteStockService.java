@@ -63,11 +63,18 @@ public class InfiniteStockService {
 		if(params.get("infiniteType") != null) {
 			criteria.andInfiniteTypeIn((List<String>) params.get("infiniteType"));
 		}
+		if(params.get("offset") != null) {
+			example.setOffset(Integer.parseInt(params.get("offset").toString()));
+		}
+		if(params.get("limit") != null) {
+			example.setLimit(Integer.parseInt(params.get("limit").toString()));
+		}
 		if(params.get("orderBy") != null) {
 			example.setOrderByClause(params.get("orderBy").toString());
 		} else {
 			example.setOrderByClause("registered_date desc");
 		}
+		
 		
 		// view 조회
 		List<ViewInfiniteList> list = viewInfiniteListMapper.selectByExample(example);

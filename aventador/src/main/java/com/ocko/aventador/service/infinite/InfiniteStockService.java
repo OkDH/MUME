@@ -18,6 +18,7 @@ import com.ocko.aventador.constant.InfiniteState;
 import com.ocko.aventador.constant.InfiniteType;
 import com.ocko.aventador.constant.RegisteredType;
 import com.ocko.aventador.constant.TradeType;
+import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccountExample;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistoryExample;
@@ -38,6 +39,7 @@ import com.ocko.aventador.service.StockService;
 public class InfiniteStockService {
 
 	@Autowired private StockService stockService;
+	@Autowired private InfiniteAccountService infiniteAccountService;
 	@Autowired private InfiniteTradeComponent tradeComponent;
 	@Autowired private InfiniteAccountMapper infiniteAccountMapper;
 	@Autowired private InfiniteStockMapper infiniteStockMapper;
@@ -73,6 +75,9 @@ public class InfiniteStockService {
 		// etf 주가 정보 조회
 		Map<String, StockDetail> stockMap = stockService.getTodayEtfStocks();
 		
+		// 계좌 정보 (수수료율 가져오기)
+		Map<Integer, InfiniteAccount> accountMap = new HashMap<Integer, InfiniteAccount>();
+		
 		// 손익정보 등 값 추가
 		List<InfiniteDetail> infiniteStockList = new ArrayList<InfiniteDetail>();
 		for(ViewInfiniteList viewInfinite : list) {
@@ -83,6 +88,19 @@ public class InfiniteStockService {
 			
 			// etf 주가 정보 추가
 			infiniteDetail.setStockDetail(stockMap.get(viewInfinite.getSymbol()));
+			
+			// 수수료정보
+			if(accountMap.get(viewInfinite.getAccountId()) == null) {
+				InfiniteAccount account = infiniteAccountService.getMyAccount(memberId, viewInfinite.getAccountId());
+				accountMap.put(account.getAccountId(), account);
+			} 
+			infiniteDetail.setFeesPer(accountMap.get(viewInfinite.getAccountId()).getFeesPer());
+			
+			// 매매내역
+			InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
+			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
+			example.setOrderByClause("trade_date asc, trade_type asc");
+			infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
 			
 			// 매수 정보
 			infiniteDetail.setBuyTradeInfoList(tradeComponent.getBuyInfo(infiniteDetail));

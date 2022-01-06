@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ocko.aventador.constant.InfiniteState;
+import com.ocko.aventador.constant.TradeType;
+import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
 
 public class InfiniteDetail extends ViewInfiniteList {
@@ -13,14 +15,22 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 해당 심볼 주가 정보
 	private StockDetail stockDetail;
 	
-	// 매수 정보 리스트
+	// 매매 내역 리스트
+	private List<InfiniteHistory> historyList = new ArrayList<InfiniteHistory>();
+	
+	// 매수 예약 정보 리스트
 	private List<StockTradeInfo> buyTradeInfoList = new ArrayList<StockTradeInfo>();
 	
-	// 매도 정보 리스트
+	// 매도 예약 정보 리스트
 	private List<StockTradeInfo> sellTradeInfoList = new ArrayList<StockTradeInfo>();
 	
 	// 수수료율 (default 0.07%)
-	private BigDecimal feesPer = new BigDecimal("0.0007");
+	private BigDecimal feesPer = new BigDecimal("0.07");
+	
+	// 계산용 수수료율 (수수료율 * 0.01)
+	public BigDecimal getRealFeesPer() {
+		return feesPer.multiply(new BigDecimal("0.01"));
+	}
 	
 	// 40분할, 1회 매수 금액
 	public BigDecimal getOneBuySeed() {
@@ -41,17 +51,42 @@ public class InfiniteDetail extends ViewInfiniteList {
 		return stockDetail.getPriceClose().setScale(2, RoundingMode.HALF_UP).multiply(new BigDecimal(getHoldingQuantity()));
 	}
 	
+	// 평단가
+	// 매수 : ((보유 평단가 * 보유수량) + (신규매수단가 * 신규매수수량)) / (보유수량 + 신규매수수량))
+	// 매도 : 보유수량 - 매도수량 (평단가는 변화 없음)
+	public BigDecimal getAveragePrice() {
+		BigDecimal avgPrice = BigDecimal.ZERO;
+		BigDecimal holdingQuantity = BigDecimal.ZERO;
+		
+		for(InfiniteHistory history : historyList) {
+			if(history.getTradeType().equals(TradeType.BUY)) { // 매수
+				// 보유 평단가 * 보유수량
+				BigDecimal temp1 = avgPrice.multiply(holdingQuantity);
+				// 신규매수단가 * 신규매수수량
+				BigDecimal temp2 = history.getUnitPrice().multiply(new BigDecimal(history.getQuantity()));
+				// 보유수량 + 신규매수수량
+				holdingQuantity = holdingQuantity.add(new BigDecimal(history.getQuantity()));
+				// 평단가
+				avgPrice = (temp1.add(temp2)).divide(holdingQuantity, 8, RoundingMode.HALF_EVEN);
+			} else if(history.getTradeType().equals(TradeType.SELL)) { // 매도
+				holdingQuantity = holdingQuantity.subtract(new BigDecimal(history.getQuantity()));
+			}
+		}
+		
+		return avgPrice;
+	}
+	
 	// 손익금 
 	// 매도완료일 때 : 전체 매도금액 - 전체 매수금액 - 수수료
 	// 나머지 : 평가금액 - 매입금액 - 수수료
 	public BigDecimal getIncome() {
 		if(getInfiniteState().equals(InfiniteState.DONE) || getBuyPrice().compareTo(new BigDecimal("0.0")) == 0) {
 			// 수수료(소수점 2자리에서 버림) : (총매수금액 + 총매도금액) / 수수료율
-			BigDecimal fees = getTotalBuyPrice().add(getTotalSellPrice()).multiply(feesPer).setScale(2, RoundingMode.DOWN);
+			BigDecimal fees = getTotalBuyPrice().add(getTotalSellPrice()).multiply(getRealFeesPer()).setScale(2, RoundingMode.DOWN);
 			return getTotalSellPrice().subtract(getTotalBuyPrice()).subtract(fees);
 		} else {
 			// 수수료(소수점 2자리에서 버림) : (매입금 + 평가금) / 수수료율
-			BigDecimal fees = getBuyPrice().add(getEvalPrice()).multiply(feesPer).setScale(2, RoundingMode.DOWN);
+			BigDecimal fees = getBuyPrice().add(getEvalPrice()).multiply(getRealFeesPer()).setScale(2, RoundingMode.DOWN);
 			return getEvalPrice().subtract(getBuyPrice()).subtract(fees);
 		}
 	}
@@ -133,6 +168,19 @@ public class InfiniteDetail extends ViewInfiniteList {
 	public void setFeesPer(BigDecimal feesPer) {
 		this.feesPer = feesPer;
 	}
-	
+
+	/**
+	 * @return {@link #historyList}
+	 */
+	public List<InfiniteHistory> getHistoryList() {
+		return historyList;
+	}
+
+	/**
+	 * @param historyList {@link #historyList}
+	 */
+	public void setHistoryList(List<InfiniteHistory> historyList) {
+		this.historyList = historyList;
+	}
 	
 }

@@ -67,6 +67,32 @@ public class InfiniteController {
 	}
 	
 	/**
+	 * 무한매수 계좌 변경
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value = "/api/infinite/account/update", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> updateInfiniteAccount(@RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+		if(params.get("accountId") != null) {
+			if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+				throw new MyAccessDeniedException();
+		}
+		
+		// 계좌 순서 변경일 경우
+		if(params.get("updateOrderList") != null) {
+			List<Map<String, Object>> updateOrderList = (List<Map<String, Object>>) params.get("updateOrderList");
+			for(Map<String, Object> param : updateOrderList)
+				accountService.updateAccount(memberInfo.getMemberId(), param);
+			return new ResponseEntity<Boolean>(HttpStatus.OK);
+		}
+		// 일반 업데이트일 경우
+		return new ResponseEntity<Boolean>(accountService.updateAccount(memberInfo.getMemberId(), params), HttpStatus.OK);
+	}
+	
+	/**
 	 * 계좌 내 종목 조회
 	 * @param params
 	 * @return

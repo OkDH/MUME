@@ -31,7 +31,7 @@ public class InfiniteAccountService {
 	 */
 	public List<InfiniteAccount> getMyAccounts(int memberId) throws Exception {
 		InfiniteAccountExample example = new InfiniteAccountExample();
-		example.createCriteria().andMemberIdEqualTo(memberId);
+		example.createCriteria().andMemberIdEqualTo(memberId).andIsDeletedEqualTo(false);
 		example.setOrderByClause("account_order asc");
 		
 		List<InfiniteAccount> myAccounts = infiniteAccountMapper.selectByExample(example);
@@ -84,6 +84,45 @@ public class InfiniteAccountService {
 		infiniteAccount.setIsDeleted(false);
 		infiniteAccount.setRegisteredDate(LocalDateTime.now());
 		infiniteAccountMapper.insert(infiniteAccount);
+		return true;
+	}
+	
+	/**
+	 * 계좌 변경
+	 * @param params
+	 * @return
+	 */
+	public Boolean updateAccount(int memberId, Map<String, Object> params) {
+		InfiniteAccount infiniteAccount = new InfiniteAccount();
+		infiniteAccount.setMemberId(memberId);
+		
+		if(params.get("accountAlias") != null) {
+			infiniteAccount.setAccountAlias(params.get("accountAlias").toString());
+		}
+		
+		if(params.get("accountOrder") != null) {
+			infiniteAccount.setAccountOrder(Integer.parseInt(params.get("accountOrder").toString()));
+		}
+		
+		if(params.get("seed") != null) {
+			infiniteAccount.setSeed(new BigDecimal(params.get("seed").toString()));
+		}
+		
+		if(params.get("feesPer") != null) {
+			infiniteAccount.setFeesPer(new BigDecimal(params.get("feesPer").toString()));
+		}
+		
+		if(params.get("isDeleted") != null) {
+			infiniteAccount.setIsDeleted(Boolean.parseBoolean(params.get("isDeleted").toString()));
+		}
+		
+		infiniteAccount.setUpdatedDate(LocalDateTime.now());
+		
+		InfiniteAccountExample example = new InfiniteAccountExample();
+		example.createCriteria().andMemberIdEqualTo(memberId)
+			.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
+		
+		infiniteAccountMapper.updateByExampleSelective(infiniteAccount, example);
 		return true;
 	}
 }

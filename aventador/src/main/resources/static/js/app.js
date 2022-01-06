@@ -27,7 +27,7 @@
 
 })();
 
-var app = angular.module("app", [ "ngRoute" ]);
+var app = angular.module("app", [ "ngRoute", "ui.sortable" ]);
 app.config([ "$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {
 
 	// http 응답오류 인터셉터 (eg. 세션 타임아웃)

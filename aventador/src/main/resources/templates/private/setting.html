@@ -6,67 +6,72 @@
 	<div class="row">
 		<div class="col-lg-8">
 			<div class="card shadow mb-4">
-				<div class="card-header py-3">
+				<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					<h6 class="m-0 font-weight-bold text-primary">계좌 관리</h6>
+					<div class="dropdown no-arrow">
+						<a class="dropdown-toggle" role="button" id="dropdownMenuLink"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+						</a>
+						<div
+							class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+							aria-labelledby="dropdownMenuLink">
+							<a class="dropdown-item" ng-click="setting.infinite.account.openAddModal()">
+								<i class="fas fa-plus fa-sm fa-fw mr-2 text-gray-400"></i> 계좌 추가
+							</a> 
+						</div>
+					</div>
 				</div>
 				<div class="card-body">
 					<div class="row">
-			        	<div class="col text-right w-100 mb-2" ng-if="!setting.infinite.account.isEditMode">
-							<a class="btn btn-info btn-circle btn-sm" ng-click="setting.infinite.addAccount.openModal()">
-				                <i class="fas text-white fa-plus"></i>
-				            </a>
-							<a class="btn btn-info btn-circle btn-sm" ng-click="setting.infinite.account.isEditMode = !setting.infinite.account.isEditMode">
-				                <i class="fas text-white fa-edit"></i>
-				            </a>
-						</div>
-						<div class="col text-right w-100 mb-2" ng-if="setting.infinite.account.isEditMode">
-							<a class="btn btn-info btn-circle btn-sm">
-				                <i class="fas text-white fa-check"></i>
-				            </a>
-							<a class="btn btn-info btn-circle btn-sm" ng-click="setting.infinite.account.isEditMode = !setting.infinite.account.isEditMode">
-				                <i class="fas text-white fa-ban"></i>
-				            </a>
+						<div class="col">
+							<h6 class="small mb-2 font-weight-bold text-gray-800">
+								* Drag & Drop으로 계좌 순서를 변경할 수 있습니다.
+							</h6>
 						</div>
 				    </div>
-					<table class="table table-hover text-gray-800 text-resize" width="100%" style="width: 100%;" 
-						ng-show="!setting.infinite.account.isEditMode">
+					<table class="table table-hover text-gray-800 text-resize" id="accountTable" width="100%" style="width: 100%;">
 						<thead class="bg-primary text-white">
 							<tr role="row" class="text-center">
-								<th style="width: 5px; white-space: nowrap;">계좌</th>
 								<th style="width: 20px; white-space: nowrap;">계좌 별칭</th>
-								<th style="width: 10px; white-space: nowrap;">원금</th>
+								<th style="width: 10px; white-space: nowrap;">원금($)</th>
 								<th style="width: 10px; white-space: nowrap;">수수료율</th>
+								<th style="width: 20px; white-space: nowrap;">편집</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr ng-repeat="account in setting.infinite.account.list" class="text-center">
-								<td class="align-middle">{{ account.accountOrder }}</td>
-								<td class="align-middle" style="white-space: nowrap;">{{ account.accountAlias }}</td>
-								<td class="align-middle">${{ account.seed | number }}</td>
-								<td class="align-middle">{{ account.feesPer }}%</td>
-							</tr>
-						</tbody>
-					</table>
-					<table class="table table-hover text-gray-800 text-resize" id="accountTable" width="100%" style="width: 100%;"
-						ng-show="setting.infinite.account.isEditMode">
-						<thead class="bg-primary text-white">
-							<tr role="row" class="text-center">
-								<th style="width: 5px; white-space: nowrap;">계좌</th>
-								<th style="width: 20px; white-space: nowrap;">계좌 별칭</th>
-								<th style="width: 10px; white-space: nowrap;">원금</th>
-								<th style="width: 10px; white-space: nowrap;">수수료율</th>
-								<th style="width: 10px;"></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="account in setting.infinite.account.editList" 
-								ng-init="$last && setting.tableDnD('#accountTable')"
-								class="text-center">
-								<td class="align-middle">{{ account.accountOrder }}</td>
-								<td><input type="text" class="form-control text-xs" ng-model="account.accountAlias"></td>
-								<td><input type="text" class="form-control text-xs" ng-model="account.seed"></td>
-								<td><input type="text" class="form-control text-xs" ng-model="account.feesPer"></td>
-								<td class="align-middle"><i class="fas fa-bars"></i></td>
+						<tbody ui-sortable="setting.infinite.account.sortableOptions" ng-model="setting.infinite.account.list">
+							<tr ng-repeat="account in setting.infinite.account.list" class="text-center" style="cursor: move;">
+								<td class="align-middle" style="white-space: nowrap;" ng-if="!account.editMode">{{ account.accountAlias }}</td>
+								<td class="align-middle" ng-if="account.editMode">
+									<input type="text" class="form-control text-xs" ng-model="account.edit.accountAlias">
+								</td>
+								
+								<td class="align-middle" ng-if="!account.editMode">{{ account.seed | number }}</td>
+								<td class="align-middle" ng-if="account.editMode">
+									<input type="text" class="form-control text-xs" ng-model="account.edit.seed">
+								</td>
+								
+								<td class="align-middle" ng-if="!account.editMode">{{ account.feesPer }}%</td>
+								<td class="align-middle" ng-if="account.editMode">
+									<input type="text" class="form-control text-xs" ng-model="account.edit.feesPer">
+								</td>
+								
+								<td class="align-middle" style="white-space: nowrap;" ng-if="!account.editMode">
+									<a class="btn btn-sm text-resize p-0 mr-1" ng-click="account.editMode = true">
+						               	 <i class="fas fa-edit text-primary"></i>
+						            </a>
+						            <a class="btn btn-sm text-resize p-0" ng-click="setting.infinite.account.checkDelete(account.accountId)">
+						                <i class="fas fa-trash text-danger"></i>
+						            </a>
+								</td>
+								<td class="align-middle" style="white-space: nowrap;" ng-if="account.editMode">
+									<a class="btn btn-sm text-resize p-0 mr-1" ng-click="setting.infinite.account.update(account)">
+						               	 <i class="fas fa-save text-primary"></i>
+						            </a>
+						            <a class="btn btn-sm text-resize p-0" ng-click="account.editMode = false">
+						                <i class="fas fa-window-close text-danger"></i>
+						            </a>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -79,14 +84,14 @@
 					<h6 class="m-0 font-weight-bold text-primary">지니 연동</h6>
 				</div>
 				<div class="card-body">
-					<h6 class="small mb-3 font-weight-bold text-gray-800">
+					<h6 class="small mb-2 font-weight-bold text-gray-800">
 						* 지니님 프로그램 연동 API Key
 					</h6>
 					<div class="row">
 						<div class="col-12">
 							<input type="text" class="form-control mb-2" disabled="disabled">
 							<a class="btn btn-success w-100 text-resize" ng-click="">
-				                	발급
+				                	준비중
 				            </a>
 						</div>
 					</div>

@@ -19,7 +19,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		infiniteType: [],
 		infiniteState: [],
 		offset: 0,
-		limit: 30
+		limit: 8
 	};
 	
 	// 계좌 정보
@@ -52,9 +52,9 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	
 	// 검색 필터
 	$scope.$watch("infiniteAccount.account.filter", function(filter){
-		if(!filter){
+		if(!filter)
 			return;
-		}
+		
 		// 무한매수 상태 필터
 		infiniteAccount.account.query.infiniteState = [];
 		Object.keys(filter.infiniteState).forEach(function(k){
@@ -133,9 +133,8 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	
 	// 계좌 선택 필터 변경 시 종목 조회
 	$scope.$watch("infiniteAccount.account.query", function(query){
-		if(!query){
+		if(!query)
 			return;
-		}
 		infiniteAccount.getStocks(query);
 	}, true);
 	

@@ -39,7 +39,7 @@ app.controller("SettingController", function($scope, httpService, infiniteServic
     	setting.infinite.account.addData = {
 			accountAlias: null,
 			seed: null,
-			feesPer: null
+			feesPer: 0.07
     	}
     	// form validation 초기화
 		if(setting.infinite.account.addForm){

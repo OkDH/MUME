@@ -22,6 +22,7 @@ import com.ocko.aventador.constant.InfiniteState;
 import com.ocko.aventador.constant.RegisteredType;
 import com.ocko.aventador.constant.TradeType;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
+import com.ocko.aventador.dao.model.aventador.InfiniteHistoryExample;
 import com.ocko.aventador.dao.model.aventador.InfiniteStock;
 import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
@@ -47,6 +48,7 @@ public class InfiniteTradeJob {
 	@Autowired private InfiniteHistoryMapper historyMapper;
 	@Autowired private ViewInfiniteListMapper viewInfiniteListMapper;
 	@Autowired private InfiniteStockMapper infiniteStockMapper;
+	@Autowired private InfiniteHistoryMapper infiniteHistoryMapper;
 	@Autowired private StockService stockService;
 	
 	@Transactional
@@ -64,19 +66,25 @@ public class InfiniteTradeJob {
 		example.createCriteria().andInfiniteStateEqualTo(InfiniteState.ING);
 		Cursor<ViewInfiniteList> infiniteList = viewInfiniteListMapper.cursorByExample(example);
 		
-		for(ViewInfiniteList infinite : infiniteList) {
+		for(ViewInfiniteList viewInfinite : infiniteList) {
 			InfiniteDetail infiniteDetail = new InfiniteDetail();
 			
 			// 객체복사
-			BeanUtils.copyProperties(infinite, infiniteDetail);
+			BeanUtils.copyProperties(viewInfinite, infiniteDetail);
 			
 			// 진행률 100% 이상은 skip
 			if(infiniteDetail.getProgressPer().compareTo(new BigDecimal(100)) >= 0)
 				continue;
 			
 			// etf 어제 날짜 주가 정보 추가
-			infiniteDetail.setStockDetail(yesterdayStockMap.get(infinite.getSymbol()));
+			infiniteDetail.setStockDetail(yesterdayStockMap.get(viewInfinite.getSymbol()));
 			
+			// 매매내역
+			InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
+			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
+			example.setOrderByClause("trade_date asc, trade_type asc");
+			infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
+						
 			// 매수 정보
 			infiniteDetail.setBuyTradeInfoList(tradeComponent.getBuyInfo(infiniteDetail));
 			
@@ -84,10 +92,10 @@ public class InfiniteTradeJob {
 			infiniteDetail.setSellTradeInfoList(tradeComponent.getSellInfo(infiniteDetail));
 			
 			// 매도 내역 저장
-			updateSell(infiniteDetail, todayStockMap.get(infinite.getSymbol()));
+			updateSell(infiniteDetail, todayStockMap.get(viewInfinite.getSymbol()));
 			
 			// 매수 내역 저장
-			updateBuy(infiniteDetail, todayStockMap.get(infinite.getSymbol()));
+			updateBuy(infiniteDetail, todayStockMap.get(viewInfinite.getSymbol()));
 		}
 		
 		log.info("End Update Infinite History");

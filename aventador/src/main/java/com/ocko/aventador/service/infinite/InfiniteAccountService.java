@@ -59,24 +59,6 @@ public class InfiniteAccountService {
 	}
 	
 	/**
-	 * 계좌 ID로 조회
-	 * @param memberId
-	 * @param accountId
-	 * @return
-	 */
-	public InfiniteAccount getMyAccount(int memberId, int accountId) {
-		InfiniteAccountExample example = new InfiniteAccountExample();
-		example.createCriteria().andMemberIdEqualTo(memberId)
-			.andAccountIdEqualTo(accountId)
-			.andIsDeletedEqualTo(false);
-		
-		List<InfiniteAccount> myAccounts = infiniteAccountMapper.selectByExample(example);
-		if(!myAccounts.isEmpty())
-			return myAccounts.get(0);
-		return null;
-	}
-	
-	/**
 	 * 계좌 권한 확인
 	 * @param memberId
 	 * @param accountId

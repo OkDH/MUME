@@ -24,12 +24,11 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매도 예약 정보 리스트
 	private List<StockTradeInfo> sellTradeInfoList = new ArrayList<StockTradeInfo>();
 	
-	// 수수료율 (default 0.07%)
-	private BigDecimal feesPer = new BigDecimal("0.07");
-	
 	// 계산용 수수료율 (수수료율 * 0.01)
 	public BigDecimal getRealFeesPer() {
-		return feesPer.multiply(new BigDecimal("0.01"));
+		if(getFeesPer() == null)
+			return BigDecimal.ZERO;
+		return getFeesPer().multiply(new BigDecimal("0.01"));
 	}
 	
 	// 40분할, 1회 매수 금액
@@ -153,20 +152,6 @@ public class InfiniteDetail extends ViewInfiniteList {
 	 */
 	public void setSellTradeInfoList(List<StockTradeInfo> sellTradeInfoList) {
 		this.sellTradeInfoList = sellTradeInfoList;
-	}
-
-	/**
-	 * @return {@link #feesPer}
-	 */
-	public BigDecimal getFeesPer() {
-		return feesPer;
-	}
-
-	/**
-	 * @param feesPer {@link #feesPer}
-	 */
-	public void setFeesPer(BigDecimal feesPer) {
-		this.feesPer = feesPer;
 	}
 
 	/**

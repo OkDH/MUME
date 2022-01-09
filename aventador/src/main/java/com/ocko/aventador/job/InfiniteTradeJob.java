@@ -27,6 +27,7 @@ import com.ocko.aventador.dao.model.aventador.InfiniteStock;
 import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteHistoryMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteStockMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
@@ -52,21 +53,32 @@ public class InfiniteTradeJob {
 	@Autowired private StockService stockService;
 	
 	@Transactional
-	public void updateHistory() {
+	public void updateHistory(Integer memberId) {
 		
 		log.info("Start Update Infinite History");
 		
 		// etf 주가 정보 조회
 		Map<String, StockDetail> todayStockMap = stockService.getTodayEtfStocks();
+		
+		log.info("111");
 		// 어제자 주가 정보 조회
 		Map<String, StockDetail> yesterdayStockMap = stockService.getBeforeEtfStocks(LocalDate.now().minusDays(1));
 		
+		log.info("222");
 		// 진행 중인 무매 리스트 조회
 		ViewInfiniteListExample example = new ViewInfiniteListExample();
-		example.createCriteria().andInfiniteStateEqualTo(InfiniteState.ING);
-		Cursor<ViewInfiniteList> infiniteList = viewInfiniteListMapper.cursorByExample(example);
+		Criteria criteria =  example.createCriteria().andInfiniteStateEqualTo(InfiniteState.ING);
+		log.info("333");
 		
+		if(memberId != null)
+			criteria.andMemberIdEqualTo(memberId);
+		
+		Cursor<ViewInfiniteList> infiniteList = viewInfiniteListMapper.cursorByExample(example);
+		log.info("444");
 		for(ViewInfiniteList viewInfinite : infiniteList) {
+			
+			log.info("updateHistory infiniteId : " + viewInfinite.getInfiniteId());
+			
 			InfiniteDetail infiniteDetail = new InfiniteDetail();
 			
 			// 객체복사
@@ -84,18 +96,24 @@ public class InfiniteTradeJob {
 			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
 			example.setOrderByClause("trade_date asc, trade_type asc");
 			infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
+			
+			log.info("--1");
 						
 			// 매수 정보
 			infiniteDetail.setBuyTradeInfoList(tradeComponent.getBuyInfo(infiniteDetail));
+			log.info("--2");
 			
 			// 매도 정보
 			infiniteDetail.setSellTradeInfoList(tradeComponent.getSellInfo(infiniteDetail));
+			log.info("--3");
 			
 			// 매도 내역 저장
 			updateSell(infiniteDetail, todayStockMap.get(viewInfinite.getSymbol()));
 			
+			log.info("--4");
 			// 매수 내역 저장
 			updateBuy(infiniteDetail, todayStockMap.get(viewInfinite.getSymbol()));
+			log.info("--5");
 		}
 		
 		log.info("End Update Infinite History");

@@ -15,11 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ocko.aventador.component.InfiniteTradeComponent;
 import com.ocko.aventador.constant.InfiniteState;
+import com.ocko.aventador.constant.InfiniteType;
 import com.ocko.aventador.constant.InfiniteVersion;
 import com.ocko.aventador.constant.RegisteredType;
 import com.ocko.aventador.constant.TradeType;
-import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
-import com.ocko.aventador.dao.model.aventador.InfiniteAccountExample;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistoryExample;
 import com.ocko.aventador.dao.model.aventador.InfiniteStock;
@@ -60,9 +59,9 @@ public class InfiniteStockService {
 			if(!((List<String>) params.get("infiniteState")).isEmpty())
 				criteria.andInfiniteStateIn((List<String>) params.get("infiniteState"));
 		}
-		if(params.get("infiniteType") != null) {
-			if(!((List<String>) params.get("infiniteType")).isEmpty())
-				criteria.andInfiniteTypeIn((List<String>) params.get("infiniteType"));
+		if(params.get("infiniteVersion") != null) {
+			if(!((List<String>) params.get("infiniteVersion")).isEmpty())
+				criteria.andInfiniteVersionIn((List<String>) params.get("infiniteVersion"));
 		}
 		if(params.get("offset") != null) {
 			example.setOffset(Integer.parseInt(params.get("offset").toString()));
@@ -187,6 +186,7 @@ public class InfiniteStockService {
 		stock.setInfiniteState(InfiniteState.ING);
 		stock.setRegisteredDate(LocalDateTime.now());
 		stock.setInfiniteType(params.get("infiniteType").toString());
+		stock.setInfiniteVersion(params.get("infiniteVersion").toString());
 		stock.setIsDeleted(false);
 		infiniteStockMapper.insert(stock);
 		
@@ -238,10 +238,21 @@ public class InfiniteStockService {
 		
 		if(params.get("infiniteType") != null) {
 			switch ((String) params.get("infiniteType")) {
+			case InfiniteType.INFINITE:
+			case InfiniteType.TLP:
+				infiniteStock.setInfiniteType((String) params.get("infiniteType"));
+				break;
+			default:
+				return false;
+			}
+		}
+		
+		if(params.get("infiniteVersion") != null) {
+			switch ((String) params.get("infiniteVersion")) {
 			case InfiniteVersion.V1:
 			case InfiniteVersion.V2:
 			case InfiniteVersion.V2_1:
-				infiniteStock.setInfiniteType((String) params.get("infiniteType"));
+				infiniteStock.setInfiniteVersion((String) params.get("infiniteVersion"));
 				break;
 			default:
 				return false;

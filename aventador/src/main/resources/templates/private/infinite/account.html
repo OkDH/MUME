@@ -173,11 +173,14 @@
 							aria-valuemax="100"></div>
 					</div>
 					<div style="text-align: right;" class="mb-2">
-						<span style="width: 3.5em;"
-							class="badge bg-info text-white py-1 px-2">{{ stock.infiniteVersion }}</span>
 						<span class="badge bg-success text-white py-1 px-2">
 							계좌 {{ infiniteAccount.account.myAccountsOrder[stock.accountId].order }}
 						</span>
+						<span style="width: 3.5em;"
+							class="badge bg-warning text-white py-1 px-2"
+							ng-if="stock.infiniteType == 'TLP'">{{ stock.infiniteType }}</span>
+						<span style="width: 3.5em;"
+							class="badge bg-info text-white py-1 px-2">{{ stock.infiniteVersion }}</span>
 					</div>
 					<div class="card mt-1">
 						<div class="card-header py-2 bg-light collapsed" data-toggle="collapse" data-target="#collapseA_{{$index}}" aria-expanded="false" aria-controls="collapse1">

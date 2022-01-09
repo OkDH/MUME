@@ -15,10 +15,10 @@
 				</div>
 		    </div>
 	        <div class="row mb-3">
-			    <div class="col-3 pt-2 pl-4 text-gray-800 font-weight-bold">
+			    <div class="col-4 pt-2 pl-4 text-gray-800 font-weight-bold">
 	      			진행상태
 	      		</div>
-	      		<div class="col-9 p-1">
+	      		<div class="col-8 p-1">
 			      <div class="btn-group btn-group-toggle" data-toggle="buttons">
 					  <label class="btn btn-sm btn-outline-primary font-weight-bold text-xs" 
 					  	ng-class="infiniteAccount.updateStock.data.infiniteState == '진행중' && 'active'">
@@ -40,10 +40,10 @@
 			    </div>
 		    </div>
 		    <div class="row mb-3" ng-if="infiniteAccount.updateStock.data.infiniteState == '매도완료'">
-		    	<div class="col-3 pt-2 pl-4 text-gray-800 font-weight-bold">
+		    	<div class="col-4 pt-2 pl-4 text-gray-800 font-weight-bold">
 	      			매도완료일
 	      		</div>
-	      		<div class="col-9 p-1 pr-4">
+	      		<div class="col-8 p-1 pr-4">
 	      			<input type="date" class="form-control" 
 	      				ng-model="infiniteAccount.updateStock.data.doneDate"
 	      				name="doneDate"
@@ -55,10 +55,29 @@
 	      		</div>
 		    </div>
 	        <div class="row mb-3">
-			    <div class="col-3 pt-2 pl-4 text-gray-800 font-weight-bold">
+			    <div class="col-4 pt-2 pl-4 text-gray-800 font-weight-bold">
+	      			무한매수/TLP
+	      		</div>
+	      		<div class="col-8 p-1">
+			      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+					  <label style="width: 7em;"
+					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+					  	ng-class="infiniteAccount.updateStock.data.infiniteType == 'INFINITE' && 'active'">
+					    <input type="radio" name="editInfiniteType" ng-model="infiniteAccount.updateStock.data.infiniteType" value="INFINITE"> 무한매수
+					  </label>
+					  <label style="width: 7em;"
+					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+					  	ng-class="infiniteAccount.updateStock.data.infiniteType == 'TLP' && 'active'">
+					    <input type="radio" name="editInfiniteType" ng-model="infiniteAccount.updateStock.data.infiniteType" value="TLP"> TLP
+					  </label>
+				  </div>
+			    </div>
+		    </div>
+	        <div class="row mb-3">
+			    <div class="col-4 pt-2 pl-4 text-gray-800 font-weight-bold">
 	      			버전
 	      		</div>
-	      		<div class="col-9 p-1">
+	      		<div class="col-8 p-1">
 			      <div class="btn-group btn-group-toggle" data-toggle="buttons">
 					  <label style="width: 4em;"
 					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 

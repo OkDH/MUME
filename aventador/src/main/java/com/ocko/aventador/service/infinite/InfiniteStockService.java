@@ -125,11 +125,15 @@ public class InfiniteStockService {
 		infiniteStateList.add(InfiniteState.OUT);
 		infiniteStateList.add(InfiniteState.STOP);
 		
+		ViewInfiniteListExample example = new ViewInfiniteListExample();
+		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId).andInfiniteStateIn(infiniteStateList);
+		
 		Map<String, Object> query = new HashMap<String, Object>();
 		query.put("memberId", memberId);
 		query.put("infiniteStateList", infiniteStateList); 
 		if(params.get("accountId") != null && !params.get("accountId").equals("ALL")) {
 			query.put("accountId", params.get("accountId"));
+			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
 		}
 		
 		// 종목수
@@ -138,14 +142,33 @@ public class InfiniteStockService {
 		// 배정 시드 총합
 		result.put("sumInfiniteSeed", viewInfiniteListMapper.sumByInfiniteSeed(query));
 		
-		// 총 매입금액
-		result.put("sumInfiniteBuyPrice", viewInfiniteListMapper.sumByBuyPrice(query));
-		
 		// 원금
 		result.put("sumAccountSeed", infiniteAccountMapper.sumByAccountSeed(query));
 		
+		// 총 매입금액
+		BigDecimal sumByBuyPrice = BigDecimal.ZERO;
+		
+		List<ViewInfiniteList> list = viewInfiniteListMapper.selectByExample(example);
+		for(ViewInfiniteList viewInfinite : list) {
+			InfiniteDetail infiniteDetail = new InfiniteDetail();
+			
+			// 객체복사
+			BeanUtils.copyProperties(viewInfinite, infiniteDetail);
+			
+			// 매매내역
+			InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
+			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
+			example.setOrderByClause("trade_date asc, trade_type asc");
+			infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
+			
+			sumByBuyPrice = sumByBuyPrice.add(infiniteDetail.getBuyPrice());
+		}
+		
+		result.put("sumInfiniteBuyPrice", sumByBuyPrice);
+		
 		return result;
 	}
+	
 	
 	/**
 	 * 무매 종목 추가

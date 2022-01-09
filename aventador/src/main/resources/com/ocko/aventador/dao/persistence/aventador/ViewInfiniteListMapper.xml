@@ -473,29 +473,17 @@
     </if>
   </select>
   
-  <select id="sumByBuyPrice" parameterType="java.util.HashMap" resultType="java.math.BigDecimal">
-    select sum(buy_price)
-	from aventador.view_infinite_list
-	where member_id = #{memberId}
-	and infinite_state in 
-	<foreach close=")" collection="infiniteStateList" item="state" open="(" separator=",">
-		#{state}
-	</foreach>
-    <if test="accountId != null">
-      and account_id = #{accountId}
-    </if>
-  </select>
-  
   <select id="selectProfitStock" parameterType="com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample" resultType="java.util.HashMap">
   	select member_id, account_id , symbol, 
 		sum(total_buy_price)::numeric(17,8) as total_buy_price, 
 		sum(total_sell_price)::numeric(17,8) as total_sell_price,
-		count(*) as sell_count
+		count(*) as sell_count,
+		fees_per
 	from view_infinite_list vil
 	<if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-	group by member_id, account_id, symbol
+	group by member_id, account_id, fees_per, symbol
 	<if test="orderByClause != null">
       order by ${orderByClause}
     </if>;

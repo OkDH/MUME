@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ocko.aventador.constant.InfiniteState;
+import com.ocko.aventador.constant.InfiniteType;
 import com.ocko.aventador.constant.TradeType;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
@@ -33,7 +34,12 @@ public class InfiniteDetail extends ViewInfiniteList {
 	
 	// 40분할, 1회 매수 금액
 	public BigDecimal getOneBuySeed() {
-		return getSeed().divide(new BigDecimal(40), 2, RoundingMode.DOWN);
+		if(getInfiniteType().equals(InfiniteType.INFINITE))
+			return getSeed().divide(new BigDecimal("40.0"), 2, RoundingMode.DOWN);
+		if(getInfiniteType().equals(InfiniteType.TLP))
+			return getSeed().divide(new BigDecimal("30.0"), 2, RoundingMode.DOWN);
+		else 
+			return null;
 	}
 	
 	// 1회 매수량

@@ -166,6 +166,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		infiniteAccount.addStock.data = {
 			symbol: null,
 			infiniteVersion: "v2.1",
+			infiniteType: "INFINITE",
 			startedDate: null,
 			seed: null,
 			unitPrice: null,

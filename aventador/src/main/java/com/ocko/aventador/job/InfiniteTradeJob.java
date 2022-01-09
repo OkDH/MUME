@@ -47,76 +47,33 @@ public class InfiniteTradeJob {
 
 	@Autowired private InfiniteTradeComponent tradeComponent;
 	@Autowired private InfiniteHistoryMapper historyMapper;
-	@Autowired private ViewInfiniteListMapper viewInfiniteListMapper;
 	@Autowired private InfiniteStockMapper infiniteStockMapper;
 	@Autowired private InfiniteHistoryMapper infiniteHistoryMapper;
-	@Autowired private StockService stockService;
 	
 	@Transactional
-	public void updateHistory(Integer memberId) {
+	public void updateHistory(InfiniteDetail infiniteDetail, StockDetail todayStock) {
 		
-		log.info("Start Update Infinite History");
+		// 매매내역
+		InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
+		historyExample.createCriteria().andInfiniteIdEqualTo(infiniteDetail.getInfiniteId()).andIsDeletedEqualTo(false);
+		historyExample.setOrderByClause("trade_date asc, trade_type asc");
+		infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
 		
-		// etf 주가 정보 조회
-		Map<String, StockDetail> todayStockMap = stockService.getTodayEtfStocks();
+		// 진행률 100% 이상은 skip
+		if(infiniteDetail.getProgressPer().compareTo(new BigDecimal(100)) >= 0)
+			return;
 		
-		log.info("111");
-		// 어제자 주가 정보 조회
-		Map<String, StockDetail> yesterdayStockMap = stockService.getBeforeEtfStocks(LocalDate.now().minusDays(1));
+		// 매수 정보
+		infiniteDetail.setBuyTradeInfoList(tradeComponent.getBuyInfo(infiniteDetail));
 		
-		log.info("222");
-		// 진행 중인 무매 리스트 조회
-		ViewInfiniteListExample example = new ViewInfiniteListExample();
-		Criteria criteria =  example.createCriteria().andInfiniteStateEqualTo(InfiniteState.ING);
-		log.info("333");
+		// 매도 정보
+		infiniteDetail.setSellTradeInfoList(tradeComponent.getSellInfo(infiniteDetail));
 		
-		if(memberId != null)
-			criteria.andMemberIdEqualTo(memberId);
+		// 매도 내역 저장
+		updateSell(infiniteDetail, todayStock);
 		
-		Cursor<ViewInfiniteList> infiniteList = viewInfiniteListMapper.cursorByExample(example);
-		log.info("444");
-		for(ViewInfiniteList viewInfinite : infiniteList) {
-			
-			log.info("updateHistory infiniteId : " + viewInfinite.getInfiniteId());
-			
-			InfiniteDetail infiniteDetail = new InfiniteDetail();
-			
-			// 객체복사
-			BeanUtils.copyProperties(viewInfinite, infiniteDetail);
-			
-			// 진행률 100% 이상은 skip
-			if(infiniteDetail.getProgressPer().compareTo(new BigDecimal(100)) >= 0)
-				continue;
-			
-			// etf 어제 날짜 주가 정보 추가
-			infiniteDetail.setStockDetail(yesterdayStockMap.get(viewInfinite.getSymbol()));
-			
-			// 매매내역
-			InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
-			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
-			example.setOrderByClause("trade_date asc, trade_type asc");
-			infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
-			
-			log.info("--1");
-						
-			// 매수 정보
-			infiniteDetail.setBuyTradeInfoList(tradeComponent.getBuyInfo(infiniteDetail));
-			log.info("--2");
-			
-			// 매도 정보
-			infiniteDetail.setSellTradeInfoList(tradeComponent.getSellInfo(infiniteDetail));
-			log.info("--3");
-			
-			// 매도 내역 저장
-			updateSell(infiniteDetail, todayStockMap.get(viewInfinite.getSymbol()));
-			
-			log.info("--4");
-			// 매수 내역 저장
-			updateBuy(infiniteDetail, todayStockMap.get(viewInfinite.getSymbol()));
-			log.info("--5");
-		}
-		
-		log.info("End Update Infinite History");
+		// 매수 내역 저장
+		updateBuy(infiniteDetail, todayStock);
 	}
 	
 	/**

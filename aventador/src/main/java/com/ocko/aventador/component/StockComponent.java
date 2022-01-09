@@ -114,6 +114,7 @@ public class StockComponent {
 				stockDetail.setSector(EtfSymbol.valueOf(symbol).getSector());
 				stockDetail.setSectorName(EtfSymbol.valueOf(stock.getSymbol()).getSector().getSectorName());
 				stockDetail.setBaseRsi(EtfSymbol.valueOf(stock.getSymbol()).getDefaultRsi()); // TODO : baseRsi 개인화
+				stockDetail.setIsWarn(EtfSymbol.valueOf(stock.getSymbol()).isWran());
 				break;
 			}
 		}
@@ -138,6 +139,7 @@ public class StockComponent {
 				stockDetail.setSector(EtfSymbol.valueOf(stock.getSymbol()).getSector());
 				stockDetail.setSectorName(EtfSymbol.valueOf(stock.getSymbol()).getSector().getSectorName());
 				stockDetail.setBaseRsi(EtfSymbol.valueOf(stock.getSymbol()).getDefaultRsi()); // TODO : baseRsi 개인화
+				stockDetail.setIsWarn(EtfSymbol.valueOf(stock.getSymbol()).isWran());
 				break;
 			}
 		}
@@ -162,6 +164,7 @@ public class StockComponent {
 				stockDetail.setSector(EtfSymbol.valueOf(stock.getSymbol()).getSector());
 				stockDetail.setSectorName(EtfSymbol.valueOf(stock.getSymbol()).getSector().getSectorName());
 				stockDetail.setBaseRsi(EtfSymbol.valueOf(stock.getSymbol()).getDefaultRsi()); // TODO : baseRsi 개인화
+				stockDetail.setIsWarn(EtfSymbol.valueOf(stock.getSymbol()).isWran());
 				break;
 			}
 		}

@@ -13,20 +13,16 @@
 			<div class="modal-body text-gray-800">
 				<form id="addStockForm" name="infiniteAccount.addStockForm">
 					<div class="row mb-3">
-						<div class="col-2 pt-2 text-gray-800 font-weight-bold">
-			      			계좌
-			      		</div>
-			      		<div class="col-10 p-1">
-			      			<select
+			      		<div class="col-6">
+							<label class="font-weight-bold">계좌</label> 
+							<select
 								id="accountSelect" 
 								ng-required="true"
 								ng-model="infiniteAccount.addStock.data.accountId">
 								<option ng-repeat="account in infiniteAccount.account.myAccounts" ng-value="account.accountId">계좌 {{ account.accountOrder }} : {{ account.accountAlias }}</option>
 							</select>
-			      		</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-6">
+						</div>
+			      		<div class="col-6">
 							<label class="font-weight-bold">종목</label> 
 							<select
 								id="symbolSelect" data-live-search="true"
@@ -34,6 +30,29 @@
 								ng-model="infiniteAccount.addStock.data.symbol">
 								<option ng-repeat="etf in infiniteAccount.initData.etfs | orderBy:'symbol'" ng-value="etf.symbol">{{ etf.symbol }} ({{ etf.sectorName }})</option>
 							</select>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-6">
+							<label class="font-weight-bold">무한매수/TLP</label>
+							<div class="mt-1">
+								<div class="btn-group btn-group-toggle" data-toggle="buttons">
+									<label style="width: 7em;"
+										class="btn btn-sm btn-outline-info font-weight-bold text-xs"
+										ng-class="infiniteAccount.addStock.data.infiniteType == 'INFINITE' && 'active'">
+										<input type="radio" name="editInfiniteType"
+										ng-model="infiniteAccount.addStock.data.infiniteType"
+										value="INFINITE"> 무한매수
+									</label> 
+									<label style="width: 7em;"
+										class="btn btn-sm btn-outline-info font-weight-bold text-xs"
+										ng-class="infiniteAccount.addStock.data.infiniteType == 'TLP' && 'active'">
+										<input type="radio" name="editInfiniteType"
+										ng-model="infiniteAccount.addStock.data.infiniteType"
+										value="TLP"> TLP
+									</label> 
+								</div>
+							</div>
 						</div>
 						<div class="col-6">
 							<label class="font-weight-bold">버전</label>

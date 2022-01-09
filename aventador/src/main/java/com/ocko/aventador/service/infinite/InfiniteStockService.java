@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ocko.aventador.component.InfiniteTradeComponent;
 import com.ocko.aventador.constant.InfiniteState;
-import com.ocko.aventador.constant.InfiniteType;
+import com.ocko.aventador.constant.InfiniteVersion;
 import com.ocko.aventador.constant.RegisteredType;
 import com.ocko.aventador.constant.TradeType;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
@@ -238,9 +238,9 @@ public class InfiniteStockService {
 		
 		if(params.get("infiniteType") != null) {
 			switch ((String) params.get("infiniteType")) {
-			case InfiniteType.V1:
-			case InfiniteType.V2:
-			case InfiniteType.V2_1:
+			case InfiniteVersion.V1:
+			case InfiniteVersion.V2:
+			case InfiniteVersion.V2_1:
 				infiniteStock.setInfiniteType((String) params.get("infiniteType"));
 				break;
 			default:

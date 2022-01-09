@@ -21,7 +21,8 @@ public class InfiniteTradeJobTest {
 	
 	@Test
 	public void test() {
-		infiniteTradeJob.updateHistory();
+//		infiniteTradeJob.updateHistory(1);
+		infiniteTradeJob.updateHistory(null);
 	}
 
 }

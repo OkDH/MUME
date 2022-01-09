@@ -6,9 +6,8 @@ package com.ocko.aventador;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
-import com.ocko.aventador.job.InfiniteTradeJob;
+import com.ocko.aventador.scheduler.InfiniteTradeScheduler;
 
 /**
  * @author ok
@@ -17,12 +16,12 @@ import com.ocko.aventador.job.InfiniteTradeJob;
 @SpringBootTest
 public class InfiniteTradeJobTest {
 	
-	@Autowired private InfiniteTradeJob infiniteTradeJob;
+	@Autowired private InfiniteTradeScheduler infiniteTradeScheduler;
 	
 	@Test
 	public void test() {
-//		infiniteTradeJob.updateHistory(1);
-		infiniteTradeJob.updateHistory(null);
+		infiniteTradeScheduler.updateHistory(490, 1006);
+//		infiniteTradeScheduler.updateHistory(null);
 	}
 
 }

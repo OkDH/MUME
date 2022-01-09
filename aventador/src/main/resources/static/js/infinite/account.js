@@ -16,7 +16,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	infiniteAccount.account = {};
 	infiniteAccount.account.query = {
 		accountId: "ALL",  
-		infiniteType: [],
+		infiniteVersion: [],
 		infiniteState: [],
 		offset: 0,
 		limit: 8
@@ -43,7 +43,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 			done: { name: "매도완료", value: false },
 			out: { name: "원금소진", value: true }
 		},
-		infiniteType: {
+		infiniteVersion: {
 			v2_1: { name: "v2.1", value: true },
 			v2: { name: "v2", value: true },
 			v1: { name: "v1", value: true }
@@ -64,10 +64,10 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 				infiniteAccount.account.query.infiniteState.push(filter.infiniteState[k].name);
 		});
 		// 무한매수 버전 필터
-		infiniteAccount.account.query.infiniteType = [];
-		Object.keys(filter.infiniteType).forEach(function(k){
-			if(filter.infiniteType[k].value)
-				infiniteAccount.account.query.infiniteType.push(filter.infiniteType[k].name);
+		infiniteAccount.account.query.infiniteVersion = [];
+		Object.keys(filter.infiniteVersion).forEach(function(k){
+			if(filter.infiniteVersion[k].value)
+				infiniteAccount.account.query.infiniteVersion.push(filter.infiniteVersion[k].name);
 		});
 	}, true);
 	
@@ -165,7 +165,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	infiniteAccount.addStock.init = function(){
 		infiniteAccount.addStock.data = {
 			symbol: null,
-			infiniteType: "v2.1",
+			infiniteVersion: "v2.1",
 			startedDate: null,
 			seed: null,
 			unitPrice: null,

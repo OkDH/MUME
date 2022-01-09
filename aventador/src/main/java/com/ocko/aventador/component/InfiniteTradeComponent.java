@@ -30,11 +30,11 @@ public class InfiniteTradeComponent {
 	public List<StockTradeInfo> getBuyInfo(InfiniteDetail infiniteDetail) {
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 		
-		if(infiniteDetail.getInfiniteType().equals(InfiniteVersion.V2_1)) {
+		if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_1)) {
 			tradeInfoList = getBuyInfoV2(infiniteDetail);
-		} else if(infiniteDetail.getInfiniteType().equals(InfiniteVersion.V2)) {
+		} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2)) {
 			tradeInfoList = getBuyInfoV2(infiniteDetail);
-		} else if(infiniteDetail.getInfiniteType().equals(InfiniteVersion.V1)) {
+		} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V1)) {
 			tradeInfoList = getBuyInfoV1(infiniteDetail);
 		}
 		
@@ -54,11 +54,11 @@ public class InfiniteTradeComponent {
 		
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 		
-		if(infiniteDetail.getInfiniteType().equals(InfiniteVersion.V2_1)) {
+		if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_1)) {
 			tradeInfoList = getSellInfoV2_1(infiniteDetail);
-		} else if(infiniteDetail.getInfiniteType().equals(InfiniteVersion.V2)) {
+		} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2)) {
 			tradeInfoList = getSellInfoV2(infiniteDetail);
-		} else if(infiniteDetail.getInfiniteType().equals(InfiniteVersion.V1)) {
+		} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V1)) {
 			tradeInfoList = getSellInfoV1(infiniteDetail);
 		}
 		

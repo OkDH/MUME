@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ocko.aventador.constant.EtfSymbol;
-import com.ocko.aventador.constant.InfiniteType;
+import com.ocko.aventador.constant.InfiniteVersion;
 import com.ocko.aventador.model.StockDetail;
 import com.ocko.aventador.service.StockService;
 

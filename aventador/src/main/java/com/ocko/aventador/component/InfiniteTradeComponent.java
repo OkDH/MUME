@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.ocko.aventador.constant.ConcludeType;
-import com.ocko.aventador.constant.InfiniteType;
+import com.ocko.aventador.constant.InfiniteVersion;
 import com.ocko.aventador.model.InfiniteDetail;
 import com.ocko.aventador.model.StockTradeInfo;
 
@@ -30,11 +30,11 @@ public class InfiniteTradeComponent {
 	public List<StockTradeInfo> getBuyInfo(InfiniteDetail infiniteDetail) {
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 		
-		if(infiniteDetail.getInfiniteType().equals(InfiniteType.V2_1)) {
+		if(infiniteDetail.getInfiniteType().equals(InfiniteVersion.V2_1)) {
 			tradeInfoList = getBuyInfoV2(infiniteDetail);
-		} else if(infiniteDetail.getInfiniteType().equals(InfiniteType.V2)) {
+		} else if(infiniteDetail.getInfiniteType().equals(InfiniteVersion.V2)) {
 			tradeInfoList = getBuyInfoV2(infiniteDetail);
-		} else if(infiniteDetail.getInfiniteType().equals(InfiniteType.V1)) {
+		} else if(infiniteDetail.getInfiniteType().equals(InfiniteVersion.V1)) {
 			tradeInfoList = getBuyInfoV1(infiniteDetail);
 		}
 		
@@ -54,11 +54,11 @@ public class InfiniteTradeComponent {
 		
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 		
-		if(infiniteDetail.getInfiniteType().equals(InfiniteType.V2_1)) {
+		if(infiniteDetail.getInfiniteType().equals(InfiniteVersion.V2_1)) {
 			tradeInfoList = getSellInfoV2_1(infiniteDetail);
-		} else if(infiniteDetail.getInfiniteType().equals(InfiniteType.V2)) {
+		} else if(infiniteDetail.getInfiniteType().equals(InfiniteVersion.V2)) {
 			tradeInfoList = getSellInfoV2(infiniteDetail);
-		} else if(infiniteDetail.getInfiniteType().equals(InfiniteType.V1)) {
+		} else if(infiniteDetail.getInfiniteType().equals(InfiniteVersion.V1)) {
 			tradeInfoList = getSellInfoV1(infiniteDetail);
 		}
 		

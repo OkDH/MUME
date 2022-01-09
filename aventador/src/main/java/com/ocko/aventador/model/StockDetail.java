@@ -14,6 +14,8 @@ public class StockDetail extends StockHistory {
 	private String sectorName;
 	// 진입 권장 RSI
 	private Integer baseRsi;
+	// 거래유의 정목 여부
+	private Boolean isWarn;
 	// 마지막 거래 시간
 	private LocalDateTime lastTradeTime;
 	
@@ -49,6 +51,12 @@ public class StockDetail extends StockHistory {
 	}
 	public void setLastTradeTime(LocalDateTime lastTradeTime) {
 		this.lastTradeTime = lastTradeTime;
+	}
+	public Boolean getIsWarn() {
+		return isWarn;
+	}
+	public void setIsWarn(Boolean isWarn) {
+		this.isWarn = isWarn;
 	}
 	
 }

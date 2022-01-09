@@ -41,7 +41,7 @@ public class InfiniteTradeScheduler {
 			}
 		}
 		if(isOpen)
-			infiniteJob.updateHistory();
+			infiniteJob.updateHistory(null);
 	}
 
 }

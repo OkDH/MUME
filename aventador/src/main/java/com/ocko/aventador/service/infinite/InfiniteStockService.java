@@ -57,10 +57,12 @@ public class InfiniteStockService {
 		if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL"))
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
 		if(params.get("infiniteState") != null) {
-			criteria.andInfiniteStateIn((List<String>) params.get("infiniteState"));
+			if(!((List<String>) params.get("infiniteState")).isEmpty())
+				criteria.andInfiniteStateIn((List<String>) params.get("infiniteState"));
 		}
 		if(params.get("infiniteType") != null) {
-			criteria.andInfiniteTypeIn((List<String>) params.get("infiniteType"));
+			if(!((List<String>) params.get("infiniteType")).isEmpty())
+				criteria.andInfiniteTypeIn((List<String>) params.get("infiniteType"));
 		}
 		if(params.get("offset") != null) {
 			example.setOffset(Integer.parseInt(params.get("offset").toString()));

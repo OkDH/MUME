@@ -12,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ocko.aventador.constant.InfiniteState;
+import com.ocko.aventador.dao.model.aventador.InfiniteHistoryExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthly;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthlyExample;
+import com.ocko.aventador.dao.persistence.aventador.InfiniteHistoryMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteProfitMonthlyMapper;
 import com.ocko.aventador.model.InfiniteDetail;
@@ -27,6 +29,7 @@ public class InfiniteIncomeService {
 	
 	@Autowired private ViewInfiniteListMapper viewInfiniteListMapper;
 	@Autowired private ViewInfiniteProfitMonthlyMapper viewInfiniteProfitMonthlyMapper;
+	@Autowired private InfiniteHistoryMapper infiniteHistoryMapper;
 	
 	/**
 	 * 손익현황 조회
@@ -51,6 +54,13 @@ public class InfiniteIncomeService {
 			InfiniteDetail infiniteDetail = new InfiniteDetail();
 			// 객체복사
 			BeanUtils.copyProperties(viewInfinite, infiniteDetail);
+			
+			// 매매내역
+			InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
+			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
+			example.setOrderByClause("trade_date asc, trade_type asc");
+			infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
+						
 			infiniteStockList.add(infiniteDetail);
 		}
 		
@@ -77,7 +87,8 @@ public class InfiniteIncomeService {
 			BigDecimal buyPrice = (BigDecimal) data.get("total_buy_price");
 			BigDecimal sellPrice = (BigDecimal) data.get("total_sell_price");
 			
-			BigDecimal fees = buyPrice.add(sellPrice).multiply(new BigDecimal("0.0007")).setScale(2, RoundingMode.DOWN);
+			BigDecimal feesPer = ((BigDecimal) data.get("fees_per")).multiply(new BigDecimal("0.01"));
+			BigDecimal fees = buyPrice.add(sellPrice).multiply(feesPer).setScale(2, RoundingMode.DOWN);
 			
 			BigDecimal income = sellPrice.subtract(buyPrice).subtract(fees);
 			BigDecimal incomePer = income.divide(buyPrice, 8, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100));

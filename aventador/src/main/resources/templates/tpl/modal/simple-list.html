@@ -26,8 +26,8 @@
 								<th style="width: 10px;">Symbol</th>
 								<th style="width: 10px;">주문</th>
 								<th style="width: 10px;">종류</th>
-								<th style="width: 10px;">가격</th>
 								<th style="width: 10px;">수량</th>
+								<th style="width: 10px;">가격</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -46,11 +46,11 @@
 								</td>
 								<td class="align-middle font-weight-bold"
 									ng-class="(item.tradeType=='매수' && 'text-danger') || 'text-primary'">
-									${{ item.price | number:2 }}
+									{{ item.quantity | number }}
 								</td>
 								<td class="align-middle font-weight-bold"
 									ng-class="(item.tradeType=='매수' && 'text-danger') || 'text-primary'">
-									{{ item.quantity | number }}
+									${{ item.price | number:2 }}
 								</td>
 							</tr>
 						</tbody>

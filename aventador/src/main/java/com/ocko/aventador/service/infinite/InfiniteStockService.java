@@ -95,7 +95,7 @@ public class InfiniteStockService {
 			// 매매내역
 			InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
 			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
-			example.setOrderByClause("trade_date asc, trade_type asc");
+			historyExample.setOrderByClause("trade_date asc, trade_type asc");
 			infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
 			
 			// 매수 정보
@@ -157,7 +157,7 @@ public class InfiniteStockService {
 			// 매매내역
 			InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
 			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
-			example.setOrderByClause("trade_date asc, trade_type asc");
+			historyExample.setOrderByClause("trade_date asc, trade_type asc");
 			infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
 			
 			sumByBuyPrice = sumByBuyPrice.add(infiniteDetail.getBuyPrice());

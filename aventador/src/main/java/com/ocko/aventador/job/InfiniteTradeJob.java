@@ -92,49 +92,51 @@ public class InfiniteTradeJob {
 		// 보유수량
 		int holdingQuantity = infiniteDetail.getHoldingQuantity();
 		
-		// 종가
-		BigDecimal priceClose = todayStock.getPriceClose().setScale(2, RoundingMode.HALF_UP);
-		// 고가
-		BigDecimal priceHigh = todayStock.getPriceHigh().setScale(2, RoundingMode.HALF_UP);
-		
-		for(StockTradeInfo info : infiniteDetail.getSellTradeInfoList()) {
-			InfiniteHistory infiniteHistory = new InfiniteHistory();
-			infiniteHistory.setInfiniteId(infiniteDetail.getInfiniteId());
-			infiniteHistory.setTradeDate(LocalDate.now().minusDays(1));
-			infiniteHistory.setTradeType(TradeType.SELL);
-			infiniteHistory.setQuantity(info.getQuantity());
-			infiniteHistory.setRegisteredType(RegisteredType.AUTO.name());
-			infiniteHistory.setRegisteredDate(LocalDateTime.now());
-			infiniteHistory.setIsDeleted(false);
+		if(holdingQuantity > 0) {
+			// 종가
+			BigDecimal priceClose = todayStock.getPriceClose().setScale(2, RoundingMode.HALF_UP);
+			// 고가
+			BigDecimal priceHigh = todayStock.getPriceHigh().setScale(2, RoundingMode.HALF_UP);
 			
-			switch (info.getConcludeType()) {
-			case LOC:
-				// 주문가격보다 종가가 크다면 체결
-				if(info.getPrice().compareTo(priceClose) <= 0) { 
-					BigDecimal unitPrice = priceClose.setScale(2, BigDecimal.ROUND_HALF_UP); // 소수점 2자리에서 반올림
-					// 수수료 TODO : 개인 설정 수수료
-					infiniteHistory.setUnitPrice(unitPrice);
-					
-					historyMapper.insert(infiniteHistory);
-					
-					// 수량 감소
-					holdingQuantity -= info.getQuantity();
+			for(StockTradeInfo info : infiniteDetail.getSellTradeInfoList()) {
+				InfiniteHistory infiniteHistory = new InfiniteHistory();
+				infiniteHistory.setInfiniteId(infiniteDetail.getInfiniteId());
+				infiniteHistory.setTradeDate(LocalDate.now().minusDays(1));
+				infiniteHistory.setTradeType(TradeType.SELL);
+				infiniteHistory.setQuantity(info.getQuantity());
+				infiniteHistory.setRegisteredType(RegisteredType.AUTO.name());
+				infiniteHistory.setRegisteredDate(LocalDateTime.now());
+				infiniteHistory.setIsDeleted(false);
+				
+				switch (info.getConcludeType()) {
+				case LOC:
+					// 주문가격보다 종가가 크다면 체결
+					if(info.getPrice().compareTo(priceClose) <= 0) { 
+						BigDecimal unitPrice = priceClose.setScale(2, BigDecimal.ROUND_HALF_UP); // 소수점 2자리에서 반올림
+
+						infiniteHistory.setUnitPrice(unitPrice);
+						
+						historyMapper.insert(infiniteHistory);
+						
+						// 수량 감소
+						holdingQuantity -= info.getQuantity();
+					}
+					break;
+				case PENDING_ORDER:
+					// 주문가격보다 고가가 크다면 체결
+					if(info.getPrice().compareTo(priceHigh) <= 0) { 
+						BigDecimal unitPrice = info.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP); // 소수점 2자리에서 반올림
+						infiniteHistory.setUnitPrice(unitPrice);
+						
+						historyMapper.insert(infiniteHistory);
+						
+						// 수량 감소
+						holdingQuantity -= info.getQuantity();
+					}
+					break;
+				default:
+					break;
 				}
-				break;
-			case PENDING_ORDER:
-				// 주문가격보다 고가가 크다면 체결
-				if(info.getPrice().compareTo(priceHigh) <= 0) { 
-					BigDecimal unitPrice = info.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP); // 소수점 2자리에서 반올림
-					infiniteHistory.setUnitPrice(unitPrice);
-					
-					historyMapper.insert(infiniteHistory);
-					
-					// 수량 감소
-					holdingQuantity -= info.getQuantity();
-				}
-				break;
-			default:
-				break;
 			}
 		}
 		

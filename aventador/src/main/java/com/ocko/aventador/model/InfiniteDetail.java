@@ -64,7 +64,6 @@ public class InfiniteDetail extends ViewInfiniteList {
 		BigDecimal holdingQuantity = BigDecimal.ZERO;
 		
 		for(InfiniteHistory history : historyList) {
-			
 			if(history.getTradeType().equals(TradeType.BUY)) { // 매수
 				// 보유 평단가 * 보유수량
 				BigDecimal temp1 = avgPrice.multiply(holdingQuantity);

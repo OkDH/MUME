@@ -20,8 +20,8 @@ public class InfiniteTradeJobTest {
 	
 	@Test
 	public void test() {
-		infiniteTradeScheduler.updateHistory(490, 1006);
-//		infiniteTradeScheduler.updateHistory(null);
+//		infiniteTradeScheduler.updateHistory(1128, 2360);
+		infiniteTradeScheduler.updateHistory(null);
 	}
 
 }

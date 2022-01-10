@@ -113,7 +113,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		var params = {
 			accountId: accountId,
 			infiniteState: ["진행중"],
-			orderBy: "symbol asc"
+			orderBy: "account_id asc, symbol asc"
 		}
 		infiniteService.getStocks(params).then(function(data){
 			if(!data)

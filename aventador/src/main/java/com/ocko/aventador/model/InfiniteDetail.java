@@ -131,6 +131,10 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매도완료일 때 : 전체매입금 / 배정시드 * 100 ( 100%가 큰 경우 return 100)
 	// 나머지 : 매입금액 / 배정시드 * 100
 	public BigDecimal getProgressPer() {
+		
+		if(getSeed().compareTo(BigDecimal.ZERO) == 0)
+			return new BigDecimal("100.0");
+		
 		if(getInfiniteState().equals(InfiniteState.DONE) || getBuyPrice().compareTo(new BigDecimal("0.0")) == 0) {
 			
 			if(getTotalBuyPrice() == null || getTotalBuyPrice().compareTo(BigDecimal.ZERO) == 0)

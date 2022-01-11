@@ -17,9 +17,6 @@ app.service("infiniteService", function(httpService){
 	// 계좌 내 종목 조회
 	var promiseStocks = null;
 	this.getStocks = function(params){
-		
-		console.log("getstocks ", params)
-		
 		if(promiseStocks){
 			httpService.stop(promiseStocks);
 		}

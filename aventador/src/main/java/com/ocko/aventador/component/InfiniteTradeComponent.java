@@ -28,14 +28,21 @@ public class InfiniteTradeComponent {
 	 * @return
 	 */
 	public List<StockTradeInfo> getBuyInfo(InfiniteDetail infiniteDetail) {
+		if(infiniteDetail == null)
+			return null;
+		if(infiniteDetail.getStockDetail() == null)
+			return null;
+		
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 		
-		if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_1)) {
-			tradeInfoList = getBuyInfoV2(infiniteDetail);
-		} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2)) {
-			tradeInfoList = getBuyInfoV2(infiniteDetail);
-		} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V1)) {
-			tradeInfoList = getBuyInfoV1(infiniteDetail);
+		if(infiniteDetail.getInfiniteVersion() != null) {
+			if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_1)) {
+				tradeInfoList = getBuyInfoV2(infiniteDetail);
+			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2)) {
+				tradeInfoList = getBuyInfoV2(infiniteDetail);
+			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V1)) {
+				tradeInfoList = getBuyInfoV1(infiniteDetail);
+			}
 		}
 		
 		return tradeInfoList;
@@ -54,12 +61,14 @@ public class InfiniteTradeComponent {
 		
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 		
-		if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_1)) {
-			tradeInfoList = getSellInfoV2_1(infiniteDetail);
-		} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2)) {
-			tradeInfoList = getSellInfoV2(infiniteDetail);
-		} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V1)) {
-			tradeInfoList = getSellInfoV1(infiniteDetail);
+		if(infiniteDetail.getInfiniteVersion() != null) {
+			if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_1)) {
+				tradeInfoList = getSellInfoV2_1(infiniteDetail);
+			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2)) {
+				tradeInfoList = getSellInfoV2(infiniteDetail);
+			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V1)) {
+				tradeInfoList = getSellInfoV1(infiniteDetail);
+			}
 		}
 		
 		return tradeInfoList;

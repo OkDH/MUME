@@ -68,7 +68,7 @@ app.factory("responseObserver", [ "$q", "$window", function($q, $window) {
 		}
 	}
 } ]);
-app.run(["$rootScope", "$location", function($rootScope, $location) {
+app.run(["$rootScope", "$location", "$window", function($rootScope, $location, $window) {
 	$rootScope.meta = meta;
 
 	// USAGES:
@@ -98,6 +98,13 @@ app.run(["$rootScope", "$location", function($rootScope, $location) {
 
 		return false;
 	}
+	
+	// Google Analytics with AngularJS
+	$rootScope.$on('$viewContentLoaded', function (event) {
+		$window.gtag('config', 'GOOGLE-ID', {'page_path': $location.path()});
+		$window.gtag('event', 'page_view');
+	});
+	
 } ]);
 app.service("httpService", function($http, $q) {
 	var httpService = this;

@@ -314,9 +314,8 @@
 													{{ etf.gapRsi | appendPulMa }}
 												</td>
 												<td class="text-center d-none d-md-table-cell">${{ etf.priceClose | number:2 }}</td>
-												<td class="text-center d-none d-md-table-cell"
-													ng-class="(etf.chg > 0 && 'text-danger') || (etf.chg < 0 && 'text-primary')"
-													style="white-space: nowrap;">
+												<td class="text-center d-none d-md-table-cell nowrap"
+													ng-class="(etf.chg > 0 && 'text-danger') || (etf.chg < 0 && 'text-primary')">
 													{{ etf.chg | appendUpDown }}
 												</td>
 												<td class="text-center d-none d-md-table-cell"

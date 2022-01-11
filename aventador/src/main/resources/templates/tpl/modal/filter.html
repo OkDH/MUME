@@ -9,7 +9,7 @@
       </div>
       <div class="modal-body">
       	<div class="row">
-      		<div class="col-3 pt-1 pl-3 text-gray-800 font-weight-bold">
+      		<div class="col-3 pt-2 pl-3 text-gray-800 font-weight-bold">
       			계좌
       		</div>
       		<div class="col-9 p-1">
@@ -48,6 +48,25 @@
       	</div>
       	<div class="row">
       		<div class="col-3 pt-1 pl-3 text-gray-800 font-weight-bold">
+      			타입
+      		</div>
+      		<div class="col-9 p-1">
+      			<div class="btn-group btn-group-toggle" data-toggle="buttons">
+				  <label style="width: 6em;"
+				  	class="btn btn-sm btn-outline-primary font-weight-bold text-xs" 
+				  	ng-class="infiniteAccount.account.filter.infiniteType.infinite.value && 'active'">
+				    <input type="checkbox" name="queryInfiniteType" ng-model="infiniteAccount.account.filter.infiniteType.infinite.value"> 무한매수
+				  </label>
+				  <label style="width: 6em;" 
+				  	class="btn btn-sm btn-outline-primary font-weight-bold text-xs" 
+				  	ng-class="infiniteAccount.account.filter.infiniteType.tlp.value && 'active'">
+				    <input type="checkbox" name="queryInfiniteType" ng-model="infiniteAccount.account.filter.infiniteType.tlp.value"> TLP
+				  </label>
+				</div>
+      		</div>
+      	</div>
+      	<div class="row">
+      		<div class="col-3 pt-1 pl-3 text-gray-800 font-weight-bold">
       			버전
       		</div>
       		<div class="col-9 p-1">
@@ -66,6 +85,28 @@
 				  	class="btn btn-sm btn-outline-info font-weight-bold text-xs"
 				  	ng-class="infiniteAccount.account.filter.infiniteVersion.v1 && 'active'">
 				    <input type="checkbox" name="queryInfiniteVersion" ng-model="infiniteAccount.account.filter.infiniteVersion.v1.value"> v1
+				  </label>
+				</div>
+      		</div>
+      	</div>
+      	<div class="row">
+      		<div class="col-3 pt-1 pl-3 text-gray-800 font-weight-bold">
+      			정렬
+      		</div>
+      		<div class="col-9 p-1">
+      			<div class="btn-group btn-group-toggle" data-toggle="buttons">
+				  <label style="width: 6em;" 
+				  	class="btn btn-sm btn-outline-success font-weight-bold text-xs" 
+				  	ng-class="infiniteAccount.account.filter.order.name == 'registered' && 'active'">
+				    <input type="radio" name="queryInfiniteOrder"
+				    	ng-init="infiniteAccount.account.filter.order = infiniteAccount.account.filter.orderValue.registered"
+				    	ng-model="infiniteAccount.account.filter.order" ng-value="infiniteAccount.account.filter.orderValue.registered"> 최신순
+				  </label>
+				  <label style="width: 6em;" 
+				  	class="btn btn-sm btn-outline-success font-weight-bold text-xs" 
+				  	ng-class="infiniteAccount.account.filter.order.name == 'symbol' && 'active'">
+				    <input type="radio" name="queryInfiniteOrder" 
+				    	ng-model="infiniteAccount.account.filter.order" ng-value="infiniteAccount.account.filter.orderValue.symbol"> 이름순
 				  </label>
 				</div>
       		</div>

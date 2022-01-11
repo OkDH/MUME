@@ -59,6 +59,10 @@ public class InfiniteStockService {
 			if(!((List<String>) params.get("infiniteState")).isEmpty())
 				criteria.andInfiniteStateIn((List<String>) params.get("infiniteState"));
 		}
+		if(params.get("infiniteType") != null) {
+			if(!((List<String>) params.get("infiniteType")).isEmpty())
+				criteria.andInfiniteTypeIn((List<String>) params.get("infiniteType"));
+		}
 		if(params.get("infiniteVersion") != null) {
 			if(!((List<String>) params.get("infiniteVersion")).isEmpty())
 				criteria.andInfiniteVersionIn((List<String>) params.get("infiniteVersion"));

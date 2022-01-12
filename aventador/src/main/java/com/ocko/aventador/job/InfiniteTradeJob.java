@@ -59,9 +59,17 @@ public class InfiniteTradeJob {
 		historyExample.setOrderByClause("trade_date asc, trade_type asc");
 		infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
 		
-		// 진행률 100% 이상은 skip
-		if(infiniteDetail.getProgressPer().compareTo(new BigDecimal(100)) >= 0)
+		
+		// 진행률 100% 이상은 원금 소진으로 변경
+		if(infiniteDetail.getProgressPer().compareTo(new BigDecimal(100)) >= 0) {
+			InfiniteStock infiniteStock = new InfiniteStock();
+			infiniteStock.setInfiniteState(InfiniteState.OUT);
+			
+			InfiniteStockExample example = new InfiniteStockExample();
+			example.createCriteria().andInfiniteIdEqualTo(infiniteDetail.getInfiniteId());
+			infiniteStockMapper.updateByExampleSelective(infiniteStock, example);
 			return;
+		}
 		
 		// 매수 정보
 		infiniteDetail.setBuyTradeInfoList(tradeComponent.getBuyInfo(infiniteDetail));
@@ -90,7 +98,7 @@ public class InfiniteTradeJob {
 			return;
 		
 		// 보유수량
-		int holdingQuantity = infiniteDetail.getHoldingQuantity();
+		Integer holdingQuantity = infiniteDetail.getHoldingQuantity();
 		
 		if(holdingQuantity > 0) {
 			// 종가
@@ -184,11 +192,16 @@ public class InfiniteTradeJob {
 			
 			switch (info.getConcludeType()) {
 			case LOC:
+				
+				System.out.println(info.getPrice());
+				System.out.println(priceClose);
 				// 주문가격이 종가보다 크다면 체결
 				if(info.getPrice().compareTo(priceClose) >= 0) { 
 					// 단가
 					BigDecimal unitPrice = priceClose.setScale(2, BigDecimal.ROUND_HALF_UP); // 소수점 2자리에서 반올림
 					infiniteHistory.setUnitPrice(unitPrice);
+					
+					System.out.println("buy, " +  info.getQuantity());
 					
 					historyMapper.insert(infiniteHistory);
 					

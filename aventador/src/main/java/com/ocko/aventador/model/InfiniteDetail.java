@@ -64,6 +64,10 @@ public class InfiniteDetail extends ViewInfiniteList {
 		BigDecimal holdingQuantity = BigDecimal.ZERO;
 		
 		for(InfiniteHistory history : historyList) {
+			
+			if(history.getQuantity() == null || history.getQuantity() == 0) // 매매내역 수량이 0이면 skip
+				continue;
+			
 			if(history.getTradeType().equals(TradeType.BUY)) { // 매수
 				// 보유 평단가 * 보유수량
 				BigDecimal temp1 = avgPrice.multiply(holdingQuantity);
@@ -71,9 +75,6 @@ public class InfiniteDetail extends ViewInfiniteList {
 				BigDecimal temp2 = history.getUnitPrice().multiply(new BigDecimal(history.getQuantity()));
 				// 보유수량 + 신규매수수량
 				holdingQuantity = holdingQuantity.add(new BigDecimal(history.getQuantity()));
-				
-				if(holdingQuantity.compareTo(BigDecimal.ZERO) == 0)
-					return avgPrice;
 				
 				// 평단가
 				avgPrice = (temp1.add(temp2)).divide(holdingQuantity, 8, RoundingMode.HALF_EVEN);

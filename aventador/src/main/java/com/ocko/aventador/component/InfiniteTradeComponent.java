@@ -82,7 +82,7 @@ public class InfiniteTradeComponent {
 	private List<StockTradeInfo> getSellInfoV2_1(InfiniteDetail infiniteDetail){
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 		
-		int quantity = (int) Math.round(infiniteDetail.getHoldingQuantity()/4.0);
+		int quantity = (int) Math.floor(infiniteDetail.getHoldingQuantity()/4.0);
 		
 		// 진행률 
 		if(infiniteDetail.getProgressPer().floatValue() < 50) { // 전반전
@@ -165,7 +165,7 @@ public class InfiniteTradeComponent {
 			}
 		} else { // 후반전
 			
-			int quantity = (int) Math.round(infiniteDetail.getHoldingQuantity()/2.0);
+			int quantity = (int) Math.floor(infiniteDetail.getHoldingQuantity()/2.0);
 			
 			{
 				// 지정가 매도 +5%

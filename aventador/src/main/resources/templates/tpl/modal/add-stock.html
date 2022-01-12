@@ -96,9 +96,10 @@
 						</div>
 						<div class="col-6">
 							<label class="font-weight-bold">배정 원금($)</label> 
-							<input type="text" class="form-control"
+							<input type="number" class="form-control"
 								ng-model="infiniteAccount.addStock.data.seed" name="seed"
 								validation-doller ng-required="true"
+								max="999999"
 								ng-class="infiniteAccount.addStockForm.seed.$touched 
 								&& ((infiniteAccount.addStockForm.seed.$invalid && 'invalid')
 								|| (infiniteAccount.addStockForm.seed.$valid && 'valid'))">
@@ -108,9 +109,10 @@
 					<div class="row mb-3">
 						<div class="col-6">
 							<label class="font-weight-bold">평단가($)</label> 
-							<input type="text" class="form-control"
+							<input type="number" class="form-control"
 								ng-model="infiniteAccount.addStock.data.unitPrice" name="unitPrice"
 								validation-doller ng-required="true"
+								max="9999" min="1"
 								ng-class="infiniteAccount.addStockForm.unitPrice.$touched 
 									&& ((infiniteAccount.addStockForm.unitPrice.$invalid && 'invalid')
 									|| (infiniteAccount.addStockForm.unitPrice.$valid && 'valid'))">
@@ -120,6 +122,7 @@
 							<label class="font-weight-bold">수량</label> 
 							<input type="number" class="form-control" name="quantity"
 								ng-model="infiniteAccount.addStock.data.quantity" ng-required="true"
+								max="999" min="1"
 								ng-class="infiniteAccount.addStockForm.quantity.$touched 
 									&& ((infiniteAccount.addStockForm.quantity.$invalid && 'invalid')
 									|| (infiniteAccount.addStockForm.quantity.$valid && 'valid'))">

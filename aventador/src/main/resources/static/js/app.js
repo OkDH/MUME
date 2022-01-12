@@ -214,7 +214,6 @@ app.filter("appendUpDown", function() {
 app.filter("appendPulMa", function() {
 	return function(score) {
 		score = Number(score);
-		console.log(score)
 		if (score > 0)
 			return "+" + score.toFixed(2);
 		else if (score < 0)

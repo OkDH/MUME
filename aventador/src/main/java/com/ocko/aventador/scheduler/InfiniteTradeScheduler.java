@@ -67,10 +67,6 @@ public class InfiniteTradeScheduler {
 		updateHistory(null, null);
 	}
 	
-	public void updateHistory(Integer memberId) {
-		updateHistory(memberId, null);
-	}
-
 	public void updateHistory(Integer memberId, Integer InfiniteId) {
 		log.info("Start Update Infinite History");
 		

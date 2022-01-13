@@ -59,7 +59,7 @@ public class InfiniteDetail extends ViewInfiniteList {
 		if(getSymbol().equals(EtfSymbol.UPRO.name()) &&
 				now.isBefore(temp) &&
 				stockDetail.getPriceClose().compareTo(new BigDecimal(120)) > 0)
-			return getOneBuySeed().divide(new BigDecimal("76.34"), 0, RoundingMode.DOWN).intValue();
+			return getOneBuySeed().divide(new BigDecimal("74.32"), 0, RoundingMode.DOWN).intValue();
 		// -------
 		
 		

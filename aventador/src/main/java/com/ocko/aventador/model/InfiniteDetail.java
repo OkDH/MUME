@@ -2,9 +2,12 @@ package com.ocko.aventador.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ocko.aventador.constant.EtfSymbol;
 import com.ocko.aventador.constant.InfiniteState;
 import com.ocko.aventador.constant.InfiniteType;
 import com.ocko.aventador.constant.TradeType;
@@ -46,6 +49,16 @@ public class InfiniteDetail extends ViewInfiniteList {
 	public Integer getOneBuyQuantity() {
 		if(stockDetail == null)
 			return null;
+		// TODO : 임시 1월 14일 이후 삭제 요망 ----
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime temp = LocalDateTime.of(2022, 1, 13, 23, 35);
+		if(getSymbol().equals(EtfSymbol.TQQQ.name()) &&
+				now.isBefore(temp) &&
+				stockDetail.getPriceClose().compareTo(new BigDecimal(120)) > 0)
+			return getOneBuySeed().divide(new BigDecimal("76.34"), 0, RoundingMode.DOWN).intValue();
+		// -------
+		
+		
 		return getOneBuySeed().divide(stockDetail.getPriceClose().setScale(2, RoundingMode.HALF_UP), 0, RoundingMode.DOWN).intValue();
 	}
 	
@@ -63,10 +76,29 @@ public class InfiniteDetail extends ViewInfiniteList {
 		BigDecimal avgPrice = BigDecimal.ZERO;
 		BigDecimal holdingQuantity = BigDecimal.ZERO;
 		
+		// TQQQ 1/13일 액면분할 적용 코드
+		LocalDate splitDate = LocalDate.of(2022, 1, 13);
+		// 1. 1월 13일 전에 시작했는지 체크
+		boolean isCheckSplit = false;
+		if(getSymbol().equals(EtfSymbol.TQQQ.name()) && 
+				getInfiniteState().equals(InfiniteState.ING) && 
+				getStartedDate().isBefore(splitDate))
+			isCheckSplit = true;
+		
+		
 		for(InfiniteHistory history : historyList) {
 			
 			if(history.getQuantity() == null || history.getQuantity() == 0) // 매매내역 수량이 0이면 skip
 				continue;
+			
+			if(isCheckSplit && 
+					(history.getTradeDate().equals(splitDate) && history.getTradeDate().isAfter(splitDate))) {
+				// 액면분할 2:1
+				avgPrice = avgPrice.divide(new BigDecimal(2), 8, RoundingMode.HALF_EVEN);
+				holdingQuantity = holdingQuantity.multiply(new BigDecimal(2));
+				isCheckSplit = false;
+			}
+				
 			
 			if(history.getTradeType().equals(TradeType.BUY)) { // 매수
 				// 보유 평단가 * 보유수량
@@ -81,8 +113,16 @@ public class InfiniteDetail extends ViewInfiniteList {
 			} else if(history.getTradeType().equals(TradeType.SELL)) { // 매도
 				holdingQuantity = holdingQuantity.subtract(new BigDecimal(history.getQuantity()));
 			}
+			
 		}
 		
+		if(isCheckSplit) {
+			// 액면분할 2:1
+			avgPrice = avgPrice.divide(new BigDecimal(2), 8, RoundingMode.HALF_EVEN);
+			holdingQuantity = holdingQuantity.multiply(new BigDecimal(2));
+		}
+		
+		setHoldingQuantity(holdingQuantity.intValue());
 		return avgPrice;
 	}
 	

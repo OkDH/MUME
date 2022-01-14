@@ -45,7 +45,7 @@ public class InfiniteAccountService {
 			InfiniteAccount infiniteAccount = new InfiniteAccount();
 			infiniteAccount.setMemberId(memberId);
 			infiniteAccount.setAccountOrder(1);
-			infiniteAccount.setAccountAlias("무한매수 계좌");
+			infiniteAccount.setAccountAlias("MUME계좌");
 			infiniteAccount.setFeesPer(new BigDecimal("0.07"));
 			infiniteAccount.setSeed(BigDecimal.ZERO);
 			infiniteAccount.setIsDeleted(false);

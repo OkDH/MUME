@@ -102,6 +102,8 @@ app.run(["$rootScope", "$location", "$window", function($rootScope, $location, $
 	// Google Analytics with AngularJS
 	$rootScope.$on('$viewContentLoaded', function (event) {
 		$window.gtag('config', 'G-1BC0PP7F2N', {'page_path': $location.path()});
+		$window.gtag('set', 'page_path', $location.path());
+		$window.ga('send', 'pageview', { page: $location.path() });
 		$window.gtag('event', 'page_view');
 	});
 	

@@ -193,8 +193,6 @@ public class InfiniteTradeJob {
 			switch (info.getConcludeType()) {
 			case LOC:
 				
-				System.out.println(info.getPrice());
-				System.out.println(priceClose);
 				// 주문가격이 종가보다 크다면 체결
 				if(info.getPrice().compareTo(priceClose) >= 0) { 
 					// 단가

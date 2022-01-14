@@ -18,7 +18,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<table class="table table-sm table-hover text-gray-800 text-xs mx-3" id="dataTable" width="100%" style="width: 100%;">
+					<table class="table table-sm table-hover text-gray-800 text-xs mx-3" id="dataTable" width="100%" style="width: 100%; table-layout: fixed;">
 						<thead class="bg-primary text-white">
 							<tr role="row" class="text-center">
 								<th style="width: 5px;">#</th>
@@ -34,7 +34,9 @@
 							<tr class="text-center" ng-repeat="item in infiniteAccount.simpleOrders"
 							 	ng-class="item.isLast && 'border-bottom-primary-thin'">
 								<td class="align-middle">{{ $index+1 }}</td>
-								<td class="align-middle font-weight-bold nowrap">계좌 {{ infiniteAccount.account.myAccountsOrder[item.accountId].order }}</td>
+								<td class="align-middle font-weight-bold nowrap" style="width: 6.5em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+									{{ infiniteAccount.account.myAccountsOrder[item.accountId].alias }}
+								</td>
 								<td class="align-middle font-weight-bold nowrap">{{ item.symbol }}</td>
 								<td class="align-middle font-weight-bold nowrap"
 									ng-class="(item.tradeType=='매수' && 'text-danger') || 'text-primary'">

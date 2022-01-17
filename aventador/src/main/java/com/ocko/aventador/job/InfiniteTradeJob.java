@@ -107,6 +107,10 @@ public class InfiniteTradeJob {
 			BigDecimal priceHigh = todayStock.getPriceHigh().setScale(2, RoundingMode.HALF_UP);
 			
 			for(StockTradeInfo info : infiniteDetail.getSellTradeInfoList()) {
+				
+				if(info.getQuantity() == 0)
+					continue;
+				
 				InfiniteHistory infiniteHistory = new InfiniteHistory();
 				infiniteHistory.setInfiniteId(infiniteDetail.getInfiniteId());
 				infiniteHistory.setTradeDate(LocalDate.now().minusDays(1));
@@ -181,6 +185,10 @@ public class InfiniteTradeJob {
 		BigDecimal priceClose = todayStock.getPriceClose();
 		
 		for(StockTradeInfo info : infiniteDetail.getBuyTradeInfoList()) {
+			
+			if(info.getQuantity() == 0)
+				continue;
+			
 			InfiniteHistory infiniteHistory = new InfiniteHistory();
 			infiniteHistory.setInfiniteId(infiniteDetail.getInfiniteId());
 			infiniteHistory.setTradeDate(LocalDate.now().minusDays(1));

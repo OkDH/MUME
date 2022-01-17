@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: @activatedProperties@
   devtools:
     livereload:
       enabled: true
@@ -6,11 +8,6 @@ spring:
     enabled: true
     cache: false
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://genport112.cafe24.com:5432/aventador?stringtype=unspecified
-    # url: jdbc:postgresql://localhost:5432/aventador
-    username: aventador
-    password: aventadorU$3r
     hikari: 
       pool-name: hikari-cp
       maximum-pool-size: 12
@@ -30,7 +27,31 @@ spring:
           NAVER:
             client-id: QyziMDfXfgFrKsHmyHIs
             client-secret: ZUgzqbmb_v
+            
+---
+spring:
+  profiles: master
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://genport112.cafe24.com:5432/aventador?stringtype=unspecified
+    username: aventador
+    password: aventadorU$3r
+    
 server:
   servlet:
     context-path: /
+  port: 80
+  
+---
+spring:
+  profiles: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://genport112.cafe24.com:5432/aventador_dev?stringtype=unspecified
+    username: aventadordev
+    password: aventadorDevU$3r
+    
+server:
+  servlet:
+    context-path: /dev
   port: 8088

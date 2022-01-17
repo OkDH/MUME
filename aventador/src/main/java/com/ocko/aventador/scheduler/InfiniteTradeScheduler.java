@@ -3,21 +3,19 @@
  */
 package com.ocko.aventador.scheduler;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.cursor.Cursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.ocko.aventador.constant.InfiniteState;
-import com.ocko.aventador.dao.model.aventador.InfiniteHistoryExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
 import com.ocko.aventador.dao.model.aventador.ViewTodayStock;
@@ -34,6 +32,7 @@ import com.ocko.aventador.service.StockService;
  *
  */
 @Component
+@Profile("master")
 public class InfiniteTradeScheduler {
 	
 	private static final Logger log = LoggerFactory.getLogger(InfiniteTradeScheduler.class);

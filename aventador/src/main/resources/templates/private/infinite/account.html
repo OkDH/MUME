@@ -173,8 +173,8 @@
 							aria-valuemax="100"></div>
 					</div>
 					<div style="text-align: right;" class="mb-2">
-						<span class="badge bg-success text-white py-1 px-2">
-							계좌 {{ infiniteAccount.account.myAccountsOrder[stock.accountId].order }}
+						<span class="badge bg-success text-white py-1 px-2" style="width: 6.5em; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: -6px;">
+							{{ infiniteAccount.account.myAccountsOrder[stock.accountId].alias }}
 						</span>
 						<span style="width: 3.5em;"
 							class="badge bg-warning text-white py-1 px-2"

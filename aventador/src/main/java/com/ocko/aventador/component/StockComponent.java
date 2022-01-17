@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.ocko.aventador.constant.EtfSymbol;

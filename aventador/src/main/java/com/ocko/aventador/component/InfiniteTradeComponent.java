@@ -171,7 +171,7 @@ public class InfiniteTradeComponent {
 				// 지정가 매도 +5%
 				StockTradeInfo info = new StockTradeInfo();
 				info.setTradeName("지정가 매도 (+5%)");
-				BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal(TEN_PER));
+				BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal(FIVE_PER));
 				info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
 				info.setQuantity(quantity);
 				info.setConcludeType(ConcludeType.PENDING_ORDER);

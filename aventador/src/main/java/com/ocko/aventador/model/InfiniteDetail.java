@@ -49,16 +49,6 @@ public class InfiniteDetail extends ViewInfiniteList {
 	public Integer getOneBuyQuantity() {
 		if(stockDetail == null)
 			return null;
-		// TODO : 임시 1월 14일 이후 삭제 요망 ----
-		LocalDateTime now = LocalDateTime.now();
-		LocalDateTime temp = LocalDateTime.of(2022, 1, 13, 23, 35);
-		if(getSymbol().equals(EtfSymbol.TQQQ.name()) &&
-				now.isBefore(temp) &&
-				stockDetail.getPriceClose().compareTo(new BigDecimal(120)) > 0)
-			return getOneBuySeed().divide(new BigDecimal("76.34"), 0, RoundingMode.DOWN).intValue();
-		// -------
-		
-		
 		return getOneBuySeed().divide(stockDetail.getPriceClose().setScale(2, RoundingMode.HALF_UP), 0, RoundingMode.DOWN).intValue();
 	}
 	
@@ -76,12 +66,12 @@ public class InfiniteDetail extends ViewInfiniteList {
 		BigDecimal avgPrice = BigDecimal.ZERO;
 		BigDecimal holdingQuantity = BigDecimal.ZERO;
 		
-		// TQQQ 1/13일 액면분할 적용 코드
+		// TQQQ, UPRO 1/13일 액면분할 적용 코드
 		LocalDate splitDate = LocalDate.of(2022, 1, 13);
 		// 1. 1월 13일 전에 시작했는지 체크
 		boolean isCheckSplit = false;
-		if(getSymbol().equals(EtfSymbol.TQQQ.name()) && 
-				getInfiniteState().equals(InfiniteState.ING) && 
+		if((getSymbol().equals(EtfSymbol.TQQQ.name()) || getSymbol().equals(EtfSymbol.UPRO.name())) && 
+				(getInfiniteState().equals(InfiniteState.ING) || getInfiniteState().equals(InfiniteState.STOP) || getInfiniteState().equals(InfiniteState.OUT)) &&
 				getStartedDate().isBefore(splitDate))
 			isCheckSplit = true;
 		
@@ -92,8 +82,8 @@ public class InfiniteDetail extends ViewInfiniteList {
 				continue;
 			
 			if(isCheckSplit && 
-					(history.getTradeDate().equals(splitDate) && history.getTradeDate().isAfter(splitDate))) {
-				// 액면분할 2:1
+					(history.getTradeDate().equals(splitDate) || history.getTradeDate().isAfter(splitDate))) {
+				// 2. 액면분할 2:1
 				avgPrice = avgPrice.divide(new BigDecimal(2), 8, RoundingMode.HALF_EVEN);
 				holdingQuantity = holdingQuantity.multiply(new BigDecimal(2));
 				isCheckSplit = false;

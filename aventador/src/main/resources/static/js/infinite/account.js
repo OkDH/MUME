@@ -427,5 +427,24 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		})
 	}
 	
+	// -------------------------------------
+	// FCM
+	var mobile = (/iphone|ipad|ipod|android/i.test(navigator.userAgent.toLowerCase()));  
+	if (mobile) {
+		var userAgent = navigator.userAgent.toLowerCase();
+		if ((userAgent.search("android") > -1) || (userAgent.search("iphone") > -1) || (userAgent.search("ipod") > -1) || (userAgent.search("ipad") > -1)){
+			
+			// 웹뷰 메소드 호출
+			var fcmToken = window.App.getFcmToken();
+			if(fcmToken){
+				httpService.post({
+					url: meta.baseUrl + "api/member/fcm-token",
+					data: {fcmToken : fcmToken}
+				}).then(function(response){
+				});
+			}
+		}
+	}
+	
 });
 

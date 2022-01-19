@@ -103,11 +103,12 @@ app.run(["$rootScope", "$location", "$window", function($rootScope, $location, $
 	$rootScope.$on('$viewContentLoaded', function (event) {
 		$window.gtag('config', 'G-1BC0PP7F2N', {'page_path': $location.path()});
 		$window.gtag('set', 'page_path', $location.path());
-		$window.ga('send', 'pageview', { page: $location.path() });
+		$window.gtag('send', 'pageview', { page: $location.path() });
 		$window.gtag('event', 'page_view');
 	});
 	
 } ]);
+
 app.service("httpService", function($http, $q) {
 	var httpService = this;
 

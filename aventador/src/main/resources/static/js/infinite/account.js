@@ -429,22 +429,16 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	
 	// -------------------------------------
 	// FCM
-	var mobile = (/iphone|ipad|ipod|android/i.test(navigator.userAgent.toLowerCase()));  
-	if (mobile) {
-		var userAgent = navigator.userAgent.toLowerCase();
-		if ((userAgent.search("android") > -1) || (userAgent.search("iphone") > -1) || (userAgent.search("ipod") > -1) || (userAgent.search("ipad") > -1)){
-			
+	if ($scope.$parent.isMobile()) {
+		// 식별 토큰 가져오기
+		// api/member/check-token
+		httpService.get({
+			url: meta.baseUrl + "api/member/check-token"
+		}).then(function(response){
 			// 웹뷰 메소드 호출
-			var fcmToken = window.App.getFcmToken();
-			if(fcmToken){
-				httpService.post({
-					url: meta.baseUrl + "api/member/fcm-token",
-					data: {fcmToken : fcmToken}
-				}).then(function(response){
-				});
-			}
-		}
+			if(response.status == 200)
+				AppGetFcmToken.postMessage(response.data.token);
+		});
 	}
-	
 });
 

@@ -329,4 +329,18 @@ app.controller("MainController", function($scope, $http, $location) {
 		}, 1000, 'easeInOutExpo');
 		e.preventDefault();
 	});
+	
+	// 모바일 체크
+	$scope.isMobile = function(){
+		var mobile = (/iphone|ipad|ipod|android/i.test(navigator.userAgent.toLowerCase()));  
+		if (mobile)
+			return true;
+		else 
+			return false;
+	}
+	
+	// 모바일에서 문의하기 화면 이동(앱 요청)
+	$scope.moveContact = function(){
+		AppGoAskPage.postMessage('mume');
+	}
 });

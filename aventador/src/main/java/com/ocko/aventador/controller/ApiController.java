@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
+import com.ocko.aventador.model.api.ResponseDto;
 import com.ocko.aventador.service.AuthenticationService;
 import com.ocko.aventador.service.FcmTokenService;
 
@@ -22,15 +23,26 @@ public class ApiController {
 	@Autowired private FcmTokenService fcmTokenService;
 
 	/**
-	 * fcm 토큰 저장 
+	 * 개인 식별 토큰 발급
 	 * @return
 	 */
-	@RequestMapping(value = "/api/member/fcm-token", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> updateFcmTocken(@RequestBody Map<String, Object> params) {
+	@RequestMapping(value = "/api/member/check-token", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, String>> getMemberTocken() {
 		MemberInfo memberInfo = authenticationService.getCurrentMember();
 		if(memberInfo == null)
 			return null;
-		fcmTokenService.updateFcmToken(memberInfo.getMemberId(), params);
-		return new ResponseEntity<Boolean>(HttpStatus.OK);
+		
+		Map<String ,String > map = new HashMap<String, String>();
+		map.put("token", fcmTokenService.getCheckToken(memberInfo.getMemberId()));
+		return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
+	}
+	
+	/**
+	 * 웹뷰에서 요청한 fcm 토큰 저장 
+	 * @return
+	 */
+	@RequestMapping(value = "/api/public/member/fcm-token", method = RequestMethod.POST)
+	public ResponseEntity<ResponseDto> updateFcmTocken(@RequestBody Map<String, String> params) {
+		return new ResponseEntity<ResponseDto>(fcmTokenService.updateFcmToken(params), HttpStatus.OK);
 	}
 }

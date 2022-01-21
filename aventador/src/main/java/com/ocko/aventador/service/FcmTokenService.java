@@ -69,7 +69,7 @@ public class FcmTokenService {
 			return response;
 		}
 		
-		if(settings.get(0).getCheckTokenAvailable().isAfter(LocalDateTime.now())){
+		if(settings.get(0).getCheckTokenAvailable().isBefore(LocalDateTime.now())){
 			response.setState("fail");
 			response.setMessage("만료된 토큰입니다.");
 			return response;

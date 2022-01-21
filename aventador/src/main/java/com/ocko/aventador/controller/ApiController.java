@@ -42,7 +42,7 @@ public class ApiController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/public/member/fcm-token", method = RequestMethod.POST)
-	public ResponseEntity<ResponseDto> updateFcmTocken(@RequestBody Map<String, String> params) {
+	public ResponseEntity<ResponseDto> updateFcmTocken(@RequestBody Map<String, Object> params) {
 		return new ResponseEntity<ResponseDto>(fcmTokenService.updateFcmToken(params), HttpStatus.OK);
 	}
 }

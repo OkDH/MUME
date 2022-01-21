@@ -50,7 +50,7 @@ public class FcmTokenService {
 	/**
 	 * FCM 토큰 등록
 	 */
-	public ResponseDto updateFcmToken(Map<String, String> params) {
+	public ResponseDto updateFcmToken(Map<String, Object> params) {
 		ResponseDto response = new ResponseDto();
 		if(params.get("checkToken") == null || params.get("fcmToken") == null) {
 			response.setState("fail");
@@ -59,18 +59,20 @@ public class FcmTokenService {
 		}
 			
 		MemberSettingExample example = new MemberSettingExample();
-		example.createCriteria().andCheckTokenEqualTo(params.get("checkToken"));
+		example.createCriteria().andCheckTokenEqualTo(params.get("checkToken").toString());
 		
 		List<MemberSetting> settings = memberSettingMapper.selectByExample(example);
 		
 		if(settings.isEmpty()) {
 			response.setState("fail");
 			response.setMessage("유효하지 않은 토큰입니다.");
+			return response;
 		}
 		
 		if(settings.get(0).getCheckTokenAvailable().isAfter(LocalDateTime.now())){
 			response.setState("fail");
 			response.setMessage("만료된 토큰입니다.");
+			return response;
 		}
 		
 		MemberSetting updateSetting = new MemberSetting();

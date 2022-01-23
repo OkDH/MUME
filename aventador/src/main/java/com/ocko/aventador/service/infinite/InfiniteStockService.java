@@ -256,6 +256,7 @@ public class InfiniteStockService {
 			case InfiniteVersion.V1:
 			case InfiniteVersion.V2:
 			case InfiniteVersion.V2_1:
+			case InfiniteVersion.V2_1_SH:
 				infiniteStock.setInfiniteVersion((String) params.get("infiniteVersion"));
 				break;
 			default:

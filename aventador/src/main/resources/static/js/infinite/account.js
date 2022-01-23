@@ -51,6 +51,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		},
 		infiniteVersion: {
 			v2_1: { name: "v2.1", value: true },
+			v2_1_SH: { name: "v2.1후반", value: true },
 			v2: { name: "v2", value: true },
 			v1: { name: "v1", value: true }
 		},
@@ -253,12 +254,14 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		if(!params)
 			return;
 		
-		// Date to StringDate
-		params.startedDate = $filter("printDate")(params.startedDate);
-		if(params.doneDate)
-			params.doneDate = $filter("printDate")(params.doneDate);
+		var request = angular.copy(params); 
 		
-		infiniteService.updateStock(params).then(function(data){
+		// Date to StringDate
+		request.startedDate = $filter("printDate")(request.startedDate);
+		if(params.doneDate)
+			request.doneDate = $filter("printDate")(request.doneDate);
+		
+		infiniteService.updateStock(request).then(function(data){
 			if(data == true){
 				infiniteAccount.getStocks(infiniteAccount.account.query);
 				infiniteAccount.getAccountState(infiniteAccount.account.query.accountId);

@@ -96,10 +96,8 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/#!/}">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-infinity"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">MUME</div>
+                <img style="width:2.5em; height:1.7em;" th:src="@{/static/img/logo_white.png}">
+                <div class="sidebar-brand-text mx-2 mt-2">MUME</div>
             </a>
 
             <!-- Divider -->
@@ -144,6 +142,16 @@
                 <a class="nav-link" th:href="@{/private/#!/setting}">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>설정</span></a>
+            </li>
+            <li class="nav-item" ng-class="path('/donation') && 'active'">
+                <a class="nav-link" th:href="@{/public/#!/donation}">
+                    <i class="fas fa-coffee"></i>
+                    <span>후원</span></a>
+            </li>
+            <li class="nav-item" ng-if="isMobile()">
+                <a class="nav-link" ng-click="moveContact()">
+                    <i class="fas fa-envelope"></i>
+                    <span>문의</span></a>
             </li>
 <!-- 
             Divider
@@ -267,7 +275,8 @@
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                     	<h4 class="text-xs font-weight-bold">모든 투자에 대한 책임은 투자자 본인에게 있습니다.</h4>
-                        <span>Copyright &copy; MUME 2022</span>
+                        <span>Copyright &copy; 빈쿵바라기 2022</span>
+                        <span class="text-xs"> | <a th:href="@{/public/#!/privacy}">개인정보처리방침</a></span>
                     </div>
                 </div>
             </footer>

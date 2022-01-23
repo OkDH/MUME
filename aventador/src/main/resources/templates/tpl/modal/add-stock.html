@@ -67,6 +67,13 @@
 									</label> 
 									<label style="width: 4em;"
 										class="btn btn-sm btn-outline-info font-weight-bold text-xs"
+										ng-class="infiniteAccount.addStock.data.infiniteVersion == 'v2.1후반' && 'active'">
+										<input type="radio" name="editInfiniteVersion"
+										ng-model="infiniteAccount.addStock.data.infiniteVersion"
+										value="v2.1후반"> v2.1후반
+									</label> 
+									<label style="width: 4em;"
+										class="btn btn-sm btn-outline-info font-weight-bold text-xs"
 										ng-class="infiniteAccount.addStock.data.infiniteVersion == 'v2' && 'active'">
 										<input type="radio" name="editInfiniteVersion"
 										ng-model="infiniteAccount.addStock.data.infiniteVersion"

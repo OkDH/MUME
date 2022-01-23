@@ -38,6 +38,8 @@ public class InfiniteTradeComponent {
 		if(infiniteDetail.getInfiniteVersion() != null) {
 			if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_1)) {
 				tradeInfoList = getBuyInfoV2(infiniteDetail);
+			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_1_SH)) {
+				tradeInfoList = getBuyInfoV2_SH(infiniteDetail);
 			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2)) {
 				tradeInfoList = getBuyInfoV2(infiniteDetail);
 			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V1)) {
@@ -64,6 +66,8 @@ public class InfiniteTradeComponent {
 		if(infiniteDetail.getInfiniteVersion() != null) {
 			if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_1)) {
 				tradeInfoList = getSellInfoV2_1(infiniteDetail);
+			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_1_SH)) {
+				tradeInfoList = getSellInfoV2_1_SH(infiniteDetail);
 			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2)) {
 				tradeInfoList = getSellInfoV2(infiniteDetail);
 			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V1)) {
@@ -138,6 +142,50 @@ public class InfiniteTradeComponent {
 				info.setConcludeType(ConcludeType.PENDING_ORDER);
 				tradeInfoList.add(info);
 			}
+		}
+		
+		return tradeInfoList;
+	}
+	
+	/**
+	 * v2_1 후반전 고정 매도 정보 가져오기
+	 * @param infiniteDetail
+	 * @return
+	 */
+	private List<StockTradeInfo> getSellInfoV2_1_SH(InfiniteDetail infiniteDetail){
+		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
+		
+		int quantity = (int) Math.floor(infiniteDetail.getHoldingQuantity()/4.0);
+		
+		// 후반전
+		{
+			// LOC 매도 +0%
+			StockTradeInfo info = new StockTradeInfo();
+			info.setTradeName("LOC 매도 (+0%)");
+			info.setPrice(infiniteDetail.getAveragePrice().multiply(new BigDecimal(ZERO_PER)));
+			info.setQuantity(quantity);
+			info.setConcludeType(ConcludeType.LOC);
+			tradeInfoList.add(info);
+		}
+		{
+			// 지정가 매도 +5%
+			StockTradeInfo info = new StockTradeInfo();
+			info.setTradeName("지정가 매도 (+5%)");
+			BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal(FIVE_PER));
+			info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
+			info.setQuantity(quantity);
+			info.setConcludeType(ConcludeType.PENDING_ORDER);
+			tradeInfoList.add(info);
+		}
+		{
+			// 지정가 매도 +10%
+			StockTradeInfo info = new StockTradeInfo();
+			info.setTradeName("지정가 매도 (+10%)");
+			BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal(TEN_PER));
+			info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
+			info.setQuantity(infiniteDetail.getHoldingQuantity() - quantity - quantity);
+			info.setConcludeType(ConcludeType.PENDING_ORDER);
+			tradeInfoList.add(info);
 		}
 		
 		return tradeInfoList;
@@ -269,6 +317,36 @@ public class InfiniteTradeComponent {
 				info.setConcludeType(ConcludeType.LOC);
 				tradeInfoList.add(info);
 			}
+		}
+		
+		return tradeInfoList;
+	}
+	
+	/**
+	 * v2 후반전 고정 매수 정보 가져오기
+	 * @param infiniteDetail
+	 * @return
+	 */
+	private List<StockTradeInfo> getBuyInfoV2_SH(InfiniteDetail infiniteDetail){
+		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
+		// 1회 매수 량
+		Integer oneBuyQuantity = infiniteDetail.getOneBuyQuantity();
+		// 현재가 +15%
+		BigDecimal nowUpPrice = infiniteDetail.getStockDetail().getPriceClose().multiply(new BigDecimal("1.15"));
+		
+		// 후반전
+		{
+			// LOC 평단매수
+			StockTradeInfo info = new StockTradeInfo();
+			info.setTradeName("LOC 평단매수");
+			
+			// 현재가 +15% 와 평단가와 비교해서 작은값
+			BigDecimal price = infiniteDetail.getAveragePrice().min(nowUpPrice);
+			info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
+			
+			info.setQuantity(oneBuyQuantity);
+			info.setConcludeType(ConcludeType.LOC);
+			tradeInfoList.add(info);
 		}
 		
 		return tradeInfoList;

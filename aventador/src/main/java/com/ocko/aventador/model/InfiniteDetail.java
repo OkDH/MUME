@@ -88,7 +88,6 @@ public class InfiniteDetail extends ViewInfiniteList {
 				holdingQuantity = holdingQuantity.multiply(new BigDecimal(2));
 				isCheckSplit = false;
 			}
-				
 			
 			if(history.getTradeType().equals(TradeType.BUY)) { // 매수
 				// 보유 평단가 * 보유수량
@@ -99,7 +98,10 @@ public class InfiniteDetail extends ViewInfiniteList {
 				holdingQuantity = holdingQuantity.add(new BigDecimal(history.getQuantity()));
 				
 				// 평단가
-				avgPrice = (temp1.add(temp2)).divide(holdingQuantity, 8, RoundingMode.HALF_EVEN);
+				if(holdingQuantity.compareTo(new BigDecimal("0.0")) == 0)
+					avgPrice = (temp1.add(temp2)).divide(new BigDecimal("1.0"), 8, RoundingMode.HALF_EVEN);
+				else
+					avgPrice = (temp1.add(temp2)).divide(holdingQuantity, 8, RoundingMode.HALF_EVEN);
 			} else if(history.getTradeType().equals(TradeType.SELL)) { // 매도
 				holdingQuantity = holdingQuantity.subtract(new BigDecimal(history.getQuantity()));
 			}

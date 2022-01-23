@@ -103,11 +103,12 @@ app.run(["$rootScope", "$location", "$window", function($rootScope, $location, $
 	$rootScope.$on('$viewContentLoaded', function (event) {
 		$window.gtag('config', 'G-1BC0PP7F2N', {'page_path': $location.path()});
 		$window.gtag('set', 'page_path', $location.path());
-		$window.ga('send', 'pageview', { page: $location.path() });
+		$window.gtag('send', 'pageview', { page: $location.path() });
 		$window.gtag('event', 'page_view');
 	});
 	
 } ]);
+
 app.service("httpService", function($http, $q) {
 	var httpService = this;
 
@@ -231,6 +232,8 @@ app.filter('abs', function () {
 });
 app.filter('printDate', function(){
 	return function(date) {
+		if (typeof path === "string") 
+			return date;
 		return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0]; // 한국기준으로는 9시간을 빼줘야함.
 	}
 });
@@ -328,4 +331,18 @@ app.controller("MainController", function($scope, $http, $location) {
 		}, 1000, 'easeInOutExpo');
 		e.preventDefault();
 	});
+	
+	// 모바일 체크
+	$scope.isMobile = function(){
+		var mobile = (/iphone|ipad|ipod|android/i.test(navigator.userAgent.toLowerCase()));  
+		if (mobile)
+			return true;
+		else 
+			return false;
+	}
+	
+	// 모바일에서 문의하기 화면 이동(앱 요청)
+	$scope.moveContact = function(){
+		AppGoAskPage.postMessage('mume');
+	}
 });

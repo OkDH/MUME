@@ -228,7 +228,7 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		});
 	}, true);
 	
-	// 비중 관련 차트
+	// 비중 관련 차트, 일별 시드 사용률 차트
 	$scope.$watch("infiniteDashboard.stocks", function(stocks){
 		if(!stocks)
 			return;
@@ -290,6 +290,11 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			infiniteDashboard.gravityStocks.sort(function(o1, o2){
 				return o2.buyPrice - o1.buyPrice; // 내림차순
 			});
+		}
+		
+		// 일별 소진률 차트
+		{
+			//
 		}
 
 	}, true);

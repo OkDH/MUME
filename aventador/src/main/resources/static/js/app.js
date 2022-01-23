@@ -232,6 +232,8 @@ app.filter('abs', function () {
 });
 app.filter('printDate', function(){
 	return function(date) {
+		if (typeof path === "string") 
+			return date;
 		return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0]; // 한국기준으로는 9시간을 빼줘야함.
 	}
 });

@@ -34,7 +34,7 @@ public class FcmTokenService {
 				return memberSetting.getCheckToken();
 		}
 		// 토큰 생성
-		String checkToken = simpleTokenComponent.generatorToken();
+		String checkToken = simpleTokenComponent.generatorToken(memberId);
 		LocalDateTime availableTime = LocalDateTime.now().plusMinutes(10);
 		
 		MemberSetting updateSetting = new MemberSetting();

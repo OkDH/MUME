@@ -100,9 +100,29 @@ app.controller("SettingController", function($scope, httpService, infiniteServic
 		})
     }
     
+    // api key 관련
+    setting.apiKey = "****************";
+    
+    setting.getApiKey = function(){
+    	settingService.getApiKey().then(function(data){
+    		setting.apiKey = data.apiKey;
+    	})
+    }
 });
 
-app.service("settingService", function(){
+app.service("settingService", function(httpService){
 
-
+	// api key 가져오기
+	var promiseGetApiKey = null;
+	this.getApiKey = function(params){
+		if(promiseGetApiKey){
+			httpService.stop(promiseGetApiKey);
+		}
+		promiseGetApiKey = httpService.get({
+			url: meta.baseUrl + "api/member/api-key"
+		}).then(function(response){
+			return response.data;
+		});
+		return promiseGetApiKey;
+	}
 });

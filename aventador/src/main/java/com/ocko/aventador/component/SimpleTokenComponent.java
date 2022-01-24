@@ -20,14 +20,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class SimpleTokenComponent {
 
-	public String generatorToken() {
+	public String generatorToken(Integer memberId) {
 		try {
-			UUID uuid = UUID.randomUUID();
+//			UUID uuid = UUID.randomUUID();
 					
 			ZonedDateTime zdt = ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault());
-	        long date = zdt.toInstant().toEpochMilli();
+	        long dateTime = zdt.toInstant().toEpochMilli();
 	        
-	        String uniqueKey = uuid.toString() + date;
+	        System.out.println(zdt.toLocalDateTime());
+	        System.out.println(dateTime);
+	        
+//	        String uniqueKey = uuid.toString() + dateTime;
+	        
+	        String uniqueKey = memberId.toString() + dateTime;
 	        		
 			MessageDigest salt = MessageDigest.getInstance("SHA-256");
 			salt.update(uniqueKey.getBytes(StandardCharsets.UTF_8));

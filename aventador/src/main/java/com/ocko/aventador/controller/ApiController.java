@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.model.api.ResponseDto;
+import com.ocko.aventador.service.ApiService;
 import com.ocko.aventador.service.AuthenticationService;
 import com.ocko.aventador.service.FcmTokenService;
 
@@ -21,6 +22,7 @@ public class ApiController {
 	
 	@Autowired private AuthenticationService authenticationService;
 	@Autowired private FcmTokenService fcmTokenService;
+	@Autowired private ApiService apiService;
 
 	/**
 	 * 개인 식별 토큰 발급
@@ -44,5 +46,20 @@ public class ApiController {
 	@RequestMapping(value = "/api/public/member/fcm-token", method = RequestMethod.POST)
 	public ResponseEntity<ResponseDto> updateFcmTocken(@RequestBody Map<String, Object> params) {
 		return new ResponseEntity<ResponseDto>(fcmTokenService.updateFcmToken(params), HttpStatus.OK);
+	}
+	
+	/**
+	 * 지니 프로그램 연동 api key 발급
+	 * @return
+	 */
+	@RequestMapping(value = "/api/member/api-key", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, String>> getApiKey() {
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+		
+		Map<String ,String > map = new HashMap<String, String>();
+		map.put("apiKey", apiService.getApiKey(memberInfo.getMemberId()));
+		return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
 	}
 }

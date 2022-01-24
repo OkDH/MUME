@@ -11,8 +11,14 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		'#5bc0de',
 		'#f0ad4e',
 		'#d9534f',
-		'#4e73df'
+		'#4e73df',
+		'#6f42c1',
+		'#20c9a6',
+		'#f6c23e',
+		'#e83e8c',
+		'#5a5c69'
 	]
+	
 	// 색상 반환
 	infiniteDashboard.getColor = function(index){
 		return infiniteDashboard.colors[index % infiniteDashboard.colors.length];
@@ -46,6 +52,11 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			// 최근 2개월 매수금액
 			infiniteService.getStatistics("buy-daily", infiniteDashboard.query).then(function(data){
 				infiniteDashboard.buyDaily = data;
+			});
+			
+			// 종목 일별 매매금액
+			infiniteService.getStatistics("buy-stock-daily", infiniteDashboard.query).then(function(data){
+				infiniteDashboard.buyStockDaily = data;
 			});
 			
 			// 종목 진행률
@@ -292,11 +303,6 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			});
 		}
 		
-		// 일별 소진률 차트
-		{
-			//
-		}
-
 	}, true);
 	
 	// 최근 2개월 매수 손익현황 차트
@@ -506,6 +512,162 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		    }
 		  }
 		});
+	}, true);
+	
+	// 일별 종목 시드 소진률
+	$scope.$watch("infiniteDashboard.buyStockDaily", function(buyStockDaily){
+		if(!buyStockDaily)
+			return;
+		
+		// label
+		var labels = [];
+		var labelMap = {};
+		var labelIndex = 0;
+		buyStockDaily.forEach(function(item){
+			if(labels.length == 0 || labels[labels.length-1] != item.tradeDate){
+				labels.push(item.tradeDate);
+				labelMap[item.tradeDate] = labelIndex;
+				labelIndex++;
+			}
+		});
+		
+		// label 크기 만큼 기본 data 리스트 만들기(빈값 0)
+		var commonList = Array.from({length: labels.length}, () => 0);
+		
+		// data
+		var datas = {};
+		buyStockDaily.forEach(function(item){
+			if(datas[item.symbol] == undefined){
+				datas[item.symbol] = {symbol: item.symbol, priceList: angular.copy(commonList), perList: angular.copy(commonList)};
+			}
+			var index = labelMap[item.tradeDate];
+			var price = 0;
+			
+			if(index == 0)
+				price = item.tradePrice;
+			else 
+				price = datas[item.symbol].priceList[index-1] + item.tradePrice; // 누적을 위한 합산
+			datas[item.symbol].priceList[index] = price > 0 ? price : 0; // 마이너스라면, 다 팔린거기 때문에 0;
+			datas[item.symbol].perList[index] = price > 0 ? (price / item.seed) * 100 : 0;
+		});
+		
+		// dataset 
+		var datasets = [];
+		
+		// 전체
+		var allPriceList = angular.copy(commonList);
+		var allPerList = [];
+		
+		// symbol 들
+		Object.keys(datas).forEach(function(symbol){
+			datasets.push({
+				label: symbol,
+				lineTension: 0.1,
+				borderWidth: 2,
+				borderDash: [10, 3],
+				fill: false,
+				borderColor: infiniteDashboard.colors[datasets.length % infiniteDashboard.colors.length],
+				backgroundColor: infiniteDashboard.colors[datasets.length % infiniteDashboard.colors.length],
+		        pointBackgroundColor: infiniteDashboard.colors[datasets.length % infiniteDashboard.colors.length],
+		        pointRadius: 0,
+		        pointHoverRadius: 4,
+				data: datas[symbol].perList
+			});
+			
+			// 전체 데이터 누적
+			datas[symbol].priceList.forEach(function(o, i){
+				allPriceList[i] = allPriceList[i] + o;
+			});
+		});
+		
+		allPriceList.forEach(function(price){
+			allPerList.push((price / infiniteDashboard.state.sumAccountSeed) * 100); 
+		});
+		
+		datasets.unshift({
+			label: '전체',
+			lineTension: 0.1,
+			borderWidth: 3,
+			pointRadius: 2,
+			fill: false,
+			borderColor: infiniteDashboard.colors[3],
+			backgroundColor: infiniteDashboard.colors[3],
+	        pointBackgroundColor: infiniteDashboard.colors[3],
+	        pointHoverRadius: 4,
+			data: allPerList
+		});
+		
+		var ctx = document.getElementById("buyDailyStockChart");
+		var myLineChart = new Chart(ctx, {
+		  type: 'line',
+		  data: {
+		    labels: labels.map(x => x.substring(5).replace("-", ".")),
+		    datasets: datasets,
+		  },
+		  options: {
+		    maintainAspectRatio: false,
+		    layout: {
+		      padding: {
+		        left: 0,
+		        right: 0,
+		        top: 10,
+		        bottom: 0
+		      }
+		    },
+		    scales: {
+		      xAxes: [{
+		        time: {
+		          unit: 'date'
+		        },
+		        gridLines: {
+		          display: false,
+		          drawBorder: false
+		        },
+		        ticks: {
+		        }
+		      }],
+		      yAxes: [{
+		        ticks: {
+		          padding: 10,
+		          // Include a dollar sign in the ticks
+		          callback: function(value, index, values) {
+		            return value + '%';
+		          }
+		        },
+		        gridLines: {
+		          color: "rgb(234, 236, 244)",
+		          zeroLineColor: "rgb(234, 236, 244)",
+		          drawBorder: false,
+		          zeroLineBorderDash: [2]
+		        }
+		      }],
+		    },
+		    legend: {
+		      display: true,
+		      position: 'bottom'
+		    },
+		    tooltips: {
+		      titleMarginBottom: 10,
+			  titleFontColor: '#6e707e',
+			  titleFontSize: 14,
+		      backgroundColor: 'rgb(255,255,255)',
+		      bodyFontColor: '#858796',
+		      borderColor: '#dddfeb',
+		      borderWidth: 1,
+		      xPadding: 15,
+		      yPadding: 15,
+		      displayColors: false,
+		      mode:'index',	
+		      callbacks: {
+		        label: function(tooltipItem, chart) {
+		          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+		          return datasetLabel + ': ' + $filter('number')(tooltipItem.yLabel, 2) + '%';
+		        }
+		      }
+		    }
+		  }
+		});
+		
 	}, true);
 	
 });

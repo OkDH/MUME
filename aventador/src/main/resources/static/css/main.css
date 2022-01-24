@@ -48,6 +48,10 @@
 .nowrap {
 	white-space: nowrap;
 }
+/* chart */
+.chart-area {
+	min-height: 240px;
+}
 
 /* 작은화면 텍스트 크기 변동이 필요할 때 */
 @media (max-width:768px) {

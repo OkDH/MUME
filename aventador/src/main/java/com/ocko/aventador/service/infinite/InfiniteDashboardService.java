@@ -13,7 +13,10 @@ import java.util.Map;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyDaily;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyDailyExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyTwoMonth;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyTwoMonthExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
@@ -22,6 +25,7 @@ import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthlyExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthlyExample.Criteria;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitStock;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitStockExample;
+import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteBuyDailyMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteBuyTwoMonthMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteProfitMonthlyMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteProfitStockMapper;
@@ -39,7 +43,8 @@ public class InfiniteDashboardService {
 	
 	@Autowired private ViewInfiniteProfitMonthlyMapper viewProfitMonthlyMapper; 
 	@Autowired private ViewInfiniteProfitStockMapper viewProfitStockMapper;
-	@Autowired private ViewInfiniteBuyTwoMonthMapper ViewBuyMapper;
+	@Autowired private ViewInfiniteBuyTwoMonthMapper viewBuyMapper;
+	@Autowired private ViewInfiniteBuyDailyMapper viewBuyStockMapper;
 	
 	/**
 	 * 월별 실현 손익 가져오기
@@ -137,7 +142,22 @@ public class InfiniteDashboardService {
 		
 		example.setOrderByClause("trade_date asc");
 	
-		return ViewBuyMapper.selectByExample(example);
+		return viewBuyMapper.selectByExample(example);
+	}
+
+	/**
+	 * 매도완료 제외한 종목 일별 매매 금액 가져오기
+	 * @param memberId
+	 * @param params
+	 * @return
+	 */
+	public List<ViewInfiniteBuyDaily> getBuyStockDaily(Integer memberId, Map<String, Object> params) {
+		ViewInfiniteBuyDailyExample example = new ViewInfiniteBuyDailyExample();
+		com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyDailyExample.Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
+		if(params.get("accountId") != null)
+			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
+		example.setOrderByClause("trade_date asc");
+		return viewBuyStockMapper.selectByExample(example);
 	}
 
 }

@@ -1,0 +1,158 @@
+<div ng-controller="MarketIndexController as marketIndex">
+	
+	<div class="row">
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-primary shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-primary text-uppercase mb-1">
+								다우 산업</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">
+								{{ marketIndex.DJI.stock.priceClose | number:2 }}
+								<span class="text-xs" ng-class="(marketIndex.DJI.stock.chg > 0 && 'text-danger') || (marketIndex.DJI.stock.chg < 0 && 'text-primary')">
+									{{ marketIndex.DJI.stock.chg | appendUpDown }} ({{ marketIndex.DJI.stock.chgp | appendPulMa }}%)
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-success shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-success text-uppercase mb-1">
+								나스닥 종합</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">						
+								{{ marketIndex.IXIC.stock.priceClose | number:2 }} 
+								<span class="text-xs" ng-class="(marketIndex.IXIC.stock.chg > 0 && 'text-danger') || (marketIndex.IXIC.stock.chg < 0 && 'text-primary')">
+									{{ marketIndex.IXIC.stock.chg | appendUpDown }} ({{ marketIndex.IXIC.stock.chgp | appendPulMa }}%)
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-info shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-info text-uppercase mb-1">S&P 500</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">
+								{{ marketIndex.GSPC.stock.priceClose | number:2 }} 
+								<span class="text-xs" ng-class="(marketIndex.GSPC.stock.chg > 0 && 'text-danger') || (marketIndex.GSPC.stock.chg < 0 && 'text-primary')">
+									{{ marketIndex.GSPC.stock.chg | appendUpDown }} ({{ marketIndex.GSPC.stock.chgp | appendPulMa }}%)
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-warning shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-warning text-uppercase mb-1">
+								필라델피아 반도체</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">
+								{{ marketIndex.SOX.stock.priceClose | number:2 }} 
+								<span class="text-xs" ng-class="(marketIndex.SOX.stock.chg > 0 && 'text-danger') || (marketIndex.SOX.stock.chg < 0 && 'text-primary')"> 
+									{{ marketIndex.SOX.stock.chg | appendUpDown }} ({{ marketIndex.SOX.stock.chgp | appendPulMa }}%)
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-primary shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-primary text-uppercase mb-1">
+								다우 산업 선물</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">
+								{{ marketIndex.YM=F.stock.priceClose | number:2 }}
+								<span class="text-xs" ng-class="(marketIndex.YM=F.stock.chg > 0 && 'text-danger') || (marketIndex.YM=F.stock.chg < 0 && 'text-primary')">
+									{{ marketIndex.YM=F.stock.chg | appendUpDown }} ({{ marketIndex.YM=F.stock.chgp | appendPulMa }}%)
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-success shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-success text-uppercase mb-1">
+								나스닥 선물</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">						
+								{{ marketIndex.NQ=F.stock.priceClose | number:2 }} 
+								<span class="text-xs" ng-class="(marketIndex.NQ=F.stock.chg > 0 && 'text-danger') || (marketIndex.NQ=F.stock.chg < 0 && 'text-primary')">
+									{{ marketIndex.NQ=F.stock.chg | appendUpDown }} ({{ marketIndex.NQ=F.stock.chgp | appendPulMa }}%)
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-info shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-info text-uppercase mb-1">S&P 500 선물</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">
+								{{ marketIndex.TNX.stock.priceClose | number:2 }} 
+								<span class="text-xs" ng-class="(marketIndex.ES=F.stock.chg > 0 && 'text-danger') || (marketIndex.ES=F.stock.chg < 0 && 'text-primary')">
+									{{ marketIndex.ES=F.stock.chg | appendUpDown }} ({{ marketIndex.ES=F.stock.chgp | appendPulMa }}%)
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-warning shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="font-weight-bold text-warning text-uppercase mb-1">
+								러셀 2000 선물</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800">
+								{{ marketIndex.RTY=F.stock.priceClose | number:2 }} 
+								<span class="text-xs" ng-class="(marketIndex.RTY=F.stock.chg > 0 && 'text-danger') || (marketIndex.RTY=F.stock.chg < 0 && 'text-primary')"> 
+									{{ marketIndex.RTY=F.stock.chg | appendUpDown }} ({{ marketIndex.YM=F.stock.chgp | appendPulMa }}%)
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{{ marketIndex.YM=F}}

@@ -11,12 +11,14 @@ app.controller("StockController", function($scope, $timeout, $q, httpService, st
 	
 	var symbols = [ngStock.marketIndex.DJI.symbol, ngStock.marketIndex.IXIC.symbol, ngStock.marketIndex.GSPC.symbol, ngStock.marketIndex.SOX.symbol];
 	
+	// 미국 시장지수
 	stockService.getStocks(symbols.join(",")).then(function(data){
 		angular.forEach(data, function(value, key){
 			ngStock.marketIndex[key].stock = value;
 		});
 	});
 	
+	// 무매 종목
 	stockService.getEtfs().then(function(data){
 		ngStock.etfs = data;
 		ngStock.arrayEtfs = Object.keys(data).map(function(key) {

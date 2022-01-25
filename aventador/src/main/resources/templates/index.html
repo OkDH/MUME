@@ -76,7 +76,8 @@
     
     <!-- my js -->
     <script th:src="@{/static/js/app.js}"></script>
-    <script th:src="@{/static/js/stock.js}"></script>
+    <script th:src="@{/static/js/public/stock.js}"></script>
+    <script th:src="@{/static/js/public/market-index.js}"></script>
     <script sec:authorize="hasRole('ROLE_USER')" th:src="@{/static/js/infinite/infinite-service.js}"></script>
     <script sec:authorize="hasRole('ROLE_USER')" th:src="@{/static/js/infinite/account.js}"></script>
     <script sec:authorize="hasRole('ROLE_USER')" th:src="@{/static/js/infinite/dashboard.js}"></script>
@@ -106,8 +107,13 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item" ng-class="path('/stock') && 'active'" >
                 <a class="nav-link" th:href="@{/public/#!/stock}">
-                    <i class="fas fa-fw  fa-table"></i>
-                    <span>Leveraged 3X ETFs</span></a>
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>무매종목</span></a>
+            </li>
+            <li class="nav-item" ng-class="path('/market') && 'active'" >
+                <a class="nav-link" th:href="@{/public/#!/market}">
+                    <i class="fas fa-globe-americas"></i>
+                    <span>시장지수</span></a>
             </li>
 
             <!-- Divider -->

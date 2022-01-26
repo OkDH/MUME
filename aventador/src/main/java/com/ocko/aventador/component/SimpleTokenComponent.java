@@ -3,6 +3,7 @@
  */
 package com.ocko.aventador.component;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -11,6 +12,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,31 +23,20 @@ import org.springframework.stereotype.Component;
 public class SimpleTokenComponent {
 
 	public String generatorToken(Integer memberId) {
-		try {
-//			UUID uuid = UUID.randomUUID();
+		UUID uuid = UUID.randomUUID();
 					
-			ZonedDateTime zdt = ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault());
-	        long dateTime = zdt.toInstant().toEpochMilli();
-	        
-	        System.out.println(zdt.toLocalDateTime());
-	        System.out.println(dateTime);
-	        
-//	        String uniqueKey = uuid.toString() + dateTime;
-	        
-	        String uniqueKey = memberId.toString() + dateTime;
-	        		
-			MessageDigest salt = MessageDigest.getInstance("SHA-256");
-			salt.update(uniqueKey.getBytes(StandardCharsets.UTF_8));
+		ZonedDateTime zdt = ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault());
+        long dateTime = zdt.toInstant().toEpochMilli();
 
-			final StringBuilder builder = new StringBuilder();
-			for (final byte b : salt.digest()) {
-				builder.append(String.format("%02x", b));
-			}
-			return builder.toString();
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+        return uuidToBase64(uuid.toString()) + memberId;
+	}
+	
+	private String uuidToBase64(String str) {
+	    Base64 base64 = new Base64();
+	    UUID uuid = UUID.fromString(str);
+	    ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
+	    bb.putLong(uuid.getMostSignificantBits());
+	    bb.putLong(uuid.getLeastSignificantBits());
+	    return base64.encodeBase64URLSafeString(bb.array());
 	}
 }

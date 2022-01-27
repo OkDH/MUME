@@ -190,7 +190,7 @@
 					<div ng-repeat-end
 						class="progress mb-4">
 						<div class="progress-bar" 
-							ng-class="(stock.progressPer < 50 && 'bg-primary') || (stock.progressPer > 80 && 'bg-danger') || (stock.progressPer >= 50 && 'bg-warning')"
+							ng-class="(stock.infiniteState == '원금소진' && 'bg-danger') || (stock.progressPer >= 100 && 'bg-danger') || (stock.progressPer < 50 && 'bg-primary') || (stock.progressPer >= 50 && 'bg-warning')"
 							role="progressbar"
 							style="width: {{ stock.progressPer }}%" aria-valuenow="{{ stock.progressPer }}" aria-valuemin="0"
 							aria-valuemax="100"></div>

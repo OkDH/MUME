@@ -28,6 +28,17 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매도 예약 정보 리스트
 	private List<StockTradeInfo> sellTradeInfoList = new ArrayList<StockTradeInfo>();
 	
+	// 지니 프로그램(kskyj) 연동 여부
+	public boolean isKskyj() {
+		if(getKskyjUpdateDate() == null)
+			return false;
+		else {
+			
+			
+			return true;
+		}
+	}
+	
 	// 계산용 수수료율 (수수료율 * 0.01)
 	public BigDecimal getRealFeesPer() {
 		if(getFeesPer() == null)

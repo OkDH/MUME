@@ -32,21 +32,11 @@ public class StockService {
 	@Autowired private StockHistoryMapper stockHistoryMapper;
 	
 	/**
-	 * 하나의 심볼에 대해서 stock 정보 가져오기
-	 * @param symbol
+	 * 시장지수 조회
 	 * @return
 	 */
-	public StockDetail getStock(String symbol) {
-		return stockComponent.getStock(symbol);
-	}
-	
-	/**
-	 * 복수의 심볼에 대해서 stock 정보 가져오기
-	 * @param symbols
-	 * @return
-	 */
-	public Map<String, StockDetail> getStocks(String[] symbols) {
-		return stockComponent.getStocks(symbols);
+	public Map<String, StockDetail> getMarketIndex(){
+		return stockComponent.getMarketIndex();
 	}
 	
 	/**

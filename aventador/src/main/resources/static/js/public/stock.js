@@ -1,20 +1,13 @@
 app.controller("StockController", function($scope, $timeout, $q, httpService, stockService){
 	var ngStock = this;
 	
+	
 	// 시장지수
-	ngStock.marketIndex = {
-		DJI : { symbol : "^DJI"	},
-		IXIC : { symbol : "^IXIC" },
-		GSPC : { symbol : "^GSPC" },
-		SOX : { symbol : "^SOX" },
-	};
-	
-	var symbols = [ngStock.marketIndex.DJI.symbol, ngStock.marketIndex.IXIC.symbol, ngStock.marketIndex.GSPC.symbol, ngStock.marketIndex.SOX.symbol];
-	
-	// 미국 시장지수
-	stockService.getStocks(symbols.join(",")).then(function(data){
+	stockService.getMarketIndex().then(function(data){
+		ngStock.marketIndex = {};
+		
 		angular.forEach(data, function(value, key){
-			ngStock.marketIndex[key].stock = value;
+			ngStock.marketIndex[key] = value;
 		});
 	});
 	
@@ -48,40 +41,22 @@ app.service("stockService", function(httpService){
 		return promiseInit;
 	}
 
-	// 단일 종목 조회
-	var promiseGetStock = null;
+	// 시장지수조회
+	var promiseGetMarketIndex = null;
 	
-	this.getStock = function(symbol){
+	this.getMarketIndex = function(){
 		
-		if(promiseGetStock){
-			httpService.stop(promiseGetStock);
+		if(promiseGetMarketIndex){
+			httpService.stop(promiseGetMarketIndex);
 		}
 		
-		promiseGetStock = httpService.get({
-			url: meta.baseUrl + "api/stock/" + encodeURIComponent(symbol),
+		promiseGetMarketIndex = httpService.get({
+			url: meta.baseUrl + "api/stocks/market-index",
 		}).then(function(response){
 			return response.data;
 		});
 		
-		return promiseGetStock;
-	}
-	
-	// 복수 종목 조회
-	var promiseGetStocks = null;
-	
-	this.getStocks = function(symbols){
-		
-		if(promiseGetStocks){
-			httpService.stop(promiseGetStocks);
-		}
-		
-		promiseGetStocks = httpService.get({
-			url: meta.baseUrl + "api/stocks/" + encodeURIComponent(symbols),
-		}).then(function(response){
-			return response.data;
-		});
-		
-		return promiseGetStocks;
+		return promiseGetMarketIndex;
 	}
 	
 	// 3X ETFs

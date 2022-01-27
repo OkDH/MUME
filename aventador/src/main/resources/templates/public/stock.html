@@ -10,9 +10,9 @@
 							<div class="font-weight-bold text-primary text-uppercase mb-1">
 								다우 산업</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
-								{{ ngStock.marketIndex.DJI.stock.priceClose | number:2 }}
-								<span class="text-xs" ng-class="(ngStock.marketIndex.DJI.stock.chg > 0 && 'text-danger') || (ngStock.marketIndex.DJI.stock.chg < 0 && 'text-primary')">
-									{{ ngStock.marketIndex.DJI.stock.chg | appendUpDown }} ({{ ngStock.marketIndex.DJI.stock.chgp | appendPulMa }}%)
+								{{ ngStock.marketIndex.DJI.priceClose | number:2 }}
+								<span class="text-xs" ng-class="(ngStock.marketIndex.DJI.chg > 0 && 'text-danger') || (ngStock.marketIndex.DJI.chg < 0 && 'text-primary')">
+									{{ ngStock.marketIndex.DJI.chg | appendUpDown }} ({{ ngStock.marketIndex.DJI.chgp | appendPulMa }}%)
 								</span>
 							</div>
 						</div>
@@ -29,9 +29,9 @@
 							<div class="font-weight-bold text-success text-uppercase mb-1">
 								나스닥 종합</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">						
-								{{ ngStock.marketIndex.IXIC.stock.priceClose | number:2 }} 
-								<span class="text-xs" ng-class="(ngStock.marketIndex.IXIC.stock.chg > 0 && 'text-danger') || (ngStock.marketIndex.IXIC.stock.chg < 0 && 'text-primary')">
-									{{ ngStock.marketIndex.IXIC.stock.chg | appendUpDown }} ({{ ngStock.marketIndex.IXIC.stock.chgp | appendPulMa }}%)
+								{{ ngStock.marketIndex.IXIC.priceClose | number:2 }} 
+								<span class="text-xs" ng-class="(ngStock.marketIndex.IXIC.chg > 0 && 'text-danger') || (ngStock.marketIndex.IXIC.chg < 0 && 'text-primary')">
+									{{ ngStock.marketIndex.IXIC.chg | appendUpDown }} ({{ ngStock.marketIndex.IXIC.chgp | appendPulMa }}%)
 								</span>
 							</div>
 						</div>
@@ -47,9 +47,9 @@
 						<div class="col mr-2">
 							<div class="font-weight-bold text-info text-uppercase mb-1">S&P 500</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
-								{{ ngStock.marketIndex.GSPC.stock.priceClose | number:2 }} 
-								<span class="text-xs" ng-class="(ngStock.marketIndex.GSPC.stock.chg > 0 && 'text-danger') || (ngStock.marketIndex.GSPC.stock.chg < 0 && 'text-primary')">
-									{{ ngStock.marketIndex.GSPC.stock.chg | appendUpDown }} ({{ ngStock.marketIndex.GSPC.stock.chgp | appendPulMa }}%)
+								{{ ngStock.marketIndex.GSPC.priceClose | number:2 }} 
+								<span class="text-xs" ng-class="(ngStock.marketIndex.GSPC.chg > 0 && 'text-danger') || (ngStock.marketIndex.GSPC.chg < 0 && 'text-primary')">
+									{{ ngStock.marketIndex.GSPC.chg | appendUpDown }} ({{ ngStock.marketIndex.GSPC.chgp | appendPulMa }}%)
 								</span>
 							</div>
 						</div>
@@ -66,9 +66,9 @@
 							<div class="font-weight-bold text-warning text-uppercase mb-1">
 								필라델피아 반도체</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
-								{{ ngStock.marketIndex.SOX.stock.priceClose | number:2 }} 
-								<span class="text-xs" ng-class="(ngStock.marketIndex.SOX.stock.chg > 0 && 'text-danger') || (ngStock.marketIndex.SOX.stock.chg < 0 && 'text-primary')"> 
-									{{ ngStock.marketIndex.SOX.stock.chg | appendUpDown }} ({{ ngStock.marketIndex.SOX.stock.chgp | appendPulMa }}%)
+								{{ ngStock.marketIndex.SOX.priceClose | number:2 }} 
+								<span class="text-xs" ng-class="(ngStock.marketIndex.SOX.chg > 0 && 'text-danger') || (ngStock.marketIndex.SOX.chg < 0 && 'text-primary')"> 
+									{{ ngStock.marketIndex.SOX.chg | appendUpDown }} ({{ ngStock.marketIndex.SOX.chgp | appendPulMa }}%)
 								</span>
 							</div>
 						</div>

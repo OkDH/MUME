@@ -5,11 +5,11 @@
 	
 	<div class="row">
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.DJI.chg > 0 && 'border-left-danger') || (marketIndex.DJI.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.DJI.chg >= 0 && 'border-left-danger') || (marketIndex.DJI.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.DJI.chg > 0 && 'text-danger') || (marketIndex.DJI.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.DJI.chg >= 0 && 'text-danger') || (marketIndex.DJI.chg < 0 && 'text-primary')">
 								다우 산업</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.DJI.priceClose | number:2 }}
@@ -27,11 +27,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.IXIC.chg > 0 && 'border-left-danger') || (marketIndex.IXIC.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.IXIC.chg >= 0 && 'border-left-danger') || (marketIndex.IXIC.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.IXIC.chg > 0 && 'text-danger') || (marketIndex.IXIC.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.IXIC.chg >= 0 && 'text-danger') || (marketIndex.IXIC.chg < 0 && 'text-primary')">
 								나스닥 종합</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">						
 								{{ marketIndex.IXIC.priceClose | number:2 }} 
@@ -49,11 +49,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.GSPC.chg > 0 && 'border-left-danger') || (marketIndex.GSPC.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.GSPC.chg >= 0 && 'border-left-danger') || (marketIndex.GSPC.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.GSPC.chg > 0 && 'text-danger') || (marketIndex.GSPC.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.GSPC.chg >= 0 && 'text-danger') || (marketIndex.GSPC.chg < 0 && 'text-primary')">
 								S&P 500</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.GSPC.priceClose | number:2 }} 
@@ -71,11 +71,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.SOX.chg > 0 && 'border-left-danger') || (marketIndex.SOX.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.SOX.chg >= 0 && 'border-left-danger') || (marketIndex.SOX.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.SOX.chg > 0 && 'text-danger') || (marketIndex.SOX.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.SOX.chg >= 0 && 'text-danger') || (marketIndex.SOX.chg < 0 && 'text-primary')">
 								필라델피아 반도체</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.SOX.priceClose | number:2 }} 
@@ -95,11 +95,11 @@
 	
 	<div class="row">
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.YMF.chg > 0 && 'border-left-danger') || (marketIndex.YMF.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.YMF.chg >= 0 && 'border-left-danger') || (marketIndex.YMF.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.YMF.chg > 0 && 'text-danger') || (marketIndex.YMF.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.YMF.chg >= 0 && 'text-danger') || (marketIndex.YMF.chg < 0 && 'text-primary')">
 								다우 산업 선물</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.YMF.priceClose | number:2 }}
@@ -117,11 +117,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.NQF.chg > 0 && 'border-left-danger') || (marketIndex.NQF.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.NQF.chg >= 0 && 'border-left-danger') || (marketIndex.NQF.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.NQF.chg > 0 && 'text-danger') || (marketIndex.NQF.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.NQF.chg >= 0 && 'text-danger') || (marketIndex.NQF.chg < 0 && 'text-primary')">
 								나스닥 선물</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">						
 								{{ marketIndex.NQF.priceClose | number:2 }} 
@@ -139,11 +139,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.ESF.chg > 0 && 'border-left-danger') || (marketIndex.ESF.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.ESF.chg >= 0 && 'border-left-danger') || (marketIndex.ESF.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.ESF.chg > 0 && 'text-danger') || (marketIndex.ESF.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.ESF.chg >= 0 && 'text-danger') || (marketIndex.ESF.chg < 0 && 'text-primary')">
 								S&P 500 선물</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.ESF.priceClose | number:2 }} 
@@ -161,11 +161,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.RTYF.chg > 0 && 'border-left-danger') || (marketIndex.RTYF.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.RTYF.chg >= 0 && 'border-left-danger') || (marketIndex.RTYF.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.RTYF.chg > 0 && 'text-danger') || (marketIndex.RTYF.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.RTYF.chg >= 0 && 'text-danger') || (marketIndex.RTYF.chg < 0 && 'text-primary')">
 								러셀 2000 선물</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.RTYF.priceClose | number:2 }} 
@@ -185,11 +185,11 @@
 	
 	<div class="row">
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.KRWX.chg > 0 && 'border-left-danger') || (marketIndex.KRWX.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.KRWX.chg >= 0 && 'border-left-danger') || (marketIndex.KRWX.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.KRWX.chg > 0 && 'text-danger') || (marketIndex.KRWX.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.KRWX.chg >= 0 && 'text-danger') || (marketIndex.KRWX.chg < 0 && 'text-primary')">
 								환율</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.KRWX.priceClose | number:2 }}원
@@ -207,11 +207,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.CLF.chg > 0 && 'border-left-danger') || (marketIndex.CLF.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.CLF.chg >= 0 && 'border-left-danger') || (marketIndex.CLF.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.CLF.chg > 0 && 'text-danger') || (marketIndex.CLF.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.CLF.chg >= 0 && 'text-danger') || (marketIndex.CLF.chg < 0 && 'text-primary')">
 								원유</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">						
 								{{ marketIndex.CLF.priceClose | number:2 }} 
@@ -229,11 +229,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.GCF.chg > 0 && 'border-left-danger') || (marketIndex.GCF.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.GCF.chg >= 0 && 'border-left-danger') || (marketIndex.GCF.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.GCF.chg > 0 && 'text-danger') || (marketIndex.GCF.chg < 0 && 'text-primary')">	
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.GCF.chg >= 0 && 'text-danger') || (marketIndex.GCF.chg < 0 && 'text-primary')">	
 								금</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.GCF.priceClose | number:2 }} 
@@ -249,11 +249,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.SIF.chg > 0 && 'border-left-danger') || (marketIndex.SIF.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.SIF.chg >= 0 && 'border-left-danger') || (marketIndex.SIF.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.SIF.chg > 0 && 'text-danger') || (marketIndex.SIF.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.SIF.chg >= 0 && 'text-danger') || (marketIndex.SIF.chg < 0 && 'text-primary')">
 								은</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.SIF.priceClose | number:2 }} 
@@ -271,11 +271,11 @@
 	
 	<div class="row">
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.TNX.chg > 0 && 'border-left-danger') || (marketIndex.TNX.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.TNX.chg >= 0 && 'border-left-danger') || (marketIndex.TNX.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.TNX.chg > 0 && 'text-danger') || (marketIndex.TNX.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.TNX.chg >= 0 && 'text-danger') || (marketIndex.TNX.chg < 0 && 'text-primary')">
 								미국 국채 10년물 금리</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.TNX.priceClose | number:2 }}
@@ -293,11 +293,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.VIX.chg > 0 && 'border-left-danger') || (marketIndex.VIX.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.VIX.chg >= 0 && 'border-left-danger') || (marketIndex.VIX.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.VIX.chg > 0 && 'text-danger') || (marketIndex.VIX.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.VIX.chg >= 0 && 'text-danger') || (marketIndex.VIX.chg < 0 && 'text-primary')">
 								변동성지수(VIX)</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">						
 								{{ marketIndex.VIX.priceClose | number:2 }} 
@@ -315,11 +315,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.KS11.chg > 0 && 'border-left-danger') || (marketIndex.KS11.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.KS11.chg >= 0 && 'border-left-danger') || (marketIndex.KS11.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.KS11.chg > 0 && 'text-danger') || (marketIndex.KS11.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.KS11.chg >= 0 && 'text-danger') || (marketIndex.KS11.chg < 0 && 'text-primary')">
 								코스피</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.KS11.priceClose | number:2 }} 
@@ -337,11 +337,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.KQ11.chg > 0 && 'border-left-danger') || (marketIndex.KQ11.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.KQ11.chg >= 0 && 'border-left-danger') || (marketIndex.KQ11.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.KQ11.chg > 0 && 'text-danger') || (marketIndex.KQ11.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.KQ11.chg >= 0 && 'text-danger') || (marketIndex.KQ11.chg < 0 && 'text-primary')">
 								코스닥</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.KQ11.priceClose | number:2 }} 
@@ -361,11 +361,11 @@
 	
 	<div class="row">
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.CNSS.chg > 0 && 'border-left-danger') || (marketIndex.CNSS.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.CNSS.chg >= 0 && 'border-left-danger') || (marketIndex.CNSS.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.CNSS.chg > 0 && 'text-danger') || (marketIndex.CNSS.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.CNSS.chg >= 0 && 'text-danger') || (marketIndex.CNSS.chg < 0 && 'text-primary')">
 								상해종합</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.CNSS.priceClose | number:2 }}
@@ -381,11 +381,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.N225.chg > 0 && 'border-left-danger') || (marketIndex.N225.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.N225.chg >= 0 && 'border-left-danger') || (marketIndex.N225.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.N225.chg > 0 && 'text-danger') || (marketIndex.N225.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.N225.chg >= 0 && 'text-danger') || (marketIndex.N225.chg < 0 && 'text-primary')">
 								니케이 225</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">						
 								{{ marketIndex.N225.priceClose | number:2 }} 
@@ -401,11 +401,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.STOXX.chg > 0 && 'border-left-danger') || (marketIndex.STOXX.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.STOXX.chg >= 0 && 'border-left-danger') || (marketIndex.STOXX.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.STOXX.chg > 0 && 'text-danger') || (marketIndex.STOXX.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.STOXX.chg >= 0 && 'text-danger') || (marketIndex.STOXX.chg < 0 && 'text-primary')">
 								유로스톡스 50</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.STOXX.priceClose | number:2 }} 
@@ -421,11 +421,11 @@
 		</div>
 	
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow h-100 py-2" ng-class="(marketIndex.BTCKRW.chg > 0 && 'border-left-danger') || (marketIndex.BTCKRW.chg < 0 && 'border-left-primary')">
+			<div class="card shadow h-100 py-2" ng-class="(marketIndex.BTCKRW.chg >= 0 && 'border-left-danger') || (marketIndex.BTCKRW.chg < 0 && 'border-left-primary')">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.BTCKRW.chg > 0 && 'text-danger') || (marketIndex.BTCKRW.chg < 0 && 'text-primary')">
+							<div class="font-weight-bold text-uppercase mb-1" ng-class="(marketIndex.BTCKRW.chg >= 0 && 'text-danger') || (marketIndex.BTCKRW.chg < 0 && 'text-primary')">
 								비트코인</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
 								{{ marketIndex.BTCKRW.priceClose | number }}원

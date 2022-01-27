@@ -30,13 +30,25 @@ public class InfiniteDetail extends ViewInfiniteList {
 	
 	// 지니 프로그램(kskyj) 연동 여부
 	public boolean isKskyj() {
-		if(getKskyjUpdateDate() == null)
-			return false;
-		else {
-			
-			
+		if(stockDetail != null && getKskyjUpdateDate() != null && getKskyjUpdateDate().toLocalDate().isAfter(stockDetail.getStockDate()))
 			return true;
-		}
+		return false;
+	}
+	
+	// 종목 배정 시드
+	public BigDecimal getSeed() {
+		if(isKskyj() && getKskyjSeed() != null)
+			return getKskyjSeed();
+		else
+			return super.getSeed();
+	}
+	
+	// 수량
+	public Integer getHoldingQuantity() {
+		if(isKskyj() && getKskyjHoldingQuantity() != null)
+			return getKskyjHoldingQuantity();
+		else 
+			return super.getHoldingQuantity();
 	}
 	
 	// 계산용 수수료율 (수수료율 * 0.01)
@@ -74,6 +86,10 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매수 : ((보유 평단가 * 보유수량) + (신규매수단가 * 신규매수수량)) / (보유수량 + 신규매수수량))
 	// 매도 : 보유수량 - 매도수량 (평단가는 변화 없음)
 	public BigDecimal getAveragePrice() {
+		
+		if(isKskyj() && getKskyjAveragePrice() != null)
+			return getKskyjAveragePrice();
+		
 		BigDecimal avgPrice = BigDecimal.ZERO;
 		BigDecimal holdingQuantity = BigDecimal.ZERO;
 		
@@ -132,6 +148,8 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매입금액
 	// 평단가 * 보유수량
 	public BigDecimal getBuyPrice() {
+		if(isKskyj() && getKskyjBuyPrice() != null)
+			return getKskyjBuyPrice();
 		return getAveragePrice().multiply(new BigDecimal(getHoldingQuantity()));
 	}
 	

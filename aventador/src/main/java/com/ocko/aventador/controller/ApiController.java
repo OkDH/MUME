@@ -62,4 +62,13 @@ public class ApiController {
 		map.put("apiKey", apiService.getApiKey(memberInfo.getMemberId()));
 		return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
 	}
+	
+	/**
+	 * 지니 프로그램 연동 데이터 연동
+	 * @return
+	 */
+	@RequestMapping(value = "/api/public/kskyj", method = RequestMethod.POST)
+	public ResponseEntity<ResponseDto> updateKskyjData(@RequestBody Map<String, Object> params) {
+		return new ResponseEntity<ResponseDto>(apiService.updateKskyjData(params), HttpStatus.OK);
+	}
 }

@@ -167,7 +167,7 @@
 						진행률 <span class="float-right">{{ stock.progressPer | number:1 }}%</span>
 					</h4>
 					<div class="progress mb-2">
-						<div class="progress-bar" ng-class="(stock.progressPer < 50 && 'bg-primary') || (stock.progressPer > 80 && 'bg-danger') || (stock.progressPer >= 50 && 'bg-warning')"
+						<div class="progress-bar" ng-class="(stock.infiniteState == '원금소진' && 'bg-danger') || (stock.progressPer >= 100 && 'bg-danger') || (stock.progressPer < 50 && 'bg-primary') || (stock.progressPer >= 50 && 'bg-warning')"
 							role="progressbar"
 							style="width: {{ stock.progressPer }}%" aria-valuenow="{{ stock.progressPer }}" aria-valuemin="0"
 							aria-valuemax="100"></div>
@@ -175,6 +175,9 @@
 					<div style="text-align: right;" class="mb-2">
 						<span class="badge bg-success text-white py-1 px-2" style="width: 6.5em; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: -6px;">
 							{{ infiniteAccount.account.myAccountsOrder[stock.accountId].alias }}
+						</span>
+						<span ng-if="stock.isKskyj" class="badge text-white py-1 px-2" style="backgroud-color: pink;">
+							kskyj
 						</span>
 						<span style="width: 3.5em;"
 							class="badge bg-warning text-white py-1 px-2"

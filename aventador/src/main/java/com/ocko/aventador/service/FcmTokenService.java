@@ -52,8 +52,8 @@ public class FcmTokenService {
 	 */
 	public ResponseDto updateFcmToken(Map<String, Object> params) {
 		ResponseDto response = new ResponseDto();
+		response.setState("fail");
 		if(params.get("checkToken") == null || params.get("fcmToken") == null) {
-			response.setState("fail");
 			response.setMessage("파라미터를 확인하세요.");
 			return response;
 		}
@@ -64,13 +64,11 @@ public class FcmTokenService {
 		List<MemberSetting> settings = memberSettingMapper.selectByExample(example);
 		
 		if(settings.isEmpty()) {
-			response.setState("fail");
 			response.setMessage("유효하지 않은 토큰입니다.");
 			return response;
 		}
 		
 		if(settings.get(0).getCheckTokenAvailable().isBefore(LocalDateTime.now())){
-			response.setState("fail");
 			response.setMessage("만료된 토큰입니다.");
 			return response;
 		}

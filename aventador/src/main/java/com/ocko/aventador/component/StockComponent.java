@@ -6,7 +6,9 @@ package com.ocko.aventador.component;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.ocko.aventador.constant.EtfSymbol;
+import com.ocko.aventador.constant.MarketIndex;
 import com.ocko.aventador.dao.model.aventador.StockHistory;
 import com.ocko.aventador.dao.model.aventador.ViewTodayStock;
 import com.ocko.aventador.model.StockDetail;
@@ -70,6 +73,49 @@ public class StockComponent {
 						}
 						StockDetail stockDetail = processStockDetail(symbol, stock);
 						result.put(symbol, stockDetail);
+					}
+				}
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 마켓지수
+	 * @return
+	 */
+	public Map<String, StockDetail> getMarketIndex(){
+		Map<String, StockDetail> result = new HashMap<String, StockDetail>();
+		
+		// 심볼리스트
+		List<String> symbolList = new ArrayList<String>();
+		for(MarketIndex item : MarketIndex.values()) {
+			symbolList.add(item.getSymbol());
+		}
+		
+		// 심볼리스트 To 배열
+		String[] symbols = symbolList.toArray(new String[symbolList.size()]);
+		
+		try {
+			Map<String, Stock> stocks = YahooFinance.get(symbols);
+			
+			if(stocks != null) {
+				for(String symbol : symbols) {
+					Stock stock = stocks.get(symbol);
+					
+					if(stock != null) {
+						
+						for(MarketIndex item : MarketIndex.values()) {
+							if(item.getSymbol().equals(symbol)) {
+								StockDetail stockDetail = processStockDetail(symbol, stock);
+								result.put(item.name(), stockDetail);
+								break;
+							}
+						}
 					}
 				}
 			}

@@ -27,14 +27,9 @@ public class StockController {
 
 	@Autowired private StockService stockService;
 	
-	@RequestMapping(value = "/api/stock/{symbol}", method = RequestMethod.GET)
-	public @ResponseBody StockDetail getStock(@PathVariable String symbol) {
-		return stockService.getStock(symbol);
-	}
-	
-	@RequestMapping(value = "/api/stocks/{symbols}", method = RequestMethod.GET)
-	public @ResponseBody Map<String, StockDetail> getStocks(@PathVariable String[] symbols) {
-		return stockService.getStocks(symbols);
+	@RequestMapping(value = "/api/stocks/market-index", method = RequestMethod.GET)
+	public @ResponseBody Map<String, StockDetail> getStock() {
+		return stockService.getMarketIndex();
 	}
 	
 	@RequestMapping(value = "/api/stocks/etfs", method = RequestMethod.GET)

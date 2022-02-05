@@ -33,7 +33,7 @@ spring:
   profiles: master
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://genport112.cafe24.com:5432/aventador?stringtype=unspecified
+    url: jdbc:postgresql://mumeocko.cafe24.com:5432/aventador?stringtype=unspecified
     username: aventador
     password: aventadorU$3r
     
@@ -47,7 +47,7 @@ spring:
   profiles: dev
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://genport112.cafe24.com:5432/aventador_dev?stringtype=unspecified
+    url: jdbc:postgresql://mumeocko.cafe24.com:5432/aventador_dev?stringtype=unspecified
     username: aventadordev
     password: aventadorDevU$3r
     

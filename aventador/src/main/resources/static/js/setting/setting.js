@@ -7,6 +7,7 @@ app.controller("SettingController", function($scope, httpService, infiniteServic
     
     // 무한매수 계좌 설정 관련
     setting.infinite.account = {};
+    setting.infinite.account.list = [];
     
     setting.infinite.getMyAccounts = function(){
     	infiniteService.getMyAccounts().then(function(data){

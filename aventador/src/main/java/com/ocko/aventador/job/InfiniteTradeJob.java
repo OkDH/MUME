@@ -207,8 +207,6 @@ public class InfiniteTradeJob {
 					BigDecimal unitPrice = priceClose.setScale(2, BigDecimal.ROUND_HALF_UP); // 소수점 2자리에서 반올림
 					infiniteHistory.setUnitPrice(unitPrice);
 					
-					System.out.println("buy, " +  info.getQuantity());
-					
 					historyMapper.insert(infiniteHistory);
 					
 					// 단가 * 수량

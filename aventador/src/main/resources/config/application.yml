@@ -39,7 +39,7 @@ spring:
     
 server:
   servlet:
-    context-path: /dev
+    context-path: /
   port: 8088
   
 ---

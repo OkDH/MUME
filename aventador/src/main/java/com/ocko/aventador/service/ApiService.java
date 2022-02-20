@@ -74,7 +74,7 @@ public class ApiService {
 		
 		// api key 확인
 		MemberSettingExample settingExample = new MemberSettingExample();
-		settingExample.createCriteria().andApiKeyEqualTo(params.get("apiKey").toString());
+		settingExample.createCriteria().andApiKeyEqualTo(params.get("api_key").toString());
 		List<MemberSetting> member = memberSettingMapper.selectByExample(settingExample);
 		if(member.isEmpty()) {
 			response.setMessage("유효하지 않은 API Key 입니다.");
@@ -82,9 +82,9 @@ public class ApiService {
 		}
 		
 		// 계좌
-		if(params.get("account") != null) {
+		if(params.get("accounts") != null) {
 			
-			List<Map<String, Object>> accountList = (List<Map<String, Object>>) params.get("account");
+			List<Map<String, Object>> accountList = (List<Map<String, Object>>) params.get("accounts");
 			
 			for(Map<String, Object> account : accountList) {
 				// 계좌 조회 

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: master
+    active: @activatedProperties@
   devtools:
     livereload:
       enabled: true

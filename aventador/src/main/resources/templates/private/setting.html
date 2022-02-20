@@ -4,8 +4,7 @@
 	</div>
 	
 	<div class="row">
-		<!-- <div class="col-lg-8"> -->
-		<div class="col-lg-12">
+		<div class="col-lg-7">
 			<div class="card shadow mb-4">
 				<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					<h6 class="m-0 font-weight-bold text-primary">계좌 관리</h6>
@@ -80,7 +79,43 @@
 			</div>
 		</div>
 		
-		<!-- <div class="col-lg-4">
+		<div class="col-lg-5">
+			<div class="card shadow mb-4">
+				<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+					<h6 class="m-0 font-weight-bold text-primary">데이터 가져오기</h6>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<h6 class="small mb-2 font-weight-bold text-gray-800">
+								* CSV 파일 포맷으로부터 계좌별로 매매내역을 가져옵니다.
+							</h6>
+						</div>
+				    </div>
+				    <div class="row">
+				    	<div class="col-6">
+							<label class="font-weight-bold">계좌선택</label><br>
+							<select
+								id="accountSelect" 
+								ng-required="true"
+								ng-model="infiniteAccount.addStock.data.accountId">
+								<option ng-repeat="account in setting.infinite.account.list" ng-value="account.accountId">{{ account.accountAlias }}</option>
+							</select>
+						</div>
+						<div class="col-6">
+							<label class="font-weight-bold">파일선택</label> 
+							<input type="file"/>
+						</div>
+				    </div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="row">
+	
+		<!-- <div class="col-lg-6">
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
 					<h6 class="m-0 font-weight-bold text-primary">지니 연동</h6>
@@ -102,26 +137,7 @@
 				</div>
 			</div>
 		</div> -->
-	</div>
-	
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="card shadow mb-4">
-				<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-					<h6 class="m-0 font-weight-bold text-primary">데이터 가져오기</h6>
-				</div>
-				<div class="card-body">
-					<div class="row">
-						<div class="col">
-							<h6 class="small mb-2 font-weight-bold text-gray-800">
-								* CSV 파일 포맷으로부터 계좌별로 매매내역을 가져옵니다.
-							</h6>
-						</div>
-				    </div>
-				</div>
-			</div>
-			
-	
+		
 	</div>
 	
 	<!-- Modal -->

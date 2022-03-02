@@ -29,14 +29,12 @@
             </activation>
 			<properties>
 				<activatedProperties>dev</activatedProperties>
-				<warname>aventador_dev</warname>
 			</properties>
 		</profile>
 		<profile>
 			<id>master</id>
 			<properties>
 				<activatedProperties>master</activatedProperties>
-				<warname>aventador</warname>
 			</properties>
 		</profile>
 	</profiles>
@@ -166,7 +164,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>${warname}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

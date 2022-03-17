@@ -1,7 +1,8 @@
 app.controller("InfiniteDashboardController", function($scope, $filter, httpService, infiniteService){
 	var infiniteDashboard = this;
+	
 	infiniteDashboard.query = {
-		accountId: null,
+		accountId: 'ALL',
 		infiniteState: ["진행중","원금소진","매수중지"]
 	}
 	
@@ -30,7 +31,22 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 	// 계좌 정보
 	infiniteService.getMyAccounts().then(function(data){
 		infiniteDashboard.myAccounts = data;
+		
+		// 계좌 order map
+		infiniteDashboard.myAccountsOrder = {};
+		data.forEach(function(d){
+			infiniteDashboard.myAccountsOrder[d.accountId] = {};
+			infiniteDashboard.myAccountsOrder[d.accountId].order = d.accountOrder;
+			infiniteDashboard.myAccountsOrder[d.accountId].alias = d.accountAlias;
+		});
 	});
+	
+	// 필터 모달
+	infiniteDashboard.openFilterModal = function(){
+		$('#filterModal').modal("show");
+		// selectpicker
+		$("#filterModal #accountSelect").selectpicker("refresh");
+	}
 	
 	// 통계 자료 가져오기
 	$scope.$watch("infiniteDashboard.query.accountId", function(query){

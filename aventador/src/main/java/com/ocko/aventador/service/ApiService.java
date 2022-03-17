@@ -120,12 +120,13 @@ public class ApiService {
 								
 								// 종목 업데이트
 								Integer infiniteId = upsertInfiniteStock(accountId, balance);
+								
+								// TODO : 체결 내역 업데이트
 							}
 						}
 					}
 				}
 			}
-			
 		}
 		
 		response.setState("success");
@@ -152,7 +153,7 @@ public class ApiService {
 				.andSymbolEqualTo(symbol);
 		
 		// 무매 버전
-		if(version.equals("v1") || version.equals("v2") || version.equals("v2.1") || version.equals("v2.1후반")) {
+		if(version.equals("V1") || version.equals("V2") || version.equals("V2.1") || version.equals("V2.1후반")) {
 			stockCreiteria.andInfiniteVersionEqualTo(version);
 		} else if(version.startsWith("TLP_")) { // TLP
 			stockCreiteria.andInfiniteTypeEqualTo(InfiniteType.TLP);

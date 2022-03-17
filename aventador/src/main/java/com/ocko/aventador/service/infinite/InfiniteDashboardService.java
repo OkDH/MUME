@@ -55,7 +55,7 @@ public class InfiniteDashboardService {
 	public List<ProfitMonthlyDetail> getProfitMonthly(int memberId, Map<String, Object> params){
 		ViewInfiniteProfitMonthlyExample example = new ViewInfiniteProfitMonthlyExample();
 		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
-		if(params.get("accountId") != null)
+		if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL"))
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
 		
 		// 최근 12개월
@@ -89,7 +89,7 @@ public class InfiniteDashboardService {
 	public List<ProfitStockDetail> getProfitStock(int memberId, Map<String, Object> params) {
 		ViewInfiniteProfitStockExample example = new ViewInfiniteProfitStockExample();
 		com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitStockExample.Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
-		if(params.get("accountId") != null)
+		if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL"))
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
 		example.setOrderByClause("symbol asc");
 		
@@ -136,7 +136,7 @@ public class InfiniteDashboardService {
 	private List<ViewInfiniteBuyTwoMonth> getBuyDaily(int memberId, Map<String, Object> params, YearMonth month) {
 		ViewInfiniteBuyTwoMonthExample example = new ViewInfiniteBuyTwoMonthExample();
 		com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyTwoMonthExample.Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
-		if(params.get("accountId") != null)
+		if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL"))
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
 		criteria.andTradeDateBetween(month.atDay(1), month.atEndOfMonth());
 		
@@ -154,7 +154,7 @@ public class InfiniteDashboardService {
 	public List<ViewInfiniteBuyDaily> getBuyStockDaily(Integer memberId, Map<String, Object> params) {
 		ViewInfiniteBuyDailyExample example = new ViewInfiniteBuyDailyExample();
 		com.ocko.aventador.dao.model.aventador.ViewInfiniteBuyDailyExample.Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
-		if(params.get("accountId") != null)
+		if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL"))
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
 		example.setOrderByClause("trade_date asc");
 		return viewBuyStockMapper.selectByExample(example);

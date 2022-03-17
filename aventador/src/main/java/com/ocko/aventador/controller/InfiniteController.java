@@ -232,8 +232,9 @@ public class InfiniteController {
 		if(memberInfo == null)
 			return null;
 		if(params.get("accountId") != null) {
-			if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
-				throw new MyAccessDeniedException();
+			if(!params.get("accountId").toString().equals("ALL"))
+				if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+					throw new MyAccessDeniedException();
 		}
 		
 		if(type.equals("profit-monthly"))

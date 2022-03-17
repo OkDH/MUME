@@ -1,6 +1,23 @@
 <div ng-controller="InfiniteDashboardController as infiniteDashboard">
 	<div class="d-flex align-items-center justify-content-between mb-4">
-		<h1 class="h4 mb-0 text-gray-800">대시보드</h1>
+		<h1 class="h4 mb-0 text-gray-800">
+			대시보드
+			<span ng-if="infiniteDashboard.query.accountId == 'ALL'" class="small">
+				( 전체 )
+			</span>
+			<span ng-if="infiniteDashboard.query.accountId != 'ALL'" class="small">
+				( 계좌  {{ infiniteDashboard.myAccountsOrder[infiniteDashboard.query.accountId].order }}
+				<span class="d-none d-md-table-cell"> : {{ infiniteDashboard.myAccountsOrder[infiniteDashboard.query.accountId].alias }}</span>
+				)
+			</span>
+		</h1>
+		
+		<div class="d-flex align-items-center justify-content-between">
+			<a class="btn btn-info btn-circle shadow mr-1"
+				data-toggle="modal" ng-click="infiniteDashboard.openFilterModal()">
+                <i class="fas fa-filter text-white"></i>
+            </a>
+		</div>
 	</div>
 
 	<!-- Content Row -->
@@ -234,4 +251,6 @@
 			</div>
 		</div>
 	</div>
+	
+	<div ng-include="meta.baseUrl + 'tpl/modal/dashboard-filter.html'"></div>
 </div>

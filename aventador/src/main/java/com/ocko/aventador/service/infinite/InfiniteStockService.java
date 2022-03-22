@@ -192,6 +192,8 @@ public class InfiniteStockService {
 		stock.setInfiniteType(params.get("infiniteType").toString());
 		stock.setInfiniteVersion(params.get("infiniteVersion").toString());
 		stock.setIsDeleted(false);
+		stock.setIsKskyj(false);
+		stock.setIsAutoTrade(true);
 		infiniteStockMapper.insert(stock);
 		
 		// 매매 내역 추가
@@ -275,6 +277,12 @@ public class InfiniteStockService {
 		if(params.get("isDeleted") != null) {
 			infiniteStock.setIsDeleted(Boolean.parseBoolean(params.get("isDeleted").toString()));
 		}
+		if(params.get("isKskyj") != null) {
+			infiniteStock.setIsKskyj(Boolean.parseBoolean(params.get("isKskyj").toString()));
+		}
+		if(params.get("isAutoTrade") != null) {
+			infiniteStock.setIsAutoTrade(Boolean.parseBoolean(params.get("isAutoTrade").toString()));
+		}
 		
 		InfiniteStockExample example = new InfiniteStockExample();
 		example.createCriteria().andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()))
@@ -309,7 +317,7 @@ public class InfiniteStockService {
 		example.createCriteria()
 			.andInfiniteIdEqualTo(Integer.parseInt(params.get("infiniteId").toString()))
 			.andIsDeletedEqualTo(false);
-		example.setOrderByClause("trade_date desc");
+		example.setOrderByClause("trade_date desc, registered_date desc");
 		
 		return infiniteHistoryMapper.selectByExample(example);
 	}

@@ -126,7 +126,6 @@ public class ApiService {
 								// 종목 업데이트
 								Integer infiniteId = upsertInfiniteStock(accountId, balance);
 								
-								
 								// 체결 내역 업데이트를 위한 infiniteId 세팅
 								String symbol = balance.get("ticker").toString();
 								symbolIdMap.put(symbol, infiniteId);
@@ -234,6 +233,8 @@ public class ApiService {
 		infiniteStock.setKskyjAveragePrice(new BigDecimal(balance.get("cost_price").toString())); // 평단가
 		infiniteStock.setKskyjHoldingQuantity(Integer.parseInt(balance.get("holding_quantity").toString())); // 보유수량
 		infiniteStock.setKskyjUpdateDate(LocalDateTime.now());
+		infiniteStock.setIsKskyj(true);
+		infiniteStock.setIsAutoTrade(false);
 		
 		// 원금소진 확인
 		if(infiniteStock.getKskyjBuyPrice().compareTo(infiniteStock.getKskyjSeed()) >= 0) {

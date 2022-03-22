@@ -28,16 +28,9 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매도 예약 정보 리스트
 	private List<StockTradeInfo> sellTradeInfoList = new ArrayList<StockTradeInfo>();
 	
-	// 지니 프로그램(kskyj) 연동 여부
-	public boolean isKskyj() {
-		if(stockDetail != null && getKskyjUpdateDate() != null && getKskyjUpdateDate().toLocalDate().isAfter(stockDetail.getStockDate()))
-			return true;
-		return false;
-	}
-	
 	// 종목 배정 시드
 	public BigDecimal getSeed() {
-		if(isKskyj() && getKskyjSeed() != null)
+		if(getIsKskyj() && getKskyjSeed() != null)
 			return getKskyjSeed();
 		else
 			return super.getSeed();
@@ -45,7 +38,7 @@ public class InfiniteDetail extends ViewInfiniteList {
 	
 	// 수량
 	public Integer getHoldingQuantity() {
-		if(isKskyj() && getKskyjHoldingQuantity() != null)
+		if(getIsKskyj() && getKskyjHoldingQuantity() != null)
 			return getKskyjHoldingQuantity();
 		else 
 			return super.getHoldingQuantity();
@@ -87,7 +80,7 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매도 : 보유수량 - 매도수량 (평단가는 변화 없음)
 	public BigDecimal getAveragePrice() {
 		
-		if(isKskyj() && getKskyjAveragePrice() != null)
+		if(getIsKskyj() && getKskyjAveragePrice() != null)
 			return getKskyjAveragePrice();
 		
 		BigDecimal avgPrice = BigDecimal.ZERO;
@@ -148,7 +141,7 @@ public class InfiniteDetail extends ViewInfiniteList {
 	// 매입금액
 	// 평단가 * 보유수량
 	public BigDecimal getBuyPrice() {
-		if(isKskyj() && getKskyjBuyPrice() != null)
+		if(getIsKskyj() && getKskyjBuyPrice() != null)
 			return getKskyjBuyPrice();
 		return getAveragePrice().multiply(new BigDecimal(getHoldingQuantity()));
 	}

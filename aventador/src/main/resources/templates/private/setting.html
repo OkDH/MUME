@@ -79,6 +79,33 @@
 			</div>
 		</div>
 		
+		<div class="col-lg-5">
+			<div class="card shadow mb-4">
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">지니 연동</h6>
+				</div>
+				<div class="card-body">
+					<h6 class="small mb-2 font-weight-bold text-gray-800">
+						* kskyj RPA 연동 API Key
+					</h6>
+					<div class="row">
+						<div class="col-12">
+							<input type="text" 
+								ng-model="setting.apiKey"
+								class="form-control mb-2" disabled="disabled">
+							<a class="btn btn-success w-100 text-resize" ng-click="setting.getApiKey()">
+				                	보기
+				            </a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+	</div>
+	
+	<div class="row">
+	
 		<!-- <div class="col-lg-5">
 			<div class="card shadow mb-4">
 				<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -110,34 +137,6 @@
 				</div>
 			</div>
 		</div> -->
-		
-	</div>
-	
-	<div class="row">
-	
-		<!-- <div class="col-lg-6">
-			<div class="card shadow mb-4">
-				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary">지니 연동</h6>
-				</div>
-				<div class="card-body">
-					<h6 class="small mb-2 font-weight-bold text-gray-800">
-						* kskyj RPA 연동 API Key
-					</h6>
-					<div class="row">
-						<div class="col-12">
-							<input type="text" 
-								ng-model="setting.apiKey"
-								class="form-control mb-2" disabled="disabled">
-							<a class="btn btn-success w-100 text-resize" ng-click="setting.getApiKey()">
-				                	보기
-				            </a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> -->
-		
 	</div>
 	
 	<!-- Modal -->

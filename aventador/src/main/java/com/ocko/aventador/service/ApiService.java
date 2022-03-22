@@ -104,16 +104,17 @@ public class ApiService {
 					if(account.get("total_seed") != null) {
 						InfiniteAccount updateAccount = new InfiniteAccount();
 						updateAccount.setAccountId(accountId);
-						updateAccount.setKskyjSeed(new BigDecimal(account.get("total_seed").toString()));
+						updateAccount.setSeed(new BigDecimal(account.get("total_seed").toString()));
 						updateAccount.setKskyjUpdateDate(LocalDateTime.now());
 						infiniteAccountMapper.updateByPrimaryKeySelective(updateAccount);
 					}
 					
 					// 계좌 내 종목
-					if(params.get("balances") != null) {
+					if(account.get("balances") != null) {
 						List<Map<String, Object>> balances = (List<Map<String, Object>>) account.get("balances");
 						
 						for(Map<String, Object> balance : balances) {
+							
 							if(balance.get("ticker") != null && balance.get("infinite_buying_type") != null
 									&& balance.get("principal") != null && balance.get("purchase_amount") != null
 									&& balance.get("cost_price") != null && balance.get("holding_quantity") != null) { 
@@ -148,7 +149,7 @@ public class ApiService {
 		String type = InfiniteType.INFINITE;
 		
 		InfiniteStockExample stockExample = new InfiniteStockExample();
-		Criteria stockCreiteria =  stockExample.createCriteria().andAccountIdEqualTo(accountId)
+		Criteria stockCreiteria = stockExample.createCriteria().andAccountIdEqualTo(accountId)
 				.andIsDeletedEqualTo(false).andInfiniteStateNotEqualTo(InfiniteState.DONE)
 				.andSymbolEqualTo(symbol);
 		
@@ -182,6 +183,7 @@ public class ApiService {
 		
 		// 종목 조회
 		List<InfiniteStock> stock = infiniteStockMapper.selectByExample(stockExample);
+		
 		if(!stock.isEmpty()) {
 			if(stock.size() == 1) { // 기존 종목에 업데이트
 				infiniteStock.setInfiniteId(stock.get(0).getInfiniteId());

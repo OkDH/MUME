@@ -17,7 +17,7 @@
 		
 		<jdbcConnection 
 				driverClass="org.postgresql.Driver"
-				connectionURL="jdbc:postgresql://genport112.cafe24.com:5432/aventador_dev"
+				connectionURL="jdbc:postgresql://ocko.co.kr:5432/aventador_dev"
 				userId="aventadordev"
 				password="aventadorDevU$3r">
 		</jdbcConnection>
@@ -60,14 +60,14 @@
 		<table schema="aventador" tableName="infinite_account">
 			<generatedKey column="account_id" sqlStatement="JDBC"/>
 		</table>
-		<table schema="aventador" tableName="infinite_stock">
+		<!-- <table schema="aventador" tableName="infinite_stock">
 			<generatedKey column="infinite_id" sqlStatement="JDBC"/>
-		</table>
+		</table> -->
 		<!-- <table schema="aventador" tableName="infinite_history">
 			<generatedKey column="infinite_history_id" sqlStatement="JDBC"/>
 		</table>    -->
-		<table schema="aventador" tableName="view_infinite_list">
-		</table>
+		<!-- <table schema="aventador" tableName="view_infinite_list">
+		</table> -->
 		<!-- <table schema="aventador" tableName="view_infinite_profit_monthly">
 		</table> -->
 		<!--<table schema="aventador" tableName="view_infinite_profit_stock">

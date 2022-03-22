@@ -48,8 +48,8 @@ public class InfiniteAccountService {
 			infiniteAccount.setAccountAlias("MUME계좌");
 			infiniteAccount.setFeesPer(new BigDecimal("0.07"));
 			infiniteAccount.setSeed(BigDecimal.ZERO);
-			infiniteAccount.setIsDeleted(false);
 			infiniteAccount.setRegisteredDate(LocalDateTime.now());
+			infiniteAccount.setIsDeleted(false);
 			infiniteAccountMapper.insert(infiniteAccount);
 			
 			myAccounts.add(infiniteAccount);
@@ -85,8 +85,8 @@ public class InfiniteAccountService {
 		infiniteAccount.setAccountAlias(params.get("accountAlias").toString());
 		infiniteAccount.setFeesPer(new BigDecimal(params.get("feesPer").toString()));
 		infiniteAccount.setSeed(new BigDecimal(params.get("seed").toString()));
-		infiniteAccount.setIsDeleted(false);
 		infiniteAccount.setRegisteredDate(LocalDateTime.now());
+		infiniteAccount.setIsDeleted(false);
 		infiniteAccountMapper.insert(infiniteAccount);
 		return true;
 	}

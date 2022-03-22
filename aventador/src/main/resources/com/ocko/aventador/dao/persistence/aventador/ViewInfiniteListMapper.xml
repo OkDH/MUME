@@ -571,7 +571,7 @@
 		sum(total_sell_price)::numeric(17,8) as total_sell_price,
 		count(*) as sell_count,
 		fees_per
-	from view_infinite_list vil
+	from aventador.view_infinite_list vil
 	<if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

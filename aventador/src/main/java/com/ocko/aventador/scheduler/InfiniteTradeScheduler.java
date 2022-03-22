@@ -77,7 +77,7 @@ public class InfiniteTradeScheduler {
 		
 		// 진행 중인 무매 리스트 조회
 		ViewInfiniteListExample example = new ViewInfiniteListExample();
-		Criteria criteria =  example.createCriteria().andInfiniteStateEqualTo(InfiniteState.ING);
+		Criteria criteria =  example.createCriteria().andInfiniteStateEqualTo(InfiniteState.ING).andIsAutoTradeEqualTo(true).andIsKskyjEqualTo(false);
 		
 		if(memberId != null)
 			criteria.andMemberIdEqualTo(memberId);

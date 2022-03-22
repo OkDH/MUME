@@ -3,6 +3,8 @@ package com.ocko.aventador.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +111,8 @@ public class ApiService {
 						infiniteAccountMapper.updateByPrimaryKeySelective(updateAccount);
 					}
 					
+					Map<String, Integer> symbolIdMap = new HashMap<String, Integer>();
+					
 					// 계좌 내 종목
 					if(account.get("balances") != null) {
 						List<Map<String, Object>> balances = (List<Map<String, Object>>) account.get("balances");
@@ -122,7 +126,27 @@ public class ApiService {
 								// 종목 업데이트
 								Integer infiniteId = upsertInfiniteStock(accountId, balance);
 								
-								// TODO : 체결 내역 업데이트
+								
+								// 체결 내역 업데이트를 위한 infiniteId 세팅
+								String symbol = balance.get("ticker").toString();
+								symbolIdMap.put(symbol, infiniteId);
+							}
+						}
+					}
+					
+					// 체결내역
+					if(account.get("executions") != null) {
+						List<Map<String, Object>> executions = (List<Map<String, Object>>) account.get("executions");
+						
+						// symbol, 매수매도구분, 체결량, 체결가, 체결시간
+						for(Map<String, Object> execution : executions) {
+							if(execution.get("ticker") != null && execution.get("execution_type") != null
+									&& execution.get("execution_quantity") != null && execution.get("execution_price") != null
+									&& execution.get("execution_time") != null) { 
+								
+								// infiniteId 체크
+								Integer infiniteId = symbolIdMap.get(execution.get("ticker").toString());
+								insertInfiniteHistory(infiniteId, execution);
 							}
 						}
 					}
@@ -137,6 +161,47 @@ public class ApiService {
 	}
 	
 	/**
+	 * 체결내용 추가
+	 * @param infiniteId
+	 * @param execution
+	 */
+	private void insertInfiniteHistory(Integer infiniteId, Map<String, Object> execution) {
+		if(infiniteId == null)
+			return;
+		
+		InfiniteHistory history = new InfiniteHistory();
+		history.setInfiniteId(infiniteId);
+		
+		String executionType = execution.get("execution_type").toString();
+		if(executionType.equals("매수"))
+			history.setTradeType(TradeType.BUY);
+		else if(executionType.equals("매도"))
+			history.setTradeType(TradeType.SELL);
+		
+		history.setQuantity(Integer.parseInt(execution.get("execution_quantity").toString())); // 체결량
+		history.setUnitPrice(new BigDecimal(execution.get("execution_price").toString())); // 체결가
+		
+		String executionTime = execution.get("execution_time").toString();
+//		DateTimeFormatter formatter;
+//		try {
+//			// 유형 1 (네이버뷰티, 스마트 스토어)
+//			// 2016-08-08T08:57:21.731Z
+//			// 2018-05-07T23:42:15.000+0000
+//			formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+//			LocalDateTime.parse(executionTime, formatter);
+//		} catch (Exception e) {
+//		}
+		
+		
+//		history.setTradeDate(infiniteStock.getStartedDate());
+		
+		history.setRegisteredType(RegisteredType.KSKYJ.name());
+		history.setRegisteredDate(LocalDateTime.now());
+		history.setIsDeleted(false);
+		infiniteHistoryMapper.insert(history);
+	}
+
+	/**
 	 * 종목 업데이트
 	 * @param accountId
 	 * @param balance
@@ -145,7 +210,7 @@ public class ApiService {
 	private Integer upsertInfiniteStock(Integer accountId, Map<String, Object> balance) {
 		
 		String symbol = balance.get("ticker").toString();
-		String version = balance.get("infinite_buying_type").toString();
+		String version = balance.get("infinite_buying_type").toString().toLowerCase();
 		String type = InfiniteType.INFINITE;
 		
 		InfiniteStockExample stockExample = new InfiniteStockExample();
@@ -154,7 +219,7 @@ public class ApiService {
 				.andSymbolEqualTo(symbol);
 		
 		// 무매 버전
-		if(version.equals("V1") || version.equals("V2") || version.equals("V2.1") || version.equals("V2.1후반")) {
+		if(version.equals("v1") || version.equals("v2") || version.equals("v2.1") || version.equals("v2.1후반")) {
 			stockCreiteria.andInfiniteVersionEqualTo(version);
 		} else if(version.startsWith("TLP_")) { // TLP
 			stockCreiteria.andInfiniteTypeEqualTo(InfiniteType.TLP);

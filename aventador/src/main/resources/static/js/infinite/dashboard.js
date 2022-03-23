@@ -597,8 +597,11 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		});
 		
 		allPriceList.forEach(function(price){
+			console.log(price)
 			allPerList.push((price / infiniteDashboard.state.sumAccountSeed) * 100); 
 		});
+		
+		console.log(infiniteDashboard.state.sumAccountSeed)
 		
 		datasets.unshift({
 			label: '전체',

@@ -145,7 +145,7 @@ public class ApiService {
 								
 								// infiniteId 체크
 								Integer infiniteId = symbolIdMap.get(execution.get("ticker").toString());
-								insertInfiniteHistory(infiniteId, execution);
+								// insertInfiniteHistory(infiniteId, execution);
 							}
 						}
 					}

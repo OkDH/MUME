@@ -550,21 +550,44 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		// label 크기 만큼 기본 data 리스트 만들기(빈값 0)
 		var commonList = Array.from({length: labels.length}, () => 0);
 		
-		// data
-		var datas = {};
+		var datas = {}
 		buyStockDaily.forEach(function(item){
 			if(datas[item.symbol] == undefined){
-				datas[item.symbol] = {symbol: item.symbol, priceList: angular.copy(commonList), perList: angular.copy(commonList)};
+				datas[item.symbol] = {};
 			}
-			var index = labelMap[item.tradeDate];
-			var price = 0;
 			
-			if(index == 0)
-				price = item.tradePrice;
-			else 
-				price = datas[item.symbol].priceList[index-1] + item.tradePrice; // 누적을 위한 합산
-			datas[item.symbol].priceList[index] = price > 0 ? price : 0; // 마이너스라면, 다 팔린거기 때문에 0;
-			datas[item.symbol].perList[index] = price > 0 ? (price / item.seed) * 100 : 0;
+			if(datas[item.symbol][item.tradeDate] == undefined){
+				datas[item.symbol][item.tradeDate] = {};
+			}
+			
+			datas[item.symbol][item.tradeDate] = item;
+		});
+		
+		labels.forEach(function(tradeDate, i){
+			Object.keys(datas).forEach(function(symbol){
+				if(i == 0){
+					datas[symbol].priceList = [];
+					datas[symbol].perList = [];
+				}
+				
+				if(datas[symbol][tradeDate] != undefined){
+					var d = datas[symbol][tradeDate];
+					
+					var price = d.tradePrice;
+					if(i > 0)
+						price = datas[symbol].priceList[i-1] + d.tradePrice; // 누적을 위한 합산
+					datas[symbol].priceList[i] = price > 0 ? price : 0; // 마이너스라면, 다 팔린거기 때문에 0;
+					datas[symbol].perList[i] = price > 0 ? (price / d.seed) * 100 : 0;
+				} else { // 해당 일자의 거래 내역이 없다면 전일 가격 그대로 push
+					if(i == 0){
+						datas[symbol].priceList.push(0);
+						datas[symbol].perList.push(0);
+					} else {
+						datas[symbol].priceList.push(datas[symbol].priceList[i-1]);
+						datas[symbol].perList.push(datas[symbol].perList[i-1]);
+					}
+				}
+			});
 		});
 		
 		// dataset 
@@ -597,11 +620,8 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		});
 		
 		allPriceList.forEach(function(price){
-			console.log(price)
 			allPerList.push((price / infiniteDashboard.state.sumAccountSeed) * 100); 
 		});
-		
-		console.log(infiniteDashboard.state.sumAccountSeed)
 		
 		datasets.unshift({
 			label: '전체',

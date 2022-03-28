@@ -189,7 +189,7 @@
 						<div class="card-body text-center">
 							<div class="row">
 								<div class="col">
-									<div class="text-xs">보유수 · 평단가</div>
+									<div class="text-xs nowrap">보유수 · 평단가</div>
 									<div class="small font-weight-bold">{{ stock.holdingQuantity | number }}주 · ${{ stock.averagePrice | number:2 }}</div>
 									<div class="text-xs">
 										현재가  : 
@@ -225,8 +225,18 @@
 										<h4 class="small font-weight-bold">{{ stock.startedDate | date:'yyyy-MM-dd' }}</h4>
 									</div>
 									<div class="col">
+										<h4 class="text-xs">자동기록</h4>
+										<h4 class="small font-weight-bold">{{ stock.isAutoTrade == true ? 'ON' : 'OFF' }}</h4>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
 										<h4 class="text-xs">배정원금</h4>
 										<h4 class="small font-weight-bold">${{ stock.seed | number }}</h4>
+									</div>
+									<div class="col">
+										<h4 class="text-xs">원금분할</h4>
+										<h4 class="small font-weight-bold">{{ stock.divisions | number }} 분할</h4>
 									</div>
 								</div>
 								<div class="row">

@@ -8,7 +8,7 @@
         </button>
       </div>
       <div class="modal-body">
-      	<form name="infiniteAccount.updateStockForm">
+      	<form id="updateStockForm" name="infiniteAccount.updateStockForm">
 	      	<div class="row">
 	        	<div class="col mx-2 font-weight-bold mb-3 text-gray-800">
 					<span class="border-bottom-primary px-2">{{ infiniteAccount.updateStock.data.symbol }}</span>
@@ -104,16 +104,6 @@
 		    </div>
 		    <div class="row mb-3">
 			    <div class="col-6 pl-4">
-			      <label class="text-gray-800 font-weight-bold">매수 시작일</label>
-			      <input type="date" class="form-control"
-						ng-model="infiniteAccount.updateStock.data.startedDate" name="startedDate"
-						ng-required="true"
-						ng-class="infiniteAccount.updateStockForm.startedDate.$dirty 
-							&& ((infiniteAccount.updateStockForm.startedDate.$invalid && 'invalid')
-							|| (infiniteAccount.updateStockForm.startedDate.$valid && 'valid'))">
-				  <span class="invalid-feedback" ng-show="infiniteAccount.updateStockForm.startedDate.$dirty && infiniteAccount.updateStockForm.startedDate.$invalid">필수 작성 항목입니다.</span>
-			    </div>
-			    <div class="col-6 pr-4">
 			      <label class="text-gray-800 font-weight-bold">배정 원금($)</label>
 			      <input type="number" class="form-control"
 						ng-model="infiniteAccount.updateStock.data.seed" name="seed"
@@ -124,13 +114,33 @@
 						|| (infiniteAccount.updateStockForm.seed.$valid && 'valid'))">
 				  <span class="invalid-feedback" ng-show="infiniteAccount.updateStockForm.seed.$dirty && infiniteAccount.updateStockForm.seed.$invalid">필수 작성 항목입니다.</span>
 			    </div>
+			    <div class="col-6 pr-4">
+			      <label class="text-gray-800 font-weight-bold">원금 분할</label>
+			      <input type="number" class="form-control"
+						ng-model="infiniteAccount.updateStock.data.divisions" name="divisions"
+						validation-doller ng-required="true"
+						max="100" min="10"
+						ng-class="infiniteAccount.updateStockForm.divisions.$dirty 
+						&& ((infiniteAccount.updateStockForm.divisions.$invalid && 'invalid')
+						|| (infiniteAccount.updateStockForm.divisions.$valid && 'valid'))">
+				  <span class="invalid-feedback" ng-show="infiniteAccount.updateStockForm.divisions.$dirty && infiniteAccount.updateStockForm.divisions.$invalid">필수 작성 항목입니다. <br> 10~100사이로 입력해주세요.</span>
+			    </div>
 			 </div>  
 		    <div class="row mb-3">
 			    <div class="col-6 pl-4">
-			      <label class="text-gray-800 font-weight-bold">매매내역 자동기록</label>
+			      <label class="text-gray-800 font-weight-bold">매수 시작일</label>
+			      <input type="date" class="form-control"
+						ng-model="infiniteAccount.updateStock.data.startedDate" name="startedDate"
+						ng-required="true"
+						ng-class="infiniteAccount.updateStockForm.startedDate.$dirty 
+							&& ((infiniteAccount.updateStockForm.startedDate.$invalid && 'invalid')
+							|| (infiniteAccount.updateStockForm.startedDate.$valid && 'valid'))">
+				  <span class="invalid-feedback" ng-show="infiniteAccount.updateStockForm.startedDate.$dirty && infiniteAccount.updateStockForm.startedDate.$invalid">필수 작성 항목입니다.</span>
 			    </div>
 			    <div class="col-6 pr-4">
-			      <label class="text-gray-800 font-weight-bold">지니RPA 연동</label>
+			      <label class="text-gray-800 font-weight-bold">매매내역 자동기록 여부</label>
+			      <input type="checkbox" id="autoTradeToggle" name="isAutoTrade" checked data-toggle="toggle"
+							ng-model="infiniteAccount.updateStock.data.isAutoTrade">
 			    </div>
 			 </div>  
 	      </form>

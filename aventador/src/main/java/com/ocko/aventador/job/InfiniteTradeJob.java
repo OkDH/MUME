@@ -61,18 +61,21 @@ public class InfiniteTradeJob {
 		
 		
 		// 진행률 100% 이상은 원금 소진으로 변경
-		if(infiniteDetail.getProgressPer().compareTo(new BigDecimal(100)) >= 0) {
+		if(infiniteDetail.getInfiniteState().equals(InfiniteState.ING) &&
+				infiniteDetail.getProgressPer().compareTo(new BigDecimal(100)) >= 0) {
 			InfiniteStock infiniteStock = new InfiniteStock();
 			infiniteStock.setInfiniteState(InfiniteState.OUT);
 			
 			InfiniteStockExample example = new InfiniteStockExample();
 			example.createCriteria().andInfiniteIdEqualTo(infiniteDetail.getInfiniteId());
 			infiniteStockMapper.updateByExampleSelective(infiniteStock, example);
-			return;
+			
+			infiniteDetail.setInfiniteState(InfiniteState.OUT);
 		}
 		
 		// 매수 정보
-		infiniteDetail.setBuyTradeInfoList(tradeComponent.getBuyInfo(infiniteDetail));
+		if(infiniteDetail.getInfiniteState().equals(InfiniteState.ING)) // 진행중일때만 매수정보 추가
+			infiniteDetail.setBuyTradeInfoList(tradeComponent.getBuyInfo(infiniteDetail));
 		
 		// 매도 정보
 		infiniteDetail.setSellTradeInfoList(tradeComponent.getSellInfo(infiniteDetail));

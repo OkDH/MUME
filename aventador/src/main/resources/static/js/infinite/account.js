@@ -191,7 +191,9 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 			seed: null,
 			unitPrice: null,
 			quantity: null,
-			accountId: null
+			accountId: null,
+			divisions: 40,
+			isAutoTrade: true
 		}
 		if(infiniteAccount.account.query.accountId !== "ALL")
 			infiniteAccount.addStock.data.accountId = infiniteAccount.account.query.accountId;

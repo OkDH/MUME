@@ -51,12 +51,10 @@ public class InfiniteDetail extends ViewInfiniteList {
 		return getFeesPer().multiply(new BigDecimal("0.01"));
 	}
 	
-	// 40분할, 1회 매수 금액
+	//1회 매수 금액
 	public BigDecimal getOneBuySeed() {
-		if(getInfiniteType().equals(InfiniteType.INFINITE))
-			return getSeed().divide(new BigDecimal("40.0"), 2, RoundingMode.DOWN);
-		if(getInfiniteType().equals(InfiniteType.TLP))
-			return getSeed().divide(new BigDecimal("30.0"), 2, RoundingMode.DOWN);
+		if(getDivisions() != null)
+			return getSeed().divide(new BigDecimal(getDivisions()), 2, RoundingMode.DOWN);
 		else 
 			return null;
 	}

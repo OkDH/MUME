@@ -191,9 +191,10 @@ public class InfiniteStockService {
 		stock.setRegisteredDate(LocalDateTime.now());
 		stock.setInfiniteType(params.get("infiniteType").toString());
 		stock.setInfiniteVersion(params.get("infiniteVersion").toString());
+		stock.setDivisions(Integer.parseInt(params.get("divisions").toString()));
 		stock.setIsDeleted(false);
 		stock.setIsKskyj(false);
-		stock.setIsAutoTrade(true);
+		stock.setIsAutoTrade(Boolean.parseBoolean(params.get("isAutoTrade").toString()));
 		infiniteStockMapper.insert(stock);
 		
 		// 매매 내역 추가
@@ -270,6 +271,10 @@ public class InfiniteStockService {
 			infiniteStock.setSeed(new BigDecimal(params.get("seed").toString()));
 		}
 		
+		if(params.get("divisions") != null) {
+			infiniteStock.setDivisions(Integer.parseInt(params.get("divisions").toString()));
+		}
+		
 		if(params.get("startedDate") != null) {
 			infiniteStock.setStartedDate(LocalDate.parse(params.get("startedDate").toString()));
 		}
@@ -277,9 +282,11 @@ public class InfiniteStockService {
 		if(params.get("isDeleted") != null) {
 			infiniteStock.setIsDeleted(Boolean.parseBoolean(params.get("isDeleted").toString()));
 		}
+		
 		if(params.get("isKskyj") != null) {
 			infiniteStock.setIsKskyj(Boolean.parseBoolean(params.get("isKskyj").toString()));
 		}
+		
 		if(params.get("isAutoTrade") != null) {
 			infiniteStock.setIsAutoTrade(Boolean.parseBoolean(params.get("isAutoTrade").toString()));
 		}

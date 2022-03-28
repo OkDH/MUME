@@ -41,14 +41,14 @@
 										class="btn btn-sm btn-outline-info font-weight-bold text-xs"
 										ng-class="infiniteAccount.addStock.data.infiniteType == 'INFINITE' && 'active'">
 										<input type="radio" name="editInfiniteType"
-										ng-model="infiniteAccount.addStock.data.infiniteType"
+										ng-model="infiniteAccount.addStock.data.infiniteType" ng-click="infiniteAccount.addStock.data.divisions = 40"
 										value="INFINITE"> 무한매수
 									</label> 
 									<label style="width: 7em;"
 										class="btn btn-sm btn-outline-info font-weight-bold text-xs"
 										ng-class="infiniteAccount.addStock.data.infiniteType == 'TLP' && 'active'">
 										<input type="radio" name="editInfiniteType"
-										ng-model="infiniteAccount.addStock.data.infiniteType"
+										ng-model="infiniteAccount.addStock.data.infiniteType" ng-click="infiniteAccount.addStock.data.divisions = 30"
 										value="TLP"> TLP
 									</label> 
 								</div>
@@ -92,16 +92,6 @@
 					</div>
 					<div class="row mb-3">
 						<div class="col-6">
-							<label class="font-weight-bold">매수 시작일</label> 
-							<input type="date" class="form-control"
-								ng-model="infiniteAccount.addStock.data.startedDate" name="startedDate"
-								ng-required="true"
-								ng-class="infiniteAccount.addStockForm.startedDate.$touched 
-									&& ((infiniteAccount.addStockForm.startedDate.$invalid && 'invalid')
-									|| (infiniteAccount.addStockForm.startedDate.$valid && 'valid'))">
-							<span class="invalid-feedback" ng-show="infiniteAccount.addStockForm.startedDate.$touched && infiniteAccount.addStockForm.startedDate.$invalid">필수 작성 항목입니다.</span>
-						</div>
-						<div class="col-6">
 							<label class="font-weight-bold">배정 원금($)</label> 
 							<input type="number" class="form-control"
 								ng-model="infiniteAccount.addStock.data.seed" name="seed"
@@ -111,6 +101,16 @@
 								&& ((infiniteAccount.addStockForm.seed.$invalid && 'invalid')
 								|| (infiniteAccount.addStockForm.seed.$valid && 'valid'))">
 							<span class="invalid-feedback" ng-show="infiniteAccount.addStockForm.seed.$touched && infiniteAccount.addStockForm.seed.$invalid">필수 작성 항목입니다.</span>
+						</div>
+						<div class="col-6">
+							<label class="font-weight-bold">원금 분할</label> 
+							<input type="number" class="form-control"
+								ng-model="infiniteAccount.addStock.data.divisions" name="divisions"
+								ng-required="true"
+								max="100" min="10"
+								ng-class="((infiniteAccount.addStockForm.divisions.$invalid && 'invalid')
+									|| (infiniteAccount.addStockForm.divisions.$valid && 'valid'))">
+							<span class="invalid-feedback" ng-show="infiniteAccount.addStockForm.divisions.$touched && infiniteAccount.addStockForm.divisions.$invalid">필수 작성 항목입니다. <br> 10~100사이로 입력해주세요.</span>
 						</div>
 					</div>
 					<div class="row mb-3">
@@ -134,6 +134,24 @@
 									&& ((infiniteAccount.addStockForm.quantity.$invalid && 'invalid')
 									|| (infiniteAccount.addStockForm.quantity.$valid && 'valid'))">
 							<span class="invalid-feedback" ng-show="infiniteAccount.addStockForm.quantity.$touched && infiniteAccount.addStockForm.quantity.$invalid">필수 작성 항목입니다.</span>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-6">
+							<label class="font-weight-bold">매수 시작일</label> 
+							<input type="date" class="form-control"
+								ng-model="infiniteAccount.addStock.data.startedDate" name="startedDate"
+								ng-required="true"
+								ng-class="infiniteAccount.addStockForm.startedDate.$touched 
+									&& ((infiniteAccount.addStockForm.startedDate.$invalid && 'invalid')
+									|| (infiniteAccount.addStockForm.startedDate.$valid && 'valid'))">
+							<span class="invalid-feedback" ng-show="infiniteAccount.addStockForm.startedDate.$touched && infiniteAccount.addStockForm.startedDate.$invalid">필수 작성 항목입니다.</span>
+						</div>
+						<div class="col-6">
+							<label class="font-weight-bold">매매내역 자동기록 여부</label> 
+							<br>
+							<input type="checkbox" name="isAutoTrade" checked data-toggle="toggle"
+							ng-model="infiniteAccount.addStock.data.isAutoTrade">
 						</div>
 					</div>
 				</form>

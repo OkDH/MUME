@@ -127,12 +127,12 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 			infiniteAccount.account.state = data;
 		});
 	}
-	
+
 	// 심플 주문 리스트 조회
 	infiniteAccount.getSimpleOrders = function(accountId){
 		var params = {
 			accountId: accountId,
-			infiniteState: ["진행중"],
+			infiniteState: ["진행중", "원금소진"],
 			orderBy: "account_id asc, symbol asc"
 		}
 		infiniteService.getStocks(params).then(function(data){
@@ -214,6 +214,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		$("#addStockForm #symbolSelect").selectpicker("refresh");
 		$("#addStockForm #accountSelect").val('');
 		$("#addStockForm #accountSelect").selectpicker("refresh");
+		$('#addStockForm #autoTradeToggle').bootstrapToggle('on');
 	}
 	infiniteAccount.addStock.add = function(){
 		// Date to StringDate
@@ -250,6 +251,12 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		if(infiniteAccount.updateStock.data.doneDate)
 			infiniteAccount.updateStock.data.doneDate = new Date(infiniteAccount.updateStock.data.doneDate);
 		
+		// 매매내역 자동 여부 토글
+		if(infiniteAccount.updateStock.data.isAutoTrade)
+			$('#updateStockForm #autoTradeToggle').bootstrapToggle('on');
+		else
+			$('#updateStockForm #autoTradeToggle').bootstrapToggle('off');
+				
 		$('#updateStockModal').modal("show");
 	}
 	infiniteAccount.updateStock.update = function(params){

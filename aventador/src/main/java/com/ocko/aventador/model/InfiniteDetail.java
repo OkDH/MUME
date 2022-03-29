@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.ocko.aventador.constant.EtfSymbol;
 import com.ocko.aventador.constant.InfiniteState;
@@ -27,6 +28,9 @@ public class InfiniteDetail extends ViewInfiniteList {
 	
 	// 매도 예약 정보 리스트
 	private List<StockTradeInfo> sellTradeInfoList = new ArrayList<StockTradeInfo>();
+	
+	// 평단가 변화 리스트
+	private List<AveragePriceInfo> averagePriceList = new ArrayList<AveragePriceInfo>();
 	
 	// 종목 배정 시드
 	public BigDecimal getSeed() {
@@ -74,12 +78,22 @@ public class InfiniteDetail extends ViewInfiniteList {
 	}
 	
 	// 평단가
-	// 매수 : ((보유 평단가 * 보유수량) + (신규매수단가 * 신규매수수량)) / (보유수량 + 신규매수수량))
-	// 매도 : 보유수량 - 매도수량 (평단가는 변화 없음)
 	public BigDecimal getAveragePrice() {
 		
 		if(getIsKskyj() && getKskyjAveragePrice() != null)
 			return getKskyjAveragePrice();
+		
+		if(averagePriceList.isEmpty())
+			getAveragePriceList();
+		
+		return averagePriceList.get(averagePriceList.size()-1).getAveragePrice();
+	}
+	
+	// 일별 평단가 리스트
+	// 매수 : ((보유 평단가 * 보유수량) + (신규매수단가 * 신규매수수량)) / (보유수량 + 신규매수수량))
+	// 매도 : 보유수량 - 매도수량 (평단가는 변화 없음)
+	public List<AveragePriceInfo> getAveragePriceList(){
+		averagePriceList.clear();
 		
 		BigDecimal avgPrice = BigDecimal.ZERO;
 		BigDecimal holdingQuantity = BigDecimal.ZERO;
@@ -89,10 +103,9 @@ public class InfiniteDetail extends ViewInfiniteList {
 		// 1. 1월 13일 전에 시작했는지 체크
 		boolean isCheckSplit = false;
 		if((getSymbol().equals(EtfSymbol.TQQQ.name()) || getSymbol().equals(EtfSymbol.UPRO.name())) && 
-				(getInfiniteState().equals(InfiniteState.ING) || getInfiniteState().equals(InfiniteState.STOP) || getInfiniteState().equals(InfiniteState.OUT)) &&
-				getStartedDate().isBefore(splitDate))
+			(getInfiniteState().equals(InfiniteState.ING) || getInfiniteState().equals(InfiniteState.STOP) || getInfiniteState().equals(InfiniteState.OUT)) &&
+			getStartedDate().isBefore(splitDate))
 			isCheckSplit = true;
-		
 		
 		for(InfiniteHistory history : historyList) {
 			
@@ -124,16 +137,30 @@ public class InfiniteDetail extends ViewInfiniteList {
 				holdingQuantity = holdingQuantity.subtract(new BigDecimal(history.getQuantity()));
 			}
 			
+			// 일별 매매내역 추가
+			if(!averagePriceList.isEmpty() && 
+					averagePriceList.get(averagePriceList.size()-1).getTradeDate().equals(history.getTradeDate())) {
+				// 매매일자가 같으면 마지막 평단가로 바꿔줌
+				averagePriceList.get(averagePriceList.size()-1).setAveragePrice(avgPrice);
+				averagePriceList.get(averagePriceList.size()-1).setTradeDate(history.getTradeDate());
+			} else {
+				AveragePriceInfo averagePriceInfo = new AveragePriceInfo();
+				averagePriceInfo.setAveragePrice(avgPrice);
+				averagePriceInfo.setTradeDate(history.getTradeDate());
+				averagePriceList.add(averagePriceInfo);
+			}
 		}
 		
 		if(isCheckSplit) {
 			// 액면분할 2:1
 			avgPrice = avgPrice.divide(new BigDecimal(2), 8, RoundingMode.HALF_EVEN);
 			holdingQuantity = holdingQuantity.multiply(new BigDecimal(2));
+			averagePriceList.get(averagePriceList.size()-1).setAveragePrice(avgPrice);
+			averagePriceList.get(averagePriceList.size()-1).setTradeDate(historyList.get(historyList.size()-1).getTradeDate());
 		}
 		
 		setHoldingQuantity(holdingQuantity.intValue());
-		return avgPrice;
+		return averagePriceList;
 	}
 	
 	// 매입금액

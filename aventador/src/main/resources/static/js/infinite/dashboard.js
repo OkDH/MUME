@@ -1,6 +1,9 @@
 app.controller("InfiniteDashboardController", function($scope, $filter, httpService, infiniteService){
 	var infiniteDashboard = this;
 	
+	// chartjs object
+	infiniteDashboard.chart = {}
+	
 	infiniteDashboard.query = {
 		accountId: 'ALL',
 		infiniteState: ["진행중","원금소진","매수중지"]
@@ -91,16 +94,31 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		var labels = [];
 		var data = [];
 		var backgroundColors = [];
-
+		
+		// 계좌필터가 전체라면 월별로 합산해줘야함
+		var sumData = {};		
 		profitMonthly.forEach(function(item){
-			labels.push(item.monthly);
-			data.push(item.income);
-			backgroundColors.push(item.income > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
+			
+			if(sumData[item.monthly] == undefined){
+				labels.push(item.monthly);
+				sumData[item.monthly] = 0;
+			}
+			
+			sumData[item.monthly] = sumData[item.monthly] + item.income;
+		});
+		
+		labels.forEach(function(monthly){
+			data.push(sumData[monthly]);
+			backgroundColors.push(sumData[monthly] > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
 		});
 
-		// Area Chart Example
+		// 그려진 차트가 있다면 차트 삭제 후 다시 그리기
+		if(infiniteDashboard.chart.profitMonthlyChart)
+			infiniteDashboard.chart.profitMonthlyChart.destroy();
+		
+		// 차트 그리기
 		var ctx = document.getElementById("profitMonthlyChart");
-		var myBarChart = new Chart(ctx, {
+		infiniteDashboard.chart.profitMonthlyChart = new Chart(ctx, {
 		  type: 'bar',
 		  data: {
 		  	labels: labels,
@@ -178,15 +196,30 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		var data = [];
 		var backgroundColors = [];
 
+		// 계좌필터가 전체라면 종목별로 합산해줘야함
+		var sumData = {};		
 		profitStock.forEach(function(item){
-			labels.push(item.symbol);
-			data.push(item.income);
-			backgroundColors.push(item.income > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
+			
+			if(sumData[item.symbol] == undefined){
+				labels.push(item.symbol);
+				sumData[item.symbol] = 0;
+			}
+			
+			sumData[item.symbol] = sumData[item.symbol] + item.income;
 		});
 		
-		// Area Chart Example
+		labels.forEach(function(symbol){
+			data.push(sumData[symbol]);
+			backgroundColors.push(sumData[symbol] > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
+		})
+		
+		// 그려진 차트가 있다면 차트 삭제 후 다시 그리기
+		if(infiniteDashboard.chart.profitStockChart)
+			infiniteDashboard.chart.profitStockChart.destroy();
+		
+		// 차트 그리기
 		var ctx = document.getElementById("profitStockChart");
-		var myBarChart = new Chart(ctx, {
+		infiniteDashboard.chart.profitStockChart = new Chart(ctx, {
 		  type: 'bar',
 		  data: {
 		  	labels: labels,
@@ -262,9 +295,13 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		
 		// 현금비중 파이 차트
 		{
-			// Pie Chart Example
+			// 그려진 차트가 있다면 차트 삭제 후 다시 그리기
+			if(infiniteDashboard.chart.dallerGravityChart)
+				infiniteDashboard.chart.dallerGravityChart.destroy();
+			
+			// 차트 그리기
 			var ctx = document.getElementById("dallerGravityChart");
-			var myPieChart = new Chart(ctx, {
+			infiniteDashboard.chart.dallerGravityChart = new Chart(ctx, {
 			  type: 'doughnut',
 			  data: {
 			    labels: ["주식", "현금"],
@@ -311,7 +348,19 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		
 		// 종목비중 정렬
 		{
-			infiniteDashboard.gravityStocks = angular.copy(stocks);
+			infiniteDashboard.gravityStocks = [];
+			
+			// 같은 종목은 매입금을 합쳐줌
+			var datas = {};
+			stocks.forEach(function(stock){
+				if(datas[stock.symbol] == undefined)
+					datas[stock.symbol] = { buyPrice : 0 };
+				datas[stock.symbol].buyPrice = datas[stock.symbol].buyPrice + stock.buyPrice;
+			});
+			
+			Object.keys(datas).forEach(function(symbol){
+				infiniteDashboard.gravityStocks.push({symbol: symbol, buyPrice: datas[symbol].buyPrice});
+			});
 			
 			// 매입금 순으로 정렬
 			infiniteDashboard.gravityStocks.sort(function(o1, o2){
@@ -415,7 +464,7 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			}
 			
 			// 전월 이맘 때 매입금
-			if(date.getDate() == curDate.getDate()){
+			if(date.getDate() >= curDate.getDate()){
 				infiniteDashboard.state.beforeMonthSumBuyPrice = beforeMonthData[beforeMonthData.length - 1];
 				infiniteDashboard.state.sumBuyPriceGap = infiniteDashboard.state.thisMonthSumBuyPrice - infiniteDashboard.state.beforeMonthSumBuyPrice;
 			}
@@ -427,8 +476,13 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		if(beforeMonthData < thisMonthData) // 이번월이 전월보다 일수가 많을경우 전월 하루 추가
 			beforeMonthData.push(beforeMonthData[beforeMonthData.length - 1]);
 		
+		// 그려진 차트가 있다면 차트 삭제 후 다시 그리기
+		if(infiniteDashboard.chart.buyDailyChart)
+			infiniteDashboard.chart.buyDailyChart.destroy();
+		
+		// 차트 그리기
 		var ctx = document.getElementById("buyDailyChart");
-		var myLineChart = new Chart(ctx, {
+		infiniteDashboard.chart.buyDailyChart = new Chart(ctx, {
 		  type: 'line',
 		  data: {
 		    labels: labels,
@@ -636,8 +690,13 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			data: allPerList
 		});
 		
+		// 그려진 차트가 있다면 차트 삭제 후 다시 그리기
+		if(infiniteDashboard.chart.buyDailyStockChart)
+			infiniteDashboard.chart.buyDailyStockChart.destroy();
+		
+		// 차트 그리기
 		var ctx = document.getElementById("buyDailyStockChart");
-		var myLineChart = new Chart(ctx, {
+		infiniteDashboard.chart.buyDailyStockChart = new Chart(ctx, {
 		  type: 'line',
 		  data: {
 		    labels: labels.map(x => x.substring(5).replace("-", ".")),
@@ -700,7 +759,7 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		      callbacks: {
 		        label: function(tooltipItem, chart) {
 		          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-		          return datasetLabel + ': ' + $filter('number')(tooltipItem.yLabel, 2) + '%';
+		          return datasetLabel + ': ' + $filter('number')(tooltipItem.yLabel, 1) + '%';
 		        }
 		      }
 		    }

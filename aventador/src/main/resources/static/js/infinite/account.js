@@ -129,6 +129,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	}
 
 	// 심플 주문 리스트 조회
+	infiniteAccount.isSimpleOut = false;
 	infiniteAccount.getSimpleOrders = function(accountId){
 		var params = {
 			accountId: accountId,
@@ -136,25 +137,28 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 			orderBy: "account_id asc, symbol asc"
 		}
 		infiniteService.getStocks(params).then(function(data){
-			if(!data)
-				return null;
 			infiniteAccount.simpleOrders = [];
 			data.forEach(function(d){
-				d.buyTradeInfoList.forEach(function(info){
-					infiniteAccount.simpleOrders.push({
-						accountId: d.accountId,
-						symbol: d.symbol,
-						tradeName: info.tradeName,
-						tradeType: "매수",
-						concludeType: info.concludeType,
-						price: info.price,
-						quantity: info.quantity
+				if(d.infiniteState == "진행중"){
+					d.buyTradeInfoList.forEach(function(info){
+						infiniteAccount.simpleOrders.push({
+							accountId: d.accountId,
+							symbol: d.symbol,
+							infiniteState: d.infiniteState,
+							tradeName: info.tradeName,
+							tradeType: "매수",
+							concludeType: info.concludeType,
+							price: info.price,
+							quantity: info.quantity
+						});
 					});
-				});
+				}
+				
 				d.sellTradeInfoList.forEach(function(info){
 					infiniteAccount.simpleOrders.push({
 						accountId: d.accountId,
 						symbol: d.symbol,
+						infiniteState: d.infiniteState,
 						tradeName: info.tradeName,
 						tradeType: "매도",
 						concludeType: info.concludeType,

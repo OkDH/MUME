@@ -60,20 +60,20 @@ public class InfiniteDetail extends ViewInfiniteList {
 		if(getDivisions() != null)
 			return getSeed().divide(new BigDecimal(getDivisions()), 2, RoundingMode.DOWN);
 		else 
-			return null;
+			return BigDecimal.ZERO;
 	}
 	
 	// 1회 매수량
 	public Integer getOneBuyQuantity() {
 		if(stockDetail == null)
-			return null;
+			return 0;
 		return getOneBuySeed().divide(stockDetail.getPriceClose().setScale(2, RoundingMode.HALF_UP), 0, RoundingMode.DOWN).intValue();
 	}
 	
 	// 평가금액 : 종가 * 보유수량
 	public BigDecimal getEvalPrice() {
 		if(stockDetail == null)
-			return null;
+			return BigDecimal.ZERO;
 		return stockDetail.getPriceClose().setScale(2, RoundingMode.HALF_UP).multiply(new BigDecimal(getHoldingQuantity()));
 	}
 	
@@ -143,10 +143,12 @@ public class InfiniteDetail extends ViewInfiniteList {
 				// 매매일자가 같으면 마지막 평단가로 바꿔줌
 				averagePriceList.get(averagePriceList.size()-1).setAveragePrice(avgPrice);
 				averagePriceList.get(averagePriceList.size()-1).setTradeDate(history.getTradeDate());
+				averagePriceList.get(averagePriceList.size()-1).setHoldingQuantity(holdingQuantity.intValue());
 			} else {
 				AveragePriceInfo averagePriceInfo = new AveragePriceInfo();
 				averagePriceInfo.setAveragePrice(avgPrice);
 				averagePriceInfo.setTradeDate(history.getTradeDate());
+				averagePriceInfo.setHoldingQuantity(holdingQuantity.intValue());
 				averagePriceList.add(averagePriceInfo);
 			}
 		}
@@ -157,6 +159,7 @@ public class InfiniteDetail extends ViewInfiniteList {
 			holdingQuantity = holdingQuantity.multiply(new BigDecimal(2));
 			averagePriceList.get(averagePriceList.size()-1).setAveragePrice(avgPrice);
 			averagePriceList.get(averagePriceList.size()-1).setTradeDate(historyList.get(historyList.size()-1).getTradeDate());
+			averagePriceList.get(averagePriceList.size()-1).setHoldingQuantity(holdingQuantity.intValue());
 		}
 		
 		setHoldingQuantity(holdingQuantity.intValue());

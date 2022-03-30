@@ -12,6 +12,7 @@ public class AveragePriceInfo {
 
 	private LocalDate tradeDate;
 	private BigDecimal averagePrice;
+	private Integer holdingQuantity;
 	
 	public LocalDate getTradeDate() {
 		return tradeDate;
@@ -24,6 +25,12 @@ public class AveragePriceInfo {
 	}
 	public void setAveragePrice(BigDecimal averagePrice) {
 		this.averagePrice = averagePrice;
+	}
+	public Integer getHoldingQuantity() {
+		return holdingQuantity;
+	}
+	public void setHoldingQuantity(Integer holdingQuantity) {
+		this.holdingQuantity = holdingQuantity;
 	}
 	
 }

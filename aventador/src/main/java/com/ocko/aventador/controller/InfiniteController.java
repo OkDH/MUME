@@ -243,8 +243,8 @@ public class InfiniteController {
 			return new ResponseEntity<Object>(dashboardService.getProfitStock(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		if(type.equals("buy-daily"))
 			return new ResponseEntity<Object>(dashboardService.getBuyDaily(memberInfo.getMemberId(), params) ,HttpStatus.OK);
-		if(type.equals("buy-stock-daily"))
-			return new ResponseEntity<Object>(dashboardService.getBuyStockDaily(memberInfo.getMemberId(), params) ,HttpStatus.OK);
+		if(type.equals("runout-rate"))
+			return new ResponseEntity<Object>(dashboardService.getRunoutRateList(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}

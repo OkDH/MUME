@@ -74,8 +74,9 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			});
 			
 			// 종목 일별 매매금액
-			infiniteService.getStatistics("buy-stock-daily", infiniteDashboard.query).then(function(data){
-				infiniteDashboard.buyStockDaily = data;
+			infiniteService.getStatistics("runout-rate", infiniteDashboard.query).then(function(data){
+				infiniteDashboard.runoutRateList = data;
+				console.log(infiniteDashboard.runoutRateList);
 			});
 			
 			// 종목 진행률
@@ -585,19 +586,16 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 	}, true);
 	
 	// 일별 종목 시드 소진률
-	$scope.$watch("infiniteDashboard.buyStockDaily", function(buyStockDaily){
-		if(!buyStockDaily)
+	$scope.$watch("infiniteDashboard.runoutRateList", function(runoutRateList){
+		if(!runoutRateList)
 			return;
 		
 		// label
 		var labels = [];
 		var labelMap = {};
-		var labelIndex = 0;
 		buyStockDaily.forEach(function(item){
 			if(labels.length == 0 || labels[labels.length-1] != item.tradeDate){
 				labels.push(item.tradeDate);
-				labelMap[item.tradeDate] = labelIndex;
-				labelIndex++;
 			}
 		});
 		
@@ -691,12 +689,12 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		});
 		
 		// 그려진 차트가 있다면 차트 삭제 후 다시 그리기
-		if(infiniteDashboard.chart.buyDailyStockChart)
-			infiniteDashboard.chart.buyDailyStockChart.destroy();
+		if(infiniteDashboard.chart.runoutRateChart)
+			infiniteDashboard.chart.runoutRateChart.destroy();
 		
 		// 차트 그리기
-		var ctx = document.getElementById("buyDailyStockChart");
-		infiniteDashboard.chart.buyDailyStockChart = new Chart(ctx, {
+		var ctx = document.getElementById("runoutRateChart");
+		infiniteDashboard.chart.runoutRateChart = new Chart(ctx, {
 		  type: 'line',
 		  data: {
 		    labels: labels.map(x => x.substring(5).replace("-", ".")),

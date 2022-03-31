@@ -81,4 +81,6 @@ public interface ViewInfiniteProfitMonthlyMapper {
 	 */
 	int updateByExample(@Param("record") ViewInfiniteProfitMonthly record,
 			@Param("example") ViewInfiniteProfitMonthlyExample example);
+	
+	List<ViewInfiniteProfitMonthly> selectByExampleAll(ViewInfiniteProfitMonthlyExample example);
 }

@@ -41,7 +41,7 @@ public class InfiniteIncomeService {
 	public List<InfiniteDetail> getIncomeProfit(int memberId, Map<String, Object> params){
 		ViewInfiniteListExample example = new ViewInfiniteListExample();
 		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId).andInfiniteStateEqualTo(InfiniteState.DONE);
-		if(params.get("accountId") != null)
+		if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL"))
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
 		if(params.get("doneDateStart") != null && params.get("doneDateEnd") != null)
 			criteria.andDoneDateBetween(LocalDate.parse(params.get("doneDateStart").toString()), LocalDate.parse(params.get("doneDateEnd").toString()));
@@ -77,18 +77,27 @@ public class InfiniteIncomeService {
 	public List<Map<String, Object>> getIncomeProfitStock(int memberId, Map<String, Object> params){
 		ViewInfiniteListExample example = new ViewInfiniteListExample();
 		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId).andInfiniteStateEqualTo(InfiniteState.DONE);
-		if(params.get("accountId") != null)
-			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
 		if(params.get("doneDateStart") != null && params.get("doneDateEnd") != null)
 			criteria.andDoneDateBetween(LocalDate.parse(params.get("doneDateStart").toString()), LocalDate.parse(params.get("doneDateEnd").toString()));
 		example.setOrderByClause("sell_count desc");
-				
-		List<Map<String, Object>> list = viewInfiniteListMapper.selectProfitStock(example);
+		
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		if(params.get("accountId") == null || params.get("accountId").toString().equals("ALL")) {
+			// ALL 조회
+			list = viewInfiniteListMapper.selectProfitStockAll(example);
+		} else if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL")) {
+			// 계좌별 조회
+			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
+			list = viewInfiniteListMapper.selectProfitStock(example);; 
+		}
+		
 		for(Map<String, Object> data : list) {
 			BigDecimal buyPrice = (BigDecimal) data.get("total_buy_price");
 			BigDecimal sellPrice = (BigDecimal) data.get("total_sell_price");
 			
-			BigDecimal feesPer = ((BigDecimal) data.get("fees_per")).multiply(new BigDecimal("0.01"));
+			BigDecimal feesPer = new BigDecimal("0.0007");
+			if(data.get("fees_per") != null)
+				feesPer = ((BigDecimal) data.get("fees_per")).multiply(new BigDecimal("0.01"));
 			BigDecimal fees = buyPrice.add(sellPrice).multiply(feesPer).setScale(2, RoundingMode.DOWN);
 			
 			BigDecimal income = sellPrice.subtract(buyPrice).subtract(fees);
@@ -110,14 +119,22 @@ public class InfiniteIncomeService {
 		ViewInfiniteProfitMonthlyExample example = new ViewInfiniteProfitMonthlyExample();
 		com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthlyExample.Criteria criteria = 
 				example.createCriteria().andMemberIdEqualTo(memberId);
-		if(params.get("accountId") != null)
-			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
 		if(params.get("doneDateStart") != null && params.get("doneDateEnd") != null)
 			criteria.andMonthlyBetween(params.get("doneDateStart").toString(), params.get("doneDateEnd").toString());
 		if(params.get("order") != null)
 			example.setOrderByClause("monthly " + params.get("order").toString());
 		
-		List<ViewInfiniteProfitMonthly> list = viewInfiniteProfitMonthlyMapper.selectByExample(example);
+		List<ViewInfiniteProfitMonthly> list = new ArrayList<ViewInfiniteProfitMonthly>();
+		
+		if(params.get("accountId") == null || params.get("accountId").toString().equals("ALL")) {
+			// ALL 조회
+			list = viewInfiniteProfitMonthlyMapper.selectByExampleAll(example);
+		} else if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL")) {
+			// 계좌별 조회
+			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
+			list = viewInfiniteProfitMonthlyMapper.selectByExample(example);
+		}
+		
 		List<ProfitMonthlyDetail> profitList = new ArrayList<ProfitMonthlyDetail>();
 		for(ViewInfiniteProfitMonthly viewProfit : list) {
 			ProfitMonthlyDetail profitDetail = new ProfitMonthlyDetail();

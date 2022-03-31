@@ -3,7 +3,7 @@ app.controller("InfiniteIncomeController", function($scope, httpService, infinit
 	
 	var now = new Date();
 	infiniteIncome.query = {
-		accountId: null,
+		accountId: 'ALL',
 		doneDateStart: new Date(new Date().setFullYear(now.getFullYear() - 1)).toISOString().split("T")[0], // 1년
 		doneDateEnd: now.toISOString().split("T")[0],
 		order: 'DESC'
@@ -16,6 +16,26 @@ app.controller("InfiniteIncomeController", function($scope, httpService, infinit
 		totalBuy: 0,
 		totalSell: 0,
 		totalProfit: 0
+	}
+	
+	// 계좌 정보
+	infiniteService.getMyAccounts().then(function(data){
+		infiniteIncome.myAccounts = data;
+		
+		// 계좌 order map
+		infiniteIncome.myAccountsOrder = {};
+		data.forEach(function(d){
+			infiniteIncome.myAccountsOrder[d.accountId] = {};
+			infiniteIncome.myAccountsOrder[d.accountId].order = d.accountOrder;
+			infiniteIncome.myAccountsOrder[d.accountId].alias = d.accountAlias;
+		});
+	});
+	
+	// 필터 모달
+	infiniteIncome.openFilterModal = function(){
+		$('#filterModal').modal("show");
+		// selectpicker
+		$("#filterModal #accountSelect").selectpicker("refresh");
 	}
 	
 	$scope.$watch("infiniteIncome.filter", function(filter){

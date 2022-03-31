@@ -85,31 +85,13 @@ public interface ViewInfiniteListMapper {
 	 */
 	int updateByExample(@Param("record") ViewInfiniteList record, @Param("example") ViewInfiniteListExample example);
 
-	/**
-	 * 무매 종목 ?��
-	 * @param query
-	 * @return
-	 */
 	Long countByInfinite(Map<String, Object> query);
 	
-	/**
-	 * 무매 배정 ?��?�� 총합
-	 * @param query
-	 * @return
-	 */
 	BigDecimal sumByInfiniteSeed(Map<String, Object> query);
 	
-	/**
-	 * 무매 매입금액 총합
-	 * @param example
-	 * @return
-	 */
 	BigDecimal sumByBuyPrice(Map<String, Object> query);
-
-	/**
-	 * 종목�? ?��?��?��?��
-	 * @param example
-	 * @return
-	 */
+	
 	List<Map<String, Object>> selectProfitStock(ViewInfiniteListExample example);
+	
+	List<Map<String, Object>> selectProfitStockAll(ViewInfiniteListExample example);
 }

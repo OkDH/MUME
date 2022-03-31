@@ -173,6 +173,7 @@ public class InfiniteDashboardService {
 		criteria.andStartedDateGreaterThanOrEqualTo(LocalDate.now().minusMonths(6)); // 종목 시작일 6개월
 		if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL"))
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
+		example.setOrderByClause("started_date asc");
 		
 		List<InfiniteDetail> infiniteStockList = new ArrayList<InfiniteDetail>();
 		

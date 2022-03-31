@@ -75,8 +75,7 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			
 			// 종목 일별 매매금액
 			infiniteService.getStatistics("runout-rate", infiniteDashboard.query).then(function(data){
-				infiniteDashboard.runoutRateList = data;
-				console.log(infiniteDashboard.runoutRateList);
+				infiniteDashboard.runoutRate = data;
 			});
 			
 			// 종목 진행률
@@ -564,36 +563,44 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 	}, true);
 	
 	// 일별 종목 시드 소진률
-	$scope.$watch("infiniteDashboard.runoutRateList", function(runoutRateList){
-		if(!runoutRateList)
+	$scope.$watch("infiniteDashboard.runoutRate", function(runoutRate){
+		if(!runoutRate)
 			return;
 		
-		// label
-		var labels = [];
-		var labelMap = {};
-		buyStockDaily.forEach(function(item){
-			if(labels.length == 0 || labels[labels.length-1] != item.tradeDate){
-				labels.push(item.tradeDate);
-			}
+		console.log(runoutRate);
+		
+		var stockList = runoutRate.stockList;
+		var dateList = runoutRate.dateList;
+		
+		
+		dateList.forEach(function(item){
+			labels.push(item.stockDate);
 		});
 		
-		// label 크기 만큼 기본 data 리스트 만들기(빈값 0)
-		var commonList = Array.from({length: labels.length}, () => 0);
+		// dateList 크기 만큼 기본 data 리스트 만들기(빈값으로 채움)
+		var commonList = Array.from({length: dateList.length}, () => 0);
 		
 		var datas = {}
-		buyStockDaily.forEach(function(item){
-			if(datas[item.symbol] == undefined){
-				datas[item.symbol] = {};
+		stockList.forEach(function(item){
+			if(datas[item.accountId] == undefined){
+				datas[item.accountId] = {};
 			}
-			
-			if(datas[item.symbol][item.tradeDate] == undefined){
+			if(datas[item.accountId][item.symbol] == undefined){
+				datas[item.accountId][item.symbol] = {};
+			}
+			if(datas[item.accountId][item.symbol][item.sss] == undefined){
 				datas[item.symbol][item.tradeDate] = {};
 			}
 			
 			datas[item.symbol][item.tradeDate] = item;
 		});
 		
-		labels.forEach(function(tradeDate, i){
+		// label
+		var labels = [];
+		
+		dateList.forEach(function(item, i){
+			labels.push(item.stockDate);
+			
 			Object.keys(datas).forEach(function(symbol){
 				if(i == 0){
 					datas[symbol].priceList = [];

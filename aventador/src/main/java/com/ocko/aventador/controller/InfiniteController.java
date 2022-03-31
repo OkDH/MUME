@@ -1,5 +1,6 @@
 package com.ocko.aventador.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import com.ocko.aventador.exception.MyAccessDeniedException;
 import com.ocko.aventador.exception.MyArgumentException;
 import com.ocko.aventador.model.InfiniteDetail;
 import com.ocko.aventador.service.AuthenticationService;
+import com.ocko.aventador.service.StockService;
 import com.ocko.aventador.service.infinite.InfiniteAccountService;
 import com.ocko.aventador.service.infinite.InfiniteDashboardService;
 import com.ocko.aventador.service.infinite.InfiniteIncomeService;
@@ -35,9 +37,10 @@ public class InfiniteController {
 	
 	@Autowired private AuthenticationService authenticationService;
 	@Autowired private InfiniteAccountService accountService;
-	@Autowired private InfiniteStockService stockService;
+	@Autowired private InfiniteStockService infiniteStockService;
 	@Autowired private InfiniteDashboardService dashboardService;
 	@Autowired private InfiniteIncomeService incomeService;
+	@Autowired private StockService stockService;
 	
 	/**
 	 * 내 계좌 리스트 조회
@@ -109,7 +112,7 @@ public class InfiniteController {
 					throw new MyAccessDeniedException();
 		}
 		
-		return new ResponseEntity<List<InfiniteDetail>>(stockService.getStocks(memberInfo.getMemberId(), params), HttpStatus.OK);
+		return new ResponseEntity<List<InfiniteDetail>>(infiniteStockService.getStocks(memberInfo.getMemberId(), params), HttpStatus.OK);
 	}
 	
 	/**
@@ -129,7 +132,7 @@ public class InfiniteController {
 					throw new MyAccessDeniedException();
 		}
 		
-		return new ResponseEntity<Map<String, Object>>(stockService.getMyAccountState(memberInfo.getMemberId(), params), HttpStatus.OK);
+		return new ResponseEntity<Map<String, Object>>(infiniteStockService.getMyAccountState(memberInfo.getMemberId(), params), HttpStatus.OK);
 	}
 	
 	/**
@@ -146,7 +149,7 @@ public class InfiniteController {
 			throw new MyArgumentException();
 		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
 			throw new MyAccessDeniedException();
-		return new ResponseEntity<Boolean>(stockService.addStock(params), HttpStatus.OK);
+		return new ResponseEntity<Boolean>(infiniteStockService.addStock(params), HttpStatus.OK);
 	}
 	
 	/**
@@ -164,7 +167,7 @@ public class InfiniteController {
 		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
 			throw new MyAccessDeniedException();
 		
-		return new ResponseEntity<Boolean>(stockService.updateinfiniteStock(params), HttpStatus.OK);
+		return new ResponseEntity<Boolean>(infiniteStockService.updateinfiniteStock(params), HttpStatus.OK);
 	}
 	
 	/**
@@ -182,7 +185,7 @@ public class InfiniteController {
 		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
 			throw new MyAccessDeniedException();
 		
-		return new ResponseEntity<List<InfiniteHistory>>(stockService.getStockHistory(params), HttpStatus.OK);
+		return new ResponseEntity<List<InfiniteHistory>>(infiniteStockService.getStockHistory(params), HttpStatus.OK);
 	}
 	
 	/**
@@ -200,7 +203,7 @@ public class InfiniteController {
 		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
 			throw new MyAccessDeniedException();
 		
-		return new ResponseEntity<Boolean>(stockService.addStockHistory(params), HttpStatus.OK);
+		return new ResponseEntity<Boolean>(infiniteStockService.addStockHistory(params), HttpStatus.OK);
 	}
 	
 	/**
@@ -218,7 +221,7 @@ public class InfiniteController {
 		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
 			throw new MyAccessDeniedException();
 		
-		return new ResponseEntity<Boolean>(stockService.updateStockHistory(params), HttpStatus.OK);
+		return new ResponseEntity<Boolean>(infiniteStockService.updateStockHistory(params), HttpStatus.OK);
 	}
 	
 	/**
@@ -243,8 +246,15 @@ public class InfiniteController {
 			return new ResponseEntity<Object>(dashboardService.getProfitStock(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		if(type.equals("buy-daily"))
 			return new ResponseEntity<Object>(dashboardService.getBuyDaily(memberInfo.getMemberId(), params) ,HttpStatus.OK);
-		if(type.equals("runout-rate"))
-			return new ResponseEntity<Object>(dashboardService.getRunoutRateList(memberInfo.getMemberId(), params) ,HttpStatus.OK);
+		if(type.equals("runout-rate")) {
+			Map<String, Object> result = new HashMap<String, Object>();
+			// 소진률데이터를 위한 종목 및 종목 매매내역 조회
+			List<InfiniteDetail> stockList = dashboardService.getRunoutRateList(memberInfo.getMemberId(), params);
+			result.put("stockList", stockList);
+			// 일자 라벨를 위한 일자 리스트 조회
+			result.put("dateList", stockService.getStockHistoryBetweenDate("TQQQ", stockList.get(0).getStartedDate(), null));
+			return new ResponseEntity<Object>(result ,HttpStatus.OK);
+		}
 		
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}

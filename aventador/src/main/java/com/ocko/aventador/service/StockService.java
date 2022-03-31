@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.ocko.aventador.component.StockComponent;
 import com.ocko.aventador.dao.model.aventador.StockHistory;
 import com.ocko.aventador.dao.model.aventador.StockHistoryExample;
+import com.ocko.aventador.dao.model.aventador.StockHistoryExample.Criteria;
 import com.ocko.aventador.dao.model.aventador.ViewTodayStock;
 import com.ocko.aventador.dao.persistence.aventador.StockHistoryMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewTodayStockMapper;
@@ -93,6 +94,25 @@ public class StockService {
 		example.setLimit(1);
 		List<StockHistory> etfs = stockHistoryMapper.selectByExample(example);
 		return etfs.get(0).getStockDate();
+	}
+	
+	/**
+	 * 시작일과 끝일사이의 etf 주가 히스토리 가져오기
+	 * @param symbol
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public List<StockHistory> getStockHistoryBetweenDate(String symbol, LocalDate startDate, LocalDate endDate){
+		StockHistoryExample example = new StockHistoryExample();
+		Criteria criteria = example.createCriteria().andSymbolEqualTo(symbol);
+		if(startDate != null)
+			criteria.andStockDateGreaterThanOrEqualTo(startDate);
+		if(endDate != null)
+			criteria.andStockDateLessThanOrEqualTo(endDate);
+		example.setOrderByClause("stock_date asc");
+		example.setLimit(200);
+		return stockHistoryMapper.selectByExample(example);
 	}
 	
 }

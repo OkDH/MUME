@@ -96,23 +96,12 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		var data = [];
 		var backgroundColors = [];
 		
-		// 계좌필터가 전체라면 월별로 합산해줘야함
-		var sumData = {};		
 		profitMonthly.forEach(function(item){
-			
-			if(sumData[item.monthly] == undefined){
-				labels.push(item.monthly);
-				sumData[item.monthly] = 0;
-			}
-			
-			sumData[item.monthly] = sumData[item.monthly] + item.income;
+			labels.push(item.monthly);
+			data.push(item.income);
+			backgroundColors.push(item.income > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
 		});
 		
-		labels.forEach(function(monthly){
-			data.push(sumData[monthly]);
-			backgroundColors.push(sumData[monthly] > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
-		});
-
 		// 그려진 차트가 있다면 차트 삭제 후 다시 그리기
 		if(infiniteDashboard.chart.profitMonthlyChart)
 			infiniteDashboard.chart.profitMonthlyChart.destroy();
@@ -197,22 +186,11 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		var data = [];
 		var backgroundColors = [];
 
-		// 계좌필터가 전체라면 종목별로 합산해줘야함
-		var sumData = {};		
 		profitStock.forEach(function(item){
-			
-			if(sumData[item.symbol] == undefined){
-				labels.push(item.symbol);
-				sumData[item.symbol] = 0;
-			}
-			
-			sumData[item.symbol] = sumData[item.symbol] + item.income;
+			labels.push(item.symbol);
+			data.push(item.income);
+			backgroundColors.push(item.income > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
 		});
-		
-		labels.forEach(function(symbol){
-			data.push(sumData[symbol]);
-			backgroundColors.push(sumData[symbol] > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
-		})
 		
 		// 그려진 차트가 있다면 차트 삭제 후 다시 그리기
 		if(infiniteDashboard.chart.profitStockChart)

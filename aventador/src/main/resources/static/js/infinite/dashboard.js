@@ -567,63 +567,63 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		if(!runoutRate)
 			return;
 		
-		console.log(runoutRate);
-		
 		var stockList = runoutRate.stockList;
 		var dateList = runoutRate.dateList;
-		
-		
-		dateList.forEach(function(item){
-			labels.push(item.stockDate);
-		});
 		
 		// dateList 크기 만큼 기본 data 리스트 만들기(빈값으로 채움)
 		var commonList = Array.from({length: dateList.length}, () => 0);
 		
-		var datas = {}
-		stockList.forEach(function(item){
-			if(datas[item.accountId] == undefined){
-				datas[item.accountId] = {};
-			}
-			if(datas[item.accountId][item.symbol] == undefined){
-				datas[item.accountId][item.symbol] = {};
-			}
-			if(datas[item.accountId][item.symbol][item.sss] == undefined){
-				datas[item.symbol][item.tradeDate] = {};
+		var accounts = {}
+		stockList.forEach(function(stock){
+			if(accounts[stock.accountId] == undefined){
+				accounts[stock.accountId] = {};
 			}
 			
-			datas[item.symbol][item.tradeDate] = item;
+			if(accounts[stock.accountId][stock.symbol] == undefined){
+				accounts[stock.accountId][stock.symbol] = {};
+			}
+			
+			stock.averagePriceList.forEach(function(item){
+				accounts[stock.accountId][stock.symbol][item.tradeDate] = item;
+			});
 		});
+		
+		console.log("accounts : " , accounts);
 		
 		// label
 		var labels = [];
-		
+		var datas = {};
 		dateList.forEach(function(item, i){
 			labels.push(item.stockDate);
 			
-			Object.keys(datas).forEach(function(symbol){
-				if(i == 0){
-					datas[symbol].priceList = [];
-					datas[symbol].perList = [];
-				}
+			Object.keys(accounts).forEach(function(id){
 				
-				if(datas[symbol][tradeDate] != undefined){
-					var d = datas[symbol][tradeDate];
+				Object.keys(accounts[id]).forEach(function(symbol){
 					
-					var price = d.tradePrice;
-					if(i > 0)
-						price = datas[symbol].priceList[i-1] + d.tradePrice; // 누적을 위한 합산
-					datas[symbol].priceList[i] = price > 0 ? price : 0; // 마이너스라면, 다 팔린거기 때문에 0;
-					datas[symbol].perList[i] = price > 0 ? (price / d.seed) * 100 : 0;
-				} else { // 해당 일자의 거래 내역이 없다면 전일 가격 그대로 push
 					if(i == 0){
-						datas[symbol].priceList.push(0);
-						datas[symbol].perList.push(0);
-					} else {
-						datas[symbol].priceList.push(datas[symbol].priceList[i-1]);
-						datas[symbol].perList.push(datas[symbol].perList[i-1]);
+						datas[symbol + id].priceList = [];
+						datas[symbol + id].perList = [];
 					}
-				}
+					
+					if(datas[symbol + id][item.stockDate] != undefined){
+						var d = datas[symbol][tradeDate];
+						
+						var price = d.tradePrice;
+						if(i > 0)
+							price = datas[symbol].priceList[i-1] + d.tradePrice; // 누적을 위한 합산
+						datas[symbol].priceList[i] = price > 0 ? price : 0; // 마이너스라면, 다 팔린거기 때문에 0;
+						datas[symbol].perList[i] = price > 0 ? (price / d.seed) * 100 : 0;
+					} else { // 해당 일자의 거래 내역이 없다면 전일 가격 그대로 push
+						if(i == 0){
+							datas[symbol].priceList.push(0);
+							datas[symbol].perList.push(0);
+						} else {
+							datas[symbol].priceList.push(datas[symbol].priceList[i-1]);
+							datas[symbol].perList.push(datas[symbol].perList[i-1]);
+						}
+					}
+					
+				});
 			});
 		});
 		

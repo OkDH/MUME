@@ -573,57 +573,49 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		// dateList 크기 만큼 기본 data 리스트 만들기(빈값으로 채움)
 		var commonList = Array.from({length: dateList.length}, () => 0);
 		
-		var accounts = {}
+		// 종목별로 거래일자 obj를 만듬
+		var datas = {}
 		stockList.forEach(function(stock){
-			if(accounts[stock.accountId] == undefined){
-				accounts[stock.accountId] = {};
-			}
-			
-			if(accounts[stock.accountId][stock.symbol] == undefined){
-				accounts[stock.accountId][stock.symbol] = {};
+			var key = stock.accountId + stock.symbol;
+			if(datas[key] == undefined){
+				datas[key] = {};
+				datas[key].symbol = stock.symbol;
+				datas[key].seed = stock.seed;
+				datas[key].history = {};
+				datas[key].priceList = [];
+				datas[key].perList = [];
 			}
 			
 			stock.averagePriceList.forEach(function(item){
-				accounts[stock.accountId][stock.symbol][item.tradeDate] = item;
+				datas[key].history[item.tradeDate] = item;
 			});
 		});
 		
-		console.log("accounts : " , accounts);
-		
 		// label
 		var labels = [];
-		var datas = {};
+		
+		// 일자별로 순회하면서 소진률 리스트를 만듬
 		dateList.forEach(function(item, i){
 			labels.push(item.stockDate);
 			
-			Object.keys(accounts).forEach(function(id){
+			Object.keys(datas).forEach(function(key){
 				
-				Object.keys(accounts[id]).forEach(function(symbol){
+				if(datas[key].history[item.stockDate] != undefined){
+					var d = datas[key].history[item.stockDate];
 					
+					// 매입금액
+					var price = d.averagePrice * d.holdingQuantity;
+					datas[key].priceList[i] = price;
+					datas[key].perList[i] = price > 0 ? (price / datas[key].seed) * 100 : 0;
+				} else { // 해당 일자의 거래 내역이 없다면 전일 가격 그대로 push
 					if(i == 0){
-						datas[symbol + id].priceList = [];
-						datas[symbol + id].perList = [];
+						datas[key].priceList.push(0);
+						datas[key].perList.push(0);
+					} else {
+						datas[key].priceList.push(datas[key].priceList[i-1]);
+						datas[key].perList.push(datas[key].perList[i-1]);
 					}
-					
-					if(datas[symbol + id][item.stockDate] != undefined){
-						var d = datas[symbol][tradeDate];
-						
-						var price = d.tradePrice;
-						if(i > 0)
-							price = datas[symbol].priceList[i-1] + d.tradePrice; // 누적을 위한 합산
-						datas[symbol].priceList[i] = price > 0 ? price : 0; // 마이너스라면, 다 팔린거기 때문에 0;
-						datas[symbol].perList[i] = price > 0 ? (price / d.seed) * 100 : 0;
-					} else { // 해당 일자의 거래 내역이 없다면 전일 가격 그대로 push
-						if(i == 0){
-							datas[symbol].priceList.push(0);
-							datas[symbol].perList.push(0);
-						} else {
-							datas[symbol].priceList.push(datas[symbol].priceList[i-1]);
-							datas[symbol].perList.push(datas[symbol].perList[i-1]);
-						}
-					}
-					
-				});
+				}
 			});
 		});
 		
@@ -635,9 +627,9 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		var allPerList = [];
 		
 		// symbol 들
-		Object.keys(datas).forEach(function(symbol){
+		Object.keys(datas).forEach(function(key){
 			datasets.push({
-				label: symbol,
+				label: datas[key].symbol,
 				lineTension: 0.1,
 				borderWidth: 2,
 				borderDash: [10, 3],
@@ -647,11 +639,11 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 		        pointBackgroundColor: infiniteDashboard.colors[datasets.length % infiniteDashboard.colors.length],
 		        pointRadius: 0,
 		        pointHoverRadius: 4,
-				data: datas[symbol].perList
+				data: datas[key].perList
 			});
 			
 			// 전체 데이터 누적
-			datas[symbol].priceList.forEach(function(o, i){
+			datas[key].priceList.forEach(function(o, i){
 				allPriceList[i] = allPriceList[i] + o;
 			});
 		});
@@ -664,7 +656,7 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			label: '전체',
 			lineTension: 0.1,
 			borderWidth: 3,
-			pointRadius: 2,
+			pointRadius: 1,
 			fill: false,
 			borderColor: infiniteDashboard.colors[3],
 			backgroundColor: infiniteDashboard.colors[3],

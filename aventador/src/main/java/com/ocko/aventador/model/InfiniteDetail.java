@@ -13,12 +13,16 @@ import com.ocko.aventador.constant.InfiniteState;
 import com.ocko.aventador.constant.InfiniteType;
 import com.ocko.aventador.constant.TradeType;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
+import com.ocko.aventador.dao.model.aventador.StockHistory;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
 
 public class InfiniteDetail extends ViewInfiniteList {
 	
 	// 해당 심볼 주가 정보
 	private StockDetail stockDetail;
+	
+	// 해당 심볼 주가 history
+	private List<StockHistory> stockList = new ArrayList<StockHistory>();
 	
 	// 매매 내역 리스트
 	private List<InfiniteHistory> historyList = new ArrayList<InfiniteHistory>();
@@ -283,6 +287,18 @@ public class InfiniteDetail extends ViewInfiniteList {
 	 */
 	public void setHistoryList(List<InfiniteHistory> historyList) {
 		this.historyList = historyList;
+	}
+
+	public List<StockHistory> getStockList() {
+		return stockList;
+	}
+
+	public void setStockList(List<StockHistory> stockList) {
+		this.stockList = stockList;
+	}
+
+	public void setAveragePriceList(List<AveragePriceInfo> averagePriceList) {
+		this.averagePriceList = averagePriceList;
 	}
 	
 }

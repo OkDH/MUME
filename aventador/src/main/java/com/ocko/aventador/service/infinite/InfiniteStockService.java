@@ -115,6 +115,52 @@ public class InfiniteStockService {
 	}
 	
 	/**
+	 * 무매 종목 조회
+	 * @param memberId
+	 * @param params
+	 * @return
+	 */
+	public InfiniteDetail getStock(int memberId, Map<String, Object> params){
+		ViewInfiniteListExample example = new ViewInfiniteListExample();
+		example.createCriteria().andMemberIdEqualTo(memberId)
+				.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()))
+				.andInfiniteIdEqualTo(Integer.parseInt(params.get("infiniteId").toString()));
+		
+		// 조회
+		List<ViewInfiniteList> list = viewInfiniteListMapper.selectByExample(example);
+		
+		if(list.isEmpty())
+			return null;
+		
+		InfiniteDetail infiniteDetail = new InfiniteDetail();
+		
+		// 객체복사
+		BeanUtils.copyProperties(list.get(0), infiniteDetail);
+		
+		// 매매내역
+		InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
+		historyExample.createCriteria().andInfiniteIdEqualTo(list.get(0).getInfiniteId()).andIsDeletedEqualTo(false);
+		historyExample.setOrderByClause("trade_date asc, trade_type asc");
+		List<InfiniteHistory> historyList = infiniteHistoryMapper.selectByExample(historyExample);
+		infiniteDetail.setHistoryList(historyList);
+		
+		// 주가 히스토리
+		if(!historyList.isEmpty()) {
+			LocalDate startDate = historyList.get(0).getTradeDate();
+			LocalDate endDate = null;
+			
+			// 매도 완료 종목이라면 매매내역 마지막날짜까지만 조회
+			// 그 외는 오늘날짜까지(null은 오늘날짜까지)
+			if(infiniteDetail.getInfiniteState().equals(InfiniteState.DONE))
+				endDate = historyList.get(historyList.size()-1).getTradeDate();
+			
+			infiniteDetail.setStockList(stockService.getStockHistoryBetweenDate(list.get(0).getSymbol(), startDate, endDate));
+		}
+		
+		return infiniteDetail;
+	}
+	
+	/**
 	 * 내 계좌 통계 정보
 	 * @param memberId
 	 * @param params accountId가 null일 경우 전체 전체 계좌로 통계 

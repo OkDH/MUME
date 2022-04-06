@@ -116,6 +116,25 @@ public class InfiniteController {
 	}
 	
 	/**
+	 * 종목 조회
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value = "/api/infinite/stock", method = RequestMethod.POST)
+	public ResponseEntity<InfiniteDetail> getMyStock(@RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+		
+		if(params.get("accountId") != null) {
+			if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+				throw new MyAccessDeniedException();
+		}
+		
+		return new ResponseEntity<InfiniteDetail>(infiniteStockService.getStock(memberInfo.getMemberId(), params), HttpStatus.OK);
+	}
+	
+	/**
 	 * 계좌 내 종목들 현황 조회
 	 * @param params
 	 * @return

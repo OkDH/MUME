@@ -444,6 +444,48 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	}
 	
 	// -------------------------------------
+	// 보고서
+	// modal open
+	infiniteAccount.openReportModal = function(accountId, infiniteId, symbol){
+		infiniteAccount.viewStock = {
+			symbol: symbol,
+			accountId: accountId,
+			infiniteId: infiniteId
+		}
+		$("#reportModal").modal("show");
+		
+		infiniteAccount.getStock();
+	}
+	
+	// 종목 상세 조회
+	infiniteAccount.getStock = function(){
+		if(!infiniteAccount.viewStock)
+			return;
+		
+		infiniteService.getStock(infiniteAccount.viewStock).then(function(data){
+			if(!data)
+				return;
+			infiniteAccount.viewStock.detail = data;
+		});
+	}
+	
+	// 보고서 차트
+	$scope.$watch("infiniteAccount.viewStock.detail", function(detail){
+		if(!detail)
+			return;
+		
+		console.log(detail);
+		
+		// lable
+		
+		// 매수 흐름 차트
+		
+		// 매도 흐름 차트
+		
+	}, true);
+	
+	
+	// -------------------------------------
 	// FCM
 	if ($scope.$parent.isMobile()) {
 		// 식별 토큰 가져오기

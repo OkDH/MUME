@@ -580,17 +580,17 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			if(datas[key] == undefined){
 				datas[key] = {};
 				datas[key].symbol = stock.symbol;
-				datas[key].seed = stock.seed;
 				datas[key].history = {};
 				datas[key].priceList = [];
 				datas[key].perList = [];
 			}
 			
 			stock.averagePriceList.forEach(function(item){
+				item.seed = stock.seed;
 				datas[key].history[item.tradeDate] = item;
 			});
 		});
-		
+
 		// label
 		var labels = [];
 		
@@ -606,7 +606,7 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 					// 매입금액
 					var price = d.averagePrice * d.holdingQuantity;
 					datas[key].priceList[i] = price;
-					datas[key].perList[i] = price > 0 ? (price / datas[key].seed) * 100 : 0;
+					datas[key].perList[i] = price > 0 ? (price / d.seed) * 100 : 0;
 				} else { // 해당 일자의 거래 내역이 없다면 전일 가격 그대로 push
 					if(i == 0){
 						datas[key].priceList.push(0);

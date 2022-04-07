@@ -578,7 +578,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 			    		backgroundColor: '#d9534f',
 			    		pointBackgroundColor: '#d9534f',
 			    		pointHoverRadius: 3,
-			    		data: averagePriceList
+			    		data: bigBuyList
 			    	}
 			    ],
 			  },

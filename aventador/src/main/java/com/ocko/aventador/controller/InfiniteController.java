@@ -271,7 +271,8 @@ public class InfiniteController {
 			List<InfiniteDetail> stockList = dashboardService.getRunoutRateList(memberInfo.getMemberId(), params);
 			result.put("stockList", stockList);
 			// 일자 라벨를 위한 일자 리스트 조회
-			result.put("dateList", stockService.getStockHistoryBetweenDate("TQQQ", stockList.get(0).getStartedDate(), null));
+			if(!stockList.isEmpty())
+				result.put("dateList", stockService.getStockHistoryBetweenDate("TQQQ", stockList.get(0).getStartedDate(), null));
 			return new ResponseEntity<Object>(result ,HttpStatus.OK);
 		}
 		

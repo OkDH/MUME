@@ -215,7 +215,7 @@ public class InfiniteDetail extends ViewInfiniteList {
 	}
 	
 	// 진행률
-	// 매도완료일 때 : 전체매입금 / 배정시드 * 100 ( 100%가 큰 경우 return 100)
+	// 매도완료일 때 : 전체매입금 / 배정시드 * 100 ( 100% 보다 큰 경우 return 100 ) 이유는 사고팔고 그러면 100% 넘는경우 의미가 없어짐
 	// 나머지 : 매입금액 / 배정시드 * 100
 	public BigDecimal getProgressPer() {
 		

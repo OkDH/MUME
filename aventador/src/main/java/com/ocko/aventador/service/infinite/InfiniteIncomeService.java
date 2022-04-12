@@ -59,7 +59,7 @@ public class InfiniteIncomeService {
 			// 매매내역
 			InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
 			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
-			example.setOrderByClause("trade_date asc, trade_type asc");
+			historyExample.setOrderByClause("trade_date asc, trade_type asc");
 			infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
 						
 			infiniteStockList.add(infiniteDetail);

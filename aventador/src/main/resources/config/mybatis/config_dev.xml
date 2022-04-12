@@ -70,14 +70,17 @@
 		</table> -->
 		<!-- <table schema="aventador" tableName="view_infinite_profit_monthly">
 		</table> -->
-		<table schema="aventador" tableName="view_infinite_profit_stock">
-		</table>
+		<!-- <table schema="aventador" tableName="view_infinite_profit_stock">
+		</table> -->
 		<!-- <table schema="aventador" tableName="view_infinite_buy_two_month">
 		</table> -->
 		<!-- <table schema="aventador" tableName="view_infinite_buy_daily">
 		</table> -->
 		<!-- <table schema="aventador" tableName="member_setting">
 		</table> -->
+		<table schema="aventador" tableName="infinite_income">
+			<generatedKey column="income_id" sqlStatement="JDBC"/>
+		</table>
 		
 	</context>
 </generatorConfiguration>

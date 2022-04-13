@@ -1,4 +1,4 @@
-package com.ocko.aventador.model;
+package com.ocko.aventador.model.infinite;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -15,6 +15,8 @@ import com.ocko.aventador.constant.TradeType;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
 import com.ocko.aventador.dao.model.aventador.StockHistory;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
+import com.ocko.aventador.model.AveragePriceInfo;
+import com.ocko.aventador.model.StockDetail;
 
 public class InfiniteDetail extends ViewInfiniteList {
 	
@@ -99,6 +101,20 @@ public class InfiniteDetail extends ViewInfiniteList {
 	public List<AveragePriceInfo> getAveragePriceList(){
 		averagePriceList.clear();
 		
+		// 매매내역에서 처음이 매도라면, 매수를 찾아서 맨앞으로 조정해줌 
+		if(!historyList.isEmpty()) {
+			if(historyList.get(0).getTradeType().equals(TradeType.SELL)) {
+				for(int i = 0; i < historyList.size(); i++) {
+					if(historyList.get(i).getTradeType().equals(TradeType.BUY)) {
+						InfiniteHistory history = historyList.get(i);
+						historyList.remove(i);
+						historyList.add(0, history);
+						break;
+					}
+				}
+			}
+		}
+
 		BigDecimal avgPrice = BigDecimal.ZERO;
 		BigDecimal holdingQuantity = BigDecimal.ZERO;
 		

@@ -1,36 +1,24 @@
 package com.ocko.aventador.service.infinite;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ocko.aventador.constant.InfiniteState;
-import com.ocko.aventador.dao.model.aventador.InfiniteHistoryExample;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthly;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthlyExample;
-import com.ocko.aventador.dao.persistence.aventador.InfiniteHistoryMapper;
-import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
-import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteProfitMonthlyMapper;
-import com.ocko.aventador.model.InfiniteDetail;
-import com.ocko.aventador.model.ProfitMonthlyDetail;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteIncome;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteIncomeExample;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteIncomeExample.Criteria;
+import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteIncomeMapper;
+import com.ocko.aventador.model.infinite.IncomeByMonthly;
+import com.ocko.aventador.model.infinite.IncomeByStock;
 
 @Service
 public class InfiniteIncomeService {
 	
-	@Autowired private ViewInfiniteListMapper viewInfiniteListMapper;
-	@Autowired private ViewInfiniteProfitMonthlyMapper viewInfiniteProfitMonthlyMapper;
-	@Autowired private InfiniteHistoryMapper infiniteHistoryMapper;
+	@Autowired private ViewInfiniteIncomeMapper viewInfiniteIncomeMapper;
 	
 	/**
 	 * 손익현황 조회
@@ -38,34 +26,18 @@ public class InfiniteIncomeService {
 	 * @param params
 	 * @return
 	 */
-	public List<InfiniteDetail> getIncomeProfit(int memberId, Map<String, Object> params){
-		ViewInfiniteListExample example = new ViewInfiniteListExample();
-		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId).andInfiniteStateEqualTo(InfiniteState.DONE);
+	public List<ViewInfiniteIncome> getIncomeList(int memberId, Map<String, Object> params){
+		
+		ViewInfiniteIncomeExample example = new ViewInfiniteIncomeExample();
+		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId);
 		if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL"))
 			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
-		if(params.get("doneDateStart") != null && params.get("doneDateEnd") != null)
-			criteria.andDoneDateBetween(LocalDate.parse(params.get("doneDateStart").toString()), LocalDate.parse(params.get("doneDateEnd").toString()));
+		if(params.get("sellDateStart") != null && params.get("sellDateEnd") != null)
+			criteria.andSellDateBetween(LocalDate.parse(params.get("sellDateStart").toString()), LocalDate.parse(params.get("sellDateEnd").toString()));
 		if(params.get("order") != null)
-			example.setOrderByClause("done_date " + params.get("order").toString());
+			example.setOrderByClause("sell_date " + params.get("order").toString());
 		
-		List<ViewInfiniteList> list = viewInfiniteListMapper.selectByExample(example);
-		
-		List<InfiniteDetail> infiniteStockList = new ArrayList<InfiniteDetail>();
-		for(ViewInfiniteList viewInfinite : list) {
-			InfiniteDetail infiniteDetail = new InfiniteDetail();
-			// 객체복사
-			BeanUtils.copyProperties(viewInfinite, infiniteDetail);
-			
-			// 매매내역
-			InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
-			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
-			historyExample.setOrderByClause("trade_date asc, trade_type asc");
-			infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
-						
-			infiniteStockList.add(infiniteDetail);
-		}
-		
-		return infiniteStockList;
+		return viewInfiniteIncomeMapper.selectByExample(example);
 	}
 	
 	/**
@@ -74,76 +46,49 @@ public class InfiniteIncomeService {
 	 * @param params
 	 * @return
 	 */
-	public List<Map<String, Object>> getIncomeProfitStock(int memberId, Map<String, Object> params){
-		ViewInfiniteListExample example = new ViewInfiniteListExample();
-		Criteria criteria = example.createCriteria().andMemberIdEqualTo(memberId).andInfiniteStateEqualTo(InfiniteState.DONE);
-		if(params.get("doneDateStart") != null && params.get("doneDateEnd") != null)
-			criteria.andDoneDateBetween(LocalDate.parse(params.get("doneDateStart").toString()), LocalDate.parse(params.get("doneDateEnd").toString()));
-		example.setOrderByClause("sell_count desc");
+	public List<IncomeByStock> getIncomeByStock(int memberId, Map<String, Object> params){
 		
-		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-		if(params.get("accountId") == null || params.get("accountId").toString().equals("ALL")) {
-			// ALL 조회
-			list = viewInfiniteListMapper.selectProfitStockAll(example);
-		} else if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL")) {
-			// 계좌별 조회
-			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
-			list = viewInfiniteListMapper.selectProfitStock(example);; 
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("memberId", memberId);
+		
+		// 계좌별 조회
+		if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL")) {
+			param.put("accountId", params.get("accountId"));
 		}
 		
-		for(Map<String, Object> data : list) {
-			BigDecimal buyPrice = (BigDecimal) data.get("total_buy_price");
-			BigDecimal sellPrice = (BigDecimal) data.get("total_sell_price");
-			
-			BigDecimal feesPer = new BigDecimal("0.0007");
-			if(data.get("fees_per") != null)
-				feesPer = ((BigDecimal) data.get("fees_per")).multiply(new BigDecimal("0.01"));
-			BigDecimal fees = buyPrice.add(sellPrice).multiply(feesPer).setScale(2, RoundingMode.DOWN);
-			
-			BigDecimal income = sellPrice.subtract(buyPrice).subtract(fees);
-			BigDecimal incomePer = income.divide(buyPrice, 8, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100));
-			
-			data.put("income", income);
-			data.put("incomePer", incomePer);
+		if(params.get("sellDateStart") != null && params.get("sellDateEnd") != null) {
+			param.put("sellDateStart", LocalDate.parse(params.get("sellDateStart").toString()));
+			param.put("sellDateEnd", LocalDate.parse(params.get("sellDateEnd").toString()));
 		}
-		return list;
+		
+		return viewInfiniteIncomeMapper.selectIncomeByStock(param);
 	}
 	
 	/**
-	 * 월별 손익현황
+	 * 월별 손익 조회
 	 * @param memberId
 	 * @param params
 	 * @return
 	 */
-	public List<ProfitMonthlyDetail> getIncomeProfitMonthly(int memberId, Map<String, Object> params){
-		ViewInfiniteProfitMonthlyExample example = new ViewInfiniteProfitMonthlyExample();
-		com.ocko.aventador.dao.model.aventador.ViewInfiniteProfitMonthlyExample.Criteria criteria = 
-				example.createCriteria().andMemberIdEqualTo(memberId);
-		if(params.get("doneDateStart") != null && params.get("doneDateEnd") != null)
-			criteria.andMonthlyBetween(params.get("doneDateStart").toString(), params.get("doneDateEnd").toString());
+	public List<IncomeByMonthly> getIncomeByMonthly(int memberId, Map<String, Object> params){
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("memberId", memberId);
+		
+		// 계좌별 조회
+		if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL")) {
+			param.put("accountId", params.get("accountId"));
+		}
+		
+		if(params.get("sellDateStart") != null && params.get("sellDateEnd") != null) {
+			param.put("sellDateStart", LocalDate.parse(params.get("sellDateStart").toString()));
+			param.put("sellDateEnd", LocalDate.parse(params.get("sellDateEnd").toString()));
+		}
+		
 		if(params.get("order") != null)
-			example.setOrderByClause("monthly " + params.get("order").toString());
+			param.put("order", params.get("order").toString());
 		
-		List<ViewInfiniteProfitMonthly> list = new ArrayList<ViewInfiniteProfitMonthly>();
-		
-		if(params.get("accountId") == null || params.get("accountId").toString().equals("ALL")) {
-			// ALL 조회
-			list = viewInfiniteProfitMonthlyMapper.selectByExampleAll(example);
-		} else if(params.get("accountId") != null && !params.get("accountId").toString().equals("ALL")) {
-			// 계좌별 조회
-			criteria.andAccountIdEqualTo(Integer.parseInt(params.get("accountId").toString()));
-			list = viewInfiniteProfitMonthlyMapper.selectByExample(example);
-		}
-		
-		List<ProfitMonthlyDetail> profitList = new ArrayList<ProfitMonthlyDetail>();
-		for(ViewInfiniteProfitMonthly viewProfit : list) {
-			ProfitMonthlyDetail profitDetail = new ProfitMonthlyDetail();
-			// 객체복사
-			BeanUtils.copyProperties(viewProfit, profitDetail);
-			profitList.add(profitDetail);
-		}
-		
-		return profitList;
+		return viewInfiniteIncomeMapper.selectIncomeByMonthly(param);
 	}
-
+	
 }

@@ -28,7 +28,7 @@ import com.ocko.aventador.dao.persistence.aventador.InfiniteHistoryMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteIncomeMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
 import com.ocko.aventador.model.AveragePriceInfo;
-import com.ocko.aventador.model.InfiniteDetail;
+import com.ocko.aventador.model.infinite.InfiniteDetail;
 
 /**
  * @author ok
@@ -53,7 +53,8 @@ public class InsertInfiniteIncomeTest {
 	@Rollback(false)
 	public void start() {
 		ViewInfiniteListExample example = new ViewInfiniteListExample();
-		example.createCriteria().andAccountIdEqualTo(1);
+//		example.createCriteria().andAccountIdEqualTo(285);
+//		example.createCriteria().andInfiniteIdEqualTo(1528);
 		
 		example.setOrderByClause("started_date asc");
 		
@@ -70,6 +71,20 @@ public class InsertInfiniteIncomeTest {
 			historyExample.setOrderByClause("trade_date asc, trade_type asc");
 			List<InfiniteHistory> historyList = historyMapper.selectByExample(historyExample);
 
+			// 매매내역에서 처음이 매도라면, 매수를 찾아서 맨앞으로 조정해줌 
+			if(!historyList.isEmpty()) {
+				if(historyList.get(0).getTradeType().equals(TradeType.SELL)) {
+					for(int i = 0; i < historyList.size(); i++) {
+						if(historyList.get(i).getTradeType().equals(TradeType.BUY)) {
+							InfiniteHistory history = historyList.get(i);
+							historyList.remove(i);
+							historyList.add(0, history);
+							break;
+						}
+					}
+				}
+			}
+			
 			// 매도 일때마다 평단가 계산 후 손익현황 추가
 			for(int i = 0; i < historyList.size(); i++) {
 				if(i == 0) 
@@ -95,27 +110,23 @@ public class InsertInfiniteIncomeTest {
 					BigDecimal fees = buyPrice.add(sellPrice).multiply(infiniteDetail.getRealFeesPer()).setScale(2, RoundingMode.DOWN);
 					// 손익금
 					BigDecimal income = sellPrice.subtract(buyPrice).subtract(fees);
-					// 손익률
-					BigDecimal incomePer = income.divide(buyPrice, 8, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100));
 					
 					// 진행률
-					BigDecimal progressPer = buyPrice.divide(infiniteDetail.getSeed(), 8, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100));
+					BigDecimal progressPer = BigDecimal.ZERO;
+					if(infiniteDetail.getSeed() != null && infiniteDetail.getSeed().compareTo(new BigDecimal("0.0")) > 0)
+						progressPer = buyPrice.divide(infiniteDetail.getSeed(), 8, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100));
 					
 					// 손익현황 추가
 					InfiniteIncome infiniteIncome = new InfiniteIncome();
 					infiniteIncome.setAccountId(infiniteDetail.getAccountId());
 					infiniteIncome.setInfiniteId(infiniteDetail.getInfiniteId());
 					infiniteIncome.setInfiniteHistoryId(historyList.get(i).getInfiniteHistoryId());
-					infiniteIncome.setSymbol(infiniteDetail.getSymbol()); // 삭제될수도
-					//infiniteIncome.setSeed(infiniteDetail.getSeed()); // numeric(17,8)수정
-					infiniteIncome.setStartedDate(infiniteDetail.getStartedDate()); // 삭제될수도
-					infiniteIncome.setDoneDate(historyList.get(i).getTradeDate()); // sellDate로 수정
+					infiniteIncome.setSellDate(historyList.get(i).getTradeDate()); // sellDate로 수정
 					infiniteIncome.setProgressPer(progressPer);
 					infiniteIncome.setAveragePrice(averagePriceInfo.getAveragePrice());
 					infiniteIncome.setBuyPrice(buyPrice);
 					infiniteIncome.setSellPrice(sellPrice);
 					infiniteIncome.setIncome(income);
-					//infiniteIncome.setIncomePer(incomePer); // income_per 추가
 					infiniteIncome.setFees(fees);
 					infiniteIncome.setRegisteredDate(LocalDateTime.now());
 					infiniteIncome.setIsDeleted(false);

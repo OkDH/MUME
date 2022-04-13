@@ -126,7 +126,7 @@
 			<version>1.4.0</version>
 		</dependency>
 		
-		<!-- <dependency>
+		 <!-- <dependency>
 			<groupId>io.soov.mybatis</groupId>
 			<artifactId>plugins</artifactId>
 			<version>1.6.0</version>

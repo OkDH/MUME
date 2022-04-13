@@ -1,4 +1,4 @@
-package com.ocko.aventador.model;
+package com.ocko.aventador.model.infinite;
 
 import java.math.BigDecimal;
 

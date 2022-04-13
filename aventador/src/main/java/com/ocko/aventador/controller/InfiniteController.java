@@ -19,7 +19,7 @@ import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.exception.MyAccessDeniedException;
 import com.ocko.aventador.exception.MyArgumentException;
-import com.ocko.aventador.model.InfiniteDetail;
+import com.ocko.aventador.model.infinite.InfiniteDetail;
 import com.ocko.aventador.service.AuthenticationService;
 import com.ocko.aventador.service.StockService;
 import com.ocko.aventador.service.infinite.InfiniteAccountService;
@@ -259,10 +259,10 @@ public class InfiniteController {
 					throw new MyAccessDeniedException();
 		}
 		
-		if(type.equals("profit-monthly"))
-			return new ResponseEntity<Object>(dashboardService.getProfitMonthly(memberInfo.getMemberId(), params) ,HttpStatus.OK);
-		if(type.equals("profit-stock"))
-			return new ResponseEntity<Object>(dashboardService.getProfitStock(memberInfo.getMemberId(), params) ,HttpStatus.OK);
+		if(type.equals("income-monthly"))
+			return new ResponseEntity<Object>(dashboardService.getIncomeByMonthly(memberInfo.getMemberId(), params) ,HttpStatus.OK);
+		if(type.equals("income-stock"))
+			return new ResponseEntity<Object>(dashboardService.getIncomeByStock(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		if(type.equals("buy-daily"))
 			return new ResponseEntity<Object>(dashboardService.getBuyDaily(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		if(type.equals("runout-rate")) {
@@ -294,12 +294,12 @@ public class InfiniteController {
 					throw new MyAccessDeniedException();
 		}
 		
-		if(type.equals("profit"))
-			return new ResponseEntity<Object>(incomeService.getIncomeProfit(memberInfo.getMemberId(), params) ,HttpStatus.OK);
+		if(type.equals("income"))
+			return new ResponseEntity<Object>(incomeService.getIncomeList(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		if(type.equals("stock"))
-			return new ResponseEntity<Object>(incomeService.getIncomeProfitStock(memberInfo.getMemberId(), params) ,HttpStatus.OK);
+			return new ResponseEntity<Object>(incomeService.getIncomeByStock(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		if(type.equals("monthly"))
-			return new ResponseEntity<Object>(incomeService.getIncomeProfitMonthly(memberInfo.getMemberId(), params) ,HttpStatus.OK);
+			return new ResponseEntity<Object>(incomeService.getIncomeByMonthly(memberInfo.getMemberId(), params) ,HttpStatus.OK);
 		
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}

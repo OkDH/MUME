@@ -31,9 +31,9 @@ import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteHistoryMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteStockMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
-import com.ocko.aventador.model.InfiniteDetail;
 import com.ocko.aventador.model.StockDetail;
-import com.ocko.aventador.model.StockTradeInfo;
+import com.ocko.aventador.model.infinite.InfiniteDetail;
+import com.ocko.aventador.model.infinite.StockTradeInfo;
 import com.ocko.aventador.service.StockService;
 
 /**
@@ -56,7 +56,7 @@ public class InfiniteTradeJob {
 		// 매매내역
 		InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
 		historyExample.createCriteria().andInfiniteIdEqualTo(infiniteDetail.getInfiniteId()).andIsDeletedEqualTo(false);
-		historyExample.setOrderByClause("trade_date asc, trade_type asc");
+		historyExample.setOrderByClause("trade_date asc, trade_type asc, registered_date asc");
 		infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
 		
 		

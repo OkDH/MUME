@@ -442,13 +442,16 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			}
 			
 			// 전월 이맘 때 매입금
-			if(date.getDate() >= curDate.getDate()){
+			if(date.getDate() === curDate.getDate()){
 				infiniteDashboard.state.beforeMonthSumBuyPrice = beforeMonthData[beforeMonthData.length - 1];
 				infiniteDashboard.state.sumBuyPriceGap = infiniteDashboard.state.thisMonthSumBuyPrice - infiniteDashboard.state.beforeMonthSumBuyPrice;
 			}
-			
 			// 다음일
 			curDate.setDate(curDate.getDate() + 1);
+		}
+		
+		if(infiniteDashboard.state.sumBuyPriceGap == undefined){
+			infiniteDashboard.state.sumBuyPriceGap = infiniteDashboard.state.thisMonthSumBuyPrice - beforeMonthData[beforeMonthData.length - 1];
 		}
 		
 		if(beforeMonthData < thisMonthData) // 이번월이 전월보다 일수가 많을경우 전월 하루 추가

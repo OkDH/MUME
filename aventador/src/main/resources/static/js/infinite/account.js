@@ -476,8 +476,6 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		if(!detail)
 			return;
 		
-		console.log(detail);
-		
 		var stockList = detail.stockList;
 		
 		// 일자별로 map 만들기

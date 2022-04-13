@@ -30,8 +30,8 @@ import com.ocko.aventador.dao.persistence.aventador.InfiniteAccountMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteHistoryMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteStockMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
-import com.ocko.aventador.model.InfiniteDetail;
 import com.ocko.aventador.model.StockDetail;
+import com.ocko.aventador.model.infinite.InfiniteDetail;
 import com.ocko.aventador.service.StockService;
 
 @Service
@@ -99,7 +99,7 @@ public class InfiniteStockService {
 			// 매매내역
 			InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
 			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
-			historyExample.setOrderByClause("trade_date asc, trade_type asc");
+			historyExample.setOrderByClause("trade_date asc, trade_type asc, registered_date asc");
 			infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
 			
 			// 매수 정보
@@ -140,7 +140,7 @@ public class InfiniteStockService {
 		// 매매내역
 		InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
 		historyExample.createCriteria().andInfiniteIdEqualTo(list.get(0).getInfiniteId()).andIsDeletedEqualTo(false);
-		historyExample.setOrderByClause("trade_date asc, trade_type asc");
+		historyExample.setOrderByClause("trade_date asc, trade_type asc, registered_date asc");
 		List<InfiniteHistory> historyList = infiniteHistoryMapper.selectByExample(historyExample);
 		infiniteDetail.setHistoryList(historyList);
 		
@@ -207,7 +207,7 @@ public class InfiniteStockService {
 			// 매매내역
 			InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
 			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
-			historyExample.setOrderByClause("trade_date asc, trade_type asc");
+			historyExample.setOrderByClause("trade_date asc, trade_type asc, registered_date asc");
 			infiniteDetail.setHistoryList(infiniteHistoryMapper.selectByExample(historyExample));
 			
 			sumByBuyPrice = sumByBuyPrice.add(infiniteDetail.getBuyPrice());

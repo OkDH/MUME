@@ -38,21 +38,6 @@ app.controller("InfiniteIncomeController", function($scope, $filter, httpService
 		$("#filterModal #accountSelect").selectpicker("refresh");
 	}
 	
-	infiniteIncome.detail = {};
-	
-	// 손익현황 상세 모달
-	infiniteIncome.openDetailModal = function(item){
-		$('#detailModal').modal("show");
-		infiniteIncome.detail = angular.copy(item);
-		
-		infiniteService.getStock({accountId: item.accountId, infiniteId: item.infiniteId}).then(function(data){
-			if(!data)
-				return;
-			
-			infiniteIncome.detail.stock = data;
-		});
-	}
-	
 	$scope.$watch("infiniteIncome.filter", function(filter){
 		if(!filter)
 			return;
@@ -98,6 +83,22 @@ app.controller("InfiniteIncomeController", function($scope, $filter, httpService
 		});
 		
 	}, true);
+	
+	
+	infiniteIncome.detail = {};
+	
+	// 손익현황 상세 모달
+	infiniteIncome.openDetailModal = function(item){
+		$('#detailModal').modal("show");
+		infiniteIncome.detail = angular.copy(item);
+		
+		infiniteService.getStock({accountId: item.accountId, infiniteId: item.infiniteId}).then(function(data){
+			if(!data)
+				return;
+			
+			infiniteIncome.detail.stock = data;
+		});
+	}
 	
 	// 매도 흐름 차트
 	infiniteIncome.report = {};
@@ -266,6 +267,5 @@ app.controller("InfiniteIncomeController", function($scope, $filter, httpService
 			  }
 			});
 		}
-		
 	}, true);
 });

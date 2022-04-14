@@ -193,4 +193,19 @@ app.service("infiniteService", function(httpService){
 		});
 		return promiseUpdateAccount;
 	}
+	
+	// 손익 수정
+	var promiseUpdateIncome = null;
+	this.updateIncome = function(params){
+		if(promiseUpdateIncome){
+			httpService.stop(promiseUpdateIncome);
+		}
+		promiseUpdateIncome = httpService.post({
+			url: meta.baseUrl + "api/infinite/income/update",
+			data: params
+		}).then(function(response){
+			return response.data;
+		});
+		return promiseUpdateIncome;
+	}
 });

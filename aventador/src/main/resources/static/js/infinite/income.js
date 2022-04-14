@@ -54,7 +54,10 @@ app.controller("InfiniteIncomeController", function($scope, $filter, httpService
 	}, true);
 	
 	$scope.$watch("infiniteIncome.query", function(query){
-		
+		infiniteIncome.getIncome(query);
+	}, true);
+	
+	infiniteIncome.getIncome = function(query){
 		// 손익현황 가져오기
 		infiniteService.promiseGetIncome("income", query).then(function(data){
 			infiniteIncome.income = data;
@@ -81,13 +84,11 @@ app.controller("InfiniteIncomeController", function($scope, $filter, httpService
 		infiniteService.promiseGetIncome("monthly", query).then(function(data){
 			infiniteIncome.incomeByMonthly = data;
 		});
-		
-	}, true);
-	
+	}
 	
 	infiniteIncome.detail = {};
 	
-	// 손익현황 상세 모달
+	// 손익 상세 모달
 	infiniteIncome.openDetailModal = function(item){
 		$('#detailModal').modal("show");
 		infiniteIncome.detail = angular.copy(item);
@@ -108,13 +109,20 @@ app.controller("InfiniteIncomeController", function($scope, $filter, httpService
 		if(!stock)
 			return;
 		
+		var sellDate = infiniteIncome.detail.sellDate;
+		
 		var stockList = stock.stockList;
 		
 		// 일자별로 map 만들기
 		var datas = {};
-		stock.averagePriceList.forEach(function(item){
-			datas[item.tradeDate] = item;
-		});
+		
+		for(var i = 0; i < stock.averagePriceList.length; i++){
+			datas[stock.averagePriceList[i].tradeDate] = stock.averagePriceList[i];
+			
+			// 매도일까지만 데이터 만들기
+			if(stock.averagePriceList[i].tradeDate == sellDate)
+				break;
+		}
 		
 		// label
 		var labels = [];
@@ -129,7 +137,9 @@ app.controller("InfiniteIncomeController", function($scope, $filter, httpService
 		var highList = [];
 		
 		// 데이터 리스트 채우기
-		stock.stockList.forEach(function(item){
+		for(var i = 0; i < stock.stockList.length; i++){
+			var item = stock.stockList[i];
+			
 			// label
 			labels.push(item.stockDate);
 			
@@ -150,7 +160,11 @@ app.controller("InfiniteIncomeController", function($scope, $filter, httpService
 			
 			// 10% 매도
 			sellList2.push((averagePrice * 1.1017).toFixed(2));
-		});
+			
+			// 매도일까지만 데이터 만들기
+			if(item.stockDate == sellDate)
+				break;
+		}
 		
 		// 매도 흐름 차트
 		{
@@ -268,4 +282,38 @@ app.controller("InfiniteIncomeController", function($scope, $filter, httpService
 			});
 		}
 	}, true);
+	
+	// 손익 수정 모달
+	infiniteIncome.openUpdateModal = function(item){
+		$('#updateIncomeModal').modal("show");
+		infiniteIncome.detail = angular.copy(item);
+		
+		// form validation 초기화
+		if(infiniteIncome.updateStockForm){
+			infiniteIncome.updateStockForm.$setPristine();
+			infiniteIncome.updateStockForm.$setUntouched();
+		}
+		
+		infiniteService.getStock({accountId: item.accountId, infiniteId: item.infiniteId}).then(function(data){
+			if(!data)
+				return;
+			
+			infiniteIncome.detail.stock = data;
+		});
+	}
+	
+	infiniteIncome.update = function(params){
+		if(!params)
+			return;
+		
+		infiniteService.updateIncome(params).then(function(data){
+			if(data == true){
+				infiniteIncome.getIncome(infiniteIncome.query);
+				$('#updateIncomeModal').modal("hide");
+
+				// TODO : 알림창 
+				alert("변경되었습니다.");
+			}
+		});
+	}
 });

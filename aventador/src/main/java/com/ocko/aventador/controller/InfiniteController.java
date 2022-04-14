@@ -304,4 +304,18 @@ public class InfiniteController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
+	/**
+	 * 손익현황
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value = "/api/infinite/income/update", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> updateInfiniteIncome(@RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember();
+		if(memberInfo == null)
+			return null;
+		
+		return new ResponseEntity<Boolean>(incomeService.updateIncome(params), HttpStatus.OK);
+	}
+	
 }

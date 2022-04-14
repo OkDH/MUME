@@ -130,7 +130,9 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 
 	// 심플 주문 리스트 조회
 	infiniteAccount.isSimpleOut = false;
+	infiniteAccount.todayAllBuyPrice = 0; 
 	infiniteAccount.getSimpleOrders = function(accountId){
+		infiniteAccount.todayAllBuyPrice = 0;
 		var params = {
 			accountId: accountId,
 			infiniteState: ["진행중", "원금소진"],
@@ -151,6 +153,8 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 							price: info.price,
 							quantity: info.quantity
 						});
+						
+						infiniteAccount.todayAllBuyPrice += (info.price * info.quantity);
 					});
 				}
 				

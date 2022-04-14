@@ -391,6 +391,12 @@ public class InfiniteStockService {
 		history.setRegisteredDate(LocalDateTime.now());
 		history.setRegisteredType(RegisteredType.MANUAL.name());
 		infiniteHistoryMapper.insert(history);
+		
+		// 매도 내역 추가인 경우 손익추가
+		if(history.getTradeType().equals(TradeType.SELL)) {
+			
+		}
+		
 		return true;
 	}
 	
@@ -405,17 +411,6 @@ public class InfiniteStockService {
 		
 		if(params.get("tradeDate") != null) {
 			history.setTradeDate(LocalDate.parse(params.get("tradeDate").toString()));
-		}
-		
-		if(params.get("tradeType") != null) {
-			switch (params.get("tradeType").toString()) {
-			case TradeType.BUY:
-			case TradeType.SELL:
-				history.setTradeType(params.get("tradeType").toString());
-				break;
-			default:
-				break;
-			}
 		}
 		
 		if(params.get("unitPrice") != null) {

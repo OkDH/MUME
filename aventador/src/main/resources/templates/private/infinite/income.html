@@ -140,11 +140,12 @@
 										style="width: 10px;">손익금액</th>
 									<th class="nowrap" 
 										style="width: 10px;">손익률</th>
+									<th class="nowrap" 
+										style="width: 10px;"></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="item in infiniteIncome.income" style="cursor: pointer;"
-									ng-click="infiniteIncome.openDetailModal(item);">
+								<tr ng-repeat="item in infiniteIncome.income">
 									<td class="text-center font-weight-bold nowrap">
 										{{ item.sellDate }}
 									</td>
@@ -177,6 +178,24 @@
 									<td class="text-center font-weight-bold"
 										ng-class="(item.income > 0 && 'text-danger') || (item.income < 0 && 'text-primary')">
 										{{ item.income / item.buyPrice * 100 | appendPulMa }}%
+									</td>
+									<td class="text-center font-weight-bold">
+										<div class="dropdown no-arrow">
+											<a class="dropdown-toggle" role="button" id="dropdownMenuLink"
+												data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+											</a>
+											<div
+												class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+												aria-labelledby="dropdownMenuLink">
+												<a class="dropdown-item" ng-click="infiniteIncome.openDetailModal(item);">
+													<i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> 손익 상세
+												</a> 
+												<a class="dropdown-item" ng-click="infiniteIncome.openUpdateModal(item);">
+													<i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i> 손익 수정
+												</a> 
+											</div>
+										</div>
 									</td>
 								</tr>
 							</tbody>
@@ -311,4 +330,5 @@
 	
 	<div ng-include="meta.baseUrl + 'tpl/modal/infinite/income-filter.html'"></div>
 	<div ng-include="meta.baseUrl + 'tpl/modal/infinite/income-detail.html'"></div>
+	<div ng-include="meta.baseUrl + 'tpl/modal/infinite/income-update.html'"></div>
 </div>

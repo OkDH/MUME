@@ -124,9 +124,9 @@ public class InsertInfiniteIncomeTest {
 					infiniteIncome.setSellDate(historyList.get(i).getTradeDate()); // sellDate로 수정
 					infiniteIncome.setProgressPer(progressPer);
 					infiniteIncome.setAveragePrice(averagePriceInfo.getAveragePrice());
-					infiniteIncome.setBuyPrice(buyPrice);
-					infiniteIncome.setSellPrice(sellPrice);
-					infiniteIncome.setIncome(income);
+					infiniteIncome.setBuyPrice(buyPrice.setScale(2, RoundingMode.HALF_UP));
+					infiniteIncome.setSellPrice(sellPrice.setScale(2, RoundingMode.HALF_UP));
+					infiniteIncome.setIncome(income.setScale(2, RoundingMode.HALF_UP));
 					infiniteIncome.setFees(fees);
 					infiniteIncome.setRegisteredDate(LocalDateTime.now());
 					infiniteIncome.setIsDeleted(false);

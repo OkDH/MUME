@@ -23,8 +23,8 @@ import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewTodayStockMapper;
 import com.ocko.aventador.job.InfiniteTradeJob;
-import com.ocko.aventador.model.InfiniteDetail;
 import com.ocko.aventador.model.StockDetail;
+import com.ocko.aventador.model.infinite.InfiniteDetail;
 import com.ocko.aventador.service.StockService;
 
 /**

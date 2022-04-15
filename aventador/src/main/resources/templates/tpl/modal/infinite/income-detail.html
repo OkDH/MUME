@@ -1,0 +1,80 @@
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">손익 상세</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col mx-1 font-weight-bold mb-3 text-gray-800">
+				<span class="border-bottom-primary px-2">{{ infiniteIncome.detail.symbol }}</span>
+			</div>
+			<div class="col text-right w-100 mx-1 pt-1">
+				<span class="badge bg-success text-white py-1 px-2" style="width: 6.5em; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: -6px;">
+					{{ infiniteIncome.myAccountsOrder[infiniteIncome.detail.accountId].alias }}
+				</span>
+				<span style="width: 3.5em;"
+					class="badge bg-warning text-white py-1 px-2"
+					ng-if="infiniteIncome.detail.stock.infiniteType == 'TLP'">{{ infiniteIncome.detail.stock.infiniteType }}</span>
+				<span ng-style="{'width':infiniteIncome.detail.stock.infiniteVersion == 'v2.1후반'?'5.5em':'3.5em'}"
+					class="badge bg-info text-white py-1 px-2">{{ infiniteIncome.detail.stock.infiniteVersion }}</span>
+			</div>
+      	</div>
+      	<div class="row">
+      		<table class="table table-sm table-bordered text-gray-800 mx-3 small" style="margin-bottom: 0px;">
+      			<colgroup>
+      				<col style="width:20%">
+      				<col style="width:30%">
+      				<col style="width:20%">
+      				<col style="width:30%">
+      			</colgroup>
+      			<tr>
+      				<td class="bg-light text-center align-middle font-weight-bold">매도일</td>
+      				<td class="text-center align-middle">{{ infiniteIncome.detail.sellDate }}</td>
+      				<td class="bg-light text-center align-middle font-weight-bold">손익률</td>
+      				<td class="text-right px-2 align-middle font-weight-bold" 
+	      				ng-class="(infiniteIncome.detail.income > 0 && 'text-danger') || (infiniteIncome.detail.income < 0 && 'text-primary')">
+	      				{{ infiniteIncome.detail.income / infiniteIncome.detail.buyPrice * 100 | appendPulMa }}%</td>
+      			</tr>
+      			<tr>
+      				<td class="bg-light text-center align-middle font-weight-bold">수수료</td>
+      				<td class="text-right px-2 align-middle">${{ infiniteIncome.detail.fees | number:2 }}</td>
+      				<td class="bg-light text-center align-middle font-weight-bold">손익금액</td>
+      				<td class="text-right px-2 align-middle font-weight-bold"  
+      					ng-class="(infiniteIncome.detail.income > 0 && 'text-danger') || (infiniteIncome.detail.income < 0 && 'text-primary')">
+      					{{ infiniteIncome.detail.income | appendPulMa }}$</td>
+      			</tr>
+      			<tr>
+      				<td class="bg-light text-center align-middle font-weight-bold">매수금액</td>
+      				<td class="text-right px-2 align-middle">${{ infiniteIncome.detail.buyPrice | number:2 }}</td>
+      				<td class="bg-light text-center align-middle font-weight-bold">매도금액</td>
+      				<td class="text-right px-2 align-middle">${{ infiniteIncome.detail.sellPrice | number:2 }}</td>
+      			</tr>
+      			<tr>
+      				<td class="bg-light text-center align-middle font-weight-bold">진행률</td>
+      				<td colspan="3">
+      					<div class="text-right text-xs font-weight-bold">{{ infiniteIncome.detail.progressPer | number:1 }}%</div>
+      					<div class="progress progress-sm">
+                            <div class="progress-bar" role="progressbar" 
+                            ng-class="(infiniteIncome.detail.progressPer >= 100 && 'bg-danger') || (infiniteIncome.detail.progressPer < 50 && 'bg-primary') || (infiniteIncome.detail.progressPer >= 50 && 'bg-warning')"
+                            style="width: {{ infiniteIncome.detail.progressPer }}%" aria-valuenow="{{ infiniteIncome.detail.progressPer }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+    				</td>
+      			</tr>
+      		</table>
+      	</div>
+		<div class="row" >
+			<div class="col chart-area">
+				<canvas id="sellFlowChart"></canvas>
+			</div>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,16 @@
 <div ng-controller="InfiniteIncomeController as infiniteIncome">
 	<div class="d-flex align-items-center justify-content-between mb-4">
-		<h1 class="h4 mb-0 text-gray-800">손익현황</h1>
+		<h1 class="h4 mb-0 text-gray-800">
+			손익현황
+			<span ng-if="infiniteIncome.query.accountId == 'ALL'" class="small">
+				( 전체 )
+			</span>
+			<span ng-if="infiniteIncome.query.accountId != 'ALL'" class="small">
+				( 계좌  {{ infiniteIncome.myAccountsOrder[infiniteIncome.query.accountId].order }}
+				<span class="d-none d-md-table-cell"> : {{ infiniteIncome.myAccountsOrder[infiniteIncome.query.accountId].alias }}</span>
+				)
+			</span>
+		</h1>
 		
 		<!-- 필터 버튼 -->
 		<div class="d-flex align-items-center justify-content-between">
@@ -21,7 +31,7 @@
 							<div class="font-weight-bold text-primary text-uppercase mb-1">
 								기간</div>
 							<div class="small h5 mb-0 font-weight-bold text-gray-800">
-								{{ infiniteIncome.query.doneDateStart }} ~ {{ infiniteIncome.query.doneDateEnd }}</div>
+								{{ infiniteIncome.query.sellDateStart }} ~ {{ infiniteIncome.query.sellDateEnd }}</div>
 						</div>
 						<div class="col-auto">
 							<i class="far fa-calendar-alt fa-2x text-gray-300"></i>
@@ -70,9 +80,9 @@
 						<div class="col mr-2">
 							<div class="font-weight-bold text-warning text-uppercase mb-1">손익금액</div>
 							<div class="h5 mb-0 font-weight-bold"
-								ng-class="(infiniteIncome.stats.totalProfit > 0 && 'text-danger') || (infiniteIncome.stats.totalProfit < 0 && 'text-primary')">
-								{{ infiniteIncome.stats.totalProfit | appendPulMa }}$
-								<span class="text-xs">({{ infiniteIncome.stats.totalProfit / infiniteIncome.stats.totalBuy * 100 | appendPulMa }}%)</span>
+								ng-class="(infiniteIncome.stats.totalIncome > 0 && 'text-danger') || (infiniteIncome.stats.totalIncome < 0 && 'text-primary')">
+								{{ infiniteIncome.stats.totalIncome | appendPulMa }}$
+								<span class="text-xs">({{ infiniteIncome.stats.totalIncome / infiniteIncome.stats.totalBuy * 100 | appendPulMa }}%)</span>
 							</div>
 						</div>
 						<div class="col-auto">
@@ -84,7 +94,7 @@
 		</div>
 	</div>
 	
-	<div class="row" ng-if="infiniteIncome.profit.length == 0">
+	<div class="row" ng-if="infiniteIncome.income.length == 0">
 		<div class="col">
 			<div class="alert alert-success text-center" role="alert">
 			  <p class="font-weight-bold mt-2">조회 된 손익현황이 없습니다.</p>
@@ -99,7 +109,7 @@
 		</div>
 	</div>
 	
-	<div ng-if="infiniteIncome.profit.length > 0">
+	<div ng-if="infiniteIncome.income.length > 0">
 		<div class="row">
 			<div class=col-sm-12>
 				<div class="card shadow mb-4">
@@ -110,15 +120,13 @@
 						<table class="table table-hover text-gray-800 text-resize" width="100%" style="width: 100%;">
 							<thead class="text-white bg-primary">
 								<tr role="row" class="text-center">
-									<th class="d-none d-lg-table-cell nowrap" 
-										style="width: 10px;">NO</th>
+									<th class="nowrap" 
+										style="width: 10px;">매도일</th>
 									<th class="nowrap" 
 										style="width: 10px;">SYMBOL</th>
 									<th class="d-none d-lg-table-cell nowrap" 
 										style="width: 10px;">배정원금</th>
 									<th class="d-none d-lg-table-cell nowrap" 
-										style="width: 10px;">매도일</th>
-									<th class="nowrap" 
 										style="width: 10px;">진행률</th>
 									<th class="d-none d-lg-table-cell nowrap" 
 										style="width: 10px;">평단가</th>
@@ -126,27 +134,28 @@
 										style="width: 10px;">매수금액</th>
 									<th class="d-none d-lg-table-cell nowrap" 
 										style="width: 10px;">매도금액</th>
+									<th class="d-none d-lg-table-cell nowrap" 
+										style="width: 10px;">수수료</th>
 									<th class="nowrap" 
 										style="width: 10px;">손익금액</th>
 									<th class="nowrap" 
 										style="width: 10px;">손익률</th>
+									<th class="nowrap" 
+										style="width: 10px;"></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="item in infiniteIncome.profit">
-									<td class="text-center d-none d-lg-table-cell">
-										{{ $index + 1 }}
+								<tr ng-repeat="item in infiniteIncome.income">
+									<td class="text-center font-weight-bold nowrap">
+										{{ item.sellDate }}
 									</td>
-									<td class="text-center font-weight-bold">
+									<td class="text-center">
 										{{ item.symbol }}
 									</td>
 									<td class="text-center d-none d-lg-table-cell">
 										${{ item.seed | number }}
 									</td>
-									<td class="text-center small align-middle d-none d-lg-table-cell nowrap">
-										{{ item.doneDate }}
-									</td>
-									<td class="text-center"
+									<td class="text-center d-none d-lg-table-cell"
 										ng-class="item.progressPer >= 50 && 'font-weight-bold'">
 										{{ item.progressPer | number:1 }}%
 									</td>
@@ -154,18 +163,39 @@
 										${{ item.averagePrice | number:2 }}
 									</td>
 									<td class="text-center text-danger d-none d-lg-table-cell">
-										${{ item.totalBuyPrice | number:2 }}
+										${{ item.buyPrice | number:2 }}
 									</td>
 									<td class="text-center text-primary d-none d-lg-table-cell">
-										${{ item.totalSellPrice | number:2 }}
+										${{ item.sellPrice | number:2 }}
+									</td>
+									<td class="text-center d-none d-lg-table-cell">
+										${{ item.fees | number:2 }}
 									</td>
 									<td class="text-center font-weight-bold"
 										ng-class="(item.income > 0 && 'text-danger') || (item.income < 0 && 'text-primary')">
 										{{ item.income | appendPulMa }}$
 									</td>
 									<td class="text-center font-weight-bold"
-										ng-class="(item.incomePer > 0 && 'text-danger') || (item.incomePer < 0 && 'text-primary')">
-										{{ item.incomePer | appendPulMa }}%
+										ng-class="(item.income > 0 && 'text-danger') || (item.income < 0 && 'text-primary')">
+										{{ item.income / item.buyPrice * 100 | appendPulMa }}%
+									</td>
+									<td class="text-center font-weight-bold">
+										<div class="dropdown no-arrow">
+											<a class="dropdown-toggle" role="button" id="dropdownMenuLink"
+												data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+											</a>
+											<div
+												class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+												aria-labelledby="dropdownMenuLink">
+												<a class="dropdown-item" ng-click="infiniteIncome.openDetailModal(item);">
+													<i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> 손익 상세
+												</a> 
+												<a class="dropdown-item" ng-click="infiniteIncome.openUpdateModal(item);">
+													<i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i> 손익 수정
+												</a> 
+											</div>
+										</div>
 									</td>
 								</tr>
 							</tbody>
@@ -176,7 +206,7 @@
 		</div>
 	</div>
 	
-	<div ng-if="infiniteIncome.profitStock.length > 0">
+	<div ng-if="infiniteIncome.incomeByStock.length > 0">
 		<div class="row">
 			<div class=col-sm-12>
 				<div class="card shadow mb-4">
@@ -197,6 +227,8 @@
 										style="width: 10px;">매수금액</th>
 									<th class="d-none d-lg-table-cell nowrap" 
 										style="width: 10px;">매도금액</th>
+									<th class="d-none d-lg-table-cell nowrap" 
+										style="width: 10px;">수수료</th>
 									<th class="nowrap" 
 										style="width: 10px;">손익금액</th>
 									<th class="nowrap" 
@@ -204,7 +236,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="item in infiniteIncome.profitStock">
+								<tr ng-repeat="item in infiniteIncome.incomeByStock">
 									<td class="text-center d-none d-lg-table-cell">
 										{{ $index + 1 }}
 									</td>
@@ -212,21 +244,24 @@
 										{{ item.symbol }}
 									</td>
 									<td class="text-center">
-										{{ item.sell_count | number }}
+										{{ item.sellCount | number }}
 									</td>
 									<td class="text-center text-danger d-none d-lg-table-cell">
-										${{ item.total_buy_price | number:2 }}
+										${{ item.buyPrice | number:2 }}
 									</td>
 									<td class="text-center text-primary d-none d-lg-table-cell">
-										${{ item.total_sell_price | number:2 }}
+										${{ item.sellPrice | number:2 }}
+									</td>
+									<td class="text-center d-none d-lg-table-cell">
+										${{ item.fees | number:2 }}
 									</td>
 									<td class="text-center font-weight-bold"
 										ng-class="(item.income > 0 && 'text-danger') || (item.income < 0 && 'text-primary')">
 										{{ item.income | appendPulMa }}$
 									</td>
 									<td class="text-center font-weight-bold"
-										ng-class="(item.incomePer > 0 && 'text-danger') || (item.incomePer < 0 && 'text-primary')">
-										{{ item.incomePer | appendPulMa }}%
+										ng-class="(item.income > 0 && 'text-danger') || (item.income < 0 && 'text-primary')">
+										{{ item.income / item.buyPrice * 100 | appendPulMa }}%
 									</td>
 								</tr>
 							</tbody>
@@ -237,7 +272,7 @@
 		</div>
 	</div>
 	
-	<div ng-if="infiniteIncome.profitMonthly.length > 0">
+	<div ng-if="infiniteIncome.incomeByMonthly.length > 0">
 		<div class="row">
 			<div class=col-sm-12>
 				<div class="card shadow mb-4">
@@ -254,6 +289,8 @@
 										style="width: 10px;">매수금액</th>
 									<th class="d-none d-lg-table-cell" 
 										style="width: 10px;">매도금액</th>
+									<th class="d-none d-lg-table-cell" 
+										style="width: 10px;">수수료</th>
 									<th class="" 
 										style="width: 10px;">손익금액</th>
 									<th class="" 
@@ -261,23 +298,26 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="item in infiniteIncome.profitMonthly">
+								<tr ng-repeat="item in infiniteIncome.incomeByMonthly">
 									<td class="text-center font-weight-bold">
 										{{ item.monthly }}
 									</td>
 									<td class="text-center text-danger d-none d-lg-table-cell">
-										${{ item.totalBuyPrice | number:2 }}
+										${{ item.buyPrice | number:2 }}
 									</td>
 									<td class="text-center text-primary d-none d-lg-table-cell">
-										${{ item.totalSellPrice | number:2 }}
+										${{ item.sellPrice | number:2 }}
+									</td>
+									<td class="text-center d-none d-lg-table-cell">
+										${{ item.fees | number:2 }}
 									</td>
 									<td class="text-center font-weight-bold"
 										ng-class="(item.income > 0 && 'text-danger') || (item.income < 0 && 'text-primary')">
 										{{ item.income | appendPulMa }}$
 									</td>
 									<td class="text-center font-weight-bold"
-										ng-class="(item.incomePer > 0 && 'text-danger') || (item.incomePer < 0 && 'text-primary')">
-										{{ item.incomePer | appendPulMa }}%
+										ng-class="(item.income > 0 && 'text-danger') || (item.income < 0 && 'text-primary')">
+										{{ item.income / item.buyPrice * 100 | appendPulMa }}%
 									</td>
 								</tr>
 							</tbody>
@@ -288,5 +328,7 @@
 		</div>
 	</div>
 	
-	<div ng-include="meta.baseUrl + 'tpl/modal/income-filter.html'"></div>
+	<div ng-include="meta.baseUrl + 'tpl/modal/infinite/income-filter.html'"></div>
+	<div ng-include="meta.baseUrl + 'tpl/modal/infinite/income-detail.html'"></div>
+	<div ng-include="meta.baseUrl + 'tpl/modal/infinite/income-update.html'"></div>
 </div>

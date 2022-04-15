@@ -35,6 +35,7 @@ import com.ocko.aventador.model.StockDetail;
 import com.ocko.aventador.model.infinite.InfiniteDetail;
 import com.ocko.aventador.model.infinite.StockTradeInfo;
 import com.ocko.aventador.service.StockService;
+import com.ocko.aventador.service.infinite.InfiniteIncomeService;
 
 /**
  * @author ok
@@ -46,6 +47,7 @@ public class InfiniteTradeJob {
 	private static final Logger log = LoggerFactory.getLogger(InfiniteTradeJob.class);
 
 	@Autowired private InfiniteTradeComponent tradeComponent;
+	@Autowired private InfiniteIncomeService incomeService;
 	@Autowired private InfiniteHistoryMapper historyMapper;
 	@Autowired private InfiniteStockMapper infiniteStockMapper;
 	@Autowired private InfiniteHistoryMapper infiniteHistoryMapper;
@@ -123,6 +125,8 @@ public class InfiniteTradeJob {
 				infiniteHistory.setRegisteredDate(LocalDateTime.now());
 				infiniteHistory.setIsDeleted(false);
 				
+				boolean isSell = false;
+				
 				switch (info.getConcludeType()) {
 				case LOC:
 					// 주문가격보다 종가가 크다면 체결
@@ -135,6 +139,8 @@ public class InfiniteTradeJob {
 						
 						// 수량 감소
 						holdingQuantity -= info.getQuantity();
+						
+						isSell = true;
 					}
 					break;
 				case PENDING_ORDER:
@@ -147,11 +153,17 @@ public class InfiniteTradeJob {
 						
 						// 수량 감소
 						holdingQuantity -= info.getQuantity();
+						
+						isSell = true;
 					}
 					break;
 				default:
 					break;
 				}
+				
+				// 매도 되었다면 손익현황 추가
+				if(isSell)
+					incomeService.addIncome(infiniteDetail.getMemberId(), infiniteDetail.getInfiniteId(), infiniteHistory.getInfiniteHistoryId());
 			}
 		}
 		

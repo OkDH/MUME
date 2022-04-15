@@ -168,11 +168,12 @@ public class InfiniteController {
 			throw new MyArgumentException();
 		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
 			throw new MyAccessDeniedException();
+		
 		return new ResponseEntity<Boolean>(infiniteStockService.addStock(params), HttpStatus.OK);
 	}
 	
 	/**
-	 * 무한매수 매수 수정
+	 * 무한매수 종목 수정
 	 * @param params
 	 * @return
 	 */
@@ -305,7 +306,7 @@ public class InfiniteController {
 	}
 	
 	/**
-	 * 손익현황
+	 * 손익현황 업데이트
 	 * @param params
 	 * @return
 	 */
@@ -314,6 +315,8 @@ public class InfiniteController {
 		MemberInfo memberInfo = authenticationService.getCurrentMember();
 		if(memberInfo == null)
 			return null;
+		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
+			throw new MyAccessDeniedException();
 		
 		return new ResponseEntity<Boolean>(incomeService.updateIncome(params), HttpStatus.OK);
 	}

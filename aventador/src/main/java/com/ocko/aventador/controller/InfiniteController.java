@@ -222,7 +222,7 @@ public class InfiniteController {
 		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
 			throw new MyAccessDeniedException();
 		
-		return new ResponseEntity<Boolean>(infiniteStockService.addStockHistory(params), HttpStatus.OK);
+		return new ResponseEntity<Boolean>(infiniteStockService.addStockHistory(memberInfo.getMemberId(), params), HttpStatus.OK);
 	}
 	
 	/**

@@ -600,33 +600,4 @@
       and account_id = #{accountId}
     </if>
   </select>
-  <select id="selectProfitStock" parameterType="com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample" resultType="java.util.HashMap">
-  	select member_id, account_id, symbol, 
-		sum(total_buy_price)::numeric(17,8) as total_buy_price, 
-		sum(total_sell_price)::numeric(17,8) as total_sell_price,
-		count(*) as sell_count,
-		fees_per
-	from aventador.view_infinite_list vil
-	<if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-	group by member_id, account_id, fees_per, symbol
-	<if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>;
-  </select>
-  <select id="selectProfitStockAll" parameterType="com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample" resultType="java.util.HashMap">
-  	select member_id, symbol, 
-		sum(total_buy_price)::numeric(17,8) as total_buy_price, 
-		sum(total_sell_price)::numeric(17,8) as total_sell_price,
-		count(*) as sell_count
-	from aventador.view_infinite_list vil
-	<if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-	group by member_id, symbol
-	<if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>;
-  </select>
 </mapper>

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.ocko.aventador.constant.ConcludeType;
 import com.ocko.aventador.constant.InfiniteVersion;
-import com.ocko.aventador.model.InfiniteDetail;
-import com.ocko.aventador.model.StockTradeInfo;
+import com.ocko.aventador.model.infinite.InfiniteDetail;
+import com.ocko.aventador.model.infinite.StockTradeInfo;
 
 @Component
 public class InfiniteTradeComponent {

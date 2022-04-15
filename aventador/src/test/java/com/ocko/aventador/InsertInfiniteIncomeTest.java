@@ -56,7 +56,7 @@ public class InsertInfiniteIncomeTest {
 //		example.createCriteria().andAccountIdEqualTo(285);
 //		example.createCriteria().andInfiniteIdEqualTo(1528);
 		
-		example.setOrderByClause("started_date asc");
+//		example.setOrderByClause("started_date asc");
 		
 		for(ViewInfiniteList viewInfinite : viewInfiniteMapper.cursorByExample(example)) {
 			log.info(viewInfinite.getInfiniteId() + "." + viewInfinite.getSymbol());

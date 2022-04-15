@@ -90,8 +90,4 @@ public interface ViewInfiniteListMapper {
 	BigDecimal sumByInfiniteSeed(Map<String, Object> query);
 	
 	BigDecimal sumByBuyPrice(Map<String, Object> query);
-	
-	List<Map<String, Object>> selectProfitStock(ViewInfiniteListExample example);
-	
-	List<Map<String, Object>> selectProfitStockAll(ViewInfiniteListExample example);
 }

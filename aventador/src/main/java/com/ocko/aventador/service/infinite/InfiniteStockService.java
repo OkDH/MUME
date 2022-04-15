@@ -21,6 +21,8 @@ import com.ocko.aventador.constant.RegisteredType;
 import com.ocko.aventador.constant.TradeType;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistoryExample;
+import com.ocko.aventador.dao.model.aventador.InfiniteIncome;
+import com.ocko.aventador.dao.model.aventador.InfiniteIncomeExample;
 import com.ocko.aventador.dao.model.aventador.InfiniteStock;
 import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
@@ -28,6 +30,7 @@ import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
 import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteAccountMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteHistoryMapper;
+import com.ocko.aventador.dao.persistence.aventador.InfiniteIncomeMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteStockMapper;
 import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
 import com.ocko.aventador.model.StockDetail;
@@ -38,10 +41,12 @@ import com.ocko.aventador.service.StockService;
 public class InfiniteStockService {
 
 	@Autowired private StockService stockService;
+	@Autowired private InfiniteIncomeService incomeService;
 	@Autowired private InfiniteTradeComponent tradeComponent;
 	@Autowired private InfiniteAccountMapper infiniteAccountMapper;
 	@Autowired private InfiniteStockMapper infiniteStockMapper;
 	@Autowired private InfiniteHistoryMapper infiniteHistoryMapper;
+	@Autowired private InfiniteIncomeMapper infiniteIncomeMapper;
 	@Autowired private ViewInfiniteListMapper viewInfiniteListMapper;
 	
 	/**
@@ -266,6 +271,7 @@ public class InfiniteStockService {
 	 * @param params
 	 * @return
 	 */
+	@Transactional
 	public Boolean updateinfiniteStock(Map<String, Object> params) {
 		
 		InfiniteStock infiniteStock = new InfiniteStock();
@@ -343,17 +349,29 @@ public class InfiniteStockService {
 		
 		infiniteStockMapper.updateByExampleSelective(infiniteStock, example);
 		
-		// 종목이 삭제 된다면 매매 기록도 삭제 처리
+		// 종목이 삭제 된다면 매매 기록, 손익현황도 삭제 처리
 		if(params.get("isDeleted") != null) {
 			if(Boolean.parseBoolean(params.get("isDeleted").toString())) {
-				InfiniteHistory history = new InfiniteHistory();
-				history.setIsDeleted(true);
-				history.setUpdatedDate(LocalDateTime.now());
-				
-				InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
-				historyExample.createCriteria().andInfiniteIdEqualTo(Integer.parseInt(params.get("infiniteId").toString()));
-				
-				infiniteHistoryMapper.updateByExampleSelective(history, historyExample);
+				{	// 매매기록 삭제
+					InfiniteHistory history = new InfiniteHistory();
+					history.setIsDeleted(true);
+					history.setUpdatedDate(LocalDateTime.now());
+					
+					InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
+					historyExample.createCriteria().andInfiniteIdEqualTo(Integer.parseInt(params.get("infiniteId").toString()));
+					
+					infiniteHistoryMapper.updateByExampleSelective(history, historyExample);
+				}
+				{	// 손익현황 삭제
+					InfiniteIncome income = new InfiniteIncome();
+					income.setIsDeleted(true);
+					
+					InfiniteIncomeExample incomeExample = new InfiniteIncomeExample();
+					incomeExample.createCriteria().andInfiniteIdEqualTo(Integer.parseInt(params.get("infiniteId").toString()));
+					
+					infiniteIncomeMapper.updateByExampleSelective(income, incomeExample);
+					
+				}
 			}
 		}
 		
@@ -380,7 +398,8 @@ public class InfiniteStockService {
 	 * @param params
 	 * @return
 	 */
-	public Boolean addStockHistory(Map<String, Object> params) {
+	@Transactional
+	public Boolean addStockHistory(int memberId, Map<String, Object> params) {
 		InfiniteHistory history = new InfiniteHistory();
 		history.setInfiniteId(Integer.parseInt(params.get("infiniteId").toString()));
 		history.setTradeDate(LocalDate.parse(params.get("tradeDate").toString()));
@@ -394,7 +413,7 @@ public class InfiniteStockService {
 		
 		// 매도 내역 추가인 경우 손익추가
 		if(history.getTradeType().equals(TradeType.SELL)) {
-			
+			incomeService.addIncome(memberId, history.getInfiniteId(), history.getInfiniteHistoryId());
 		}
 		
 		return true;
@@ -405,6 +424,7 @@ public class InfiniteStockService {
 	 * @param params
 	 * @return
 	 */
+	@Transactional
 	public Boolean updateStockHistory(Map<String, Object> params) {
 		
 		InfiniteHistory history = new InfiniteHistory();
@@ -433,6 +453,19 @@ public class InfiniteStockService {
 			.andInfiniteHistoryIdEqualTo(Integer.parseInt(params.get("infiniteHistoryId").toString()));
 		
 		infiniteHistoryMapper.updateByExampleSelective(history, example);
+		
+		// 매매내역 삭제라면 손익현황도 삭제
+		if(params.get("isDeleted") != null) {
+			if(Boolean.parseBoolean(params.get("isDeleted").toString())) {
+				InfiniteIncome income = new InfiniteIncome();
+				income.setIsDeleted(true);
+				
+				InfiniteIncomeExample incomeExample = new InfiniteIncomeExample();
+				incomeExample.createCriteria().andInfiniteHistoryIdEqualTo(Integer.parseInt(params.get("infiniteHistoryId").toString()));
+				
+				infiniteIncomeMapper.updateByExampleSelective(income, incomeExample);
+			}
+		}
 		
 		return true;
 	}

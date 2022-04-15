@@ -68,7 +68,7 @@ public class InsertInfiniteIncomeTest {
 			// 매매내역
 			InfiniteHistoryExample historyExample = new InfiniteHistoryExample();
 			historyExample.createCriteria().andInfiniteIdEqualTo(viewInfinite.getInfiniteId()).andIsDeletedEqualTo(false);
-			historyExample.setOrderByClause("trade_date asc, trade_type asc");
+			historyExample.setOrderByClause("trade_date asc, trade_type asc, registered_date asc");
 			List<InfiniteHistory> historyList = historyMapper.selectByExample(historyExample);
 
 			// 매매내역에서 처음이 매도라면, 매수를 찾아서 맨앞으로 조정해줌 
@@ -134,9 +134,6 @@ public class InsertInfiniteIncomeTest {
 					incomeMapper.insert(infiniteIncome);
 				}
 			}
-			
 		}
 	}
-	
-	
 }

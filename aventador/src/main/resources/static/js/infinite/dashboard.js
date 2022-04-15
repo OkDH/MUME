@@ -59,13 +59,13 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			infiniteDashboard.state = data;
 			
 			// 월별 손익현황
-			infiniteService.getStatistics("profit-monthly", infiniteDashboard.query).then(function(data){
-				infiniteDashboard.profitMonthly = data;
+			infiniteService.getStatistics("income-monthly", infiniteDashboard.query).then(function(data){
+				infiniteDashboard.incomeByMonthly = data;
 			});
 			
 			// 종목별 손익현황
-			infiniteService.getStatistics("profit-stock", infiniteDashboard.query).then(function(data){
-				infiniteDashboard.profitStock = data;
+			infiniteService.getStatistics("income-stock", infiniteDashboard.query).then(function(data){
+				infiniteDashboard.incomeByStock = data;
 			});
 			
 			// 최근 2개월 매수금액
@@ -87,15 +87,15 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 	
 	// 차트 그리기
 	// 월별 손익현황 차트
-	$scope.$watch("infiniteDashboard.profitMonthly", function(profitMonthly){
-		if(!profitMonthly)
+	$scope.$watch("infiniteDashboard.incomeByMonthly", function(incomeByMonthly){
+		if(!incomeByMonthly)
 			return;
 		
 		var labels = [];
 		var data = [];
 		var backgroundColors = [];
 		
-		profitMonthly.forEach(function(item){
+		incomeByMonthly.forEach(function(item){
 			labels.push(item.monthly);
 			data.push(item.income);
 			backgroundColors.push(item.income > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
@@ -177,15 +177,15 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 	}, true);
 	
 	// 종목별 누적 손익 차트
-	$scope.$watch("infiniteDashboard.profitStock", function(profitStock){
-		if(!profitStock)
+	$scope.$watch("infiniteDashboard.incomeByStock", function(incomeByStock){
+		if(!incomeByStock)
 			return;
 		
 		var labels = [];
 		var data = [];
 		var backgroundColors = [];
 
-		profitStock.forEach(function(item){
+		incomeByStock.forEach(function(item){
 			labels.push(item.symbol);
 			data.push(item.income);
 			backgroundColors.push(item.income > 0 ? 'rgb(255, 99, 132)': 'rgb(54, 162, 235)');
@@ -442,13 +442,16 @@ app.controller("InfiniteDashboardController", function($scope, $filter, httpServ
 			}
 			
 			// 전월 이맘 때 매입금
-			if(date.getDate() >= curDate.getDate()){
+			if(date.getDate() === curDate.getDate()){
 				infiniteDashboard.state.beforeMonthSumBuyPrice = beforeMonthData[beforeMonthData.length - 1];
 				infiniteDashboard.state.sumBuyPriceGap = infiniteDashboard.state.thisMonthSumBuyPrice - infiniteDashboard.state.beforeMonthSumBuyPrice;
 			}
-			
 			// 다음일
 			curDate.setDate(curDate.getDate() + 1);
+		}
+		
+		if(infiniteDashboard.state.sumBuyPriceGap == undefined){
+			infiniteDashboard.state.sumBuyPriceGap = infiniteDashboard.state.thisMonthSumBuyPrice - beforeMonthData[beforeMonthData.length - 1];
 		}
 		
 		if(beforeMonthData < thisMonthData) // 이번월이 전월보다 일수가 많을경우 전월 하루 추가

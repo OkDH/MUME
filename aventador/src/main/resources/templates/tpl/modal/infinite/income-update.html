@@ -1,0 +1,94 @@
+<div class="modal fade" id="updateIncomeModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-danger" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">손익 수정</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<form id="updateStockForm" name="infiniteIncome.updateStockForm">
+	      	<div class="row">
+	        	<div class="col mx-1 font-weight-bold mb-3 text-gray-800">
+					<span class="border-bottom-primary px-2">{{ infiniteIncome.detail.symbol }}</span>
+				</div>
+				<div class="col text-right w-100 mx-1 pt-1">
+					<span class="badge bg-success text-white py-1 px-2" style="width: 6.5em; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: -6px;">
+						{{ infiniteIncome.myAccountsOrder[infiniteIncome.detail.accountId].alias }}
+					</span>
+					<span style="width: 3.5em;"
+						class="badge bg-warning text-white py-1 px-2"
+						ng-if="infiniteIncome.detail.stock.infiniteType == 'TLP'">{{ infiniteIncome.detail.stock.infiniteType }}</span>
+					<span ng-style="{'width':infiniteIncome.detail.stock.infiniteVersion == 'v2.1후반'?'5.5em':'3.5em'}"
+						class="badge bg-info text-white py-1 px-2">{{ infiniteIncome.detail.stock.infiniteVersion }}</span>
+				</div>
+		    </div>
+	        <div class="row mb-3">
+	        	<div class="col-4 pt-2 pl-4 text-gray-800 font-weight-bold">
+	      			매도완료일
+	      		</div>
+	      		<div class="col-8 p-1 pr-4">
+	      			{{ infiniteIncome.detail.sellDate }}
+	      		</div>
+			</div>  
+	        <div class="row mb-3">
+	        	<div class="col-6 pl-4">
+			      <label class="text-gray-800 font-weight-bold">매수금액($)</label>
+			      <input type="number" class="form-control"
+						ng-model="infiniteIncome.detail.buyPrice" name="buyPrice"
+						validation-doller ng-required="true"
+						max="999999"
+						ng-class="infiniteIncome.updateStockForm.buyPrice.$dirty 
+						&& ((infiniteIncome.updateStockForm.buyPrice.$invalid && 'invalid')
+						|| (infiniteIncome.updateStockForm.buyPrice.$valid && 'valid'))">
+				  <span class="invalid-feedback" ng-show="infiniteIncome.updateStockForm.buyPrice.$dirty && infiniteIncome.updateStockForm.buyPrice.$invalid">필수 작성 항목입니다.</span>
+			    </div>
+	        	<div class="col-6 pl-4">
+			      <label class="text-gray-800 font-weight-bold">매도금액($)</label>
+			      <input type="number" class="form-control"
+						ng-model="infiniteIncome.detail.sellPrice" name="sellPrice"
+						validation-doller ng-required="true"
+						max="999999"
+						ng-class="infiniteIncome.updateStockForm.sellPrice.$dirty 
+						&& ((infiniteIncome.updateStockForm.sellPrice.$invalid && 'invalid')
+						|| (infiniteIncome.updateStockForm.sellPrice.$valid && 'valid'))">
+				  <span class="invalid-feedback" ng-show="infiniteIncome.updateStockForm.sellPrice.$dirty && infiniteIncome.updateStockForm.sellPrice.$invalid">필수 작성 항목입니다.</span>
+			    </div>
+			</div>  
+	        <div class="row mb-3">
+	        	<div class="col-6 pl-4">
+			      <label class="text-gray-800 font-weight-bold">손익금($)</label>
+			      <input type="number" class="form-control"
+						ng-model="infiniteIncome.detail.income" name="income"
+						validation-doller ng-required="true"
+						max="999999"
+						ng-class="infiniteIncome.updateStockForm.income.$dirty 
+						&& ((infiniteIncome.updateStockForm.income.$invalid && 'invalid')
+						|| (infiniteIncome.updateStockForm.income.$valid && 'valid'))">
+				  <span class="invalid-feedback" ng-show="infiniteIncome.updateStockForm.income.$dirty && infiniteIncome.updateStockForm.income.$invalid">필수 작성 항목입니다.</span>
+			    </div>
+	        	<div class="col-6 pl-4">
+			      <label class="text-gray-800 font-weight-bold">수수료($)</label>
+			      <input type="number" class="form-control"
+						ng-model="infiniteIncome.detail.fees" name="fees"
+						validation-doller ng-required="true"
+						max="999999"
+						ng-class="infiniteIncome.updateStockForm.fees.$dirty 
+						&& ((infiniteIncome.updateStockForm.fees.$invalid && 'invalid')
+						|| (infiniteIncome.updateStockForm.fees.$valid && 'valid'))">
+				  <span class="invalid-feedback" ng-show="infiniteIncome.updateStockForm.fees.$dirty && infiniteIncome.updateStockForm.fees.$invalid">필수 작성 항목입니다.</span>
+			    </div>
+			</div>  
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" 
+        	ng-disabled="!infiniteIncome.updateStockForm.$dirty || infiniteIncome.updateStockForm.buyPrice.$invalid || infiniteIncome.updateStockForm.sellPrice.$invalid
+        		|| infiniteIncome.updateStockForm.income.$invalid || infiniteIncome.updateStockForm.fees.$invalid"
+        	ng-click="infiniteIncome.update(infiniteIncome.detail)">Update</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

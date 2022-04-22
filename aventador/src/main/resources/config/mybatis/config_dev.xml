@@ -72,13 +72,13 @@
 		</table> -->
 		<!-- <table schema="aventador" tableName="view_infinite_buy_daily">
 		</table> -->
-		<!-- <table schema="aventador" tableName="member_setting">
-		</table> -->
-		<table schema="aventador" tableName="infinite_income">
+		<table schema="aventador" tableName="member_setting">
+		</table>
+		<!-- <table schema="aventador" tableName="infinite_income">
 			<generatedKey column="income_id" sqlStatement="JDBC"/>
 		</table>
 		<table schema="aventador" tableName="view_infinite_income">
-		</table>
+		</table> -->
 		
 	</context>
 </generatorConfiguration>

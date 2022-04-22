@@ -126,11 +126,11 @@
 			<version>1.4.0</version>
 		</dependency>
 		
-		 <!-- <dependency>
+		 <dependency>
 			<groupId>io.soov.mybatis</groupId>
 			<artifactId>plugins</artifactId>
 			<version>1.6.0</version>
-		</dependency> -->
+		</dependency>
 		
 		<!-- 
 		<dependency>
@@ -163,6 +163,14 @@
 		    <artifactId>YahooFinanceAPI</artifactId>
 		    <version>3.15.0</version>
 		</dependency>
+		
+		<!-- jwt -->
+		<dependency>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt</artifactId>
+		    <version>0.9.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

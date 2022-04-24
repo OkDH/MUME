@@ -21,33 +21,8 @@ import com.ocko.aventador.service.FcmTokenService;
 public class ApiController {
 	
 	@Autowired private AuthenticationService authenticationService;
-	@Autowired private FcmTokenService fcmTokenService;
 	@Autowired private ApiService apiService;
 
-	/**
-	 * 개인 식별 토큰 발급
-	 * @return
-	 */
-	@RequestMapping(value = "/api/member/check-token", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, String>> getMemberTocken() {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
-		if(memberInfo == null)
-			return null;
-		
-		Map<String ,String > map = new HashMap<String, String>();
-		map.put("token", fcmTokenService.getCheckToken(memberInfo.getMemberId()));
-		return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
-	}
-	
-	/**
-	 * 웹뷰에서 요청한 fcm 토큰 저장 
-	 * @return
-	 */
-	@RequestMapping(value = "/api/public/member/fcm-token", method = RequestMethod.POST)
-	public ResponseEntity<ResponseDto> updateFcmTocken(@RequestBody Map<String, Object> params) {
-		return new ResponseEntity<ResponseDto>(fcmTokenService.updateFcmToken(params), HttpStatus.OK);
-	}
-	
 	/**
 	 * 지니 프로그램 연동 api key 발급
 	 * @return

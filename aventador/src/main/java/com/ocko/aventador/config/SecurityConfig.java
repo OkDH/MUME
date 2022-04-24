@@ -99,7 +99,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(
 						"/public",
 						"/public/**",
-						"/api/public/**",
+						"/api/**",
 						"/api/auth/**",
 						"/api/auth/oauth2/**", // social redirect
 						"/tpl/**"
@@ -136,7 +136,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID")
 				.and()
-			.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/api/public/**");
+			.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/api/**");
 			 
 	}
 	

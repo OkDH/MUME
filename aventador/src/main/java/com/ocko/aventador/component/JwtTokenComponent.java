@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -14,6 +15,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtTokenComponent {
 	
+	@Value("${jwt.secret-key}")
+    private String secretKey;
+	@Value("${jwt.refresh-key}")
+	private String refreshKey;
+	
 	/*
 	 *  JWT(JSon Web Token)란 JSon 포맷을 이용하여 사용자에 대한 속성을 지정하는 Claim 기반의 Web Token이다.
 	 *  JWT는 토큰 자체를 정보로 사용하는 Self-Contained 방식으로 정보를 안전하게 전달한다.
@@ -23,7 +29,7 @@ public class JwtTokenComponent {
 	 * 토큰 생성
 	 * @return
 	 */
-	public String createToken() {
+	public String createAccessToken(Integer memberId) {
 		/*
 		 * HEADER 부분 설정
 		 * 헤더는 typ와 alg 두 가지 정보로 구성된다.
@@ -45,10 +51,10 @@ public class JwtTokenComponent {
 		 * Header와 Payload에는 기밀정보는 넣으면 안된다.
 		 */
 		Map<String, Object> payloads = new HashMap<String, Object>();
-		payloads.put("apiKey", "abcdefghi");
+		payloads.put("memberId", memberId);
 		
-		// 토큰 유효 시간(2시간)
-		Long expiredTime = 1000 * 60L * 60L * 2L;
+		// 토큰 유효 시간(30분)
+		Long expiredTime = 30 * 60 * 1000L;
 		
 		// 토큰 만료 시간
 		Date ext = new Date();
@@ -76,24 +82,43 @@ public class JwtTokenComponent {
 		 * 인코딩한 값을 비밀 키를 이용해 헤더에서 정의한 알고리즘으로 해싱을 하고,
 		 * 이 값을 다시 Base64로 인코딩하여 생성한다.
 		 */
-		
-		String jwt = Jwts.builder()
-				.setHeader(headers)
-				.setClaims(payloads)
-				.setSubject("user-auth")
-				.setExpiration(ext)
-				.signWith(SignatureAlgorithm.HS256, "secretKey".getBytes())
-				.compact();
-		
-		return jwt;
+		return Jwts.builder()
+				.setHeader(headers) // headers 설정
+				.setClaims(payloads) // claims 설정
+				.setExpiration(ext) // 토큰 만료 시간 설정
+				.signWith(SignatureAlgorithm.HS256, secretKey.getBytes()) // HS256과 key로 sign
+				.compact(); // 생성
 	}
 	
+	public String createRefreshToken(Integer memberId) {
+		// 토큰 유효 시간(7일)
+		Long expiredTime = 60 * 60 * 24 * 7 * 1000L;
+		
+		// 토큰 만료 시간
+		Date ext = new Date();
+		ext.setTime(ext.getTime() + expiredTime);
+		
+		Map<String, Object> payloads = new HashMap<String, Object>();
+		payloads.put("memberId", memberId);
+		
+        return Jwts.builder()
+                .setExpiration(ext)
+                .setClaims(payloads)
+                .signWith(SignatureAlgorithm.HS256, refreshKey.getBytes())
+                .compact();
+	}
+	
+	/**
+	 * 토큰 검증
+	 * @param accessToken
+	 * @return
+	 */
 	public Map<String, Object> verifyJwt(String accessToken){
 		Map<String, Object> claimMap = null;
 		
 		try {
 			Claims claims = Jwts.parser()
-					.setSigningKey("secretKey".getBytes("UTF-8"))
+					.setSigningKey(secretKey.getBytes("UTF-8"))
 					.parseClaimsJws(accessToken)
 					.getBody();
 			

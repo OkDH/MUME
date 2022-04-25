@@ -90,8 +90,8 @@ public class ApiAuthController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/auth/check-social-m", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, String>> checkSocialMobile(@RequestBody Map<String, Object> params) {
-		return new ResponseEntity<Map<String, String>>(authMobileService.authenticateSocial(params), HttpStatus.OK);
+	public ResponseEntity<Boolean> checkSocialMobile(@RequestBody Map<String, Object> params, HttpServletResponse response) {
+		return new ResponseEntity<Boolean>(authMobileService.authenticateSocial(params, response), HttpStatus.OK);
 	}
 	
 	/**
@@ -100,8 +100,8 @@ public class ApiAuthController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/auth/refresh", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, String>> refresh(@RequestBody Map<String, Object> params) {
-		return new ResponseEntity<Map<String, String>>(authMobileService.authenticateSocial(params), HttpStatus.OK);
+	public ResponseEntity<Boolean> refresh(HttpServletRequest request, HttpServletResponse response) {
+		return new ResponseEntity<Boolean>(authMobileService.refresh(request, response), HttpStatus.OK);
 	}
 	
 	
@@ -111,8 +111,7 @@ public class ApiAuthController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/auth/temp-check", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object> > temp(@RequestBody Map<String, Object> params) {
-		throw new MyAccessDeniedException();
-		//return new ResponseEntity<Map<String, Object> >(authMobileService.temp(params), HttpStatus.OK);
+	public ResponseEntity<Map<String, Object>> temp(HttpServletRequest request) {
+		return new ResponseEntity<Map<String, Object> >(authMobileService.temp(request), HttpStatus.OK);
 	}
 }

@@ -7,6 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.ocko.aventador.exception.MyAccessDeniedException;
+import com.ocko.aventador.exception.MyExpiredException;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -102,18 +105,18 @@ public class JwtTokenComponent {
 		payloads.put("memberId", memberId);
 		
         return Jwts.builder()
-                .setExpiration(ext)
                 .setClaims(payloads)
+                .setExpiration(ext)
                 .signWith(SignatureAlgorithm.HS256, refreshKey.getBytes())
                 .compact();
 	}
 	
 	/**
-	 * 토큰 검증
+	 * access 토큰 검증
 	 * @param accessToken
 	 * @return
 	 */
-	public Map<String, Object> verifyJwt(String accessToken){
+	public Map<String, Object> verifyAccessToken(String accessToken){
 		Map<String, Object> claimMap = null;
 		
 		try {
@@ -124,11 +127,33 @@ public class JwtTokenComponent {
 			
 			claimMap = claims;
 		} catch (ExpiredJwtException e) {
-			System.out.println("토큰 만료");
-			System.out.println(e);
+			throw new MyExpiredException();
 		} catch (Exception e) {
-			System.out.println("기타 오류");
-			System.out.println(e);
+			throw new MyAccessDeniedException();
+		}
+		
+		return claimMap;
+	}
+	
+	/**
+	 * refresh 토큰 검증
+	 * @param refreshToken
+	 * @return
+	 */
+	public Map<String, Object> verifyRefreshToken(String refreshToken){
+		Map<String, Object> claimMap = null;
+		
+		try {
+			Claims claims = Jwts.parser()
+					.setSigningKey(refreshKey.getBytes("UTF-8"))
+					.parseClaimsJws(refreshToken)
+					.getBody();
+			
+			claimMap = claims;
+		} catch (ExpiredJwtException e) {
+			throw new MyExpiredException();
+		} catch (Exception e) {
+			throw new MyAccessDeniedException();
 		}
 		
 		return claimMap;

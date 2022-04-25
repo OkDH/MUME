@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,9 @@ import com.ocko.aventador.dao.model.aventador.SocialAuthenticationExample;
 import com.ocko.aventador.dao.persistence.aventador.MemberInfoMapper;
 import com.ocko.aventador.dao.persistence.aventador.MemberSettingMapper;
 import com.ocko.aventador.dao.persistence.aventador.SocialAuthenticationMapper;
+import com.ocko.aventador.exception.MyAccessDeniedException;
+import com.ocko.aventador.exception.MyArgumentException;
+import com.ocko.aventador.exception.MyExpiredException;
 
 
 @Service
@@ -34,12 +40,12 @@ public class AuthenticationMobileService {
 	 * @param params social_type 소셜 타입, social_id 소셜 사용자 유니크 키
 	 * @return
 	 */
-	public Map<String, String> authenticateSocial(Map<String, Object> params) {
+	public Boolean authenticateSocial(Map<String, Object> params, HttpServletResponse response) {
 		if(params.get("socialType") == null || params.get("socialId") == null)
-			return null;
+			throw new MyArgumentException();
 		
-		String socialType = params.get("social_type").toString();
-		String socialId = params.get("social_id").toString();
+		String socialType = params.get("socialType").toString();
+		String socialId = params.get("socialId").toString();
 		
 		switch (socialType) {
 		case SocialType.NAVER:
@@ -47,7 +53,7 @@ public class AuthenticationMobileService {
 		case SocialType.APPLE:
 			break;
 		default:
-			return null;
+			return false;
 		}
 		
 		SocialAuthenticationExample example = new SocialAuthenticationExample();
@@ -94,18 +100,53 @@ public class AuthenticationMobileService {
 		memberSetting.setRefreshToken(refreshToken);
 		memberSettingMapper.updateByPrimaryKeySelective(memberSetting);
 		
-		Map<String, String> tokens = new HashMap<String, String>();
-		tokens.put("accessToken", accessToken);
-		tokens.put("refreshToken", refreshToken);
+		response.setHeader("ACCESS_TOKEN", accessToken);
+		response.setHeader("REFRESH_TOKEN", refreshToken);
 		
-		return tokens;
+		return true;
 	}
 	
-	
-	public Map<String, Object> temp(Map<String, Object> params) {
-		if(params.get("accessToken") == null )
-			return null;
-		return jwtTokenComponent.verifyJwt(params.get("accessToken").toString());
+	/**
+	 * 토큰 refresh
+	 * @param params
+	 * @return
+	 */
+	public Boolean refresh(HttpServletRequest request, HttpServletResponse response) {
+		if(request.getHeader("REFRESH_TOKEN") == null)
+			return false;
+		
+		Map<String, Object> claims = jwtTokenComponent.verifyRefreshToken(request.getHeader("REFRESH_TOKEN"));
+		if(claims == null)
+			return false;
+		
+		Integer memberId = (Integer) claims.get("memberId");
+		MemberSetting memberSetting = memberSettingMapper.selectByPrimaryKey(memberId);
+		
+		if(memberSetting != null && memberSetting.getRefreshToken() != null 
+				&& memberSetting.getRefreshToken().equals(request.getHeader("REFRESH_TOKEN"))) {
+			
+			// 토큰 발급
+			String accessToken = jwtTokenComponent.createAccessToken(memberId);
+			String refreshToken = jwtTokenComponent.createRefreshToken(memberId);
+			
+			memberSetting.setRefreshToken(refreshToken);
+			memberSettingMapper.updateByPrimaryKeySelective(memberSetting);
+			
+			response.setHeader("ACCESS_TOKEN", accessToken);
+			response.setHeader("REFRESH_TOKEN", refreshToken);	 
+			
+			return true;
+		}
+		
+		return false;
 	}
+	
+	public Map<String, Object> temp(HttpServletRequest request) {
+		String accessToken = request.getHeader("ACCESS_TOKEN");
+		return jwtTokenComponent.verifyAccessToken(accessToken);
+	}
+
+
+	
 
 }

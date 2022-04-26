@@ -27,8 +27,8 @@ import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.exception.MyAccessDeniedException;
 import com.ocko.aventador.model.MemberDetail;
 import com.ocko.aventador.model.api.ResponseDto;
-import com.ocko.aventador.service.AuthenticationMobileService;
-import com.ocko.aventador.service.AuthenticationService;
+import com.ocko.aventador.service.authentication.AuthenticationMobileService;
+import com.ocko.aventador.service.authentication.AuthenticationWebService;
 
 /**
  * @author ok
@@ -37,7 +37,7 @@ import com.ocko.aventador.service.AuthenticationService;
 @Controller
 public class ApiAuthController {
 	
-	@Autowired private AuthenticationService authenticationService;
+	@Autowired private AuthenticationWebService authenticationService;
 	@Autowired private AuthenticationMobileService authMobileService;
 	
 	/**

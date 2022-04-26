@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,9 @@ import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.exception.MyAccessDeniedException;
 import com.ocko.aventador.exception.MyArgumentException;
 import com.ocko.aventador.model.infinite.InfiniteDetail;
-import com.ocko.aventador.service.AuthenticationService;
 import com.ocko.aventador.service.StockService;
+import com.ocko.aventador.service.authentication.AuthenticationService;
+import com.ocko.aventador.service.authentication.AuthenticationWebService;
 import com.ocko.aventador.service.infinite.InfiniteAccountService;
 import com.ocko.aventador.service.infinite.InfiniteDashboardService;
 import com.ocko.aventador.service.infinite.InfiniteIncomeService;
@@ -49,8 +52,8 @@ public class InfiniteController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/api/infinite/my-account", method = RequestMethod.GET)
-	public @ResponseBody List<InfiniteAccount> getMyAccount() throws Exception {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public @ResponseBody List<InfiniteAccount> getMyAccount(HttpServletRequest request) throws Exception {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		return accountService.getMyAccounts(memberInfo.getMemberId());
@@ -62,8 +65,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/account/add", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> addInfiniteAccount(@RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<Boolean> addInfiniteAccount(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		return new ResponseEntity<Boolean>(accountService.addAccount(memberInfo.getMemberId(), params), HttpStatus.OK);
@@ -75,8 +78,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/account/update", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> updateInfiniteAccount(@RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<Boolean> updateInfiniteAccount(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		if(params.get("accountId") != null) {
@@ -101,8 +104,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/stocks", method = RequestMethod.POST)
-	public ResponseEntity<List<InfiniteDetail>> getMyStocks(@RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<List<InfiniteDetail>> getMyStocks(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		
@@ -121,8 +124,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/stock", method = RequestMethod.POST)
-	public ResponseEntity<InfiniteDetail> getMyStock(@RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<InfiniteDetail> getMyStock(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		
@@ -140,8 +143,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/account/state", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> getMyAccountState(@RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<Map<String, Object>> getMyAccountState(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		
@@ -160,8 +163,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/stock/add", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> addStock(@RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<Boolean> addStock(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		if(params.get("accountId") == null)
@@ -178,8 +181,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/stock/update", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> updateinfiniteStock(@RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<Boolean> updateinfiniteStock(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		if(params.get("accountId") == null || params.get("infiniteId") == null)
@@ -196,8 +199,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/stock/history", method = RequestMethod.POST)
-	public ResponseEntity<List<InfiniteHistory>> getStockHistory(@RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<List<InfiniteHistory>> getStockHistory(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		if(params.get("accountId") == null || params.get("infiniteId") == null)
@@ -214,8 +217,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/stock/history/add", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> addStockHistory(@RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<Boolean> addStockHistory(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		if(params.get("accountId") == null || params.get("infiniteId") == null)
@@ -232,8 +235,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/stock/history/update", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> updateStockHistory(@RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<Boolean> updateStockHistory(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		if(params.get("accountId") == null || params.get("infiniteId") == null || params.get("infiniteHistoryId") == null)
@@ -250,8 +253,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/statistics/{type}", method = RequestMethod.POST)
-	public ResponseEntity<Object> getInfiniteStatistics(@PathVariable String type, @RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<Object> getInfiniteStatistics(@PathVariable String type, HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		if(params.get("accountId") != null) {
@@ -286,8 +289,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/income/{type}", method = RequestMethod.POST)
-	public ResponseEntity<Object> getInfiniteIncome(@PathVariable String type, @RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<Object> getInfiniteIncome(@PathVariable String type, HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		if(params.get("accountId") != null) {
@@ -312,8 +315,8 @@ public class InfiniteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/infinite/income/update", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> updateInfiniteIncome(@RequestBody Map<String, Object> params) {
-		MemberInfo memberInfo = authenticationService.getCurrentMember();
+	public ResponseEntity<Boolean> updateInfiniteIncome(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+		MemberInfo memberInfo = authenticationService.getCurrentMember(request);
 		if(memberInfo == null)
 			return null;
 		if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))

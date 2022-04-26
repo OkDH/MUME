@@ -1,4 +1,4 @@
-package com.ocko.aventador.service;
+package com.ocko.aventador.service.authentication;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -42,9 +42,9 @@ import com.ocko.aventador.model.MemberDetail;
 import com.ocko.aventador.model.setting.MemberSettingDetail;
 
 @Service
-public class AuthenticationService implements UserDetailsService {
+public class AuthenticationWebService implements UserDetailsService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AuthenticationWebService.class);
 	
 	@Autowired private MemberInfoMapper memberInfoMapper;
 	@Autowired private MemberSettingMapper memberSettingMapper;

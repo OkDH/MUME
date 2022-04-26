@@ -33,7 +33,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import com.ocko.aventador.constant.SocialType;
-import com.ocko.aventador.service.AuthenticationService;
+import com.ocko.aventador.service.authentication.AuthenticationWebService;
 
 /**
  * spring security 설정<br>
@@ -42,7 +42,7 @@ import com.ocko.aventador.service.AuthenticationService;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Autowired private AuthenticationService authenticationService;
+	@Autowired private AuthenticationWebService authenticationService;
 	
 	@Autowired private AuthFailureHandler authFailureHandler;
 	

@@ -1,4 +1,4 @@
-package com.ocko.aventador.service;
+package com.ocko.aventador.service.authentication;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -145,8 +145,5 @@ public class AuthenticationMobileService {
 		String accessToken = request.getHeader("ACCESS_TOKEN");
 		return jwtTokenComponent.verifyAccessToken(accessToken);
 	}
-
-
-	
 
 }

@@ -15,12 +15,12 @@ import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
-import com.ocko.aventador.service.AuthenticationService;
+import com.ocko.aventador.service.authentication.AuthenticationWebService;
 
 @Controller
 public class PageController {
 
-	@Autowired private AuthenticationService authenticationService;
+	@Autowired private AuthenticationWebService authenticationService;
 	
 	@ModelAttribute(name = "memberEmail")
 	public String modelMember() {

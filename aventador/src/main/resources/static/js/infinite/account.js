@@ -767,20 +767,5 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		}
 		
 	}, true);
-	
-	
-	// -------------------------------------
-	// FCM
-	if ($scope.$parent.isMobile()) {
-		// 식별 토큰 가져오기
-		// api/member/check-token
-		httpService.get({
-			url: meta.baseUrl + "api/member/check-token"
-		}).then(function(response){
-			// 웹뷰 메소드 호출
-			if(response.status == 200)
-				AppGetFcmToken.postMessage(response.data.token);
-		});
-	}
 });
 

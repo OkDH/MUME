@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.model.api.ResponseDto;
 import com.ocko.aventador.service.ApiService;
-import com.ocko.aventador.service.AuthenticationService;
 import com.ocko.aventador.service.FcmTokenService;
+import com.ocko.aventador.service.authentication.AuthenticationWebService;
 
 @Controller
 public class ApiController {
 	
-	@Autowired private AuthenticationService authenticationService;
+	@Autowired private AuthenticationWebService authenticationService;
 	@Autowired private ApiService apiService;
 
 	/**

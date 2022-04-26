@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.dao.model.aventador.MemberSetting;
-import com.ocko.aventador.service.AuthenticationService;
 import com.ocko.aventador.service.MemberSettingService;
+import com.ocko.aventador.service.authentication.AuthenticationWebService;
 
 /**
  *
@@ -24,7 +24,7 @@ import com.ocko.aventador.service.MemberSettingService;
 public class MemberSettingController {
 
     @Autowired private MemberSettingService memberSettingService;
-    @Autowired private AuthenticationService authenticationService;
+    @Autowired private AuthenticationWebService authenticationService;
 
     /**
      * 회원 설정 조회

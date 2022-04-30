@@ -24,7 +24,7 @@ import com.ocko.aventador.dao.persistence.aventador.MemberSettingMapper;
 import com.ocko.aventador.dao.persistence.aventador.SocialAuthenticationMapper;
 import com.ocko.aventador.exception.MyAccessDeniedException;
 import com.ocko.aventador.exception.MyArgumentException;
-import com.ocko.aventador.exception.MyExpiredException;
+import com.ocko.aventador.exception.AccessTokenExpiredException;
 
 
 @Service
@@ -113,11 +113,9 @@ public class AuthenticationMobileService {
 	 */
 	public Boolean refresh(HttpServletRequest request, HttpServletResponse response) {
 		if(request.getHeader("REFRESH_TOKEN") == null)
-			return false;
+			throw new MyArgumentException();
 		
 		Map<String, Object> claims = jwtTokenComponent.verifyRefreshToken(request.getHeader("REFRESH_TOKEN"));
-		if(claims == null)
-			return false;
 		
 		Integer memberId = (Integer) claims.get("memberId");
 		MemberSetting memberSetting = memberSettingMapper.selectByPrimaryKey(memberId);

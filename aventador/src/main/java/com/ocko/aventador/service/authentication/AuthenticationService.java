@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.ocko.aventador.component.JwtTokenComponent;
 import com.ocko.aventador.dao.model.aventador.MemberInfo;
 import com.ocko.aventador.dao.persistence.aventador.MemberInfoMapper;
+import com.ocko.aventador.exception.MyAccessDeniedException;
+import com.ocko.aventador.exception.MyArgumentException;
 
 /**
  * @author ok
@@ -39,6 +41,8 @@ public class AuthenticationService {
 		
 		// Header에 있는 ACCESS_TOKEN 추출
 		String accessToken = request.getHeader("ACCESS_TOKEN");
+		
+		System.out.println("토큰 : " + accessToken);
 
 		// Header에 ACCESS_TOKEN이 있다면 휴효성 검사 
 		if(accessToken != null) {
@@ -47,6 +51,9 @@ public class AuthenticationService {
 		} else {
 			memberInfo = authWebService.getCurrentMember();
 		}
+		
+		if(memberInfo == null)
+			throw new MyAccessDeniedException();
 		
 		return memberInfo;
 	}

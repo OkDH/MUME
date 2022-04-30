@@ -57,7 +57,8 @@ public class JwtTokenComponent {
 		payloads.put("memberId", memberId);
 		
 		// 토큰 유효 시간(30분)
-		Long expiredTime = 30 * 60 * 1000L;
+//		Long expiredTime = 30 * 60 * 1000L;
+		Long expiredTime = 1 * 60 * 1000L;
 		
 		// 토큰 만료 시간
 		Date ext = new Date();
@@ -95,7 +96,8 @@ public class JwtTokenComponent {
 	
 	public String createRefreshToken(Integer memberId) {
 		// 토큰 유효 시간(7일)
-		Long expiredTime = 60 * 60 * 24 * 7 * 1000L;
+//		Long expiredTime = 60 * 60 * 24 * 7 * 1000L;
+		Long expiredTime = 10 * 60 * 1000L;
 		
 		// 토큰 만료 시간
 		Date ext = new Date();

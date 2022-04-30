@@ -22,6 +22,15 @@ public class ApiController {
 	
 	@Autowired private AuthenticationWebService authenticationService;
 	@Autowired private ApiService apiService;
+	
+	/**
+	 * 서버 health check
+	 * @return
+	 */
+	@RequestMapping(value = "/api/health-check", method = RequestMethod.GET)
+	public ResponseEntity<Boolean> checkHealth(){
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
 
 	/**
 	 * 지니 프로그램 연동 api key 발급

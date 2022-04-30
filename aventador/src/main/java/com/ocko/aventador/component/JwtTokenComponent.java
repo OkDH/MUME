@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.ocko.aventador.exception.MyAccessDeniedException;
-import com.ocko.aventador.exception.MyExpiredException;
+import com.ocko.aventador.exception.RefreshTokenExpiredException;
+import com.ocko.aventador.exception.AccessTokenExpiredException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -129,11 +130,10 @@ public class JwtTokenComponent {
 			
 			claimMap = claims;
 		} catch (ExpiredJwtException e) {
-			throw new MyExpiredException();
+			throw new AccessTokenExpiredException();
 		} catch (Exception e) {
 			throw new MyAccessDeniedException();
 		}
-		
 		return claimMap;
 	}
 	
@@ -153,7 +153,7 @@ public class JwtTokenComponent {
 			
 			claimMap = claims;
 		} catch (ExpiredJwtException e) {
-			throw new MyExpiredException();
+			throw new RefreshTokenExpiredException();
 		} catch (Exception e) {
 			throw new MyAccessDeniedException();
 		}

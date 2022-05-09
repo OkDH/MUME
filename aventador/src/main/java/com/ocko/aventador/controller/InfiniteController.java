@@ -111,7 +111,6 @@ public class InfiniteController {
 				if(!accountService.isMyAccount(memberInfo.getMemberId(), Integer.parseInt(params.get("accountId").toString())))
 					throw new MyAccessDeniedException();
 		}
-		
 		return new ResponseEntity<List<InfiniteDetail>>(infiniteStockService.getStocks(memberInfo.getMemberId(), params), HttpStatus.OK);
 	}
 	

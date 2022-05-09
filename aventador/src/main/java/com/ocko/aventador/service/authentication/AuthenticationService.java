@@ -42,8 +42,6 @@ public class AuthenticationService {
 		// Header에 있는 ACCESS_TOKEN 추출
 		String accessToken = request.getHeader("ACCESS_TOKEN");
 		
-		System.out.println("토큰 : " + accessToken);
-
 		// Header에 ACCESS_TOKEN이 있다면 휴효성 검사 
 		if(accessToken != null) {
 			Map<String, Object> claims = jwtTokenComponent.verifyAccessToken(accessToken);

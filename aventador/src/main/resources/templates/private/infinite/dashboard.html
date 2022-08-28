@@ -1,14 +1,12 @@
 <div ng-controller="InfiniteDashboardController as infiniteDashboard">
 	<div class="d-flex align-items-center justify-content-between mb-4">
 		<h1 class="h4 mb-0 text-gray-800">
-			대시보드
-			<span ng-if="infiniteDashboard.query.accountId == 'ALL'" class="small">
-				( 전체 )
+			<span ng-if="infiniteDashboard.query.accountId == 'ALL'">
+				계좌 전체
 			</span>
-			<span ng-if="infiniteDashboard.query.accountId != 'ALL'" class="small">
-				( 계좌  {{ infiniteDashboard.myAccountsOrder[infiniteDashboard.query.accountId].order }}
+			<span ng-if="infiniteDashboard.query.accountId != 'ALL'">
+				계좌  {{ infiniteDashboard.myAccountsOrder[infiniteDashboard.query.accountId].order }}
 				<span class="d-none d-md-table-cell"> : {{ infiniteDashboard.myAccountsOrder[infiniteDashboard.query.accountId].alias }}</span>
-				)
 			</span>
 		</h1>
 		

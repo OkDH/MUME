@@ -15,6 +15,15 @@
 .border-bottom-primary-thin {
 	border-bottom: 0.1rem solid #4e73df!important;
 }
+/* nav */
+.nav .nav-link {
+	font-weight: 600;
+	color: #858796!important;
+}
+.nav .nav-link.active {
+	color: #4e73df!important;
+	border-bottom: 0.2rem solid #4e73df!important;
+}
 /* validation */
 .invalid {
 	border-color: #e74a3b;

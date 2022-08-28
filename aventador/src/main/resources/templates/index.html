@@ -109,92 +109,40 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item" ng-class="path('/stock') && 'active'" >
-                <a class="nav-link" th:href="@{/public/#!/stock}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>무매종목</span></a>
-            </li>
-            <li class="nav-item" ng-class="path('/market') && 'active'" >
-                <a class="nav-link" th:href="@{/public/#!/market}">
-                    <i class="fas fa-globe-americas"></i>
-                    <span>시장지수</span></a>
+            <li class="nav-item" ng-class="meta.path('/finance') && 'active'" >
+                <a class="nav-link" th:href="@{/public/#!/finance/stock}">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>메인</span></a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-               	 무한매수
-            </div>
-
-            <li class="nav-item" ng-class="path('/infinite/dashboard') && 'active'">
+            <!-- <hr class="sidebar-divider my-0">
+            
+            <li class="nav-item" ng-class="meta.path('/infinite/dashboard') && 'active'">
                 <a class="nav-link" th:href="@{/private/#!/infinite/dashboard}">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>대시보드</span></a>
+                    <span>피드</span></a>
+            </li> -->
+            
+            <hr class="sidebar-divider my-0">
+            
+            <li class="nav-item" ng-class="meta.path('/infinite') && 'active'">
+                <a class="nav-link" th:href="@{/private/#!/infinite/dashboard}">
+                    <i class="fas fa-infinity"></i>
+                    <span>무한매수</span></a>
             </li>
             
-            <li class="nav-item" ng-class="path('/infinite/account') && 'active'">
-                <a class="nav-link" th:href="@{/private/#!/infinite/account}">
-                    <i class="fas fa-fw fa-th-list"></i>
-                    <span>계좌현황</span></a>
-            </li>
+            <hr class="sidebar-divider my-0">
             
-            <li class="nav-item" ng-class="path('/infinite/income') && 'active'">
-                <a class="nav-link" th:href="@{/private/#!/infinite/income}">
-                    <i class="fas fa-coins"></i>
-                    <span>손익현황</span></a>
-            </li>
-            
-            <hr class="sidebar-divider" style="margin: 0 1rem;">
-            
-            <li class="nav-item" ng-class="path('/setting') && 'active'">
+            <li class="nav-item" ng-class="meta.path('/setting') && 'active'">
                 <a class="nav-link" th:href="@{/private/#!/setting}">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>설정</span></a>
             </li>
-            <li class="nav-item" ng-class="path('/donation') && 'active'">
+            <li class="nav-item" ng-class="meta.path('/donation') && 'active'">
                 <a class="nav-link" th:href="@{/public/#!/donation}">
                     <i class="fas fa-coffee"></i>
                     <span>후원</span></a>
             </li>
-            <!-- <li class="nav-item" ng-if="isMobile()">
-                <a class="nav-link" ng-click="moveContact()">
-                    <i class="fas fa-envelope"></i>
-                    <span>문의</span></a>
-            </li> -->
-<!-- 
-            Divider
-            <hr class="sidebar-divider">
-
-            Heading
-            <div class="sidebar-heading">
-                TLP(Three Little Pig)
-            </div>
-
-            Nav Item - Charts
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>준비중</span></a>
-            </li>
-
-            Divider
-            <hr class="sidebar-divider">
-
-            Heading
-            <div class="sidebar-heading">
-                VR(Value Rebalancing)
-            </div>
-
-            Nav Item - Charts
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>준비중</span></a>
-            </li> 
--->
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -274,6 +222,30 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                	
+                	<!-- nav -->
+                	<div class="mb-3">
+                		<!-- finance -->
+                		<nav ng-if="meta.path('/finance')" class="nav">
+						  <a class="nav-link" ng-class="meta.path('/finance/stock') && 'active'" 
+						  		th:href="@{/public/#!/finance/stock}">무매종목</a>
+						  <a class="nav-link" ng-class="meta.path('/finance/market') && 'active'"
+						  		th:href="@{/public/#!/finance/market}">시장지수</a>
+						</nav>
+						
+						<!-- infinite -->
+						<nav ng-if="meta.path('/infinite')" class="nav">
+						  <a class="nav-link" ng-class="meta.path('/infinite/dashboard') && 'active'"
+						  		th:href="@{/private/#!/infinite/dashboard}">대시보드</a>
+						  <a class="nav-link" ng-class="meta.path('/infinite/account') && 'active'"
+						  		th:href="@{/private/#!/infinite/account}">계좌현황</a>
+						  <a class="nav-link" ng-class="meta.path('/infinite/order') && 'active'"
+						  		th:href="@{/private/#!/infinite/order}">주문리스트</a>
+						  <a class="nav-link" ng-class="meta.path('/infinite/income') && 'active'"
+						  		th:href="@{/private/#!/infinite/income}">손익현황</a>
+						</nav>
+                	</div>
+                	
                 	<section ng-view></section>
                 </div>
                 <!-- /.container-fluid -->

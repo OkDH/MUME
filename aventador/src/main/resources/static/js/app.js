@@ -70,12 +70,12 @@ app.factory("responseObserver", [ "$q", "$window", function($q, $window) {
 } ]);
 app.run(["$rootScope", "$location", "$window", function($rootScope, $location, $window) {
 	$rootScope.meta = meta;
-
+	
 	// USAGES:
 	// meta.path(): to return current path
 	// meta.path("/path/string"): to check whether current path
 	// is including(starting with) "/path/string"
-	$rootScope.path = function() {
+	meta.path = function() {
 		// getter
 		// return current path
 		if (arguments.length == 0) {

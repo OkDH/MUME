@@ -1,14 +1,12 @@
 <div ng-controller="InfiniteIncomeController as infiniteIncome">
 	<div class="d-flex align-items-center justify-content-between mb-4">
 		<h1 class="h4 mb-0 text-gray-800">
-			손익현황
-			<span ng-if="infiniteIncome.query.accountId == 'ALL'" class="small">
-				( 전체 )
+			<span ng-if="infiniteIncome.query.accountId == 'ALL'">
+				계좌 전체
 			</span>
-			<span ng-if="infiniteIncome.query.accountId != 'ALL'" class="small">
-				( 계좌  {{ infiniteIncome.myAccountsOrder[infiniteIncome.query.accountId].order }}
+			<span ng-if="infiniteIncome.query.accountId != 'ALL'">
+				(계좌  {{ infiniteIncome.myAccountsOrder[infiniteIncome.query.accountId].order }}
 				<span class="d-none d-md-table-cell"> : {{ infiniteIncome.myAccountsOrder[infiniteIncome.query.accountId].alias }}</span>
-				)
 			</span>
 		</h1>
 		

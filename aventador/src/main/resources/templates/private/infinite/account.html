@@ -1,14 +1,12 @@
 <div ng-controller="InfiniteAccountController as infiniteAccount" scroll-loader="infiniteAccount.test()">
 	<div class="d-flex align-items-center justify-content-between mb-4">
 		<h1 class="h4 mb-0 text-gray-800"> 
-			계좌 현황
-			<span ng-if="infiniteAccount.account.query.accountId == 'ALL'" class="small">
-				( 전체 )
+			<span ng-if="infiniteAccount.account.query.accountId == 'ALL'">
+				계좌 전체
 			</span>
-			<span ng-if="infiniteAccount.account.query.accountId != 'ALL'" class="small">
-				( 계좌  {{ infiniteAccount.account.myAccountsOrder[infiniteAccount.account.query.accountId].order }}
+			<span ng-if="infiniteAccount.account.query.accountId != 'ALL'">
+				계좌  {{ infiniteAccount.account.myAccountsOrder[infiniteAccount.account.query.accountId].order }}
 				<span class="d-none d-md-table-cell"> : {{ infiniteAccount.account.myAccountsOrder[infiniteAccount.account.query.accountId].alias }}</span>
-				)
 			</span>
 		</h1>
 

@@ -32,7 +32,7 @@ public class PageController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getRoot() {
-		return "redirect:/public/#!/stock";
+		return "redirect:/public/#!/finance/stock";
 	}
 	
 	@RequestMapping(value = "/{pathName:(?:public|private)}", method = RequestMethod.GET)

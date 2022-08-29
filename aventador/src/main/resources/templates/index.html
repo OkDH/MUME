@@ -163,6 +163,31 @@
 
         </ul>
         <!-- End of Sidebar -->
+        
+        <!-- Mobile navbar  -->
+        <ul class="bottom-menu">
+        	<li ng-class="meta.path('/finance') && 'active'" >
+                <a th:href="@{/public/#!/finance/stock}">
+                    <i class="fas fa-fw fa-home"></i>홈
+                </a>
+            </li>
+        	<li ng-class="meta.path('/infinite') && 'active'">
+                <a th:href="@{/private/#!/infinite/dashboard}">
+                    <i class="fas fa-infinity"></i>
+                </a>
+            </li>
+            <li ng-class="meta.path('/setting') && 'active'">
+                <a th:href="@{/private/#!/setting}">
+                    <i class="fas fa-fw fa-cog"></i>
+                </a>
+            </li>
+            <li ng-class="meta.path('/donation') && 'active'">
+                <a th:href="@{/public/#!/donation}">
+                    <i class="fas fa-coffee"></i>
+                </a>
+            </li>
+        </ul>
+        <!-- End of Mobile navbar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -219,33 +244,33 @@
 
                 </nav>
                 <!-- End of Topbar -->
+                
+                <!-- sub-menu -->
+		     	<div class="sub-menu shadow mb-3">
+		            <!-- finance -->
+		            <nav ng-if="meta.path('/finance')" class="nav">
+					  <a class="nav-link" ng-class="meta.path('/finance/stock') && 'active'" 
+					  		th:href="@{/public/#!/finance/stock}">무매종목</a>
+					  <a class="nav-link" ng-class="meta.path('/finance/market') && 'active'"
+					  		th:href="@{/public/#!/finance/market}">시장지수</a>
+					</nav>
+					
+					<!-- infinite -->
+					<nav ng-if="meta.path('/infinite')" class="nav">
+					  <a class="nav-link" ng-class="meta.path('/infinite/dashboard') && 'active'"
+					  		th:href="@{/private/#!/infinite/dashboard}">대시보드</a>
+					  <a class="nav-link" ng-class="meta.path('/infinite/account') && 'active'"
+					  		th:href="@{/private/#!/infinite/account}">계좌현황</a>
+					  <a class="nav-link" ng-class="meta.path('/infinite/order') && 'active'"
+					  		th:href="@{/private/#!/infinite/order}">주문리스트</a>
+					  <a class="nav-link" ng-class="meta.path('/infinite/income') && 'active'"
+					  		th:href="@{/private/#!/infinite/income}">손익현황</a>
+					</nav>
+		        </div>
+		        <!-- End of sub-menu -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                	
-                	<!-- nav -->
-                	<div class="mb-3">
-                		<!-- finance -->
-                		<nav ng-if="meta.path('/finance')" class="nav">
-						  <a class="nav-link" ng-class="meta.path('/finance/stock') && 'active'" 
-						  		th:href="@{/public/#!/finance/stock}">무매종목</a>
-						  <a class="nav-link" ng-class="meta.path('/finance/market') && 'active'"
-						  		th:href="@{/public/#!/finance/market}">시장지수</a>
-						</nav>
-						
-						<!-- infinite -->
-						<nav ng-if="meta.path('/infinite')" class="nav">
-						  <a class="nav-link" ng-class="meta.path('/infinite/dashboard') && 'active'"
-						  		th:href="@{/private/#!/infinite/dashboard}">대시보드</a>
-						  <a class="nav-link" ng-class="meta.path('/infinite/account') && 'active'"
-						  		th:href="@{/private/#!/infinite/account}">계좌현황</a>
-						  <a class="nav-link" ng-class="meta.path('/infinite/order') && 'active'"
-						  		th:href="@{/private/#!/infinite/order}">주문리스트</a>
-						  <a class="nav-link" ng-class="meta.path('/infinite/income') && 'active'"
-						  		th:href="@{/private/#!/infinite/income}">손익현황</a>
-						</nav>
-                	</div>
-                	
                 	<section ng-view></section>
                 </div>
                 <!-- /.container-fluid -->

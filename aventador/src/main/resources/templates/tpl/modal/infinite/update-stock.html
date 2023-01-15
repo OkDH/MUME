@@ -81,6 +81,11 @@
 			      <div class="btn-group btn-group-toggle" data-toggle="buttons">
 					  <label style="width: 4em;"
 					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
+					  	ng-class="infiniteAccount.updateStock.data.infiniteVersion == 'v2.2' && 'active'">
+					    <input type="radio" name="editInfiniteVersion" ng-model="infiniteAccount.updateStock.data.infiniteVersion" value="v2.2"> v2.2
+					  </label>
+					  <label style="width: 4em;"
+					  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
 					  	ng-class="infiniteAccount.updateStock.data.infiniteVersion == 'v2.1' && 'active'">
 					    <input type="radio" name="editInfiniteVersion" ng-model="infiniteAccount.updateStock.data.infiniteVersion" value="v2.1"> v2.1
 					  </label>

@@ -61,7 +61,14 @@ public class InfiniteDetail extends ViewInfiniteList {
 		return getFeesPer().multiply(new BigDecimal("0.01"));
 	}
 	
-	//1회 매수 금액
+	// V2.2용 T : 매수 누적액 / 1회 매수 금액 (소수점 둘째자리 올림)
+	public Double getT() {
+		if(stockDetail == null)
+			return 0.0;
+		return getBuyPrice().divide(getOneBuySeed(), 1, RoundingMode.UP).doubleValue();
+	}
+	
+	// 1회 매수 금액
 	public BigDecimal getOneBuySeed() {
 		if(getDivisions() != null)
 			return getSeed().divide(new BigDecimal(getDivisions()), 2, RoundingMode.DOWN);

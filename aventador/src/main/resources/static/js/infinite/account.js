@@ -50,6 +50,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 			tlp: { name: "TLP", value: true }
 		},
 		infiniteVersion: {
+			v2_2: { name: "v2.2", value: true },
 			v2_1: { name: "v2.1", value: true },
 			v2_1_SH: { name: "v2.1후반", value: true },
 			v2: { name: "v2", value: true },
@@ -193,7 +194,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 	infiniteAccount.addStock.init = function(){
 		infiniteAccount.addStock.data = {
 			symbol: null,
-			infiniteVersion: "v2.1",
+			infiniteVersion: "v2.2",
 			infiniteType: "INFINITE",
 			startedDate: null,
 			seed: null,

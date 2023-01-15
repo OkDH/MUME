@@ -167,7 +167,11 @@
 				</div>
 				<div class="card-body text-gray-800">
 					<h4 class="small font-weight-bold">
-						진행률 <span class="float-right">{{ stock.progressPer | number:1 }}%</span>
+						진행률
+						<span class="float-right">
+							 <span ng-if="stock.infiniteVersion == 'v2.2'">( {{ stock.t | number:1 }}T / {{ stock.divisions | number }} )</span>
+							 {{ stock.progressPer | number:1 }}%
+						 </span>
 					</h4>
 					<div class="progress mb-2">
 						<div class="progress-bar" ng-class="(stock.infiniteState == '원금소진' && 'bg-danger') || (stock.progressPer >= 100 && 'bg-danger') || (stock.progressPer < 50 && 'bg-primary') || (stock.progressPer >= 50 && 'bg-warning')"

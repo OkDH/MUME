@@ -223,6 +223,8 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 		$("#addStockForm #symbolSelect").selectpicker("refresh");
 		$("#addStockForm #accountSelect").val('');
 		$("#addStockForm #accountSelect").selectpicker("refresh");
+		$("#addStockForm #versionSelect").val('v2.2');
+		$("#addStockForm #versionSelect").selectpicker("refresh");
 		$('#addStockForm #autoTradeToggle').bootstrapToggle('on');
 	}
 	infiniteAccount.addStock.add = function(){

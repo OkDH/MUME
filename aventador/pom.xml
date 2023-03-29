@@ -53,8 +53,6 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.2.0</version>
 		</dependency>
-<<<<<<< HEAD
-=======
 		
 		<!-- https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter -->
 		<dependency>
@@ -62,7 +60,6 @@
 		    <artifactId>jasypt-spring-boot-starter</artifactId>
 		    <version>3.0.5</version>
 		</dependency>
->>>>>>> branch 'dev_v2.2' of https://github.com/OkDH/aventador.git
 
 		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -70,6 +67,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency> --> <!-- YahooFinanceAPI 클래스가 로드 되지 않아서 devtools을 사용하지 않음 -->
+		
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>

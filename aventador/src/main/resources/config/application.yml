@@ -25,17 +25,17 @@ spring:
       client:
         registration:
           NAVER:
-            client-id: QyziMDfXfgFrKsHmyHIs
-            client-secret: ZUgzqbmb_v
+            client-id: ENC(zef6d42pOBR9Hna6Niz6QKGO2B2jDB4vaej9ZE9CPjk=)
+            client-secret: ENC(cYSwqcs3oDMVJsG6ZKNZ2NR+o74LexKR)
             
 ---
 spring:
   profiles: master
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://ocko.co.kr:5432/aventador?stringtype=unspecified
-    username: aventador
-    password: aventadorU$3r
+    driver-class-name: ENC(ye9Lw58nw2l4xSWUyb1wnM3L6PEt/HdXx7EnNNnVVH8=)
+    url: ENC(8XqDX7H0BZUYvAoMSWB/uG8ybXIxPcI6obujNk/urA4ztWvfPs9XdjuerC5fCToKrBE10LPYHXYLPVkDKRuHaM/cuQF/y385IbGYCt95QGA=)
+    username: ENC(RUroYQGGIPimhvDFEcogEcxj1x6/VoI8)
+    password: ENC(lRi3p+rWPxXSeBNdnvC/UAE83b/SrxLd)
     
 server:
   servlet:
@@ -46,11 +46,11 @@ server:
 spring:
   profiles: dev
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://ocko.co.kr:5432/aventador_dev?stringtype=unspecified
-    username: aventadordev
-    password: aventadorDevU$3r
-    
+    driver-class-name: ENC(ye9Lw58nw2l4xSWUyb1wnM3L6PEt/HdXx7EnNNnVVH8=)
+    url: ENC(3qMdZVv9Gnac0Ie4WgC4kdQo3LymfF5P6SEB/LG0I9VIkXB1qRLXh9STF5pywOxQTAoqIRDwJUoRuG37XNqm8iL10TtNWBNIuVwpElEsiAE=)
+    username: ENC(VCsTBvmEoo2IHyT1+UHjID4rcnitRTnd)
+    password: ENC(WKi1r1Y8npsDp59POVvI9ju5lUl5TAvS5xJB5ZacVf0=)
+            
 server:
   servlet:
     context-path: /dev

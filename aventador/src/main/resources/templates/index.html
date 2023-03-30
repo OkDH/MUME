@@ -91,12 +91,6 @@
     <!-- my css -->
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/main.css}">
     
-    <script type="text/javascript">
-	 function callBackFunc(arg1) {
-	   console.log(arg1)
-	 }
-	</script>
-
 </head>
 <body id="page-top" ng-app="app" ng-controller="MainController">
     <!-- Page Wrapper -->
@@ -210,11 +204,11 @@
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div> -->
             
-            <div>
-            <ins class="kakao_ad_area" style="display:none;"
-				data-ad-unit = "DAN-M2quyzBin4jeLAUT"
-				data-ad-width = "320"
-				data-ad-height = "100"></ins>
+            <div ng-if="isShowAD">
+	            <ins class="kakao_ad_area" style="display:none;"
+					data-ad-unit = "DAN-M2quyzBin4jeLAUT"
+					data-ad-width = "320"
+					data-ad-height = "100"></ins>
             </div>
 
             <!-- Sidebar Message -->
@@ -300,10 +294,10 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                    	<ins class="kakao_ad_area" style="display:none;"
-				data-ad-unit = "DAN-M2quyzBin4jeLAUT"
-				data-ad-width = "320"
-				data-ad-height = "100"></ins>
+                    	<ins ng-if="isShowAD" class="kakao_ad_area" style="display:none;"
+							data-ad-unit = "DAN-M2quyzBin4jeLAUT"
+							data-ad-width = "320"
+							data-ad-height = "100"></ins>
                     	<h4 class="text-xs font-weight-bold">모든 투자에 대한 책임은 투자자 본인에게 있습니다.</h4>
                         <h4 class="text-xs"><a th:href="@{/public/#!/privacy}">개인정보처리방침</a></h4>
                     	<h4 class="text-xs">Copyright &copy; 빈쿵 2022</h4>

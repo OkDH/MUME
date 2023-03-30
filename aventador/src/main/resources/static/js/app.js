@@ -278,7 +278,7 @@ app.directive('googleAd', ['$timeout', function($timeout) {
 		};
 	}
 ]);
-app.controller("MainController", function($scope, $http, $location) {
+app.controller("MainController", function($scope, $http, $location, httpService) {
 
 	// Toggle the side navigation
 	$("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
@@ -345,4 +345,14 @@ app.controller("MainController", function($scope, $http, $location) {
 	$scope.moveContact = function(){
 		AppGoAskPage.postMessage('mume');
 	}
+	
+	// 광고 상태 체크
+	$scope.isShowAD = true;
+	httpService.get({
+		url: meta.baseUrl + "api/status/IS_SHOW_AD",
+	}).then(function(response){
+		if(response.data)
+			$scope.isShowAD = response.data.statusValue === 'T' ? true : false;
+		console.log("isShowAD : ", $scope.isShowAD);
+	});
 });

@@ -24,10 +24,12 @@ import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
 import com.ocko.aventador.dao.model.aventador.InfiniteStockExample.Criteria;
 import com.ocko.aventador.dao.model.aventador.MemberSetting;
 import com.ocko.aventador.dao.model.aventador.MemberSettingExample;
+import com.ocko.aventador.dao.model.aventador.ServerStatus;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteAccountMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteHistoryMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteStockMapper;
 import com.ocko.aventador.dao.persistence.aventador.MemberSettingMapper;
+import com.ocko.aventador.dao.persistence.aventador.ServerStatusMapper;
 import com.ocko.aventador.model.api.ResponseDto;
 
 @Service
@@ -38,6 +40,16 @@ public class ApiService {
 	@Autowired private InfiniteAccountMapper infiniteAccountMapper;
 	@Autowired private InfiniteStockMapper infiniteStockMapper;
 	@Autowired private InfiniteHistoryMapper infiniteHistoryMapper;
+	@Autowired private ServerStatusMapper serverStatusMapper;
+	
+	/**
+	 * 서버 상태 조회
+	 * @param statusCode 상태 코드 값
+	 * @return
+	 */
+	public ServerStatus getServerStatus(String statusCode) {
+		return serverStatusMapper.selectByPrimaryKey(statusCode);
+	}
 	
 	/**
 	 * 지니 프로그램 연동 API key 가져오기

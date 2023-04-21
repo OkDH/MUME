@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Profile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ocko.aventador.constant.EtfSymbol;
@@ -22,7 +22,6 @@ import com.ocko.aventador.dao.model.aventador.ViewTodayStock;
 import com.ocko.aventador.model.StockDetail;
 
 import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
 
 /**
  * @author ok
@@ -30,6 +29,8 @@ import yahoofinance.YahooFinance;
  */
 @Component
 public class StockComponent {
+	
+	@Autowired private YahooFinanceComponent yahooFinanceComponent;
 
 	/**
 	 * 종가(현재가), 전일 종가 조회
@@ -39,7 +40,7 @@ public class StockComponent {
 	public StockDetail getStock(String symbol) {
 		
 		try {
-			Stock stock = YahooFinance.get(symbol);
+			Stock stock = yahooFinanceComponent.get(symbol);
 			if(stock != null) {
 				StockDetail stockDetail = processStockDetail(symbol, stock);
 				return stockDetail;
@@ -59,7 +60,7 @@ public class StockComponent {
 		Map<String, StockDetail> result = new HashMap<String, StockDetail>();
 		
 		try {
-			Map<String, Stock> stocks = YahooFinance.get(symbols);
+			Map<String, Stock> stocks = yahooFinanceComponent.get(symbols);
 			
 			if(stocks != null) {
 				for(String symbol : symbols) {
@@ -101,7 +102,7 @@ public class StockComponent {
 		String[] symbols = symbolList.toArray(new String[symbolList.size()]);
 		
 		try {
-			Map<String, Stock> stocks = YahooFinance.get(symbols);
+			Map<String, Stock> stocks = yahooFinanceComponent.get(symbols);
 			
 			if(stocks != null) {
 				for(String symbol : symbols) {

@@ -94,7 +94,7 @@ public class InfiniteTradeComponent {
 		// 진행률 상관없이 1/4는 LOC (10 - T/2 * (40/분할수))%, 3/4는 +10% 매도
 		{
 			// LOC 매도 (10 - T/2 * (40/분할수))%
-			BigDecimal persent = new BigDecimal(10 - (infiniteDetail.getT()/2 * (40/infiniteDetail.getDivisions()))).setScale(1, RoundingMode.HALF_UP);
+			BigDecimal persent = new BigDecimal(10 - (infiniteDetail.getT()/2 * (40.0/infiniteDetail.getDivisions()))).setScale(1, RoundingMode.HALF_UP);
 			StockTradeInfo info = new StockTradeInfo();
 			String persentText = persent.compareTo(new BigDecimal(0)) > 0 ? "+" + persent.toString() : persent.toString();
 			info.setTradeName("LOC 매도 (" + persentText + "%)");
@@ -334,7 +334,7 @@ public class InfiniteTradeComponent {
 			}
 			{
 				// LOC (10 - T/2 * (40/분할수))%
-				BigDecimal persent = new BigDecimal(10 - (infiniteDetail.getT()/2 * (40/infiniteDetail.getDivisions()))).setScale(1, RoundingMode.HALF_UP);
+				BigDecimal persent = new BigDecimal(10 - (infiniteDetail.getT()/2 * (40.0/infiniteDetail.getDivisions()))).setScale(1, RoundingMode.HALF_UP);
 				String persentText = persent.compareTo(new BigDecimal(0)) > 0 ? "+" + persent.toString() : persent.toString();
 				
 				StockTradeInfo info = new StockTradeInfo();
@@ -352,7 +352,7 @@ public class InfiniteTradeComponent {
 		} else { // 후반전
 			{
 				// LOC (10 - T/2 * (40/분할수))%
-				BigDecimal persent = new BigDecimal(10 - (infiniteDetail.getT()/2 * (40/infiniteDetail.getDivisions()))).setScale(1, RoundingMode.HALF_UP);
+				BigDecimal persent = new BigDecimal(10 - (infiniteDetail.getT()/2 * (40.0/infiniteDetail.getDivisions()))).setScale(1, RoundingMode.HALF_UP);
 				String persentText = persent.compareTo(new BigDecimal(0)) > 0 ? "+" + persent.toString() : persent.toString();
 				
 				StockTradeInfo info = new StockTradeInfo();

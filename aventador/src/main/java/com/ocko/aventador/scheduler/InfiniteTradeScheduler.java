@@ -46,10 +46,10 @@ public class InfiniteTradeScheduler {
 	/**
 	 * Scheduled가 두 번씩인지 테스트
 	 */
-	@Scheduled(cron="0 0/2 * * * * ")
-	public void duplicateTest() {
-		log.info("Scheduled가 두 번씩인지 테스트");
-	}
+//	@Scheduled(cron="0 0/2 * * * * ")
+//	public void duplicateTest() {
+//		log.info("Scheduled가 두 번씩인지 테스트");
+//	}
 	
 	/**
 	 * 무한매수 매매내역 업데이트

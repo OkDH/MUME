@@ -35,15 +35,16 @@ public class StockTest {
 	private static final ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Test
-	public void test() throws IOException {
-		System.out.println("adf");
+	public void test() throws Exception {
+		System.out.println(" 시작 ");
 		
 		String crumb = getCrumb();
+		
+		//https://query1.finance.yahoo.com/v7/finance/options/TQQQ
 		
 
 		Map<String, String> params = new LinkedHashMap<String, String>();
         params.put("symbols", "TQQQ,SOXL");
-//        params.put("crumb", "GBACmEXJqXE");
 
         String urlStr = YahooFinance.QUOTES_QUERY1V7_BASE_URL + "?" + Utils.getURLParameters(params);
         URL url = new URL(urlStr);
@@ -57,6 +58,8 @@ public class StockTest {
         conn.setRequestProperty("crumb", crumb);
         
         int responseCode = conn.getResponseCode();
+        
+        System.out.println("결과값 : " + responseCode);
         
         // API 응답 결과를 읽어오기 위해 BufferedReader 객체 생성
         BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));

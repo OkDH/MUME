@@ -143,6 +143,7 @@ public class StockDataScheduler {
 	
 	/**
 	 * ETFs 주가 최근 1년치 초기 구축 (1회성)
+	 * -history 불러오는 api가 작동 안해서 사용불가-
 	 * @throws IOException 
 	 */
 	public void firstCollectStockHistory() throws IOException {

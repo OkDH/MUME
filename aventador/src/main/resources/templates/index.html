@@ -20,8 +20,8 @@
     <title>MUME</title>
     
     <!-- Google AdSense -->
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2618229544885366"
-     crossorigin="anonymous"></script>
+	<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2618229544885366"
+     crossorigin="anonymous"></script> -->
 	
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-1BC0PP7F2N"></script>
@@ -203,6 +203,13 @@
             <!-- <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div> -->
+            
+            <div ng-if="isShowAD">
+				<ins class="kakao_ad_area" style="display:none;"
+				data-ad-unit = "DAN-QfNJkKC1kh9KAknb"
+				data-ad-width = "250"
+				data-ad-height = "250"></ins>
+            </div>
 
             <!-- Sidebar Message -->
             <div class="sidebar-card d-none d-md-flex">
@@ -225,6 +232,7 @@
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+						
                 	<h1 class="h4 mb-0 text-primary font-weight-bold"></h1>
 	
                     <!-- Sidebar Toggle (Topbar) -->
@@ -286,6 +294,10 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
+                    	<ins ng-if="isShowAD" class="kakao_ad_area" style="display:none;"
+							data-ad-unit = "DAN-M2quyzBin4jeLAUT"
+							data-ad-width = "320"
+							data-ad-height = "100"></ins>
                     	<h4 class="text-xs font-weight-bold">모든 투자에 대한 책임은 투자자 본인에게 있습니다.</h4>
                         <h4 class="text-xs"><a th:href="@{/public/#!/privacy}">개인정보처리방침</a></h4>
                     	<h4 class="text-xs">Copyright &copy; 빈쿵 2022</h4>
@@ -326,5 +338,8 @@
     </div>
 
 </body>
+
+<!-- kakao AdFit -->
+<script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
 
 </html>

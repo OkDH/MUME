@@ -28,6 +28,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.ocko.aventador.component.StockComponent;
+import com.ocko.aventador.component.YahooFinanceComponent;
 import com.ocko.aventador.constant.EtfSymbol;
 import com.ocko.aventador.dao.model.aventador.StockHistory;
 import com.ocko.aventador.dao.model.aventador.StockHistoryExample;
@@ -50,6 +51,7 @@ public class StockDataScheduler {
 	private static final Logger log = LoggerFactory.getLogger(StockDataScheduler.class);
 	
 	@Autowired private StockComponent stockComponent;
+	@Autowired private YahooFinanceComponent yahooFinanceComponent;
 	@Autowired private StockHistoryMapper stockHistoryMapper;
 	
 	/**
@@ -131,13 +133,11 @@ public class StockDataScheduler {
 	 */
 	private Map<String, StockDetail> getStocksData(){
 		// 심볼리스트
-		List<String> symbolList = new ArrayList<String>();
+		List<String> symbols = new ArrayList<String>();
 		for(EtfSymbol symbol : EtfSymbol.values()) {
-			symbolList.add(symbol.name());
+			symbols.add(symbol.name());
 		}
 		
-		// 심볼리스트 To 배열
-		String[] symbols = symbolList.toArray(new String[symbolList.size()]);
 		return stockComponent.getStocks(symbols);
 	}
 	
@@ -152,7 +152,7 @@ public class StockDataScheduler {
 		from.add(Calendar.YEAR, -2);
 		
 		for(EtfSymbol item : EtfSymbol.values()) {
-			Stock stock = YahooFinance.get(item.name());
+			Stock stock = yahooFinanceComponent.get(item.name());
 			List<HistoricalQuote> histQuotes = stock.getHistory(from, to, Interval.DAILY);
 
 			Queue<Map<String, BigDecimal>> queue = new LinkedList<>();

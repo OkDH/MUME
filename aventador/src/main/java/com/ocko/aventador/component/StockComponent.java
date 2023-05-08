@@ -56,7 +56,7 @@ public class StockComponent {
 	 * @param symbols
 	 * @return
 	 */
-	public Map<String, StockDetail> getStocks(String[] symbols){
+	public Map<String, StockDetail> getStocks(List<String> symbols){
 		Map<String, StockDetail> result = new HashMap<String, StockDetail>();
 		
 		try {
@@ -93,13 +93,10 @@ public class StockComponent {
 		Map<String, StockDetail> result = new HashMap<String, StockDetail>();
 		
 		// 심볼리스트
-		List<String> symbolList = new ArrayList<String>();
+		List<String> symbols = new ArrayList<String>();
 		for(MarketIndex item : MarketIndex.values()) {
-			symbolList.add(item.getSymbol());
+			symbols.add(item.getSymbol());
 		}
-		
-		// 심볼리스트 To 배열
-		String[] symbols = symbolList.toArray(new String[symbolList.size()]);
 		
 		try {
 			Map<String, Stock> stocks = yahooFinanceComponent.get(symbols);

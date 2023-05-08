@@ -1,24 +1,20 @@
 /**
  * 
  */
-package com.ocko.aventador.component;
+package com.ocko.aventador;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.springframework.stereotype.Component;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,35 +28,31 @@ import yahoofinance.quotes.stock.StockStats;
 
 /**
  * @author ok
- * YahooFinance-API가 header에 crumb를 포함해서 보내지 않기 때문에 stock정보를 가져올 때 가끔 오류가 발생하여 
- * API에서 통신부분을 대신하여 UrlConnection으로 직접 구현.
+ *
  */
-@Component
-public class YahooFinanceComponent {
+public class YahooFinanceOptionsTest {
+
 	
-	private final String API_URL = "https://query1.finance.yahoo.com/v7/finance/options";
-	private ObjectMapper objectMapper = new ObjectMapper();
+	private static final ObjectMapper objectMapper = new ObjectMapper();
 	
-	public Stock get(String symbol) throws IOException {
-		 return getResult(symbol);
-	}
 	
-	public Map<String, Stock> get(List<String> symbols) throws IOException {
-		Map<String, Stock> result = new HashMap<String, Stock>();
-		for(String symbol : symbols) {
-            result.put(symbol, getResult(symbol));
-        }
-		return result;
-	}
-	
-	private Stock getResult(String symbol) throws IOException {
+	/**
+	 * 작업 배경
+	 * Yahoo Finance API 호출 하던 방식이 안되어서 다른 API를 호출 테스트
+	 * @throws IOException 
+	 */
+	@Test
+	public void test() throws IOException {
 		
-        String urlStr = API_URL + "/" + symbol;
-        URL url = new URL(urlStr);
-        
-        // HttpURLConnection 객체 생성
+		String symbol = "TQQQ";
+		String urlStr = "https://query1.finance.yahoo.com/v7/finance/options/" + symbol;
+		
+		URL url = new URL(urlStr);
+		// HttpURLConnection 객체 생성
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
+        
+//        int responseCode = conn.getResponseCode();
         
         // API 응답 결과를 읽어오기 위해 BufferedReader 객체 생성
         BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -71,17 +63,23 @@ public class YahooFinanceComponent {
         }
         in.close();
         
-    	JsonNode node = objectMapper.readTree(response.toString());
-        if(node.has("optionChain") && node.get("optionChain").has("result")
-        		&& node.get("optionChain").get("result").has(0)
-        		&& node.get("optionChain").get("result").get(0).has("quote")) {
-            return parseJson(node.get("optionChain").get("result").get(0).get("quote"));
-        } else {
-            throw new IOException("Invalid response");
-        }
+        // API 응답 결과 출력
+        System.out.println(response.toString());
+        
+        // 파싱
+        {
+       	 	JsonNode node = objectMapper.readTree(response.toString());
+       	 	
+            node = node.get("optionChain").get("result").get(0).get("quote");
+            
+            Stock s = this.parseJson(node);
+        	s.print();
+       }
+		
 	}
 	
-	public Stock parseJson(JsonNode node) {
+	
+	Stock parseJson(JsonNode node) {
         String symbol = node.get("symbol").asText();
         Stock stock = new Stock(symbol);
 
@@ -94,12 +92,13 @@ public class YahooFinanceComponent {
         stock.setCurrency(getStringValue(node, "currency"));
         stock.setStockExchange(getStringValue(node, "fullExchangeName"));
 
-        stock.setQuote(getQuote(node));
-        stock.setStats(getStats(node));
-        stock.setDividend(getDividend(node));
+        stock.setQuote(this.getQuote(node));
+        stock.setStats(this.getStats(node));
+        stock.setDividend(this.getDividend(node));
 
         return stock;
     }
+	
 	
 	private String getStringValue(JsonNode node, String field) {
         if(node.has(field)) {
@@ -107,6 +106,7 @@ public class YahooFinanceComponent {
         }
         return null;
     }
+
 
 
     private StockQuote getQuote(JsonNode node) {
@@ -202,4 +202,5 @@ public class YahooFinanceComponent {
 
         return dividend;
     }
+	
 }

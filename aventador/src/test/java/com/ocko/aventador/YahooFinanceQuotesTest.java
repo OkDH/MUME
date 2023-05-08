@@ -30,19 +30,22 @@ import yahoofinance.quotes.stock.StockQuote;
 import yahoofinance.quotes.stock.StockStats;
 import yahoofinance.util.RedirectableRequest;
 
-public class StockTest {
+public class YahooFinanceQuotesTest {
 	
 	private static final ObjectMapper objectMapper = new ObjectMapper();
 	
+	/**
+	 * -DEPRECATED-
+	 * 작업 배경
+	 * YahooFinace API 라이브러리가 정상적으로 작동하지 않아서, 직접 API URL 호출하는 방법을 테스트 
+	 * API URL : https://query1.finance.yahoo.com/v7/finance/quote
+	 * 이 방법도 막혀서 DEPRECATED 처리
+	 * @throws Exception
+	 */
 	@Test
 	public void test() throws Exception {
-		System.out.println(" 시작 ");
-		
 		String crumb = getCrumb();
 		
-		//https://query1.finance.yahoo.com/v7/finance/options/TQQQ
-		
-
 		Map<String, String> params = new LinkedHashMap<String, String>();
         params.put("symbols", "TQQQ,SOXL");
 
@@ -74,7 +77,7 @@ public class StockTest {
         System.out.println(response.toString());
         
         {
-        	 List<Stock> result = new ArrayList<Stock>();
+        	List<Stock> result = new ArrayList<Stock>();
         	JsonNode node = objectMapper.readTree(response.toString());
 	        if(node.has("quoteResponse") && node.get("quoteResponse").has("result")) {
 	            node = node.get("quoteResponse").get("result");

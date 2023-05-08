@@ -133,13 +133,11 @@ public class StockDataScheduler {
 	 */
 	private Map<String, StockDetail> getStocksData(){
 		// 심볼리스트
-		List<String> symbolList = new ArrayList<String>();
+		List<String> symbols = new ArrayList<String>();
 		for(EtfSymbol symbol : EtfSymbol.values()) {
-			symbolList.add(symbol.name());
+			symbols.add(symbol.name());
 		}
 		
-		// 심볼리스트 To 배열
-		String[] symbols = symbolList.toArray(new String[symbolList.size()]);
 		return stockComponent.getStocks(symbols);
 	}
 	

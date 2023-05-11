@@ -46,10 +46,10 @@ public class InfiniteTradeScheduler {
 	/**
 	 * Scheduled가 두 번씩인지 테스트
 	 */
-//	@Scheduled(cron="0 0/2 * * * * ")
-//	public void duplicateTest() {
-//		log.info("Scheduled가 두 번씩인지 테스트");
-//	}
+	@Scheduled(cron="0 0/10 * * * * ")
+	public void duplicateTest() {
+		log.info("Scheduled가 두 번씩인지 테스트");
+	}
 	
 	/**
 	 * 무한매수 매매내역 업데이트
@@ -75,8 +75,15 @@ public class InfiniteTradeScheduler {
 		updateHistory(null, null);
 	}
 	
+	/**
+	 * 매매내역 업데이트
+	 * 파라미터가 있을 경우 해당 조건에 해당하는 매매내역만 업데이트
+	 * 둘다 null이라면 전체 업데이트
+	 * @param memberId 
+	 * @param InfiniteId
+	 */
 	public void updateHistory(Integer memberId, Integer InfiniteId) {
-		log.info("Start Update Infinite History");
+		log.info("Start Update Infinite History!");
 		
 		// etf 주가 정보 조회
 		Map<String, StockDetail> todayStockMap = stockService.getTodayEtfStocks();
@@ -130,7 +137,7 @@ public class InfiniteTradeScheduler {
 		}
 		
 		
-		log.info("End Update Infinite History");
+		log.info("End Update Infinite History!");
 	}
 	
 }

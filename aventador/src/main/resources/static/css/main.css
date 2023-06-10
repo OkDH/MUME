@@ -5,7 +5,7 @@
 }
 /* modal none border */
 .modal-content {
-    border: 0px;
+    border: 0;
 }
 /* dropdown-item cursor */
 .dropdown-item {
@@ -53,12 +53,35 @@
 	min-height: 240px;
 }
 
+/* adfit */
+.ad_pc {
+    display: block;
+}
+.ad_mobile {
+    display: none;
+}
+
 /* 작은화면 텍스트 크기 변동이 필요할 때 */
 @media (max-width:768px) {
   .text-resize {
     font-size: .7rem;
   }    
   .table-sm td, .table-sm th {
-  	padding: 0.15rem;
+      padding: 0.15rem;
   }
+  .ad_pc {
+      display: none;
+  }
+  .ad_mobile {
+      display: block;
+  }
+}
+/* adfit size switch */
+@media (max-width:999px) {
+    .ad_pc {
+        display: none;
+    }
+    .ad_mobile {
+        display: block;
+    }
 }

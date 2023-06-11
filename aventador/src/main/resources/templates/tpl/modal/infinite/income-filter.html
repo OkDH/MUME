@@ -29,27 +29,42 @@
       			<div class="btn-group btn-group-toggle" data-toggle="buttons">
 				  <label style="width: 6em;"
 				  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
-				  	ng-class="infiniteIncome.filter.date == '1개월' && 'active'">
-				    <input type="radio" name="date" ng-model="infiniteIncome.filter.date" value="1개월"> 1개월
+				  	ng-class="infiniteIncome.filter.dateType == '1개월' && 'active'">
+				    <input type="radio" name="date" ng-model="infiniteIncome.filter.dateType" value="1개월"> 1개월
 				  </label>
 				  <label style="width: 6em;"
 				  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
-				  	ng-class="infiniteIncome.filter.date == '3개월' && 'active'">
-				    <input type="radio" name="date" ng-model="infiniteIncome.filter.date" value="3개월"> 3개월
+				  	ng-class="infiniteIncome.filter.dateType == '3개월' && 'active'">
+				    <input type="radio" name="date" ng-model="infiniteIncome.filter.dateType" value="3개월"> 3개월
 				  </label>
 				  <label style="width: 6em;"
 				  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
-				  	ng-class="infiniteIncome.filter.date == '1년' && 'active'">
-				    <input type="radio" name="date" ng-model="infiniteIncome.filter.date" value="1년"> 1년
+				  	ng-class="infiniteIncome.filter.dateType == '1년' && 'active'">
+				    <input type="radio" name="date" ng-model="infiniteIncome.filter.dateType" value="1년"> 1년
 				  </label>
-				 <!--  <label style="width: 6em;"
+				 <label style="width: 6em;"
 				  	class="btn btn-sm btn-outline-info font-weight-bold text-xs" 
-				  	ng-class="infiniteIncome.filter.date == '조회기간' && 'active'">
-				    <input type="radio" name="date" ng-model="infiniteIncome.filter.date" value="조회기간"> 조회기간
-				  </label> -->
+				  	ng-class="infiniteIncome.filter.dateType == '기간선택' && 'active'">
+				    <input type="radio" name="date" ng-model="infiniteIncome.filter.dateType" value="기간선택"> 기간선택
+				  </label>
 				</div>
       		</div>
       	</div>
+	  	<div class="row">
+			<div class="col-3 pt-1 pl-3 text-gray-800">
+			</div>
+			<div class="col-3 p-1">
+				<input type="date" class="form-control text-xs" ng-disabled="infiniteIncome.filter.dateType != '기간선택'"
+					ng-model="infiniteIncome.filter.sellDateStart" name="sellDateStart"/>
+			</div>
+			<div class="col-1 text-center" style="line-height: 44px; vertical-align: middle">
+				~
+			</div>
+			<div class="col-3 p-1">
+				<input type="date" class="form-control text-xs" ng-disabled="infiniteIncome.filter.dateType != '기간선택'"
+					   ng-model="infiniteIncome.filter.sellDateEnd" name="sellDateEnd"/>
+			</div>
+		</div>
       	<div class="row">
       		<div class="col-3 pt-1 pl-3 text-gray-800 font-weight-bold">
       			정렬순서

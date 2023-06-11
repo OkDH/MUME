@@ -1,17 +1,19 @@
 app.controller("InfiniteIncomeController", function($scope, $filter, httpService, infiniteService){
 	var infiniteIncome = this;
-	
+
+	// init
 	var now = new Date();
 	infiniteIncome.query = {
 		accountId: 'ALL',
-		sellDateStart: new Date(new Date().setFullYear(now.getFullYear() - 1)).toISOString().split("T")[0], // 1년
-		sellDateEnd: now.toISOString().split("T")[0],
+		sellDateStart: $filter("printDate")(new Date(new Date().setFullYear(now.getFullYear() - 1))), // 1년
+		sellDateEnd: $filter("printDate")(now),
 		order: 'DESC'
 	}
 	infiniteIncome.filter = {
-		date: '1년'
+		dateType: '1년',
+		sellDateStart: new Date(new Date().setFullYear(now.getFullYear() - 1)),
+		sellDateEnd: now
 	}
-	
 	infiniteIncome.stats = {
 		totalBuy: 0,
 		totalSell: 0,
@@ -41,16 +43,19 @@ app.controller("InfiniteIncomeController", function($scope, $filter, httpService
 	$scope.$watch("infiniteIncome.filter", function(filter){
 		if(!filter)
 			return;
-		if(filter.date == "1개월"){
-			infiniteIncome.query.sellDateStart = new Date(new Date().setMonth(now.getMonth() - 1)).toISOString().split("T")[0];
-			infiniteIncome.query.sellDateEnd = now.toISOString().split("T")[0];
-		} else if(filter.date == "3개월"){
-			infiniteIncome.query.sellDateStart = new Date(new Date().setMonth(now.getMonth() - 3)).toISOString().split("T")[0];
-			infiniteIncome.query.sellDateEnd = now.toISOString().split("T")[0];
-		} else if(filter.date == "1년"){
-			infiniteIncome.query.sellDateStart = new Date(new Date().setFullYear(now.getFullYear() - 1)).toISOString().split("T")[0];
-			infiniteIncome.query.sellDateEnd = now.toISOString().split("T")[0];
+		if(filter.dateType == "1개월"){
+			infiniteIncome.filter.sellDateStart = new Date(new Date().setMonth(now.getMonth() - 1));
+		} else if(filter.dateType == "3개월"){
+			infiniteIncome.filter.sellDateStart = new Date(new Date().setMonth(now.getMonth() - 3));
+		} else if(filter.dateType == "1년"){
+			infiniteIncome.filter.sellDateStart = new Date(new Date().setFullYear(now.getFullYear() - 1));
 		}
+
+		if(filter.dateType != "기간선택")
+			infiniteIncome.filter.sellDateEnd = now;
+
+		infiniteIncome.query.sellDateStart = $filter("printDate")(infiniteIncome.filter.sellDateStart);
+		infiniteIncome.query.sellDateEnd = $filter("printDate")(infiniteIncome.filter.sellDateEnd);
 	}, true);
 	
 	$scope.$watch("infiniteIncome.query", function(query){

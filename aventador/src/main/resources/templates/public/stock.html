@@ -94,7 +94,7 @@
 								<th>60</th>
 								<th>55</th>
 								<th>50</th>
-								<th>45</th>
+								<th>45</th> ㅈ
 								<th>40</th>
 								<th>35</th>
 							</tr>
@@ -298,7 +298,8 @@
 										</thead>
 										<tbody>
 											<tr ng-repeat="etf in ngStock.arrayEtfs | orderBy: 'gapRsi' | filter : ngStock.search.sector"
-												ng-class="(etf.gapRsi > 10 || etf.gapRsi < -10) && 'font-weight-bold'">
+												ng-class="(etf.gapRsi > 10 || etf.gapRsi < -10) && 'font-weight-bold'"
+												ng-click="ngStock.openChartModal(etf)" style="cursor: pointer;">
 												<td class="text-center">
 													{{ $index + 1 }}
 												</td>
@@ -336,5 +337,6 @@
 			</div>
 		</div>
 	</div>
-</div>
 
+	<div ng-include="meta.baseUrl + 'tpl/modal/financial-chart.html'"></div>
+</div>

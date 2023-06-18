@@ -140,7 +140,6 @@ app.service("httpService", function($http, $q) {
 	}
 	this.get = function(request) {
 		request.method = "GET";
-		delete request.data;
 		return fnRequest(request);
 	}
 	this.promises = function() {

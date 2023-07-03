@@ -63,7 +63,8 @@ app.controller("StockController", function($scope, $filter, httpService, stockSe
 					o: item.priceOpen.toFixed(2),
 					h: item.priceHigh.toFixed(2),
 					l: item.priceLow.toFixed(2),
-					c: item.priceClose.toFixed(2)
+					c: item.priceClose.toFixed(2),
+					rsi: item.rsi.toFixed(2)
 				});
 
 				rsiLabels.push(new Date(item.stockDate).valueOf());
@@ -105,6 +106,16 @@ app.controller("StockController", function($scope, $filter, httpService, stockSe
 					layout: {
 						padding: {
 							left: 10
+						}
+					},
+					plugins: {
+						legend: { display: false },
+						tooltip: {
+							callbacks: {
+								footer: (tooltipItems) => {
+									return 'RsI: ' + tooltipItems[0].parsed.rsi;
+								},
+							}
 						}
 					},
 				}
@@ -220,7 +231,7 @@ app.controller("StockController", function($scope, $filter, httpService, stockSe
 						}
 					]
 				});
-			}, 150);
+			}, 200);
 
 			// https://www.youtube.com/watch?v=Q8np-7coqho&list=PLc1g3vwxhg1UlBvTOSZ3VJUjC_s6S2cMD&index=1
 			function getGradient(ctx, chartArea, data, scales) {
@@ -228,8 +239,6 @@ app.controller("StockController", function($scope, $filter, httpService, stockSe
 				const { x, y } = scales;
 				const gradientBorder = ctx.createLinearGradient(0, 0, 0, bottom);
 				const shift = y.getPixelForValue(etf.baseRsi) / bottom;
-
-				console.log(shift)
 
 				gradientBorder.addColorStop(0, 'rgba(75,192,192,1)');
 				gradientBorder.addColorStop(shift, 'rgba(75,192,192,1)');

@@ -3,10 +3,17 @@
  */
 package com.ocko.aventador.scheduler;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-
+import com.ocko.aventador.constant.InfiniteState;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
+import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
+import com.ocko.aventador.dao.model.aventador.ViewTodayStock;
+import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
+import com.ocko.aventador.dao.persistence.aventador.ViewTodayStockMapper;
+import com.ocko.aventador.job.InfiniteTradeJob;
+import com.ocko.aventador.model.StockDetail;
+import com.ocko.aventador.model.infinite.InfiniteDetail;
+import com.ocko.aventador.service.StockService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -15,17 +22,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.ocko.aventador.constant.InfiniteState;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
-import com.ocko.aventador.dao.model.aventador.ViewTodayStock;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
-import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
-import com.ocko.aventador.dao.persistence.aventador.ViewTodayStockMapper;
-import com.ocko.aventador.job.InfiniteTradeJob;
-import com.ocko.aventador.model.StockDetail;
-import com.ocko.aventador.model.infinite.InfiniteDetail;
-import com.ocko.aventador.service.StockService;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author ok
@@ -43,13 +42,13 @@ public class InfiniteTradeScheduler {
 	@Autowired private StockService stockService;
 	
 	
-	/**
-	 * Scheduled가 두 번씩인지 테스트
-	 */
-	@Scheduled(cron="0 0/10 * * * * ")
-	public void duplicateTest() {
-		log.info("Scheduled가 두 번씩인지 테스트");
-	}
+//	/**
+//	 * Scheduled가 두 번씩인지 테스트
+//	 */
+//	@Scheduled(cron="0 0/10 * * * * ")
+//	public void duplicateTest() {
+//		log.info("Scheduled가 두 번씩인지 테스트");
+//	}
 	
 	/**
 	 * 무한매수 매매내역 업데이트

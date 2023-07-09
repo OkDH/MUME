@@ -33,11 +33,11 @@ app.controller("StockController", function($scope, $filter, httpService, stockSe
 
 		var n = 3;
 		var now = new Date();
-		// var startDate = $filter("printDate")(new Date(new Date().setMonth(now.getMonth() - n)));
-		// var endDate = $filter("printDate")(now);
+		var startDate = $filter("printDate")(new Date(new Date().setMonth(now.getMonth() - n)));
+		var endDate = $filter("printDate")(now);
 
-		var startDate = "2021-01-01";
-		var endDate = "2021-05-01";
+		// var startDate = "2021-01-01";
+		// var endDate = "2021-05-01";
 
 		var params = {
 			symbol: etf.symbol,

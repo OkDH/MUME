@@ -2,13 +2,12 @@ package com.ocko.aventador.dao.persistence.aventador;
 
 import com.ocko.aventador.dao.model.aventador.InfiniteAccount;
 import com.ocko.aventador.dao.model.aventador.InfiniteAccountExample;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.cursor.Cursor;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.cursor.Cursor;
 
 public interface InfiniteAccountMapper {
 
@@ -110,7 +109,7 @@ public interface InfiniteAccountMapper {
 	int updateByPrimaryKey(InfiniteAccount record);
 
 	/**
-	 * Í≥ÑÏ¢å ?õêÍ∏? Ï¥ùÌï©
+	 * account seed sum
 	 * @param query
 	 * @return
 	 */

@@ -3,32 +3,26 @@
  */
 package com.ocko.aventador.component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.math.BigDecimal;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import org.springframework.stereotype.Component;
 import yahoofinance.Stock;
 import yahoofinance.Utils;
 import yahoofinance.exchanges.ExchangeTimeZone;
 import yahoofinance.quotes.stock.StockDividend;
 import yahoofinance.quotes.stock.StockQuote;
 import yahoofinance.quotes.stock.StockStats;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * @author ok
@@ -38,7 +32,7 @@ import yahoofinance.quotes.stock.StockStats;
 @Component
 public class YahooFinanceComponent {
 	
-	private final String API_URL = "https://query1.finance.yahoo.com/v7/finance/options";
+	private final String API_URL = "https://query1.finance.yahoo.com/v6/finance/options";
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	public Stock get(String symbol) throws IOException {

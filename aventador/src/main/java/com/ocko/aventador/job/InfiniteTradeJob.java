@@ -244,6 +244,7 @@ public class InfiniteTradeJob {
 			example.createCriteria().andInfiniteIdEqualTo(infiniteDetail.getInfiniteId());
 			
 			infiniteStockMapper.updateByExampleSelective(infiniteStock, example);
+
 		}
 		
 	}

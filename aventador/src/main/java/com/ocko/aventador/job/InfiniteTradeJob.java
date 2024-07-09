@@ -3,20 +3,6 @@
  */
 package com.ocko.aventador.job;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Map;
-
-import org.apache.ibatis.cursor.Cursor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ocko.aventador.component.InfiniteTradeComponent;
 import com.ocko.aventador.constant.InfiniteState;
 import com.ocko.aventador.constant.RegisteredType;
@@ -25,17 +11,22 @@ import com.ocko.aventador.dao.model.aventador.InfiniteHistory;
 import com.ocko.aventador.dao.model.aventador.InfiniteHistoryExample;
 import com.ocko.aventador.dao.model.aventador.InfiniteStock;
 import com.ocko.aventador.dao.model.aventador.InfiniteStockExample;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteList;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample;
-import com.ocko.aventador.dao.model.aventador.ViewInfiniteListExample.Criteria;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteHistoryMapper;
 import com.ocko.aventador.dao.persistence.aventador.InfiniteStockMapper;
-import com.ocko.aventador.dao.persistence.aventador.ViewInfiniteListMapper;
 import com.ocko.aventador.model.StockDetail;
 import com.ocko.aventador.model.infinite.InfiniteDetail;
 import com.ocko.aventador.model.infinite.StockTradeInfo;
-import com.ocko.aventador.service.StockService;
 import com.ocko.aventador.service.infinite.InfiniteIncomeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author ok
@@ -157,6 +148,18 @@ public class InfiniteTradeJob {
 						isSell = true;
 					}
 					break;
+				case MOC:
+					// 장 종료에 무조건 체결
+					BigDecimal unitPrice = info.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP); // 소수점 2자리에서 반올림
+					infiniteHistory.setUnitPrice(unitPrice);
+
+					historyMapper.insert(infiniteHistory);
+
+					// 수량 감소
+					holdingQuantity -= info.getQuantity();
+
+					isSell = true;
+
 				default:
 					break;
 				}

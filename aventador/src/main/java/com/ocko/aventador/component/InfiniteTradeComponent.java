@@ -36,7 +36,9 @@ public class InfiniteTradeComponent {
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 
 		if(infiniteDetail.getInfiniteVersion() != null) {
-			if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_2)) {
+			if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V3)) {
+				tradeInfoList = getBuyInfoV3(infiniteDetail);
+			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_2)) {
 				tradeInfoList = getBuyInfoV2_2(infiniteDetail);
 			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_1)) {
 				tradeInfoList = getBuyInfoV2(infiniteDetail);
@@ -66,7 +68,9 @@ public class InfiniteTradeComponent {
 		List<StockTradeInfo> tradeInfoList = new ArrayList<StockTradeInfo>();
 
 		if(infiniteDetail.getInfiniteVersion() != null) {
-			if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_2)) {
+			if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V3)) {
+				tradeInfoList = getSellInfoV3(infiniteDetail);
+			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_2)) {
 				tradeInfoList = getSellInfoV2_2(infiniteDetail);
 			} else if(infiniteDetail.getInfiniteVersion().equals(InfiniteVersion.V2_1)) {
 				tradeInfoList = getSellInfoV2_1(infiniteDetail);
@@ -133,8 +137,32 @@ public class InfiniteTradeComponent {
 			}
 		} else if(infiniteDetail.getT() > 19) { // T > 19라면
 
-		}
+			// TODO : 프론트 및 서버에서 v3일 경우 분할 수 20으로 고정하기
+			{
+				// MOC 매도 (standardT - (weight * T))%
+				BigDecimal persent = new BigDecimal(standardT - (weight * infiniteDetail.getT())).setScale(1, RoundingMode.HALF_UP);
+				StockTradeInfo info = new StockTradeInfo();
+//				String persentText = persent.compareTo(new BigDecimal(0)) > 0 ? "+" + persent.toString() : persent.toString();
+				info.setTradeName("MOC 매도");
 
+//				BigDecimal persentReal = persent.divide(new BigDecimal(100)).add(new BigDecimal(1.0017));
+//				BigDecimal price = infiniteDetail.getAveragePrice().multiply(persentReal);
+//				info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
+				info.setQuantity(quantity);
+				info.setConcludeType(ConcludeType.MOC);
+				tradeInfoList.add(info);
+			}
+			{
+				// 지정가 매도 + standardT%
+				StockTradeInfo info = new StockTradeInfo();
+				info.setTradeName("지정가 매도 (+" + standardT + "%)");
+				BigDecimal price = infiniteDetail.getAveragePrice().multiply(new BigDecimal("1."+standardT+"17"));
+				info.setPrice(price.setScale(2, RoundingMode.HALF_UP));
+				info.setQuantity(infiniteDetail.getHoldingQuantity() - quantity);
+				info.setConcludeType(ConcludeType.PENDING_ORDER);
+				tradeInfoList.add(info);
+			}
+		}
 
 		return tradeInfoList;
 	}

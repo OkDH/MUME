@@ -50,6 +50,7 @@ app.controller("InfiniteAccountController", function($scope, $filter, httpServic
 			tlp: { name: "TLP", value: true }
 		},
 		infiniteVersion: {
+			v3: { name: "v3", value: true },
 			v2_2: { name: "v2.2", value: true },
 			v2_1: { name: "v2.1", value: true },
 			v2_1_SH: { name: "v2.1후반", value: true },

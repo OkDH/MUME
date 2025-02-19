@@ -4,6 +4,7 @@
 package com.ocko.aventador;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,11 @@ import com.ocko.aventador.scheduler.StockDataScheduler;
 @SpringBootTest
 public class StockHistoryTest {
 	
-	@Autowired private StockDataScheduler StockDataScheduler;
+	@Autowired private StockDataScheduler stockDataScheduler;
 	
 	@Test
-	public void firstCollectHistory() throws IOException {
-		StockDataScheduler.firstCollectStockHistory();
+	public void updateStockHistory() throws IOException {
+		stockDataScheduler.schedulerUpdateAfter();
 	}
 	
 

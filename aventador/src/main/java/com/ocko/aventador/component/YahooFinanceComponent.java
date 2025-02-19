@@ -55,6 +55,7 @@ public class YahooFinanceComponent {
         // HttpURLConnection 객체 생성
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36");
         
         // API 응답 결과를 읽어오기 위해 BufferedReader 객체 생성
         BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
